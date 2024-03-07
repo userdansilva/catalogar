@@ -1,0 +1,26 @@
+<html lang="pt-BR">
+  <head>
+    <title>{{ title }} - Catalogar</title>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+  </head>
+
+  <body>
+    <h1>Catalogar - {{ title }}</h1>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/camisas">Camisas</a></li>
+      <li><a href="/canecas">Canecas</a></li>
+      <li><a href="/bones">Bonés</a></li>
+    </ul>
+
+    <form action="/busca" method="GET">
+      <input 
+        type="text" 
+        name="q" 
+        placeholder="Buscar por título" 
+        value="{{ query }}"
+        defaultValue=""
+      />
+      <button>Buscar</button>
+    </form>
+    <hr/>
