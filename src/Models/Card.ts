@@ -1,6 +1,4 @@
-import { cards } from "../data";
-
-export type ICard = {
+export type CardDTO = {
   id: number;
   title: string;
   type: CardType;
@@ -8,30 +6,54 @@ export type ICard = {
 }
 
 type CardType = {
-  code: "CAP"
-  description: "boné"
-} | {
-  code: "TSHIRT"
-  description: "camisa"
-} | {
-  code: "MUG"
-  description: "caneca"
+  code: "CAP" | "TSHIRT" | "MUG"
+  description: string
 }
 
+const cards: CardDTO[] = [
+  {
+    id: 1,
+    title: "A caneca é de cachaceira mas o coração é de mocinha",
+    type: {
+      code: "TSHIRT",
+      description: "camisa",
+    },
+    image: "/tshirts/6e3d3540-1636-4965-bba0-9b9b1fcb02b1.webp"
+  },
+  {
+    id: 2,
+    title: "Catalogar",
+    type: {
+      code: "CAP",
+      description: "boné",
+    },
+    image: "/caps/trPCA2kHbH8pWBWPbatGjYoIAs5X66MonmMglaOX.webp"
+  },
+  {
+    id: 3,
+    title: "Catalogar",
+    type: {
+      code: "MUG",
+      description: "caneca",
+    },
+    image: "/mugs/1D1tc3rd8WTOoSNjzooRtULLlGcB6yooIXCnUN3K.webp"
+  },
+]
+
 export const Card = {
-  getAll: (): ICard[] => {
+  getAll: (): CardDTO[] => {
     return cards;
   },
-  getByTitle: (query: string): ICard[] => {
+  getByTitle: (query: string): CardDTO[] => {
+    const normalizeString = (s: string) => s
+      .toLowerCase()
+      .replace(/\s+/g, '')
+
     return cards
-      .filter(({ title }) => title
-        .toLowerCase()
-        .replace(/\s+/g, '')
-        .includes(query
-          .toLowerCase()
-          .replace(/\s+/g, '')));
+      .filter(({ title }) => normalizeString(title)
+        .includes(normalizeString(query)));
   },
-  getByType: (code: CardType["code"]): ICard[] => {
-    return cards.filter((card) => card.type.code === code);
+  getByTypeCode: (typeCode: CardType["code"]): CardDTO[] => {
+    return cards.filter((card) => card.type.code === typeCode);
   }
 }
