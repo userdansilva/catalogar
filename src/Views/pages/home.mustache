@@ -1,0 +1,19 @@
+{{ >partials/header }}
+
+<p>Cards List</p>
+
+<ul>
+{{ #cards }}
+  <li>
+    <span>{{ type.description }}<span>
+    <p>{{ title }}</p>
+    <img src="/static/images{{ image }}" width="150" height="150" />
+  </li>
+{{ /cards }}
+
+{{ ^cards }}
+  <p>Nenhum resultado encontrado.</p>
+{{ /cards }}
+</ul>
+
+{{ >partials/footer }}
