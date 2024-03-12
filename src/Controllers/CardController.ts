@@ -1,8 +1,18 @@
 import { Request, Response } from "express";
 import { Card } from "../Models/Card";
+import { User } from "../Models/User";
 
 export const CardController = {
-  index: (req: Request, res: Response) => {
+  index: async (req: Request, res: Response) => {
+    try {
+      const users = await User.findAll({
+        attributes: ["id", "name"]
+      });
+      console.log(JSON.stringify(users));
+    } catch (err) {
+      console.error(err);
+    }
+
     res.render("pages/home", {
       title: "Home",
       cards: Card.getAll(),
