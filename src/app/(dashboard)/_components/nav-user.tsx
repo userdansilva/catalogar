@@ -1,9 +1,11 @@
 "use client";
 
+import { signOutUrl } from "@/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shadcn/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shadcn/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/shadcn/components/ui/sidebar";
 import { Book, ChevronsUpDown, LogOut, User } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
@@ -69,7 +71,12 @@ export function NavUser() {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => signOut({
+                  callbackUrl: signOutUrl,
+                })}
+                className="cursor-pointer"
+              >
                 <LogOut />
                 Sair
               </DropdownMenuItem>
