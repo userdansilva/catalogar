@@ -1,7 +1,7 @@
 "use client";
 
 import { signOutUrl } from "@/auth";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shadcn/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/shadcn/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shadcn/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/shadcn/components/ui/sidebar";
 import { Book, ChevronsUpDown, LogOut, User } from "lucide-react";
@@ -10,7 +10,6 @@ import { signOut } from "next-auth/react";
 export function NavUser() {
   const { isMobile } = useSidebar();
 
-  const imageUrl = "https://github.com/userdansilva.png";
   const name = "Daniel Sousa";
   const email = "daniel.sousa@catalogar.com.br";
 
@@ -24,7 +23,6 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={imageUrl} alt={name} />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -44,7 +42,6 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={imageUrl} alt={name} />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
