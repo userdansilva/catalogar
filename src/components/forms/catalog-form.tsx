@@ -11,29 +11,31 @@ import { Lightbulb } from "lucide-react";
 import { Checkbox } from "@/shadcn/components/ui/checkbox";
 import { Button } from "@/shadcn/components/ui/button";
 
-type FormValues = z.infer<typeof catalogSchema>
+export type CatalogFormValues = z.infer<typeof catalogSchema>
 
 type CatalogFormProps = {
   withSlugTip?: boolean
   submitButtonLabel?: string
+  onSubmit: (values: CatalogFormValues) => void
 }
 
 export function CatalogForm({
   withSlugTip,
-  submitButtonLabel = "Salvar alterações"
+  submitButtonLabel = "Salvar alterações",
+  onSubmit
 }: CatalogFormProps) {
-  const methods = useForm<FormValues>({
+  const methods = useForm<CatalogFormValues>({
     resolver: zodResolver(catalogSchema),
     defaultValues: {
-      name: "",
-      slug: "",
+      name: "Meu Catálogo",
+      slug: "meu-catalogo",
       isPublished: true
     }
   });
 
   return (
     <Form {...methods}>
-      <form onSubmit={methods.handleSubmit(console.log)} className="space-y-8">
+      <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           name="name"
           control={methods.control}

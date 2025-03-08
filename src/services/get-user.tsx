@@ -23,7 +23,8 @@ export async function getUser() {
   const res = await fetch(`${process.env.API_URL}/api/v1/users/me`, {
     headers: {
       Authorization: `Bearer ${session.accessToken}`
-    }
+    },
+    next: { tags: ["user"] }
   })
 
   const data = await res.json()
