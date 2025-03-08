@@ -13,7 +13,7 @@ export default function FirstCatalog() {
         <p className="text-muted-foreground">
           Obrigado por se cadastrar!
           Você deu um grande passo para melhorar a experiência
-          de compra dos seus clientes.
+          de escolha para seus clientes.
           Que tal começar criando seu primeiro catálogo?
         </p>
       </div>

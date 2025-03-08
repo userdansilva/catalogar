@@ -20,11 +20,13 @@ export async function getUser() {
     redirect("/entrar")
   }
 
-  const res = await fetch(`${process.env.API_URL}/users/me`, {
+  const res = await fetch(`${process.env.API_URL}/api/v1/users/me`, {
     headers: {
-      "Authorization": session.accessToken
+      Authorization: `Bearer ${session.accessToken}`
     }
   })
 
-  return await res.json() as ApiResponse<User>
+  const data = await res.json()
+
+  return data as ApiResponse<User>
 }

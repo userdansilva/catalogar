@@ -6,8 +6,8 @@ export default async function Home() {
   console.log(session)
 
   return (
-    <p>
+    <div>
       this is fine
-    </p>
+    </div>
   )
 }
