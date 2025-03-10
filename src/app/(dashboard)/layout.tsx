@@ -6,11 +6,12 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import Link from "next/link";
 import { getUser } from "@/services/get-user";
 import { redirect } from "next/navigation";
+import { User } from "@/types/api-types";
 
 export default async function DashboardLayout({
   children
 }: PropsWithChildren) {
-  const { data } = await getUser();
+  const { data } = await getUser<User>();
 
   if (!data.currentCatalog) {
     return redirect("/primeiro-catalogo")

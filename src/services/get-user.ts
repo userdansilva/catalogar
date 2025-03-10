@@ -1,24 +1,14 @@
 import { auth } from "@/auth";
 import { ApiResponse } from "@/types/api-response";
+import { User, UserWithCatalog } from "@/types/api-types";
 import { redirect } from "next/navigation";
 
-type User = {
-  id: string
-  name: string
-  email: string
-  phoneNumber?: string
-  catalogs: Array<string> // must be updated
-  currentCatalog?: string // must be updated
-  createdAt: string
-  updatedAt: string
-}
-
-export async function getUser() {
+/**
+ * @tag user
+ */
+export async function getUser<T extends User | UserWithCatalog = UserWithCatalog>() {
   const session = await auth();
-
-  if (!session) {
-    redirect("/entrar")
-  }
+  if (!session) redirect("/entrar")
 
   const res = await fetch(`${process.env.API_URL}/api/v1/users/me`, {
     headers: {
@@ -29,5 +19,5 @@ export async function getUser() {
 
   const data = await res.json()
 
-  return data as ApiResponse<User>
+  return data as ApiResponse<T>
 }

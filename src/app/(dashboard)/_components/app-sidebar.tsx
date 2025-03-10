@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Sidebar,
   SidebarContent,
@@ -10,12 +8,18 @@ import {
 import { CatalogSwitcher } from "./catalog-switcher";
 import NavMain from "./nav-main";
 import { NavUser } from "./nav-user";
+import { getUser } from "@/services/get-user";
 
-export function AppSidebar() {
+export async function AppSidebar() {
+  const { data: user } = await getUser();
+
   return (
     <Sidebar className="font-medium" collapsible="icon">
       <SidebarHeader>
-        <CatalogSwitcher />
+        <CatalogSwitcher
+          catalogs={user.catalogs}
+          currentCatalog={user.currentCatalog}
+        />
       </SidebarHeader>
 
       <SidebarContent>
@@ -23,7 +27,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter>
-        <NavUser />
+        <NavUser user={{ name: user.name, email: user.email }} />
       </SidebarFooter>
 
       <SidebarRail />
