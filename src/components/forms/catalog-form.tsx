@@ -7,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/shadcn/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/shadcn/components/ui/alert";
-import { Lightbulb } from "lucide-react";
+import { Lightbulb, Loader2 } from "lucide-react";
 import { Checkbox } from "@/shadcn/components/ui/checkbox";
 import { Button } from "@/shadcn/components/ui/button";
 
@@ -17,12 +17,14 @@ type CatalogFormProps = {
   withSlugTip?: boolean
   submitButtonLabel?: string
   onSubmit: (values: CatalogFormValues) => void
+  isSubmitting?: boolean
 }
 
 export function CatalogForm({
   withSlugTip,
   submitButtonLabel = "Salvar alterações",
-  onSubmit
+  onSubmit,
+  isSubmitting
 }: CatalogFormProps) {
   const methods = useForm<CatalogFormValues>({
     resolver: zodResolver(catalogSchema),
@@ -130,8 +132,13 @@ export function CatalogForm({
           )}
         />
 
-        <Button type="submit">
-          {submitButtonLabel}
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <>
+              <Loader2 className="animate-spin" />
+              Criando catálogo...
+            </>
+          ) : submitButtonLabel}
         </Button>
       </form>
     </Form>

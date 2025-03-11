@@ -1,4 +1,6 @@
 import { auth } from "@/auth"
+import { ApiError } from "@/types/api-error"
+import { AxiosError } from "axios"
 import { createMiddleware, createSafeActionClient } from "next-safe-action"
 import { z } from "zod"
 
@@ -18,6 +20,16 @@ export const authActionClient = createSafeActionClient({
     return z.object({
       actionName: z.string()
     })
+  },
+  handleServerError(e) {
+    if (e instanceof AxiosError) {
+      return (e as AxiosError<ApiError>).response?.data;
+    }
+
+    return {
+      message: "Ops! Algo deu errado. Por favor, tente novamente",
+      errors: []
+    }
   }
 })
   .use(async ({ next }) => {
