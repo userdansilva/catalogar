@@ -6,14 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { createCatalogAction } from "@/actions/create-catalog-action";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { CatalogForm } from "./catalog-form";
 
 export type CatalogFormValues = z.infer<typeof catalogSchema>
 
 export function CreateCatalogForm() {
-  const router = useRouter();
-
   const { form, handleSubmitWithAction } = useHookFormAction(
     createCatalogAction,
     zodResolver(catalogSchema),
@@ -22,15 +19,15 @@ export function CreateCatalogForm() {
         defaultValues: {
           name: "",
           slug: "",
-          isPublished: true
+          isPublished: true,
+          redirectTo: "/"
         }
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso!", {
+          toast.success("Sucesso! Redirecionando para tela inicial...", {
             description: res.data?.message
           })
-          router.push("/")
         },
         onError: (e) => {
           const { serverError } = e.error;

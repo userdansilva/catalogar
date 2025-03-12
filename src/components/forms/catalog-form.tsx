@@ -31,6 +31,7 @@ export function CatalogForm({
         <FormField
           name="name"
           control={form.control}
+          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nome</FormLabel>
@@ -67,6 +68,7 @@ export function CatalogForm({
         <FormField
           name="slug"
           control={form.control}
+          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Slug</FormLabel>
@@ -99,6 +101,7 @@ export function CatalogForm({
         <FormField
           name="isPublished"
           control={form.control}
+          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
               <FormControl>

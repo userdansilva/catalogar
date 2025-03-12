@@ -7,6 +7,7 @@ import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { ApiResponse } from "@/types/api-response";
 import { Catalog } from "@/types/api-types";
+import { redirect } from "next/navigation";
 
 export const createCatalogAction = authActionClient
   .schema(catalogSchema)
@@ -14,7 +15,7 @@ export const createCatalogAction = authActionClient
     actionName: "create-catalog"
   })
   .action(async ({
-    parsedInput: { name, slug, isPublished },
+    parsedInput: { name, slug, isPublished, redirectTo },
     ctx: { accessToken }
   }) => {
     try {
@@ -27,6 +28,11 @@ export const createCatalogAction = authActionClient
       })
 
       revalidateTag("user")
+
+      if (redirectTo) {
+        redirect(redirectTo)
+      }
+
       return { catalog: res.data.data, message: res.data.meta?.message }
     } catch (e) {
       returnValidationErrorsIfExists(e, catalogSchema)
