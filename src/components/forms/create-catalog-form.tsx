@@ -18,8 +18,8 @@ export function CreateCatalogForm() {
     {
       formProps: {
         defaultValues: {
-          name: "Meu Catálogo",
-          slug: "meu-catalogo",
+          name: "",
+          slug: "",
           isPublished: true
         }
       },
