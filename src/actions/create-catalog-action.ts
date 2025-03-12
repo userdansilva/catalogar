@@ -27,7 +27,7 @@ export const createCatalogAction = authActionClient
       })
 
       revalidateTag("user")
-      return { catalog: res.data.data }
+      return { catalog: res.data.data, message: res.data.meta?.message }
     } catch (e) {
       returnValidationErrorsIfExists(e, catalogSchema)
       throw e

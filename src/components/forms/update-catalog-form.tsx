@@ -27,17 +27,18 @@ export function UpdateCatalogForm({
         }
       },
       actionProps: {
-        onSuccess: (v) => {
-          toast.success(
-            // atualizar com mensagem vinda do backend
-            `Catálogo: ${v.data?.catalog.name} atualizado com sucesso`
-          )
+        onSuccess: (res) => {
+          toast.success("Sucesso!", {
+            description: res.data?.message
+          })
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error(serverError.message)
+            toast.error("Ops! Algo deu errado", {
+              description: serverError.message
+            })
           }
         }
       }
