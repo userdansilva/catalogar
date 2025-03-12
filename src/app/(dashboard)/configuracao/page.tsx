@@ -1,7 +1,10 @@
 import { UpdateCatalogForm } from "@/components/forms/update-catalog-form";
+import { getUser } from "@/services/get-user";
 import { Separator } from "@/shadcn/components/ui/separator";
 
-export default function Settings() {
+export default async function Settings() {
+  const { data: user } = await getUser();
+
   return (
     <div>
       <div className="space-y-2">
@@ -28,7 +31,7 @@ export default function Settings() {
           </p>
         </div>
 
-        <UpdateCatalogForm />
+        <UpdateCatalogForm catalog={user.currentCatalog} />
       </div>
     </div>
   )

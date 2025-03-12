@@ -2,45 +2,35 @@
 
 import { catalogSchema } from "@/actions/schema";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shadcn/components/ui/form";
-import { useForm } from "react-hook-form"
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/shadcn/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/shadcn/components/ui/alert";
 import { Lightbulb, Loader2 } from "lucide-react";
 import { Checkbox } from "@/shadcn/components/ui/checkbox";
 import { Button } from "@/shadcn/components/ui/button";
+import { UseFormReturn } from "react-hook-form";
 
 export type CatalogFormValues = z.infer<typeof catalogSchema>
 
 type CatalogFormProps = {
+  submitButtonLabel: string
+  form: UseFormReturn<CatalogFormValues>
+  onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>
   withSlugTip?: boolean
-  submitButtonLabel?: string
-  onSubmit: (values: CatalogFormValues) => void
-  isSubmitting?: boolean
 }
 
 export function CatalogForm({
+  form,
+  onSubmit,
   withSlugTip,
   submitButtonLabel = "Salvar alterações",
-  onSubmit,
-  isSubmitting
 }: CatalogFormProps) {
-  const methods = useForm<CatalogFormValues>({
-    resolver: zodResolver(catalogSchema),
-    defaultValues: {
-      name: "Meu Catálogo",
-      slug: "meu-catalogo",
-      isPublished: true
-    }
-  });
-
   return (
-    <Form {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-8">
+    <Form {...form}>
+      <form onSubmit={onSubmit} className="space-y-8">
         <FormField
           name="name"
-          control={methods.control}
+          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nome</FormLabel>
@@ -76,7 +66,7 @@ export function CatalogForm({
 
         <FormField
           name="slug"
-          control={methods.control}
+          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Slug</FormLabel>
@@ -108,7 +98,7 @@ export function CatalogForm({
 
         <FormField
           name="isPublished"
-          control={methods.control}
+          control={form.control}
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
               <FormControl>
@@ -132,11 +122,11 @@ export function CatalogForm({
           )}
         />
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? (
             <>
               <Loader2 className="animate-spin" />
-              Criando catálogo...
+              Carregando...
             </>
           ) : submitButtonLabel}
         </Button>

@@ -1,33 +1,52 @@
 "use client";
 
+import { catalogSchema } from "@/actions/schema";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { createCatalogAction } from "@/actions/create-catalog-action";
-import { CatalogForm, CatalogFormValues } from "./catalog-form";
-import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
+import { redirect } from "next/navigation";
+import { CatalogForm } from "./catalog-form";
+
+export type CatalogFormValues = z.infer<typeof catalogSchema>
 
 export function CreateCatalogForm() {
-  const { executeAsync, isExecuting } = useAction(createCatalogAction)
-
-  function onSubmit(values: CatalogFormValues) {
-    toast.promise(executeAsync(values), {
-      loading: "Criando catálogo...",
-      success: (data) => {
-        console.log("toast sucess says: ", data)
-        return "Catálogo criado com sucesso!"
+  const { form, handleSubmitWithAction } = useHookFormAction(
+    createCatalogAction,
+    zodResolver(catalogSchema),
+    {
+      formProps: {
+        defaultValues: {
+          name: "Meu Catálogo",
+          slug: "meu-catalogo",
+          isPublished: true
+        }
       },
-      // Continuar ajustando os erros
-      error: (e) => {
-        console.log("toast error says: ", e)
-        return "fail"
+      actionProps: {
+        onSuccess: (v) => {
+          toast.success(
+            // atualizar com mensagem vinda do backend
+            `Catálogo: ${v.data?.catalog.name} criado com sucesso`
+          )
+          redirect("/")
+        },
+        onError: (e) => {
+          const { serverError } = e.error;
+
+          if (serverError) {
+            toast.error(serverError.message)
+          }
+        }
       }
-    })
-  }
+    }
+  );
 
   return (
     <CatalogForm
+      form={form}
+      onSubmit={handleSubmitWithAction}
       submitButtonLabel="Criar catálogo"
-      onSubmit={onSubmit}
-      isSubmitting={isExecuting}
     />
   )
 }

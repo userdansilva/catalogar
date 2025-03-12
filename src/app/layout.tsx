@@ -24,7 +24,7 @@ export default function RootLayout({
         className={`${inter.className} antialiased`}
       >
         <main>{children}</main>
-        <Toaster />
+        <Toaster duration={2_000} />
       </body>
     </html>
   );

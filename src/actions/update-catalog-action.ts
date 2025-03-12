@@ -8,17 +8,17 @@ import { returnValidationErrorsIfExists } from "./return-validation-errors-if-ex
 import { ApiResponse } from "@/types/api-response";
 import { Catalog } from "@/types/api-types";
 
-export const createCatalogAction = authActionClient
+export const updateCatalogAction = authActionClient
   .schema(catalogSchema)
   .metadata({
-    actionName: "create-catalog"
+    actionName: "update-catalog"
   })
   .action(async ({
     parsedInput: { name, slug, isPublished },
     ctx: { accessToken }
   }) => {
     try {
-      const res = await api.post<ApiResponse<Catalog>>("/v1/catalogs", {
+      const res = await api.put<ApiResponse<Catalog>>("/v1/catalogs", {
         name, slug, isPublished
       }, {
         headers: {
