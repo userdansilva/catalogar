@@ -3,7 +3,7 @@ export const tags = {
     me: "users_me"
   },
   categories: {
-    findAll: "categories",
+    getAll: "categories",
     getById: (id: string) => `categories_${id}`
   }
 }

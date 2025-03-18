@@ -4,6 +4,7 @@ import { Section, SectionContent, SectionHeader } from "@/components/page-layout
 import { CategoriesTable } from "@/components/tables/categories";
 import { CategoriesSkeleton } from "@/components/tables/categories/skeleton";
 import { routes } from "@/routes";
+import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -41,6 +42,7 @@ export default async function Categories(props: CategoriesProps) {
         <SectionContent>
           <Button asChild className="mb-10">
             <Link href={routes.category.new}>
+              <Plus className="size-4" />
               Criar categoria
             </Link>
           </Button>

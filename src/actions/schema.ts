@@ -8,6 +8,7 @@ export const catalogSchema = z.object({
 })
 
 export const categorySchema = z.object({
+  id: z.string().optional(),
   name: z.string().min(1, "Campo obrigatório"),
   slug: z.string().min(1, "Campo obrigatório"),
   textColor: z.string().min(1, "Campo obrigatório"),

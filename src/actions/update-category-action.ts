@@ -10,19 +10,19 @@ import { Category } from "@/types/api-types";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 
-export const createCategoryAction = authActionClient
+export const updateCategoryAction = authActionClient
   .schema(categorySchema)
   .metadata({
-    actionName: "create-category"
+    actionName: "update-category"
   })
   .action(async ({
     parsedInput: {
-      name, slug, textColor, backgroundColor, isDisabled, redirectTo
+      id, name, slug, textColor, backgroundColor, isDisabled, redirectTo
     },
     ctx: { accessToken }
   }) => {
     try {
-      const res = await api.post<ApiResponse<Category>>("/v1/categories", {
+      const res = await api.put<ApiResponse<Category>>(`/v1/categories/${id}`, {
         name, slug, textColor, backgroundColor, isDisabled
       }, {
         headers: {

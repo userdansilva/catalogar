@@ -20,7 +20,7 @@ export async function getCategories(filters: CategoryFilters = {}) {
     headers: {
       Authorization: `Bearer ${session.accessToken}`
     },
-    next: { tags: [tags.categories.findAll] }
+    next: { tags: [tags.categories.getAll] }
   })
 
   const data = await res.json()
