@@ -5,17 +5,18 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { z } from "zod";
 import { Input } from "@/shadcn/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/shadcn/components/ui/alert";
-import { Lightbulb, Loader2 } from "lucide-react";
+import { Lightbulb } from "lucide-react";
 import { Checkbox } from "@/shadcn/components/ui/checkbox";
-import { Button } from "@/shadcn/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
+import { FormEventHandler } from "react";
+import { Button } from "../inputs/button";
 
 export type CatalogFormValues = z.infer<typeof catalogSchema>
 
 type CatalogFormProps = {
-  submitButtonLabel: string
   form: UseFormReturn<CatalogFormValues>
-  onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>
+  onSubmit: FormEventHandler<HTMLFormElement>
+  submitButtonLabel: string
   withSlugTip?: boolean
 }
 
@@ -125,13 +126,12 @@ export function CatalogForm({
           )}
         />
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? (
-            <>
-              <Loader2 className="animate-spin" />
-              Carregando...
-            </>
-          ) : submitButtonLabel}
+        <Button
+          type="submit"
+          disabled={form.formState.isSubmitting}
+          loading={form.formState.isSubmitting}
+        >
+          {submitButtonLabel}
         </Button>
       </form>
     </Form>

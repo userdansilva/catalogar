@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { tags } from "@/tags";
 import { ApiResponse } from "@/types/api-response";
 import { User, UserWithCatalog } from "@/types/api-types";
 import { redirect } from "next/navigation";
@@ -14,7 +15,7 @@ export async function getUser<T extends User | UserWithCatalog = UserWithCatalog
     headers: {
       Authorization: `Bearer ${session.accessToken}`
     },
-    next: { tags: ["user"] }
+    next: { tags: [tags.users.me] }
   })
 
   const data = await res.json()

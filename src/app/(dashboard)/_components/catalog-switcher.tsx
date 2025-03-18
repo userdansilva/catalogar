@@ -1,6 +1,7 @@
 "use client";
 
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
+import { routes } from "@/routes";
 import { Badge } from "@/shadcn/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shadcn/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/shadcn/components/ui/sidebar";
@@ -87,7 +88,7 @@ export function CatalogSwitcher({
             <DropdownMenuSeparator />
 
             <DropdownMenuItem className="gap-2 p-2 cursor-pointer" asChild>
-              <Link href="/criar-catalogo">
+              <Link href={routes.catalog.create}>
                 <div className="flex size-6 items-center justify-center rounded-md border bg-background">
                   <Plus className="size-4" />
                 </div>

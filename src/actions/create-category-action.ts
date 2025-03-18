@@ -2,41 +2,43 @@
 
 import { revalidateTag } from "next/cache";
 import { authActionClient } from "./safe-action";
-import { catalogSchema } from "./schema";
+import { categorySchema } from "./schema";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { ApiResponse } from "@/types/api-response";
-import { Catalog } from "@/types/api-types";
+import { Category } from "@/types/api-types";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 
-export const createCatalogAction = authActionClient
-  .schema(catalogSchema)
+export const createCategoryAction = authActionClient
+  .schema(categorySchema)
   .metadata({
-    actionName: "create-catalog"
+    actionName: "create-category"
   })
   .action(async ({
-    parsedInput: { name, slug, isPublished, redirectTo },
+    parsedInput: {
+      name, slug, textColor, backgroundColor, isDisabled, redirectTo
+    },
     ctx: { accessToken }
   }) => {
     try {
-      const res = await api.post<ApiResponse<Catalog>>("/v1/catalogs", {
-        name, slug, isPublished
+      const res = await api.post<ApiResponse<Category>>("/v1/categories", {
+        name, slug, textColor, backgroundColor, isDisabled
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       })
 
-      revalidateTag(tags.users.me)
+      revalidateTag(tags.categories.findAll)
 
       if (redirectTo) {
         redirect(redirectTo)
       }
 
-      return { catalog: res.data.data, message: res.data.meta?.message }
+      return { category: res.data.data, message: res.data.meta?.message }
     } catch (e) {
-      returnValidationErrorsIfExists(e, catalogSchema)
+      returnValidationErrorsIfExists(e, categorySchema)
       throw e
     }
   })

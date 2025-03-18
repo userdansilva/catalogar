@@ -6,6 +6,7 @@ import type {
 import type { Account, DefaultSession, NextAuthOptions } from "next-auth"
 import { getServerSession } from "next-auth"
 import AzureADB2C from "next-auth/providers/azure-ad-b2c"
+import { routes } from "./routes";
 
 const tenantId = process.env.NEXT_PUBLIC_AD_B2C_TENANT_NAME;
 const clientId = process.env.NEXT_PUBLIC_AD_B2C_CLIENT_ID as string;
@@ -24,7 +25,7 @@ export const config = {
     })
   ],
   pages: {
-    signIn: "/entrar"
+    signIn: routes.auth.login
   },
   callbacks: {
     async redirect({ url, baseUrl }) {

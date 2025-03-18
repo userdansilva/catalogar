@@ -7,6 +7,7 @@ import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { ApiResponse } from "@/types/api-response";
 import { Catalog } from "@/types/api-types";
+import { tags } from "@/tags";
 
 export const updateCatalogAction = authActionClient
   .schema(catalogSchema)
@@ -26,7 +27,8 @@ export const updateCatalogAction = authActionClient
         }
       })
 
-      revalidateTag("user")
+      revalidateTag(tags.users.me)
+
       return { catalog: res.data.data, message: res.data.meta?.message }
     } catch (e) {
       returnValidationErrorsIfExists(e, catalogSchema)

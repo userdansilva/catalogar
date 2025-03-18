@@ -1,32 +1,31 @@
-"use client";
+"use client"
 
-import { catalogSchema } from "@/actions/schema";
-import { z } from "zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks"
+import { CategoryForm } from "./category-form"
+import { createCategoryAction } from "@/actions/create-category-action";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { createCatalogAction } from "@/actions/create-catalog-action";
-import { toast } from "sonner";
-import { CatalogForm } from "./catalog-form";
+import { categorySchema } from "@/actions/schema";
 import { routes } from "@/routes";
+import { toast } from "sonner";
 
-export type CatalogFormValues = z.infer<typeof catalogSchema>
-
-export function CreateCatalogForm() {
+export function CreateCategoryForm() {
   const { form, handleSubmitWithAction } = useHookFormAction(
-    createCatalogAction,
-    zodResolver(catalogSchema),
+    createCategoryAction,
+    zodResolver(categorySchema),
     {
       formProps: {
         defaultValues: {
           name: "",
           slug: "",
-          isPublished: true,
-          redirectTo: routes.dashboard.home
+          textColor: "#FFFFFF",
+          backgroundColor: "#000000",
+          isDisabled: false,
+          redirectTo: routes.category.home
         }
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso! Redirecionando para tela inicial...", {
+          toast.success("Sucesso! Voltando para a lista...", {
             description: res.data?.message
           })
         },
@@ -44,10 +43,10 @@ export function CreateCatalogForm() {
   );
 
   return (
-    <CatalogForm
+    <CategoryForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Criar catálogo"
+      submitButtonLabel="Criar categoria"
     />
   )
 }

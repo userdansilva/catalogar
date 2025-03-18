@@ -1,5 +1,6 @@
 "use client";
 
+import { routes } from "@/routes";
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/shadcn/components/ui/sidebar";
 import { Book, Building2, Filter, House, List, Palette, Settings } from "lucide-react";
 import Link from "next/link";
@@ -8,18 +9,18 @@ const groups = [
   {
     name: "Menu",
     items: [
-      { name: "Dashboard", url: "/", icon: House, isActive: true },
-      { name: "Meus Itens", url: "/meus-itens", icon: Book, isActive: false },
-      { name: "Categorias", url: "/categorias", icon: Filter, isActive: false },
-      { name: "Produtos", url: "/produtos", icon: List, isActive: false },
+      { name: "Dashboard", url: routes.dashboard.home, icon: House, isActive: true },
+      { name: "Meus Itens", url: routes.catalogItem.home, icon: Book, isActive: false },
+      { name: "Categorias", url: routes.category.home, icon: Filter, isActive: false },
+      { name: "Produtos", url: routes.product.home, icon: List, isActive: false },
     ]
   },
   {
     name: "Personalização",
     items: [
-      { name: "Empresa", url: "/empresa", icon: Building2, isActive: false },
-      { name: "Tema", url: "/tema", icon: Palette, isActive: false },
-      { name: "Configuração", url: "/configuracao", icon: Settings, isActive: false },
+      { name: "Empresa", url: routes.company.home, icon: Building2, isActive: false },
+      { name: "Tema", url: routes.theme.home, icon: Palette, isActive: false },
+      { name: "Configuração", url: routes.config.home, icon: Settings, isActive: false },
     ]
   }
 ]

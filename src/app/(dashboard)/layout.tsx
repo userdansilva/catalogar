@@ -7,14 +7,15 @@ import Link from "next/link";
 import { getUser } from "@/services/get-user";
 import { redirect } from "next/navigation";
 import { User } from "@/types/api-types";
+import { routes } from "@/routes";
 
 export default async function DashboardLayout({
   children
 }: PropsWithChildren) {
-  const { data } = await getUser<User>();
+  const { data: user } = await getUser<User>();
 
-  if (!data.currentCatalog) {
-    return redirect("/primeiro-catalogo")
+  if (!user.currentCatalog) {
+    return redirect(routes.catalog.first)
   }
 
   return (
@@ -30,7 +31,7 @@ export default async function DashboardLayout({
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="#" asChild>
-                    <Link href="/">
+                    <Link href={routes.dashboard.home}>
                       Dashboard
                     </Link>
                   </BreadcrumbLink>
