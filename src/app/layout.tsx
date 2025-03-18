@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/shadcn/components/ui/sonner";
+import { ThemeProvider } from "@/components/layout/theme-provider";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -19,12 +20,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.className} antialiased`}
       >
-        <main>{children}</main>
-        <Toaster duration={3_000} />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          disableTransitionOnChange
+        >
+          <main>{children}</main>
+          <Toaster
+            duration={3_000}
+            position="top-right"
+          />
+        </ThemeProvider>
       </body>
     </html>
   );

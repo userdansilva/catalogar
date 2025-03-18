@@ -2,28 +2,33 @@
 
 import { revalidateTag } from "next/cache";
 import { authActionClient } from "./safe-action";
-import { categorySchema } from "./schema";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { ApiResponse } from "@/types/api-response";
 import { Category } from "@/types/api-types";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
+import { getCategoryById } from "@/services/get-category-by-id";
+import { categoryStatusToggleSchema } from "./schema";
 
-export const updateCategoryAction = authActionClient
-  .schema(categorySchema)
+export const toggleCategoryStatusAction = authActionClient
+  .schema(categoryStatusToggleSchema)
   .metadata({
-    actionName: "update-category"
+    actionName: "switch-category-enable"
   })
   .action(async ({
     parsedInput: {
-      id, name, slug, textColor, backgroundColor, isDisabled, redirectTo
+      id, redirectTo
     },
     ctx: { accessToken }
   }) => {
     try {
+      const { data: category } = await getCategoryById(id)
+
       const res = await api.put<ApiResponse<Category>>(`/v1/categories/${id}`, {
-        name, slug, textColor, backgroundColor, isDisabled
+        ...category,
+        isDisabled: !category.isDisabled,
+        redirectTo
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -31,7 +36,6 @@ export const updateCategoryAction = authActionClient
       })
 
       revalidateTag(tags.categories.getAll)
-
       if (id) {
         revalidateTag(tags.categories.getById(id))
       }
@@ -42,7 +46,7 @@ export const updateCategoryAction = authActionClient
 
       return { category: res.data.data, message: res.data.meta?.message }
     } catch (e) {
-      returnValidationErrorsIfExists(e, categorySchema)
+      returnValidationErrorsIfExists(e, categoryStatusToggleSchema)
       throw e
     }
   })

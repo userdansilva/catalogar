@@ -16,3 +16,8 @@ export const categorySchema = z.object({
   isDisabled: z.boolean(),
   redirectTo: z.string().optional()
 })
+
+export const categoryStatusToggleSchema = z.object({
+  id: z.string(),
+  redirectTo: z.string().optional()
+})

@@ -1,15 +1,21 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client"
 
+import { toggleCategoryStatusAction } from "@/actions/toggle-status-category-action";
 import { routes } from "@/routes";
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/shadcn/components/ui/alert-dialog";
 import { Badge } from "@/shadcn/components/ui/badge";
 import { Button } from "@/shadcn/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shadcn/components/ui/dropdown-menu";
 import { Category } from "@/types/api-types";
+import { AlertDialogAction } from "@radix-ui/react-alert-dialog";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale";
-import { Archive, Check, EllipsisVertical, Pencil, Trash, X } from "lucide-react";
+import { Archive, ArrowBigUpDash, Check, EllipsisVertical, Pencil, Trash, X } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<Category>[] = [
   {
@@ -67,54 +73,97 @@ export const columns: ColumnDef<Category>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      const { executeAsync } = useAction(toggleCategoryStatusAction)
+
+      const toggleStatus = (categoryId: string) => toast.promise(new Promise(async (res) => {
+        await executeAsync({ id: categoryId })
+
+        res("ok")
+      }), {
+        loading: "Alterando status...",
+        success: "Status atualizado!",
+      })
+
       const { id } = row.original
+      const isDisabled = row.getValue("isDisabled")
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <EllipsisVertical className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
+        <AlertDialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <EllipsisVertical className="size-4" />
+              </Button>
+            </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>
-              Ações
-            </DropdownMenuLabel>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>
+                Ações
+              </DropdownMenuLabel>
 
-            <DropdownMenuItem asChild>
-              <Link
-                href={routes.category.edit(id)}
+              <DropdownMenuItem asChild>
+                <Link
+                  href={routes.category.edit(id)}
+                  className="cursor-pointer"
+                >
+                  <Pencil className="size-4 mr-2" />
+                  Editar
+                </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild className="cursor-pointer">
+                {!isDisabled ? (
+                  <AlertDialogTrigger>
+                    <Archive className="size-4 mr-2" />
+                    Desativar
+                  </AlertDialogTrigger>
+                ) : (
+                  <button className="w-full" onClick={() => toggleStatus(id)}>
+                    <ArrowBigUpDash className="size-4 mr-2 animate-bounce" />
+                    Ativar
+                  </button>
+                )}
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem
+                asChild
                 className="cursor-pointer"
               >
-                <Pencil className="size-4 mr-2" />
-                Editar
-              </Link>
-            </DropdownMenuItem>
+                <Link href={routes.category.delete(id)}>
+                  <Trash className="size-4 mr-2" />
+                  Excluir
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
-            <DropdownMenuItem asChild>
-              <Link
-                href={routes.category.disable(id)}
-                className="cursor-pointer"
-              >
-                <Archive className="size-4 mr-2" />
-                Desativar
-              </Link>
-            </DropdownMenuItem>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Are you absolutely sure?
+              </AlertDialogTitle>
 
-            <DropdownMenuSeparator />
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
 
-            <DropdownMenuItem asChild>
-              <Link
-                href={routes.category.delete(id)}
-                className="cursor-pointer"
-              >
-                <Trash className="size-4 mr-2" />
-                Excluir
-              </Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            <AlertDialogFooter>
+              <AlertDialogCancel asChild>
+                <Button variant="secondary">Cancelar</Button>
+              </AlertDialogCancel>
+
+              <AlertDialogAction asChild>
+                <Button variant="ghost" onClick={() => toggleStatus(id)}>
+                  Sim! Quero desativar
+                </Button>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       )
     }
   }
