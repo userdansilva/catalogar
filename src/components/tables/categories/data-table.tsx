@@ -1,15 +1,15 @@
 "use client"
 
-import { Button } from "@/components/inputs/button"
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/shadcn/components/ui/pagination"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/shadcn/components/ui/table"
-import { Pagination } from "@/types/api-response"
+import { Pagination as TPagination } from "@/types/api-response"
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
-import { usePathname, useSearchParams, useRouter } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 
 type DataTableProps<TData, TValues> = {
   columns: ColumnDef<TData, TValues>[]
   data: TData[]
-  pagination: Pagination
+  pagination: TPagination
 }
 
 export function DataTable<TData, TValues>({
@@ -17,9 +17,8 @@ export function DataTable<TData, TValues>({
 }: DataTableProps<TData, TValues>) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { replace } = useRouter();
 
-  const handlePagination = (page: number) => {
+  const getPaginatedUrl = (page: number) => {
     const params = new URLSearchParams(searchParams);
 
     if (page && page > 1) {
@@ -28,7 +27,7 @@ export function DataTable<TData, TValues>({
       params.delete("page")
     }
 
-    replace(`${pathname}?${params.toString()}`)
+    return `${pathname}?${params.toString()}`;
   }
 
   const table = useReactTable({
@@ -46,7 +45,7 @@ export function DataTable<TData, TValues>({
   })
 
   return (
-    <div>
+    <div className="space-y-6">
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -94,27 +93,25 @@ export function DataTable<TData, TValues>({
         </Table>
       </div>
 
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          onClick={() => {
-            table.previousPage();
-            handlePagination(pagination.currentPage - 1)
-          }}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Anterior
-        </Button>
+      <Pagination className="justify-end">
+        <PaginationContent>
+          {table.getCanPreviousPage() && (
+            <PaginationItem>
+              <PaginationPrevious
+                href={getPaginatedUrl(pagination.currentPage - 1)}
+              />
+            </PaginationItem>
+          )}
 
-        <Button
-          onClick={() => {
-            table.nextPage()
-            handlePagination(pagination.currentPage + 1)
-          }}
-          disabled={!table.getCanNextPage()}
-        >
-          Próximo
-        </Button>
-      </div>
+          {table.getCanNextPage() && (
+            <PaginationItem>
+              <PaginationNext
+                href={getPaginatedUrl(pagination.currentPage + 1)}
+              />
+            </PaginationItem>
+          )}
+        </PaginationContent>
+      </Pagination>
     </div>
   )
 }
