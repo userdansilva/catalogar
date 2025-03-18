@@ -13,7 +13,7 @@ export async function CategoriesTable({
   const { data: categories, meta } = await getCategories({
     field: "createdAt",
     page: currentPage,
-    perPage: 2,
+    perPage: 10,
     sort: "desc"
   });
 
