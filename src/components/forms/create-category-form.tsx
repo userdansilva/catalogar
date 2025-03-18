@@ -42,6 +42,7 @@ export function CreateCategoryForm() {
     }
   );
 
+  // Colocar disable quando estiver em loading...
   return (
     <CategoryForm
       form={form}

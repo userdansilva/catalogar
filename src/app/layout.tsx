@@ -32,7 +32,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Toaster
             duration={3_000}
-            position="top-right"
+            position="top-center"
           />
         </ThemeProvider>
       </body>
