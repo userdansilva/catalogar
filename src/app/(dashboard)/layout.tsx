@@ -1,6 +1,5 @@
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/shadcn/components/ui/sidebar";
 import { PropsWithChildren } from "react";
-import { AppSidebar } from "./_components/app-sidebar";
 import { Separator } from "@/shadcn/components/ui/separator";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/shadcn/components/ui/breadcrumb";
 import Link from "next/link";
@@ -8,6 +7,7 @@ import { getUser } from "@/services/get-user";
 import { redirect } from "next/navigation";
 import { User } from "@/types/api-types";
 import { routes } from "@/routes";
+import { AppSidebar } from "@/components/layout/app-sidebar";
 
 export default async function DashboardLayout({
   children
