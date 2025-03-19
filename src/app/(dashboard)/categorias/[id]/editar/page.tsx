@@ -2,6 +2,11 @@ import { UpdateCategoryForm } from "@/components/forms/update-category-form";
 import { Page, PageHeader } from "@/components/page-layout/page";
 import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
 import { getCategoryById } from "@/services/get-category-by-id";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Nova Categoria | Catalogar",
+};
 
 type EditCategoryProps = {
   params: {

@@ -1,6 +1,11 @@
 import { CreateCategoryForm } from "@/components/forms/create-category-form";
 import { Page, PageHeader } from "@/components/page-layout/page";
 import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Nova Categoria | Catalogar",
+};
 
 export default function NewCategory() {
   return (
