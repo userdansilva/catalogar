@@ -1,12 +1,12 @@
 "use client";
 
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { CatalogForm } from "./catalog-form";
 import { updateCatalogAction } from "@/actions/update-catalog-action";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { catalogSchema } from "@/actions/schema";
 import { toast } from "sonner";
 import { Catalog } from "@/types/api-types";
+import { CatalogForm } from "./catalog-form";
 
 type UpdateCatalogFormProps = {
   catalog: Catalog
@@ -23,26 +23,26 @@ export function UpdateCatalogForm({
         defaultValues: {
           name: catalog.name,
           slug: catalog.slug,
-          isPublished: catalog.isPublished
-        }
+          isPublished: catalog.isPublished,
+        },
       },
       actionProps: {
         onSuccess: (res) => {
           toast.success("Sucesso!", {
-            description: res.data?.message
-          })
+            description: res.data?.message,
+          });
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
             toast.error("Ops! Algo deu errado", {
-              description: serverError.message
-            })
+              description: serverError.message,
+            });
           }
-        }
-      }
-    }
+        },
+      },
+    },
   );
 
   return (
@@ -52,5 +52,5 @@ export function UpdateCatalogForm({
       submitButtonLabel="Salvar alterações"
       withSlugTip
     />
-  )
+  );
 }

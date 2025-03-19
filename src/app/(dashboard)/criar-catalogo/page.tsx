@@ -19,5 +19,5 @@ export default function AddCatalog() {
 
       <CreateCatalogForm />
     </div>
-  )
+  );
 }

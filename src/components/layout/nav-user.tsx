@@ -2,9 +2,21 @@
 
 import { signOutUrl } from "@/auth";
 import { Avatar, AvatarFallback } from "@/shadcn/components/ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shadcn/components/ui/dropdown-menu";
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/shadcn/components/ui/sidebar";
-import { Book, ChevronsUpDown, LogOut, User } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/shadcn/components/ui/dropdown-menu";
+import {
+  SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
+} from "@/shadcn/components/ui/sidebar";
+import {
+  Book, ChevronsUpDown, LogOut, User,
+} from "lucide-react";
 import { signOut } from "next-auth/react";
 
 type NavUserProps = {
@@ -15,13 +27,13 @@ type NavUserProps = {
 }
 
 export function NavUser({
-  user
+  user,
 }: NavUserProps) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
 
   const initials = user.name.split(" ")
     .map((word) => word[0].toUpperCase())
-    .join("")
+    .join("");
 
   return (
     <SidebarMenu>

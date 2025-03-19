@@ -1,7 +1,9 @@
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/shadcn/components/ui/sidebar";
 import { PropsWithChildren } from "react";
 import { Separator } from "@/shadcn/components/ui/separator";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/shadcn/components/ui/breadcrumb";
+import {
+  Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator,
+} from "@/shadcn/components/ui/breadcrumb";
 import Link from "next/link";
 import { getUser } from "@/services/get-user";
 import { redirect } from "next/navigation";
@@ -10,12 +12,12 @@ import { routes } from "@/routes";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 
 export default async function DashboardLayout({
-  children
+  children,
 }: PropsWithChildren) {
   const { data: user } = await getUser<User>();
 
   if (!user.currentCatalog) {
-    return redirect(routes.catalog.first)
+    return redirect(routes.catalog.first);
   }
 
   return (
@@ -50,5 +52,5 @@ export default async function DashboardLayout({
         </div>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

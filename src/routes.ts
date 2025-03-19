@@ -1,16 +1,16 @@
 export const routes = {
   auth: {
-    login: "/entrar"
+    login: "/entrar",
   },
   dashboard: {
-    home: "/"
+    home: "/",
   },
   catalog: {
     first: "/primeiro-catalogo",
-    create: "/criar-catalogo"
+    create: "/criar-catalogo",
   },
   catalogItem: {
-    home: "/meus-itens"
+    home: "/meus-itens",
   },
   category: {
     home: "/categorias",
@@ -20,15 +20,15 @@ export const routes = {
     delete: (id: string) => `/categorias/${id}/deletar`,
   },
   product: {
-    home: "/produtos"
+    home: "/produtos",
   },
   company: {
-    home: "/empresa"
+    home: "/empresa",
   },
   theme: {
-    home: "/tema"
+    home: "/tema",
   },
   config: {
-    home: "/configuracao"
-  }
-} as const
+    home: "/configuracao",
+  },
+} as const;

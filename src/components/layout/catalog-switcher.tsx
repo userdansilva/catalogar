@@ -3,8 +3,17 @@
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import { routes } from "@/routes";
 import { Badge } from "@/shadcn/components/ui/badge";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shadcn/components/ui/dropdown-menu";
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/shadcn/components/ui/sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/shadcn/components/ui/dropdown-menu";
+import {
+  SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
+} from "@/shadcn/components/ui/sidebar";
 import { Catalog } from "@/types/api-types";
 import { Box, ChevronsUpDown, Plus } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
@@ -16,9 +25,9 @@ type CatalogSwitcheProps = {
 }
 
 export function CatalogSwitcher({
-  catalogs, currentCatalog
+  catalogs, currentCatalog,
 }: CatalogSwitcheProps) {
-  const switchCatalog = useAction(switchCatalogAction)
+  const switchCatalog = useAction(switchCatalogAction);
   const { isMobile } = useSidebar();
 
   return (
@@ -58,7 +67,7 @@ export function CatalogSwitcher({
             </DropdownMenuLabel>
 
             {catalogs.map((catalog) => {
-              const isCurrentCatalog = catalog.id === currentCatalog.id
+              const isCurrentCatalog = catalog.id === currentCatalog.id;
 
               return (
                 <DropdownMenuItem
@@ -66,7 +75,7 @@ export function CatalogSwitcher({
                   onClick={() => {
                     if (isCurrentCatalog) return;
 
-                    switchCatalog.execute({ id: catalog.id })
+                    switchCatalog.execute({ id: catalog.id });
                   }}
                   className="gap-2 p-2"
                 >
@@ -82,7 +91,7 @@ export function CatalogSwitcher({
                     <Badge>Atual</Badge>
                   )}
                 </DropdownMenuItem>
-              )
+              );
             })}
 
             <DropdownMenuSeparator />
@@ -99,5 +108,5 @@ export function CatalogSwitcher({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

@@ -1,20 +1,19 @@
-import { getCategories } from "@/services/get-categories"
+import { getCategories } from "@/services/get-categories";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 
 type CategoriesTableProps = {
-  query: string;
   currentPage: number;
 }
 
 export async function CategoriesTable({
-  currentPage
+  currentPage,
 }: CategoriesTableProps) {
   const { data: categories, meta } = await getCategories({
     field: "createdAt",
     page: currentPage,
     perPage: 10,
-    sort: "desc"
+    sort: "desc",
   });
 
   return (
@@ -23,5 +22,5 @@ export async function CategoriesTable({
       data={categories}
       pagination={meta.pagination}
     />
-  )
+  );
 }

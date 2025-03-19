@@ -6,24 +6,24 @@ import { Category, CategoryFilters } from "@/types/api-types";
 import { redirect } from "next/navigation";
 
 export async function getCategories(filters: CategoryFilters = {}) {
-  const session = await auth()
-  if (!session) redirect(routes.auth.login)
+  const session = await auth();
+  if (!session) redirect(routes.auth.login);
 
   const params = new URLSearchParams({
     field: filters.field || "createdAt",
     page: (filters.page || "1").toString(),
     perPage: (filters.perPage || "1").toString(),
-    sort: filters.sort || "desc"
-  })
+    sort: filters.sort || "desc",
+  });
 
   const res = await fetch(`${process.env.API_URL}/api/v1/categories?${params.toString()}`, {
     headers: {
-      Authorization: `Bearer ${session.accessToken}`
+      Authorization: `Bearer ${session.accessToken}`,
     },
-    next: { tags: [tags.categories.getAll] }
-  })
+    next: { tags: [tags.categories.getAll] },
+  });
 
-  const data = await res.json()
+  const data = await res.json();
 
-  return data as ApiResponseWithPagination<Category[]>
+  return data as ApiResponseWithPagination<Category[]>;
 }

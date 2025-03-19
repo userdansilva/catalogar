@@ -1,10 +1,16 @@
-"use client"
+"use client";
 
-import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/shadcn/components/ui/pagination"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/shadcn/components/ui/table"
-import { Pagination as TPagination } from "@/types/api-response"
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
-import { usePathname, useSearchParams } from "next/navigation"
+import {
+  Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious,
+} from "@/shadcn/components/ui/pagination";
+import {
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+} from "@/shadcn/components/ui/table";
+import { Pagination as TPagination } from "@/types/api-response";
+import {
+  ColumnDef, flexRender, getCoreRowModel, useReactTable,
+} from "@tanstack/react-table";
+import { usePathname, useSearchParams } from "next/navigation";
 
 type DataTableProps<TData, TValues> = {
   columns: ColumnDef<TData, TValues>[]
@@ -13,7 +19,7 @@ type DataTableProps<TData, TValues> = {
 }
 
 export function DataTable<TData, TValues>({
-  columns, data, pagination
+  columns, data, pagination,
 }: DataTableProps<TData, TValues>) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -22,13 +28,13 @@ export function DataTable<TData, TValues>({
     const params = new URLSearchParams(searchParams);
 
     if (page && page > 1) {
-      params.set("page", page.toString())
+      params.set("page", page.toString());
     } else {
-      params.delete("page")
+      params.delete("page");
     }
 
     return `${pathname}?${params.toString()}`;
-  }
+  };
 
   const table = useReactTable({
     data,
@@ -39,10 +45,10 @@ export function DataTable<TData, TValues>({
     initialState: {
       pagination: {
         pageIndex: pagination.currentPage - 1,
-        pageSize: pagination.perPage
+        pageSize: pagination.perPage,
       },
     },
-  })
+  });
 
   return (
     <div className="space-y-6">
@@ -51,19 +57,16 @@ export function DataTable<TData, TValues>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )
-                      }
-                    </TableHead>
-                  )
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -113,5 +116,5 @@ export function DataTable<TData, TValues>({
         </PaginationContent>
       </Pagination>
     </div>
-  )
+  );
 }

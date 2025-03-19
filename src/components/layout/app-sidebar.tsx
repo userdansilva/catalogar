@@ -5,10 +5,10 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/shadcn/components/ui/sidebar";
+import { getUser } from "@/services/get-user";
 import { CatalogSwitcher } from "./catalog-switcher";
 import NavMain from "./nav-main";
 import { NavUser } from "./nav-user";
-import { getUser } from "@/services/get-user";
 
 export async function AppSidebar() {
   const { data: user } = await getUser();
@@ -32,5 +32,5 @@ export async function AppSidebar() {
 
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

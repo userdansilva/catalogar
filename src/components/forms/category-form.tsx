@@ -1,14 +1,36 @@
-import { categorySchema } from "@/actions/schema"
-import { Badge } from "@/shadcn/components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shadcn/components/ui/card"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/shadcn/components/ui/form"
-import { Input } from "@/shadcn/components/ui/input"
-import { FormEventHandler } from "react"
-import { Control, UseFormReturn, useWatch } from "react-hook-form"
-import { z } from "zod"
-import { Button } from "../inputs/button"
+import { categorySchema } from "@/actions/schema";
+import { Badge } from "@/shadcn/components/ui/badge";
+import {
+  Card, CardContent, CardDescription, CardHeader, CardTitle,
+} from "@/shadcn/components/ui/card";
+import {
+  Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
+} from "@/shadcn/components/ui/form";
+import { Input } from "@/shadcn/components/ui/input";
+import { FormEventHandler } from "react";
+import { Control, UseFormReturn, useWatch } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "../inputs/button";
 
 export type CategoryFormValues = z.infer<typeof categorySchema>
+
+type CategoryPreviewProps = {
+  control: Control<CategoryFormValues>
+}
+
+function CategoryBadgePreview({
+  control,
+}: CategoryPreviewProps) {
+  const {
+    name, textColor, backgroundColor,
+  } = useWatch({ control });
+
+  return (
+    <Badge style={{ color: textColor, background: backgroundColor }}>
+      {(name || "Categoria").trim()}
+    </Badge>
+  );
+}
 
 type CategoryFormProps = {
   form: UseFormReturn<CategoryFormValues>
@@ -136,23 +158,5 @@ export function CategoryForm({
         </Button>
       </form>
     </Form>
-  )
-}
-
-type CategoryPreviewProps = {
-  control: Control<CategoryFormValues>
-}
-
-function CategoryBadgePreview({
-  control,
-}: CategoryPreviewProps) {
-  const {
-    name, textColor, backgroundColor
-  } = useWatch({ control })
-
-  return (
-    <Badge style={{ color: textColor, background: backgroundColor }}>
-      {(name || "Categoria").trim()}
-    </Badge>
-  )
+  );
 }

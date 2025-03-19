@@ -12,7 +12,7 @@ export default function NewCategory() {
     <Page>
       <PageHeader
         title="Categorias"
-        description="The king, seeing how much happier his subjects were, 
+        description="The king, seeing how much happier his subjects were,
             realized the error of his ways and repealed the joke tax."
       />
 
@@ -27,5 +27,5 @@ export default function NewCategory() {
         </SectionContent>
       </Section>
     </Page>
-  )
+  );
 }

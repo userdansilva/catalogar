@@ -10,7 +10,7 @@ export default async function Settings() {
     <Page>
       <PageHeader
         title="Configuração"
-        description="The king, seeing how much happier his subjects were, 
+        description="The king, seeing how much happier his subjects were,
         realized the error of his ways and repealed the joke tax."
       />
 
@@ -27,5 +27,5 @@ export default async function Settings() {
         </SectionContent>
       </Section>
     </Page>
-  )
+  );
 }

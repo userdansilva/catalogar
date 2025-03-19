@@ -1,52 +1,52 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "./safe-action";
-import { api } from "./api";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { ApiResponse } from "@/types/api-response";
 import { Category } from "@/types/api-types";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { getCategoryById } from "@/services/get-category-by-id";
+import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
+import { api } from "./api";
+import { authActionClient } from "./safe-action";
 import { categoryStatusToggleSchema } from "./schema";
 
 export const toggleCategoryStatusAction = authActionClient
   .schema(categoryStatusToggleSchema)
   .metadata({
-    actionName: "switch-category-enable"
+    actionName: "switch-category-enable",
   })
   .action(async ({
     parsedInput: {
-      id, redirectTo
+      id, redirectTo,
     },
-    ctx: { accessToken }
+    ctx: { accessToken },
   }) => {
     try {
-      const { data: category } = await getCategoryById(id)
+      const { data: category } = await getCategoryById(id);
 
       const res = await api.put<ApiResponse<Category>>(`/v1/categories/${id}`, {
         ...category,
         isDisabled: !category.isDisabled,
-        redirectTo
+        redirectTo,
       }, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
-      revalidateTag(tags.categories.getAll)
+      revalidateTag(tags.categories.getAll);
       if (id) {
-        revalidateTag(tags.categories.getById(id))
+        revalidateTag(tags.categories.getById(id));
       }
 
       if (redirectTo) {
-        redirect(redirectTo)
+        redirect(redirectTo);
       }
 
-      return { category: res.data.data, message: res.data.meta?.message }
+      return { category: res.data.data, message: res.data.meta?.message };
     } catch (e) {
-      returnValidationErrorsIfExists(e, categoryStatusToggleSchema)
-      throw e
+      returnValidationErrorsIfExists(e, categoryStatusToggleSchema);
+      throw e;
     }
-  })
+  });

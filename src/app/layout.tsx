@@ -5,8 +5,8 @@ import { Toaster } from "@/shadcn/components/ui/sonner";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 
 const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {

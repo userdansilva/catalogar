@@ -1,7 +1,9 @@
 "use client";
 
 import { catalogSchema } from "@/actions/schema";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shadcn/components/ui/form";
+import {
+  Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
+} from "@/shadcn/components/ui/form";
 import { z } from "zod";
 import { Input } from "@/shadcn/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/shadcn/components/ui/alert";
@@ -23,7 +25,7 @@ type CatalogFormProps = {
 export function CatalogForm({
   form,
   onSubmit,
-  withSlugTip,
+  withSlugTip = false,
   submitButtonLabel = "Salvar alterações",
 }: CatalogFormProps) {
   return (
@@ -61,7 +63,9 @@ export function CatalogForm({
             <Lightbulb className="h-4 w-4" />
             <AlertTitle>Dica importante!</AlertTitle>
             <AlertDescription>
-              Evite mudar o slug com frequência. Se você alterar o slug, o link atual vai parar de funcionar e seus clientes precisarão acessar com o novo link.
+              Evite mudar o slug com frequência. Se você alterar o slug,
+              o link atual vai parar de funcionar e seus clientes
+              precisarão acessar com o novo link.
             </AlertDescription>
           </Alert>
         )}
@@ -135,5 +139,5 @@ export function CatalogForm({
         </Button>
       </form>
     </Form>
-  )
+  );
 }

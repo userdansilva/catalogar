@@ -15,13 +15,13 @@ type EditCategoryProps = {
 }
 
 export default async function EditCategory(props: EditCategoryProps) {
-  const { data: category } = await getCategoryById(props.params.id)
+  const { data: category } = await getCategoryById(props.params.id);
 
   return (
     <Page>
       <PageHeader
         title="Categorias"
-        description="The king, seeing how much happier his subjects were, 
+        description="The king, seeing how much happier his subjects were,
                 realized the error of his ways and repealed the joke tax."
       />
 
@@ -36,5 +36,5 @@ export default async function EditCategory(props: EditCategoryProps) {
         </SectionContent>
       </Section>
     </Page>
-  )
+  );
 }

@@ -1,4 +1,5 @@
-export { default } from "next-auth/middleware"
+// eslint-disable-next-line no-restricted-exports
+export { default } from "next-auth/middleware";
 
 export const config = {
   matcher: [
@@ -10,6 +11,6 @@ export const config = {
        * - favicon.ico (favicon file)
        * - entrar
        */
-    '/((?!api|_next/static|_next/image|favicon.ico|entrar).*)',
-  ]
-}
+    "/((?!api|_next/static|_next/image|favicon.ico|entrar).*)",
+  ],
+};

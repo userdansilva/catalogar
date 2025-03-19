@@ -1,13 +1,13 @@
 import { PropsWithChildren } from "react";
 
 export function Section({
-  children
+  children,
 }: PropsWithChildren) {
   return (
     <div className="space-y-6">
       {children}
     </div>
-  )
+  );
 }
 
 type SectionHeaderProps = {
@@ -16,7 +16,7 @@ type SectionHeaderProps = {
 }
 
 export function SectionHeader({
-  title, description
+  title, description,
 }: SectionHeaderProps) {
   return (
     <div>
@@ -28,15 +28,15 @@ export function SectionHeader({
         {description}
       </p>
     </div>
-  )
+  );
 }
 
 export function SectionContent({
-  children
+  children,
 }: PropsWithChildren) {
   return (
     <div>
       {children}
     </div>
-  )
+  );
 }

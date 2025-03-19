@@ -1,7 +1,7 @@
 "use client";
 
 import { routes } from "@/routes";
-import { signIn } from "next-auth/react"
+import { signIn } from "next-auth/react";
 
 export default function XSignIn() {
   return (
@@ -10,11 +10,12 @@ export default function XSignIn() {
 
       <button
         onClick={() => signIn("azure-ad-b2c", {
-          callbackUrl: routes.dashboard.home
+          callbackUrl: routes.dashboard.home,
         })}
+        type="button"
       >
         Sign in
       </button>
     </div>
-  )
+  );
 }

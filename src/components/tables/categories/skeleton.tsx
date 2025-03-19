@@ -1,8 +1,12 @@
-"use client"
+"use client";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/shadcn/components/ui/table";
-import { columns } from "./columns";
+/* eslint-disable react/no-array-index-key */
+
+import {
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+} from "@/shadcn/components/ui/table";
 import { Skeleton } from "@/shadcn/components/ui/skeleton";
+import { columns } from "./columns";
 
 export function CategoriesSkeleton() {
   return (
@@ -34,5 +38,5 @@ export function CategoriesSkeleton() {
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

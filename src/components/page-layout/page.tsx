@@ -1,14 +1,14 @@
 import { PropsWithChildren } from "react";
-import { Separator } from "@/shadcn/components/ui/separator"
+import { Separator } from "@/shadcn/components/ui/separator";
 
 export function Page({
-  children
+  children,
 }: PropsWithChildren) {
   return (
     <div className="space-y-6">
       {children}
     </div>
-  )
+  );
 }
 
 type PageHeaderProps = {
@@ -17,7 +17,7 @@ type PageHeaderProps = {
 }
 
 export function PageHeader({
-  title, description
+  title, description,
 }: PageHeaderProps) {
   return (
     <div className="space-y-6">
@@ -33,5 +33,5 @@ export function PageHeader({
 
       <Separator />
     </div>
-  )
+  );
 }

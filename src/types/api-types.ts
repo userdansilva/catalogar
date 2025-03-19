@@ -3,6 +3,16 @@ type PropsWithTimestamps<T> = T & {
   updatedAt: string
 }
 
+export type Catalog = PropsWithTimestamps<{
+  id: string
+  name: string
+  slug: string
+  publishedAt?: string
+  isPublished: boolean
+  company: null
+  theme: null
+}>
+
 export type User = PropsWithTimestamps<{
   id: string
   name: string
@@ -15,16 +25,6 @@ export type User = PropsWithTimestamps<{
 export type UserWithCatalog = User & {
   currentCatalog: Catalog
 }
-
-export type Catalog = PropsWithTimestamps<{
-  id: string
-  name: string
-  slug: string
-  publishedAt?: string
-  isPublished: boolean
-  company: null
-  theme: null
-}>
 
 export type Category = PropsWithTimestamps<{
   id: string

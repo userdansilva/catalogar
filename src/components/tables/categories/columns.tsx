@@ -1,18 +1,37 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-"use client"
+
+"use client";
 
 import { toggleCategoryStatusAction } from "@/actions/toggle-status-category-action";
 import { routes } from "@/routes";
-import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/shadcn/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/shadcn/components/ui/alert-dialog";
 import { Badge } from "@/shadcn/components/ui/badge";
 import { Button } from "@/shadcn/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shadcn/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/shadcn/components/ui/dropdown-menu";
 import { Category } from "@/types/api-types";
 import { AlertDialogAction } from "@radix-ui/react-alert-dialog";
 import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns"
+import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Archive, ArrowBigUpDash, Check, EllipsisVertical, Pencil, Trash, X } from "lucide-react";
+import {
+  Archive, ArrowBigUpDash, Check, EllipsisVertical, Pencil, Trash, X,
+} from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -22,70 +41,69 @@ export const columns: ColumnDef<Category>[] = [
     header: "Preview",
     accessorKey: "textColor",
     cell: ({ row }) => {
-      const { name, textColor, backgroundColor } = row.original
+      const { name, textColor, backgroundColor } = row.original;
 
       return (
         <Badge
           style={{
             color: textColor,
-            background: backgroundColor
-          }}>
+            background: backgroundColor,
+          }}
+        >
           {name}
         </Badge>
-      )
-    }
+      );
+    },
   },
   {
     accessorKey: "slug",
-    header: "Slug"
+    header: "Slug",
   },
   {
     accessorKey: "isDisabled",
     header: "Ativo",
     cell: ({ row }) => {
-      const isDisabled = row.getValue("isDisabled")
+      const isDisabled = row.getValue("isDisabled");
 
       return !isDisabled
         ? <Check className="size-4" />
-        : <X className="size-4" />
-    }
+        : <X className="size-4" />;
+    },
   },
   {
     accessorKey: "createdAt",
     header: "Criado em",
     cell: ({ row }) => {
-      const createdAt = new Date(row.getValue("createdAt"))
+      const createdAt = new Date(row.getValue("createdAt"));
       return format(createdAt, "dd/MM/yyyy", {
-        locale: ptBR
-      })
-    }
+        locale: ptBR,
+      });
+    },
   },
   {
     accessorKey: "updatedAt",
     header: "Atualizado em",
     cell: ({ row }) => {
-      const updatedAt = new Date(row.getValue("updatedAt"))
+      const updatedAt = new Date(row.getValue("updatedAt"));
       return format(updatedAt, "dd/MM/yyyy", {
-        locale: ptBR
-      })
-    }
+        locale: ptBR,
+      });
+    },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const { executeAsync } = useAction(toggleCategoryStatusAction)
+      const { executeAsync } = useAction(toggleCategoryStatusAction);
 
-      const toggleStatus = (categoryId: string) => toast.promise(new Promise(async (res) => {
-        await executeAsync({ id: categoryId })
-
-        res("ok")
-      }), {
+      const toggleStatus = (categoryId: string) => toast.promise(async () => {
+        await executeAsync({ id: categoryId });
+      }, {
         loading: "Alterando status...",
         success: "Status atualizado!",
-      })
+      });
 
-      const { id } = row.original
-      const isDisabled = row.getValue("isDisabled")
+      const { id } = row.original;
+      const isDisabled = row.getValue("isDisabled");
 
       return (
         <AlertDialog>
@@ -118,7 +136,7 @@ export const columns: ColumnDef<Category>[] = [
                     Desativar
                   </AlertDialogTrigger>
                 ) : (
-                  <button className="w-full" onClick={() => toggleStatus(id)}>
+                  <button className="w-full" onClick={() => toggleStatus(id)} type="button">
                     <ArrowBigUpDash className="size-4 mr-2 animate-bounce" />
                     Ativar
                   </button>
@@ -164,7 +182,7 @@ export const columns: ColumnDef<Category>[] = [
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-      )
-    }
-  }
-]
+      );
+    },
+  },
+];

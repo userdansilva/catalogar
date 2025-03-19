@@ -9,16 +9,16 @@ import { redirect } from "next/navigation";
  */
 export async function getUser<T extends User | UserWithCatalog = UserWithCatalog>() {
   const session = await auth();
-  if (!session) redirect("/entrar")
+  if (!session) redirect("/entrar");
 
   const res = await fetch(`${process.env.API_URL}/api/v1/users/me`, {
     headers: {
-      Authorization: `Bearer ${session.accessToken}`
+      Authorization: `Bearer ${session.accessToken}`,
     },
-    next: { tags: [tags.users.me] }
-  })
+    next: { tags: [tags.users.me] },
+  });
 
-  const data = await res.json()
+  const data = await res.json();
 
-  return data as ApiResponse<T>
+  return data as ApiResponse<T>;
 }

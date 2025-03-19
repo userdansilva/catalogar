@@ -29,7 +29,7 @@ export default async function Categories(props: CategoriesProps) {
     <Page>
       <PageHeader
         title="Categorias"
-        description="The king, seeing how much happier his subjects were, 
+        description="The king, seeing how much happier his subjects were,
             realized the error of his ways and repealed the joke tax."
       />
 
@@ -49,12 +49,11 @@ export default async function Categories(props: CategoriesProps) {
 
           <Suspense key={query + currentPage} fallback={<CategoriesSkeleton />}>
             <CategoriesTable
-              query={query}
               currentPage={currentPage}
             />
           </Suspense>
         </SectionContent>
       </Section>
     </Page>
-  )
+  );
 }

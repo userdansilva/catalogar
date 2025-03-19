@@ -1,26 +1,22 @@
-import { auth } from "@/auth"
-import { ApiError } from "@/types/api-error"
-import { AxiosError } from "axios"
-import { createMiddleware, createSafeActionClient } from "next-safe-action"
-import { z } from "zod"
+import { auth } from "@/auth";
+import { ApiError } from "@/types/api-error";
+import { AxiosError } from "axios";
+import { createMiddleware, createSafeActionClient } from "next-safe-action";
+import { z } from "zod";
 
 const authMiddleware = createMiddleware<{
   ctx: { accessToken: string }
   metada: { actionName: string }
-}>().define(async ({ ctx, next }) => {
-  return next({
-    ctx: {
-      accessToken: ctx.accessToken
-    }
-  })
-})
+}>().define(async ({ ctx, next }) => next({
+  ctx: {
+    accessToken: ctx.accessToken,
+  },
+}));
 
 export const authActionClient = createSafeActionClient({
-  defineMetadataSchema: () => {
-    return z.object({
-      actionName: z.string()
-    })
-  },
+  defineMetadataSchema: () => z.object({
+    actionName: z.string(),
+  }),
   handleServerError(e) {
     if (e instanceof AxiosError) {
       return (e as AxiosError<ApiError>).response?.data;
@@ -28,19 +24,19 @@ export const authActionClient = createSafeActionClient({
 
     return {
       message: "Ops! Algo deu errado. Por favor, tente novamente",
-      errors: []
-    }
-  }
+      errors: [],
+    };
+  },
 })
   .use(async ({ next }) => {
     const session = await auth();
 
     if (!session) {
-      throw new Error("Session not found!")
+      throw new Error("Session not found!");
     }
 
-    const accessToken = session.accessToken
+    const { accessToken } = session;
 
-    return next({ ctx: { accessToken } })
+    return next({ ctx: { accessToken } });
   })
-  .use(authMiddleware)
+  .use(authMiddleware);

@@ -6,17 +6,17 @@ import { Category } from "@/types/api-types";
 import { redirect } from "next/navigation";
 
 export async function getCategoryById(id: string) {
-  const session = await auth()
-  if (!session) redirect(routes.auth.login)
+  const session = await auth();
+  if (!session) redirect(routes.auth.login);
 
   const res = await fetch(`${process.env.API_URL}/api/v1/categories/${id}`, {
     headers: {
-      Authorization: `Bearer ${session.accessToken}`
+      Authorization: `Bearer ${session.accessToken}`,
     },
-    next: { tags: [tags.categories.getById(id)] }
-  })
+    next: { tags: [tags.categories.getById(id)] },
+  });
 
-  const data = await res.json()
+  const data = await res.json();
 
-  return data as ApiResponse<Category>
+  return data as ApiResponse<Category>;
 }

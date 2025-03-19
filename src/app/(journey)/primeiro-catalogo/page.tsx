@@ -8,7 +8,7 @@ export default async function FirstCatalog() {
   const { data: user } = await getUser<User>();
 
   if (user.currentCatalog) {
-    return redirect(routes.dashboard.home)
+    return redirect(routes.dashboard.home);
   }
 
   return (
@@ -30,5 +30,5 @@ export default async function FirstCatalog() {
 
       <CreateCatalogForm />
     </div>
-  )
+  );
 }
