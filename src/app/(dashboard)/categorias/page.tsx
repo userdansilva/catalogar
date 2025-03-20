@@ -15,14 +15,12 @@ export const metadata: Metadata = {
 
 type CategoriesProps = {
   searchParams?: Promise<{
-    q?: string;
     page?: string;
   }>
 }
 
 export default async function Categories(props: CategoriesProps) {
   const searchParams = await props.searchParams;
-  const query = searchParams?.q || "";
   const currentPage = Number(searchParams?.page) || 1;
 
   return (
@@ -47,7 +45,8 @@ export default async function Categories(props: CategoriesProps) {
             </Link>
           </Button>
 
-          <Suspense key={query + currentPage} fallback={<CategoriesSkeleton />}>
+          {/* key={query + currentPage} */}
+          <Suspense key={currentPage} fallback={<CategoriesSkeleton />}>
             <CategoriesTable
               currentPage={currentPage}
             />

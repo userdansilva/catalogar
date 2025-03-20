@@ -36,9 +36,25 @@ export type Category = PropsWithTimestamps<{
   disabledAt?: string
 }>
 
-export type CategoryFilters = {
-  field?: "name" | "createdAt"
-  sort?: "asc" | "desc"
+export type FiltersWithPagination<T> = T & {
   page?: number
   perPage?: number
 }
+
+export type CategoryFilters = FiltersWithPagination<{
+  field?: "name" | "createdAt"
+  sort?: "asc" | "desc"
+}>
+
+export type Product = PropsWithTimestamps<{
+  id: string
+  name: string
+  slug: string
+  isDisabled: boolean
+  disabledAt?: string
+}>
+
+export type ProductFilters = FiltersWithPagination<{
+  field?: "name" | "createdAt"
+  sort?: "asc" | "desc"
+}>
