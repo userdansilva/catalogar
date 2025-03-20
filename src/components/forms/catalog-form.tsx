@@ -60,7 +60,7 @@ export function CatalogForm({
 
         {withSlugTip && (
           <Alert>
-            <Lightbulb className="h-4 w-4" />
+            <Lightbulb className="size-4" />
             <AlertTitle>Dica importante!</AlertTitle>
             <AlertDescription>
               Evite mudar o slug com frequência. Se você alterar o slug,

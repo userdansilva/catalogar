@@ -124,7 +124,7 @@ export const columns: ColumnDef<Category>[] = [
                   href={routes.category.edit(id)}
                   className="cursor-pointer"
                 >
-                  <Pencil className="size-4 mr-2" />
+                  <Pencil className="mr-2 size-4" />
                   Editar
                 </Link>
               </DropdownMenuItem>
@@ -132,12 +132,12 @@ export const columns: ColumnDef<Category>[] = [
               <DropdownMenuItem asChild className="cursor-pointer">
                 {!isDisabled ? (
                   <AlertDialogTrigger>
-                    <Archive className="size-4 mr-2" />
+                    <Archive className="mr-2 size-4" />
                     Desativar
                   </AlertDialogTrigger>
                 ) : (
                   <button className="w-full" onClick={() => toggleStatus(id)} type="button">
-                    <ArrowBigUpDash className="size-4 mr-2 animate-bounce" />
+                    <ArrowBigUpDash className="mr-2 size-4 animate-bounce" />
                     Ativar
                   </button>
                 )}
@@ -150,7 +150,7 @@ export const columns: ColumnDef<Category>[] = [
                 className="cursor-pointer"
               >
                 <Link href={routes.category.delete(id)}>
-                  <Trash className="size-4 mr-2" />
+                  <Trash className="mr-2 size-4" />
                   Excluir
                 </Link>
               </DropdownMenuItem>

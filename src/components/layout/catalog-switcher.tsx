@@ -83,7 +83,7 @@ export function CatalogSwitcher({
                     <Box className="size-4 shrink-0" />
                   </div>
 
-                  <span className="truncate flex-1">
+                  <span className="flex-1 truncate">
                     {catalog.name}
                   </span>
 
@@ -96,7 +96,7 @@ export function CatalogSwitcher({
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem className="gap-2 p-2 cursor-pointer" asChild>
+            <DropdownMenuItem className="cursor-pointer gap-2 p-2" asChild>
               <Link href={routes.catalog.create}>
                 <div className="flex size-6 items-center justify-center rounded-md border bg-background">
                   <Plus className="size-4" />

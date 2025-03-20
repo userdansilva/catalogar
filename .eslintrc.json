@@ -1,8 +1,11 @@
 {
   "extends": [
+    "eslint:recommended",
     "airbnb",
     "next/core-web-vitals",
-    "next/typescript"
+    "next/typescript",
+    "plugin:tailwindcss/recommended",
+    "next/core-web-vitals"
   ],
   "rules": {
     "import/extensions": [

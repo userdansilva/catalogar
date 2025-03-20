@@ -26,11 +26,11 @@ export function CategoriesSkeleton() {
           {[...Array(10)].map((_, index) => (
             <TableRow
               key={index.toString()}
-              className="hover:bg-transparent h-[49px]"
+              className="h-[49px] hover:bg-transparent"
             >
               {columns.map((column) => (
                 <TableCell key={column.id}>
-                  <Skeleton className="w-2/3 h-3" />
+                  <Skeleton className="h-3 w-2/3" />
                 </TableCell>
               ))}
             </TableRow>

@@ -12,7 +12,7 @@ export default async function FirstCatalog() {
   }
 
   return (
-    <div className="max-w-[32rem] space-y-8">
+    <div className="max-w-lg space-y-8">
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
           Boas Vindas ao
