@@ -1,7 +1,7 @@
 import { columns } from "./columns";
 import { TableSkeleton } from "../table-skeleton";
 
-export function CategoriesSkeleton() {
+export function ProductsSkeleton() {
   return (
     <TableSkeleton columns={columns} />
   );

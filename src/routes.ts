@@ -21,6 +21,10 @@ export const routes = {
   },
   product: {
     home: "/produtos",
+    new: "/produtos/novo",
+    edit: (id: string) => `/produtos/${id}/editar`,
+    disable: (id: string) => `/produtos/${id}/desativar`,
+    delete: (id: string) => `/produtos/${id}/deletar`,
   },
   company: {
     home: "/empresa",

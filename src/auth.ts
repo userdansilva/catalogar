@@ -75,10 +75,8 @@ export const config = {
         - (60 * 5 * 1_000)) /* 5 min */ > Date.now();
 
       if (!isAdB2CRefreshTokenValid) {
-        return {
-          ...token,
-          error: "SessionEnd",
-        };
+        console.error("SessionEnd");
+        throw new Error("SessionEnd");
       }
 
       try {
@@ -113,21 +111,13 @@ export const config = {
         return newToken;
       } catch (e) {
         console.error(e);
-
-        return {
-          ...token,
-          error: "UnableToUpdateToken",
-        };
+        throw new Error("UnableToUpdateToken");
       }
     },
 
     async session({ session, token }) {
       const newSession = session;
       newSession.accessToken = token.accessToken;
-
-      if (token.error) {
-        newSession.error = token.error;
-      }
 
       return newSession;
     },
@@ -149,7 +139,6 @@ declare module "next-auth" {
   interface Session {
     user: DefaultSession["user"]
     accessToken: string
-    error?: "SessionEnd" | "UnableToUpdateToken"
   }
 
   interface Account {
@@ -166,6 +155,5 @@ declare module "next-auth/jwt" {
     refreshToken: string
     tokenExpiresAt: number
     refreshTokenExpiresAt: number
-    error?: "SessionEnd" | "UnableToUpdateToken"
   }
 }
