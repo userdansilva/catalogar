@@ -10,8 +10,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Catalogar - Dashboard",
-  description: "",
+  title: {
+    template: "%s | Catalogar",
+    default: "Catalogar",
+  },
 };
 
 export default function RootLayout({

@@ -95,7 +95,7 @@ export const columns: ColumnDef<Product>[] = [
 
             <DropdownMenuItem asChild>
               <Link
-                href={routes.product.edit(id)}
+                href={routes.products.sub.edit.url(id)}
                 className="cursor-pointer"
               >
                 <Pencil className="mr-2 size-4" />
@@ -106,7 +106,7 @@ export const columns: ColumnDef<Product>[] = [
             <DropdownMenuItem asChild className="cursor-pointer">
               {!isDisabled ? (
                 <Link
-                  href={routes.product.disable(id)}
+                  href={routes.products.sub.disable.url(id)}
                   className="cursor-pointer"
                 >
                   <Archive className="mr-2 size-4" />
@@ -126,7 +126,7 @@ export const columns: ColumnDef<Product>[] = [
               asChild
               className="cursor-pointer"
             >
-              <Link href={routes.product.delete(id)}>
+              <Link href={routes.products.sub.delete.url(id)}>
                 <Trash className="mr-2 size-4" />
                 Excluir
               </Link>

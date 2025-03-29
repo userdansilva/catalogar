@@ -97,7 +97,7 @@ export function CatalogSwitcher({
             <DropdownMenuSeparator />
 
             <DropdownMenuItem className="cursor-pointer gap-2 p-2" asChild>
-              <Link href={routes.catalog.create}>
+              <Link href={routes.catalog.sub.create.url}>
                 <div className="flex size-6 items-center justify-center rounded-md border bg-background">
                   <Plus className="size-4" />
                 </div>

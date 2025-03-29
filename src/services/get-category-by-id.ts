@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 
 export async function getCategoryById(id: string) {
   const session = await auth();
-  if (!session) redirect(routes.auth.login);
+  if (!session) redirect(routes.auth.sub.login.url);
 
   const res = await fetch(`${process.env.API_URL}/api/v1/categories/${id}`, {
     headers: {

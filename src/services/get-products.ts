@@ -7,7 +7,7 @@ import { Product, ProductFilters } from "@/types/api-types";
 
 export async function getProducts(filters: ProductFilters = {}) {
   const session = await auth();
-  if (!session) redirect(routes.auth.login);
+  if (!session) redirect(routes.auth.sub.login.url);
 
   const params = new URLSearchParams({
     field: filters.field || "createdAt",

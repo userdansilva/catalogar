@@ -121,7 +121,7 @@ export const columns: ColumnDef<Category>[] = [
 
               <DropdownMenuItem asChild>
                 <Link
-                  href={routes.category.edit(id)}
+                  href={routes.categories.sub.edit.url(id)}
                   className="cursor-pointer"
                 >
                   <Pencil className="mr-2 size-4" />
@@ -149,7 +149,7 @@ export const columns: ColumnDef<Category>[] = [
                 asChild
                 className="cursor-pointer"
               >
-                <Link href={routes.category.delete(id)}>
+                <Link href={routes.categories.sub.delete.url(id)}>
                   <Trash className="mr-2 size-4" />
                   Excluir
                 </Link>

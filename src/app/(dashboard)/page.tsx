@@ -1,4 +1,10 @@
 import { auth } from "@/auth";
+import { routes } from "@/routes";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: routes.dashboard.title,
+};
 
 export default async function Home() {
   const session = await auth();

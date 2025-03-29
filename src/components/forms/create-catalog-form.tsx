@@ -21,7 +21,7 @@ export function CreateCatalogForm() {
           name: "",
           slug: "",
           isPublished: true,
-          redirectTo: routes.dashboard.home,
+          redirectTo: routes.dashboard.url,
         },
       },
       actionProps: {

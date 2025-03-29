@@ -17,7 +17,7 @@ export default async function DashboardLayout({
   const { data: user } = await getUser<User>();
 
   if (!user.currentCatalog) {
-    return redirect(routes.catalog.first);
+    return redirect(routes.catalog.sub.createFirst.url);
   }
 
   return (
@@ -33,7 +33,7 @@ export default async function DashboardLayout({
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="#" asChild>
-                    <Link href={routes.dashboard.home}>
+                    <Link href={routes.dashboard.url}>
                       Dashboard
                     </Link>
                   </BreadcrumbLink>

@@ -2,13 +2,18 @@ import { CreateCatalogForm } from "@/components/forms/create-catalog-form";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
 import { User } from "@/types/api-types";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: routes.catalog.sub.createFirst.title,
+};
 
 export default async function FirstCatalog() {
   const { data: user } = await getUser<User>();
 
   if (user.currentCatalog) {
-    return redirect(routes.dashboard.home);
+    return redirect(routes.dashboard.url);
   }
 
   return (

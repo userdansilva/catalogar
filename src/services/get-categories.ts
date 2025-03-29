@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 
 export async function getCategories(filters: CategoryFilters = {}) {
   const session = await auth();
-  if (!session) redirect(routes.auth.login);
+  if (!session) redirect(routes.auth.sub.login.url);
 
   const params = new URLSearchParams({
     field: filters.field || "createdAt",

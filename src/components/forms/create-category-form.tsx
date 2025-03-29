@@ -20,7 +20,7 @@ export function CreateCategoryForm() {
           textColor: "#FFFFFF",
           backgroundColor: "#000000",
           isDisabled: false,
-          redirectTo: routes.category.home,
+          redirectTo: routes.categories.url,
         },
       },
       actionProps: {

@@ -9,9 +9,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/shadcn/components/ui/sidebar";
-import {
-  Book, Building2, Filter, House, List, Palette, Settings,
-} from "lucide-react";
 import Link from "next/link";
 
 const groups = [
@@ -19,16 +16,20 @@ const groups = [
     name: "Menu",
     items: [
       {
-        name: "Dashboard", url: routes.dashboard.home, icon: House, isActive: true,
+        ...routes.dashboard,
+        isActive: true,
       },
       {
-        name: "Meus Itens", url: routes.catalogItem.home, icon: Book, isActive: false,
+        ...routes.catalogItems,
+        isActive: false,
       },
       {
-        name: "Categorias", url: routes.category.home, icon: Filter, isActive: false,
+        ...routes.categories,
+        isActive: false,
       },
       {
-        name: "Produtos", url: routes.product.home, icon: List, isActive: false,
+        ...routes.products,
+        isActive: false,
       },
     ],
   },
@@ -36,13 +37,16 @@ const groups = [
     name: "Personalização",
     items: [
       {
-        name: "Empresa", url: routes.company.home, icon: Building2, isActive: false,
+        ...routes.company,
+        isActive: false,
       },
       {
-        name: "Tema", url: routes.theme.home, icon: Palette, isActive: false,
+        ...routes.theme,
+        isActive: false,
       },
       {
-        name: "Configuração", url: routes.config.home, icon: Settings, isActive: false,
+        ...routes.config,
+        isActive: false,
       },
     ],
   },
@@ -56,11 +60,11 @@ export default function NavMain() {
       <SidebarGroupContent>
         <SidebarMenu>
           {group.items.map((item) => (
-            <SidebarMenuItem key={item.name}>
-              <SidebarMenuButton asChild tooltip={item.name}>
+            <SidebarMenuItem key={item.title}>
+              <SidebarMenuButton asChild tooltip={item.title}>
                 <Link href={item.url}>
                   <item.icon />
-                  <span>{item.name}</span>
+                  <span>{item.title}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

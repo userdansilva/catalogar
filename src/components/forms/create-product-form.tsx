@@ -18,7 +18,7 @@ export function CreateProductForm() {
           name: "",
           slug: "",
           isDisabled: false,
-          redirectTo: routes.product.home,
+          redirectTo: routes.products.url,
         },
       },
       actionProps: {

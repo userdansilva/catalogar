@@ -23,7 +23,7 @@ export function UpdateProductForm({
       formProps: {
         defaultValues: {
           ...product,
-          redirectTo: routes.product.home,
+          redirectTo: routes.products.url,
         },
       },
       actionProps: {

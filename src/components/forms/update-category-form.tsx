@@ -23,7 +23,7 @@ export function UpdateCategoryForm({
       formProps: {
         defaultValues: {
           ...category,
-          redirectTo: routes.category.home,
+          redirectTo: routes.categories.url,
         },
       },
       actionProps: {

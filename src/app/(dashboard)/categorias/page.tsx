@@ -1,5 +1,4 @@
 import { Button } from "@/components/inputs/button";
-import { Page, PageHeader } from "@/components/page-layout/page";
 import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
 import { CategoriesTable } from "@/components/tables/categories";
 import { CategoriesSkeleton } from "@/components/tables/categories/skeleton";
@@ -10,7 +9,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "Categorias | Catalogar",
+  title: routes.categories.title,
 };
 
 type CategoriesProps = {
@@ -24,35 +23,27 @@ export default async function Categories(props: CategoriesProps) {
   const currentPage = Number(searchParams?.page) || 1;
 
   return (
-    <Page>
-      <PageHeader
-        title="Categorias"
-        description="The king, seeing how much happier his subjects were,
-            realized the error of his ways and repealed the joke tax."
+    <Section>
+      <SectionHeader
+        title="Minhas categorias"
+        description="This is how others will see you on the site."
       />
 
-      <Section>
-        <SectionHeader
-          title="Minhas categorias"
-          description="This is how others will see you on the site."
-        />
+      <SectionContent>
+        <Button asChild className="mb-10">
+          <Link href={routes.categories.sub.new.url}>
+            <Plus className="size-4" />
+            Criar categoria
+          </Link>
+        </Button>
 
-        <SectionContent>
-          <Button asChild className="mb-10">
-            <Link href={routes.category.new}>
-              <Plus className="size-4" />
-              Criar categoria
-            </Link>
-          </Button>
-
-          {/* key={query + currentPage} */}
-          <Suspense key={currentPage} fallback={<CategoriesSkeleton />}>
-            <CategoriesTable
-              currentPage={currentPage}
-            />
-          </Suspense>
-        </SectionContent>
-      </Section>
-    </Page>
+        {/* key={query + currentPage} */}
+        <Suspense key={currentPage} fallback={<CategoriesSkeleton />}>
+          <CategoriesTable
+            currentPage={currentPage}
+          />
+        </Suspense>
+      </SectionContent>
+    </Section>
   );
 }

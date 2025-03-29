@@ -25,7 +25,7 @@ export const config = {
     }),
   ],
   pages: {
-    signIn: routes.auth.login,
+    signIn: routes.auth.sub.login.url,
   },
   callbacks: {
     async redirect({ url, baseUrl }) {
