@@ -4,19 +4,15 @@ import { routes } from "@/routes";
 import { tags } from "@/tags";
 import { ApiResponseWithPagination } from "@/types/api-response";
 import { Product, ProductFilters } from "@/types/api-types";
+import { formatParamsFrom } from "./format-params-from";
 
 export async function getProducts(filters: ProductFilters = {}) {
   const session = await auth();
   if (!session) redirect(routes.auth.sub.login.url);
 
-  const params = new URLSearchParams({
-    field: filters.field || "createdAt",
-    page: (filters.page || "1").toString(),
-    perPage: (filters.perPage || "1").toString(),
-    sort: filters.sort || "desc",
-  });
+  const params = formatParamsFrom(filters);
 
-  const res = await fetch(`${process.env.API_URL}/api/v1/products?${params.toString()}`, {
+  const res = await fetch(`${process.env.API_URL}/api/v1/products?${params}`, {
     headers: {
       Authorization: `Bearer ${session.accessToken}`,
     },

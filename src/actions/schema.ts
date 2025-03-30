@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { zfd } from "zod-form-data";
 
 /**
  * Catalog
@@ -42,4 +43,31 @@ export const productSchema = z.object({
 export const productStatusToggleSchema = z.object({
   id: z.string(),
   redirectTo: z.string().optional(),
+});
+
+/**
+ * Catalog Item
+ */
+export const catalogItemSchema = z.object({
+  id: z.string().optional(),
+
+  title: z.string().min(1, "Campo obrigatório"),
+  caption: z.string().optional(),
+  productId: z.string().min(1, "Campo obrigatório"),
+  images: z.array(z.object({
+    name: z.string(),
+    position: z.number(),
+    url: z.string(),
+  })).min(1, "É necessário adicionar, no mínimo, uma imagem"),
+  price: z.string().optional(),
+  categoryIds: z.array(z.string()).optional(),
+  isDisabled: z.boolean(),
+  redirectTo: z.string().optional(),
+});
+
+/**
+ * Images
+ */
+export const imageSchema = zfd.formData({
+  image: zfd.file(),
 });

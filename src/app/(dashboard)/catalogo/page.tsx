@@ -1,7 +1,5 @@
 import { Button } from "@/components/inputs/button";
 import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
-import { CategoriesTable } from "@/components/tables/categories";
-import { CategoriesSkeleton } from "@/components/tables/categories/skeleton";
 import { routes } from "@/routes";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
@@ -9,7 +7,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "Catálogo | Catalogar",
+  title: routes.catalogItems.title,
 };
 
 type CatalogProps = {
@@ -31,17 +29,15 @@ export default async function Catalog(props: CatalogProps) {
 
       <SectionContent>
         <Button asChild className="mb-10">
-          <Link href={routes.categories.sub.new.url}>
+          <Link href={routes.catalogItems.sub.new.url}>
             <Plus className="size-4" />
-            Criar categoria
+            Criar item
           </Link>
         </Button>
 
         {/* key={query + currentPage} */}
-        <Suspense key={currentPage} fallback={<CategoriesSkeleton />}>
-          <CategoriesTable
-            currentPage={currentPage}
-          />
+        <Suspense key={currentPage} fallback={<span>Carregando...</span>}>
+          ...
         </Suspense>
       </SectionContent>
     </Section>

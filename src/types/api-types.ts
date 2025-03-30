@@ -58,3 +58,27 @@ export type ProductFilters = FiltersWithPagination<{
   field?: "name" | "createdAt"
   sort?: "asc" | "desc"
 }>
+
+export type Image = {
+  sasToken: string;
+  name: string;
+  url: string;
+}
+
+export type CatalogItem = PropsWithTimestamps<{
+  id: string;
+  title: string;
+  caption?: string;
+  price?: number;
+  reference: number;
+  product: Product;
+  categories: Category[];
+  images: {
+    id: string;
+    url: string;
+    position: number;
+    createdAt: string;
+  }[];
+  isDisabled: boolean;
+  disabled?: string;
+}>

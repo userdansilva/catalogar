@@ -10,4 +10,8 @@ export const tags = {
     getAll: "products",
     getById: (id: string) => `products_${id}`,
   },
+  catalogItems: {
+    getAll: "catalogItems",
+    getById: (id: string) => `catalogItems_${id}`,
+  },
 };
