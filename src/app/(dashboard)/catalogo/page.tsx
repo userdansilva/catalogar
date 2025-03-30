@@ -1,3 +1,4 @@
+import { CatalogItems } from "@/components/catalogItems";
 import { Button } from "@/components/inputs/button";
 import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
 import { routes } from "@/routes";
@@ -37,7 +38,9 @@ export default async function Catalog(props: CatalogProps) {
 
         {/* key={query + currentPage} */}
         <Suspense key={currentPage} fallback={<span>Carregando...</span>}>
-          ...
+          <CatalogItems
+            currentPage={currentPage}
+          />
         </Suspense>
       </SectionContent>
     </Section>

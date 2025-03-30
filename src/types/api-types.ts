@@ -82,3 +82,8 @@ export type CatalogItem = PropsWithTimestamps<{
   isDisabled: boolean;
   disabled?: string;
 }>
+
+export type CatalogItemFilters = FiltersWithPagination<{
+  field?: "name" | "createdAt"
+  sort?: "asc" | "desc"
+}>

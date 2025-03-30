@@ -43,11 +43,11 @@ export function InputImages({
       const res = await executeAsync(formData);
 
       if (res?.data) {
-        onChange([{
+        onChange([...value, {
           name: res.data.name,
           position: value.length + 1,
           url: res.data.url,
-        }, ...value]);
+        }]);
       }
     }
   };
