@@ -75,6 +75,7 @@ export type CatalogItem = PropsWithTimestamps<{
   categories: Category[];
   images: {
     id: string;
+    name: string;
     url: string;
     position: number;
     createdAt: string;
