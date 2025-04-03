@@ -28,6 +28,10 @@ export const routes = {
     icon: House,
     url: "/",
   },
+  preview: {
+    title: "Preview",
+    url: "/preview",
+  },
   catalogItems: {
     title: "Catálogo",
     description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
