@@ -36,7 +36,7 @@ export function CatalogPagination(props: {
               <PaginationPrevious href={searchUrl(props.currentPage - 1)} />
             </PaginationItem>
 
-            {props.currentPage === totalPages && (
+            {props.currentPage === totalPages && totalPages > 2 && (
               <PaginationItem>
                 <PaginationLink href={searchUrl(props.currentPage - 2)}>
                   {props.currentPage - 2}
@@ -66,7 +66,7 @@ export function CatalogPagination(props: {
               </PaginationLink>
             </PaginationItem>
 
-            {props.currentPage === 1 && (
+            {props.currentPage === 1 && totalPages > 2 && (
               <PaginationItem>
                 <PaginationLink href={searchUrl(3)}>
                   3

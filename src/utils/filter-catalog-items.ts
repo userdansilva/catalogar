@@ -48,5 +48,8 @@ export function filterCatalogItems(
   const startIndex = (filters.currentPage - 1) * filters.perPage;
   const endIndex = startIndex + filters.perPage;
 
-  return result.slice(startIndex, endIndex);
+  return {
+    filteredCatalogItems: [...result].slice(startIndex, endIndex),
+    total: result.length,
+  };
 }

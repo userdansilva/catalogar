@@ -35,7 +35,7 @@ export default async function Preview(props: {
   const categorySlug = searchParams?.categoria || "";
   const currentPage = Number(searchParams?.p) || 1;
 
-  const filteredCatalogItems = filterCatalogItems(catalogItems, {
+  const { filteredCatalogItems, total } = filterCatalogItems(catalogItems, {
     query,
     productSlug,
     categorySlug,
@@ -67,9 +67,9 @@ export default async function Preview(props: {
         catalogItems={filteredCatalogItems}
       />
 
-      {filteredCatalogItems.length > ITEMS_PER_PAGE && (
+      {total > ITEMS_PER_PAGE && (
         <CatalogPagination
-          totalItems={filteredCatalogItems.length}
+          totalItems={total}
           itemsPerPage={ITEMS_PER_PAGE}
           currentPage={currentPage}
         />
