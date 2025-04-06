@@ -71,3 +71,10 @@ export const catalogItemSchema = z.object({
 export const imageSchema = zfd.formData({
   image: zfd.file(),
 });
+
+/**
+ * Catalog Filters
+ */
+export const queryFilterSchema = z.object({
+  query: z.string(),
+});

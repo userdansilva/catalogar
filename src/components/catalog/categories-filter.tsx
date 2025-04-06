@@ -1,25 +1,56 @@
+"use client";
+
 import { Button } from "@/shadcn/components/ui/button";
+import { cn } from "@/shadcn/lib/utils";
 import { Category } from "@/types/api-types";
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 
-type CategoriesFilterProps = {
-  categories: Category[];
-}
+export function CategoriesFilter(props: {
+  categories: Category[]
+  currentCategorySlug: string;
+}) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
-export function CategoriesFilter({
-  categories,
-}: CategoriesFilterProps) {
+  const searchUrl = (slug: string) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (params.get("page")) {
+      params.delete("page");
+    }
+
+    if (slug) {
+      params.set("categoria", slug);
+    } else {
+      params.delete("categoria");
+    }
+
+    return `${pathname}?${params.toString()}`;
+  };
+
   return (
     <div className="flex gap-2">
-      <Button asChild variant="ghost" className="underline underline-offset-2">
-        <Link href="/">
+      <Button
+        variant="ghost"
+        className={cn(!props.currentCategorySlug
+          && "underline underline-offset-2")}
+        asChild
+      >
+        <Link href={searchUrl("")}>
           Todos
         </Link>
       </Button>
 
-      {categories.map((category) => (
-        <Button asChild variant="ghost" key={category.id}>
-          <Link href="/">
+      {props.categories.map((category) => (
+        <Button
+          key={category.id}
+          variant="ghost"
+          className={cn(props.currentCategorySlug === category.slug
+            && "underline underline-offset-2")}
+          asChild
+        >
+          <Link href={searchUrl(category.slug)}>
             {category.name}
           </Link>
         </Button>
