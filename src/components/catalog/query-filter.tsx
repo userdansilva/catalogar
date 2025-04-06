@@ -27,8 +27,9 @@ export function QueryFilter(props: { currentQuery: string }) {
   const handleSubmit = (values: FormValues) => {
     const params = new URLSearchParams(searchParams);
 
-    if (params.get("page")) {
-      params.delete("page");
+    // Reset page
+    if (params.get("p")) {
+      params.delete("p");
     }
 
     if (values.query) {

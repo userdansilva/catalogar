@@ -15,8 +15,9 @@ export async function ProductsFilter(props: {
   const searchUrl = (slug: string) => {
     const params = new URLSearchParams(searchParams);
 
-    if (params.get("page")) {
-      params.delete("page");
+    // Reset page
+    if (params.get("p")) {
+      params.delete("p");
     }
 
     if (slug) {

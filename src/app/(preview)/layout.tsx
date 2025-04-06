@@ -18,7 +18,13 @@ export default function PreviewLayout({
         </div>
       </header>
 
-      {children}
+      <main>
+        {children}
+      </main>
+
+      <footer className="border-t py-10 text-center">
+        Footer
+      </footer>
     </div>
   );
 }
