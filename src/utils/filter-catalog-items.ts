@@ -45,11 +45,5 @@ export function filterCatalogItems(
     });
   }
 
-  const startIndex = (filters.currentPage - 1) * filters.perPage;
-  const endIndex = startIndex + filters.perPage;
-
-  return {
-    filteredCatalogItems: [...result].slice(startIndex, endIndex),
-    total: result.length,
-  };
+  return result;
 }

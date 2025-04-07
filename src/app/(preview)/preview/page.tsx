@@ -8,6 +8,7 @@ import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
 import { getProducts } from "@/services/get-products";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
+import { paginate } from "@/utils/paginate";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -35,10 +36,17 @@ export default async function Preview(props: {
   const categorySlug = searchParams?.categoria || "";
   const currentPage = Number(searchParams?.p) || 1;
 
-  const { filteredCatalogItems, total } = filterCatalogItems(catalogItems, {
+  const filteredCatalogItems = filterCatalogItems(catalogItems, {
     query,
     productSlug,
     categorySlug,
+    currentPage,
+    perPage: ITEMS_PER_PAGE,
+  });
+
+  const catalogItemsTotal = filteredCatalogItems.length;
+
+  const paginatedCatalogItems = paginate(filteredCatalogItems, {
     currentPage,
     perPage: ITEMS_PER_PAGE,
   });
@@ -64,12 +72,12 @@ export default async function Preview(props: {
       </div>
 
       <CatalogItems
-        catalogItems={filteredCatalogItems}
+        catalogItems={paginatedCatalogItems}
       />
 
-      {total > ITEMS_PER_PAGE && (
+      {catalogItemsTotal > ITEMS_PER_PAGE && (
         <CatalogPagination
-          totalItems={total}
+          totalItems={catalogItemsTotal}
           itemsPerPage={ITEMS_PER_PAGE}
           currentPage={currentPage}
         />
