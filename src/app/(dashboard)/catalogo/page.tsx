@@ -92,6 +92,7 @@ export default async function Catalog(props: {
 
           <CatalogItems
             catalogItems={paginatedCatalogItems}
+            withActions
           />
 
           {catalogItemsTotal > ITEMS_PER_PAGE && (

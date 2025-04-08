@@ -62,11 +62,13 @@ export default async function Preview(props: {
         </div>
 
         <ProductsFilter
+          mode="preview"
           products={products}
           currentProductSlug={productSlug}
         />
 
         <CategoriesFilter
+          mode="preview"
           categories={categories}
           currentCategorySlug={categorySlug}
         />

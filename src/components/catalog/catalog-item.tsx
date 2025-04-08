@@ -1,21 +1,25 @@
 "use client";
 
+import { routes } from "@/routes";
 import { Badge } from "@/shadcn/components/ui/badge";
+import { Button } from "@/shadcn/components/ui/button";
 import {
   Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious,
 } from "@/shadcn/components/ui/carousel";
 import { cn } from "@/shadcn/lib/utils";
 import { CatalogItem as CatalogItemType } from "@/types/api-types";
+import { Pencil, Trash } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-
-type CatalogItemProps = {
-  catalogItem: CatalogItemType;
-}
 
 export function CatalogItem({
   catalogItem,
-}: CatalogItemProps) {
+  withActions,
+}: {
+  catalogItem: CatalogItemType
+  withActions?: boolean
+}) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -105,6 +109,21 @@ export function CatalogItem({
           {`Código: ${catalogItem.reference}`}
         </div>
       </div>
+
+      {withActions && (
+        <div className="space-x-2">
+          <Button size="sm" variant="outline" asChild>
+            <Link href={routes.catalogItems.sub.edit.url(catalogItem.id)}>
+              <Pencil className="size-2" />
+              Editar
+            </Link>
+          </Button>
+
+          <Button size="sm" variant="outline">
+            <Trash className="size-2" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
