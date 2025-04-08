@@ -56,6 +56,7 @@ export default async function Preview(props: {
       <div className="flex flex-col items-center space-y-6">
         <div className="w-2/3">
           <QueryFilter
+            mode="preview"
             currentQuery={query}
           />
         </div>

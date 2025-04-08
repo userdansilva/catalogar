@@ -12,7 +12,13 @@ import { z } from "zod";
 
 type FormValues = z.infer<typeof queryFilterSchema>;
 
-export function QueryFilter(props: { currentQuery: string }) {
+export function QueryFilter({
+  currentQuery,
+  mode,
+}: {
+  currentQuery: string,
+  mode: "preview" | "dashboard"
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -20,14 +26,14 @@ export function QueryFilter(props: { currentQuery: string }) {
   const form = useForm<FormValues>({
     mode: "onChange",
     defaultValues: { query: "" },
-    values: { query: props.currentQuery },
+    values: { query: currentQuery },
     resolver: zodResolver(queryFilterSchema),
   });
 
   const handleSubmit = (values: FormValues) => {
     const params = new URLSearchParams(searchParams);
 
-    // Reset page
+    // Reset page filter
     if (params.get("p")) {
       params.delete("p");
     }
@@ -45,6 +51,37 @@ export function QueryFilter(props: { currentQuery: string }) {
     form.resetField("query");
     handleSubmit({ query: "" });
   };
+
+  if (mode === "dashboard") {
+    return (
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="flex items-center">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+
+            <FormField
+              name="query"
+              control={form.control}
+              disabled={form.formState.isSubmitting}
+              render={({ field }) => (
+                <Input
+                  placeholder="Buscar item..."
+                  className="rounded-r-none pl-12"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  {...field}
+                />
+              )}
+            />
+          </div>
+
+          <Button type="submit" className="rounded-l-none">
+            Buscar
+          </Button>
+        </form>
+      </Form>
+    );
+  }
 
   return (
     <Form {...form}>
@@ -66,7 +103,7 @@ export function QueryFilter(props: { currentQuery: string }) {
           )}
         />
 
-        {props.currentQuery && (
+        {currentQuery && (
           <Button
             type="button"
             variant="ghost"
