@@ -1,19 +1,17 @@
 import { CatalogItems } from "@/components/catalog/catalog-items";
-import { CatalogPagination } from "@/components/catalog/catalog-pagination";
+import CatalogItemsSkeleton from "@/components/catalog/catalog-items-skeleton";
 import { CategoriesFilter } from "@/components/catalog/categories-filter";
 import { ProductsFilter } from "@/components/catalog/products-filter";
 import { QueryFilter } from "@/components/catalog/query-filter";
 import { Button } from "@/components/inputs/button";
 import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
 import { routes } from "@/routes";
-import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
 import { getProducts } from "@/services/get-products";
-import { filterCatalogItems } from "@/utils/filter-catalog-items";
-import { paginate } from "@/utils/paginate";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: routes.catalogItems.title,
@@ -31,7 +29,6 @@ export default async function Catalog(props: {
 }) {
   const { data: products } = await getProducts();
   const { data: categories } = await getCategories();
-  const { data: catalogItems } = await getCatalogItems();
 
   const searchParams = await props.searchParams;
 
@@ -39,21 +36,6 @@ export default async function Catalog(props: {
   const productSlug = searchParams?.produto || "";
   const categorySlug = searchParams?.categoria || "";
   const currentPage = Number(searchParams?.p) || 1;
-
-  const filteredCatalogItems = filterCatalogItems(catalogItems, {
-    query,
-    productSlug,
-    categorySlug,
-    currentPage,
-    perPage: ITEMS_PER_PAGE,
-  });
-
-  const catalogItemsTotal = filteredCatalogItems.length;
-
-  const paginatedCatalogItems = paginate(filteredCatalogItems, {
-    currentPage,
-    perPage: ITEMS_PER_PAGE,
-  });
 
   return (
     <Section>
@@ -90,18 +72,19 @@ export default async function Catalog(props: {
             />
           </div>
 
-          <CatalogItems
-            catalogItems={paginatedCatalogItems}
-            withActions
-          />
-
-          {catalogItemsTotal > ITEMS_PER_PAGE && (
-            <CatalogPagination
-              totalItems={catalogItemsTotal}
-              itemsPerPage={ITEMS_PER_PAGE}
+          <Suspense
+            key={query + productSlug + categorySlug + currentPage}
+            fallback={<CatalogItemsSkeleton />}
+          >
+            <CatalogItems
+              query={query}
+              productSlug={productSlug}
+              categorySlug={categorySlug}
               currentPage={currentPage}
+              perPage={ITEMS_PER_PAGE}
+              withActions
             />
-          )}
+          </Suspense>
         </div>
       </SectionContent>
     </Section>

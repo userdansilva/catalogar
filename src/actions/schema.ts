@@ -15,7 +15,7 @@ export const catalogSchema = z.object({
  * Category
  */
 export const categorySchema = z.object({
-  id: z.string().optional(),
+  id: z.string().uuid().optional(),
   name: z.string().min(1, "Campo obrigatório"),
   slug: z.string().min(1, "Campo obrigatório"),
   textColor: z.string().min(1, "Campo obrigatório"),
@@ -25,7 +25,7 @@ export const categorySchema = z.object({
 });
 
 export const categoryStatusToggleSchema = z.object({
-  id: z.string(),
+  id: z.string().uuid(),
   redirectTo: z.string().optional(),
 });
 
@@ -33,7 +33,7 @@ export const categoryStatusToggleSchema = z.object({
  * Product
  */
 export const productSchema = z.object({
-  id: z.string().optional(),
+  id: z.string().uuid().optional(),
   name: z.string().min(1, "Campo obrigatório"),
   slug: z.string().min(1, "Campo obrigatório"),
   isDisabled: z.boolean(),
@@ -41,7 +41,7 @@ export const productSchema = z.object({
 });
 
 export const productStatusToggleSchema = z.object({
-  id: z.string(),
+  id: z.string().uuid(),
   redirectTo: z.string().optional(),
 });
 
@@ -49,18 +49,18 @@ export const productStatusToggleSchema = z.object({
  * Catalog Item
  */
 export const catalogItemSchema = z.object({
-  id: z.string().optional(),
+  id: z.string().uuid().optional(),
 
   title: z.string().min(1, "Campo obrigatório"),
   caption: z.string().optional(),
-  productId: z.string().min(1, "Campo obrigatório"),
+  productId: z.string().min(1, "Campo obrigatório").uuid(),
   images: z.array(z.object({
     name: z.string(),
     position: z.number(),
     url: z.string(),
   })).min(1, "É necessário adicionar, no mínimo, uma imagem"),
   price: z.string().optional(),
-  categoryIds: z.array(z.string()).optional(),
+  categoryIds: z.array(z.string().uuid()).optional(),
   isDisabled: z.boolean(),
   redirectTo: z.string().optional(),
 });
@@ -77,4 +77,12 @@ export const imageSchema = zfd.formData({
  */
 export const queryFilterSchema = z.object({
   query: z.string(),
+});
+
+/**
+ * Common
+ */
+export const deleteSchema = z.object({
+  id: z.string().uuid(),
+  redirectTo: z.string().optional(),
 });

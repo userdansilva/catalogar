@@ -1,6 +1,17 @@
 "use client";
 
+import { deleteCatalogItemAction } from "@/actions/delete-catalog-item-action";
 import { routes } from "@/routes";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/shadcn/components/ui/alert-dialog";
 import { Badge } from "@/shadcn/components/ui/badge";
 import { Button } from "@/shadcn/components/ui/button";
 import {
@@ -9,9 +20,11 @@ import {
 import { cn } from "@/shadcn/lib/utils";
 import { CatalogItem as CatalogItemType } from "@/types/api-types";
 import { Pencil, Trash } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export function CatalogItem({
   catalogItem,
@@ -20,6 +33,8 @@ export function CatalogItem({
   catalogItem: CatalogItemType
   withActions?: boolean
 }) {
+  const { executeAsync } = useAction(deleteCatalogItemAction);
+
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -36,6 +51,13 @@ export function CatalogItem({
   }, [api]);
 
   const isMultiple = catalogItem.images.length > 1;
+
+  const handleRemove = () => toast.promise(async () => {
+    await executeAsync({ id: catalogItem.id });
+  }, {
+    loading: "Removendo item de catálogo...",
+    success: "Item de catálogo removido com sucesso!",
+  });
 
   return (
     <div className="space-y-2">
@@ -119,9 +141,27 @@ export function CatalogItem({
             </Link>
           </Button>
 
-          <Button size="sm" variant="outline">
-            <Trash className="size-2" />
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button size="sm" variant="outline">
+                <Trash className="size-2" />
+              </Button>
+            </AlertDialogTrigger>
+
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Tem certeza que quer remover esse item?
+                </AlertDialogTitle>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction onClick={handleRemove}>
+                  Sim! Quero remover
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       )}
     </div>
