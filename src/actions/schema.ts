@@ -65,6 +65,11 @@ export const catalogItemSchema = z.object({
   redirectTo: z.string().optional(),
 });
 
+export const catalogItemStatusToggleSchema = z.object({
+  id: z.string().uuid(),
+  redirectTo: z.string().optional(),
+});
+
 /**
  * Images
  */

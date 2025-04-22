@@ -1,12 +1,14 @@
 "use client";
 
 import { deleteCatalogItemAction } from "@/actions/delete-catalog-item-action";
+import { toggleCatalogItemStatusAction } from "@/actions/toggle-catalog-item-status-action";
 import { routes } from "@/routes";
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -19,7 +21,9 @@ import {
 } from "@/shadcn/components/ui/carousel";
 import { cn } from "@/shadcn/lib/utils";
 import { CatalogItem as CatalogItemType } from "@/types/api-types";
-import { Pencil, Trash } from "lucide-react";
+import {
+  Archive, ChevronsUp, Pencil, Trash,
+} from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,7 +37,13 @@ export function CatalogItem({
   catalogItem: CatalogItemType
   withActions?: boolean
 }) {
-  const { executeAsync } = useAction(deleteCatalogItemAction);
+  const {
+    executeAsync: executeToggleStatusAsync,
+  } = useAction(toggleCatalogItemStatusAction);
+
+  const {
+    executeAsync: executeDeleteAsync,
+  } = useAction(deleteCatalogItemAction);
 
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -52,15 +62,22 @@ export function CatalogItem({
 
   const isMultiple = catalogItem.images.length > 1;
 
+  const handleToggleStatus = () => toast.promise(async () => {
+    await executeToggleStatusAsync({ id: catalogItem.id });
+  }, {
+    loading: `${catalogItem.isDisabled ? "Ativando" : "Arquivando"}  item de catálogo...`,
+    success: `Item de catálogo ${catalogItem.isDisabled ? "ativado" : "arquivado"} com sucesso!`,
+  });
+
   const handleRemove = () => toast.promise(async () => {
-    await executeAsync({ id: catalogItem.id });
+    await executeDeleteAsync({ id: catalogItem.id });
   }, {
     loading: "Removendo item de catálogo...",
     success: "Item de catálogo removido com sucesso!",
   });
 
   return (
-    <div className="space-y-2">
+    <div className={cn("space-y-2", catalogItem.isDisabled && "opacity-60")}>
       <Carousel className="group w-full overflow-hidden rounded-md bg-background" setApi={setApi}>
         <CarouselContent>
           {catalogItem.images.map((image) => (
@@ -121,7 +138,11 @@ export function CatalogItem({
       </div>
 
       <div>
-        <div className="text-base font-semibold">
+        <div className={cn(
+          "text-base font-semibold",
+          catalogItem.isDisabled && "line-through",
+        )}
+        >
           {catalogItem.title}
         </div>
         <div className="text-sm text-muted-foreground">
@@ -142,6 +163,43 @@ export function CatalogItem({
           </Button>
 
           <AlertDialog>
+            {catalogItem.isDisabled ? (
+              <Button size="sm" variant="outline" onClick={handleToggleStatus}>
+                <ChevronsUp className="size-2" />
+              </Button>
+            ) : (
+              <AlertDialogTrigger asChild>
+                <Button size="sm" variant="outline">
+                  <Archive className="size-2" />
+                </Button>
+              </AlertDialogTrigger>
+            )}
+
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Tem certeza que quer arquivar esse item?
+                </AlertDialogTitle>
+              </AlertDialogHeader>
+              <AlertDialogDescription>
+                Ao arquivar o item ele será ocultado do seu catálogo.
+                Você pode reativar a qualquer momento clicando em
+                {" "}
+                <div className="inline rounded-sm border p-2">
+                  <ChevronsUp className="inline size-4" />
+                </div>
+                {" ."}
+              </AlertDialogDescription>
+              <AlertDialogFooter className="mt-6">
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction onClick={handleToggleStatus}>
+                  Sim! Quero arquivar
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
+          <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button size="sm" variant="outline">
                 <Trash className="size-2" />
@@ -153,8 +211,39 @@ export function CatalogItem({
                 <AlertDialogTitle>
                   Tem certeza que quer remover esse item?
                 </AlertDialogTitle>
+                <AlertDialogDescription>
+                  Essa ação não poderá ser desfeita. Caso queira apenas
+                  {" "}
+                  <span className="font-bold">
+                    ocultar
+                  </span>
+                  {" "}
+                  esse item você pode
+                  {" "}
+                  <span className="font-bold">
+                    arquivar
+                  </span>
+                  .
+                </AlertDialogDescription>
+                <AlertDialogTitle className="text-base">
+                  Como arquivar esse item?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  Clique em
+                  {" "}
+                  <span className="rounded-sm border p-2 text-xs">
+                    Cancelar
+                  </span>
+                  {" "}
+                  e depois no botão
+                  {" "}
+                  <div className="inline rounded-sm border p-2">
+                    <Archive className="inline size-4" />
+                  </div>
+                  {" ."}
+                </AlertDialogDescription>
               </AlertDialogHeader>
-              <AlertDialogFooter>
+              <AlertDialogFooter className="mt-6">
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <AlertDialogAction onClick={handleRemove}>
                   Sim! Quero remover

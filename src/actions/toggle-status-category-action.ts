@@ -14,7 +14,7 @@ import { categoryStatusToggleSchema } from "./schema";
 export const toggleCategoryStatusAction = authActionClient
   .schema(categoryStatusToggleSchema)
   .metadata({
-    actionName: "switch-category-enable",
+    actionName: "toggle-status-category",
   })
   .action(async ({
     parsedInput: {
