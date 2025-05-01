@@ -105,8 +105,8 @@ export const columns: ColumnDef<Category>[] = [
         executeAsync: executeDeleteAsync,
       } = useAction(deleteCategoryAction);
 
-      const handleToggleStatus = (categoryId: string) => toast.promise(async () => {
-        await executeToggleStatusAsync({ id: categoryId });
+      const handleToggleStatus = () => toast.promise(async () => {
+        await executeToggleStatusAsync({ id });
       }, {
         loading: "Alterando status...",
         success: "Status atualizado!",
@@ -115,8 +115,8 @@ export const columns: ColumnDef<Category>[] = [
       const handleRemove = () => toast.promise(async () => {
         await executeDeleteAsync({ id });
       }, {
-        loading: "Removendo item de catálogo...",
-        success: "Item de catálogo removido com sucesso!",
+        loading: "Removendo categoria...",
+        success: "Categoria removida com sucesso!",
       });
 
       return (
@@ -169,7 +169,7 @@ export const columns: ColumnDef<Category>[] = [
                     </AlertDialogCancel>
 
                     <AlertDialogAction asChild>
-                      <Button variant="ghost" onClick={() => handleToggleStatus(id)}>
+                      <Button variant="ghost" onClick={handleToggleStatus}>
                         Sim! Quero desativar
                       </Button>
                     </AlertDialogAction>
@@ -177,7 +177,7 @@ export const columns: ColumnDef<Category>[] = [
                 </AlertDialogContent>
               </AlertDialog>
             ) : (
-              <DropdownMenuItem className="cursor-pointer" onClick={() => handleToggleStatus(id)}>
+              <DropdownMenuItem className="cursor-pointer" onClick={handleToggleStatus}>
                 <ArrowBigUpDash className="mr-2 size-4 animate-bounce" />
                 Ativar
               </DropdownMenuItem>
@@ -237,7 +237,7 @@ export const columns: ColumnDef<Category>[] = [
                   </AlertDialogCancel>
 
                   <AlertDialogAction asChild>
-                    <Button variant="ghost" onClick={() => handleRemove()}>
+                    <Button variant="ghost" onClick={handleRemove}>
                       Sim! Quero remover
                     </Button>
                   </AlertDialogAction>

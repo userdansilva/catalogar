@@ -22,8 +22,28 @@ import {
 } from "@/shadcn/components/ui/dropdown-menu";
 import { Button } from "@/shadcn/components/ui/button";
 import { routes } from "@/routes";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/shadcn/components/ui/alert-dialog";
 import { Product } from "@/types/api-types";
 import { toggleProductStatusAction } from "@/actions/toggle-status-product-action";
+import { deleteProductAction } from "@/actions/delete-product-action";
+import {
+  Form, FormControl, FormField, FormItem, FormMessage,
+} from "@/shadcn/components/ui/form";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/shadcn/components/ui/input";
+import { useState } from "react";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -68,17 +88,47 @@ export const columns: ColumnDef<Product>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { executeAsync } = useAction(toggleProductStatusAction);
+      const { id } = row.original;
+      const isDisabled = row.getValue("isDisabled");
 
-      const toggleStatus = (productId: string) => toast.promise(async () => {
-        await executeAsync({ id: productId });
+      const schema = z.object({
+        confirm: z.string()
+          .min(1, "Campo obrigatório")
+          .refine((val) => val === "REMOVER", {
+            message: "Digite REMOVER para confirmar.",
+          }),
+      });
+
+      const [open, setOpen] = useState(false);
+
+      const form = useForm<z.infer<typeof schema>>({
+        resolver: zodResolver(schema),
+        defaultValues: {
+          confirm: "" as "REMOVER",
+        },
+      });
+
+      const {
+        executeAsync: executeToggleStatusAsync,
+      } = useAction(toggleProductStatusAction);
+
+      const {
+        executeAsync: executeDeleteAsync,
+      } = useAction(deleteProductAction);
+
+      const handleToggleStatus = () => toast.promise(async () => {
+        await executeToggleStatusAsync({ id });
       }, {
         loading: "Alterando status...",
         success: "Status atualizado!",
       });
 
-      const { id } = row.original;
-      const isDisabled = row.getValue("isDisabled");
+      const handleRemove = () => toast.promise(async () => {
+        await executeDeleteAsync({ id });
+      }, {
+        loading: "Removendo produto...",
+        success: "Producto removido com sucesso!",
+      });
 
       return (
         <DropdownMenu>
@@ -103,34 +153,150 @@ export const columns: ColumnDef<Product>[] = [
               </Link>
             </DropdownMenuItem>
 
-            <DropdownMenuItem asChild className="cursor-pointer">
-              {!isDisabled ? (
-                <Link
-                  href={routes.products.sub.disable.url(id)}
-                  className="cursor-pointer"
-                >
-                  <Archive className="mr-2 size-4" />
-                  Desativar
-                </Link>
-              ) : (
-                <button className="w-full" onClick={() => toggleStatus(id)} type="button">
-                  <ArrowBigUpDash className="mr-2 size-4 animate-bounce" />
-                  Ativar
-                </button>
-              )}
-            </DropdownMenuItem>
+            {!isDisabled ? (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
+                    <Archive className="mr-2 size-4" />
+                    Desativar
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete your
+                      account and remove your data from our servers.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+
+                  <AlertDialogFooter>
+                    <AlertDialogCancel asChild>
+                      <Button variant="secondary">Cancelar</Button>
+                    </AlertDialogCancel>
+
+                    <AlertDialogAction asChild>
+                      <Button variant="ghost" onClick={handleToggleStatus}>
+                        Sim! Quero desativar
+                      </Button>
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            ) : (
+              <DropdownMenuItem className="cursor-pointer" onClick={handleToggleStatus}>
+                <ArrowBigUpDash className="mr-2 size-4 animate-bounce" />
+                Ativar
+              </DropdownMenuItem>
+            )}
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem
-              asChild
-              className="cursor-pointer"
-            >
-              <Link href={routes.products.sub.delete.url(id)}>
-                <Trash className="mr-2 size-4" />
-                Excluir
-              </Link>
-            </DropdownMenuItem>
+            <AlertDialog open={open} onOpenChange={setOpen}>
+              <Form {...form}>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
+                    <Trash className="mr-2 size-4" />
+                    Excluir
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Tem certeza que quer remover esse produto?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Essa ação não poderá ser desfeita e
+                      {" "}
+                      <span className="font-bold uppercase text-destructive">
+                        vai remover todos os itens de
+                        catálogo vinculados a esse produto
+                      </span>
+                      {". "}
+                      Caso queira apenas
+                      {" "}
+                      <span className="font-bold">
+                        ocultar
+                      </span>
+                      {" "}
+                      os itens de catálogo vinculados a esse produto
+                      você pode
+                      {" "}
+                      <span className="font-bold">
+                        desativar
+                      </span>
+                      esse produto.
+                    </AlertDialogDescription>
+                    <AlertDialogTitle className="text-base">
+                      Como desativar esse produto?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Clique em
+                      {" "}
+                      <span className="rounded-sm border p-2 text-xs">
+                        Cancelar
+                      </span>
+                      {" "}
+                      e depois no botão
+                      {" "}
+                      <span className="inline rounded-sm border p-2">
+                        <Archive className="inline size-4" />
+                      </span>
+                      {" ."}
+                    </AlertDialogDescription>
+
+                    <AlertDialogTitle className="text-base">
+                      Quer seguir com a remoção?
+                    </AlertDialogTitle>
+
+                    <AlertDialogDescription className="mb-3">
+                      Digite REMOVER abaixo e clique em &quot;Sim! Quero remover&quot;
+                    </AlertDialogDescription>
+
+                    <FormField
+                      name="confirm"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="Digite REMOVER"
+                              autoComplete="off"
+                              autoCorrect="off"
+                              spellCheck="false"
+                              {...field}
+                            />
+                          </FormControl>
+
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </AlertDialogHeader>
+
+                  <AlertDialogFooter className="mt-6">
+                    <AlertDialogCancel asChild>
+                      <Button variant="secondary">Cancelar</Button>
+                    </AlertDialogCancel>
+
+                    <Button
+                      variant="destructive"
+                      onClick={form.handleSubmit(() => {
+                        handleRemove();
+                        setOpen(false);
+                      })}
+                    >
+                      Sim! Quero remover
+                    </Button>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </Form>
+            </AlertDialog>
           </DropdownMenuContent>
         </DropdownMenu>
       );
