@@ -13,5 +13,6 @@ export const tags = {
   catalogItems: {
     getAll: "catalogItems",
     getById: (id: string) => `catalogItems_${id}`,
+    getByIdAny: "catalogItems_any",
   },
 };

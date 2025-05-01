@@ -2,6 +2,7 @@
 
 "use client";
 
+import { deleteCategoryAction } from "@/actions/delete-category-action";
 import { toggleCategoryStatusAction } from "@/actions/toggle-status-category-action";
 import { routes } from "@/routes";
 import {
@@ -93,95 +94,158 @@ export const columns: ColumnDef<Category>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { executeAsync } = useAction(toggleCategoryStatusAction);
+      const { id } = row.original;
+      const isDisabled = row.getValue("isDisabled");
 
-      const toggleStatus = (categoryId: string) => toast.promise(async () => {
-        await executeAsync({ id: categoryId });
+      const {
+        executeAsync: executeToggleStatusAsync,
+      } = useAction(toggleCategoryStatusAction);
+
+      const {
+        executeAsync: executeDeleteAsync,
+      } = useAction(deleteCategoryAction);
+
+      const handleToggleStatus = (categoryId: string) => toast.promise(async () => {
+        await executeToggleStatusAsync({ id: categoryId });
       }, {
         loading: "Alterando status...",
         success: "Status atualizado!",
       });
 
-      const { id } = row.original;
-      const isDisabled = row.getValue("isDisabled");
+      const handleRemove = () => toast.promise(async () => {
+        await executeDeleteAsync({ id });
+      }, {
+        loading: "Removendo item de catálogo...",
+        success: "Item de catálogo removido com sucesso!",
+      });
 
       return (
-        <AlertDialog>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <EllipsisVertical className="size-4" />
-              </Button>
-            </DropdownMenuTrigger>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <EllipsisVertical className="size-4" />
+            </Button>
+          </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>
-                Ações
-              </DropdownMenuLabel>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>
+              Ações
+            </DropdownMenuLabel>
 
-              <DropdownMenuItem asChild>
-                <Link
-                  href={routes.categories.sub.edit.url(id)}
-                  className="cursor-pointer"
-                >
-                  <Pencil className="mr-2 size-4" />
-                  Editar
-                </Link>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild className="cursor-pointer">
-                {!isDisabled ? (
-                  <AlertDialogTrigger>
-                    <Archive className="mr-2 size-4" />
-                    Desativar
-                  </AlertDialogTrigger>
-                ) : (
-                  <button className="w-full" onClick={() => toggleStatus(id)} type="button">
-                    <ArrowBigUpDash className="mr-2 size-4 animate-bounce" />
-                    Ativar
-                  </button>
-                )}
-              </DropdownMenuItem>
-
-              <DropdownMenuSeparator />
-
-              <DropdownMenuItem
-                asChild
+            <DropdownMenuItem asChild>
+              <Link
+                href={routes.categories.sub.edit.url(id)}
                 className="cursor-pointer"
               >
-                <Link href={routes.categories.sub.delete.url(id)}>
+                <Pencil className="mr-2 size-4" />
+                Editar
+              </Link>
+            </DropdownMenuItem>
+
+            {!isDisabled ? (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
+                    <Archive className="mr-2 size-4" />
+                    Desativar
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete your
+                      account and remove your data from our servers.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+
+                  <AlertDialogFooter>
+                    <AlertDialogCancel asChild>
+                      <Button variant="secondary">Cancelar</Button>
+                    </AlertDialogCancel>
+
+                    <AlertDialogAction asChild>
+                      <Button variant="ghost" onClick={() => handleToggleStatus(id)}>
+                        Sim! Quero desativar
+                      </Button>
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            ) : (
+              <DropdownMenuItem className="cursor-pointer" onClick={() => handleToggleStatus(id)}>
+                <ArrowBigUpDash className="mr-2 size-4 animate-bounce" />
+                Ativar
+              </DropdownMenuItem>
+            )}
+
+            <DropdownMenuSeparator />
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
                   <Trash className="mr-2 size-4" />
                   Excluir
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
 
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                Are you absolutely sure?
-              </AlertDialogTitle>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Tem certeza que quer remover essa categoria?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Essa ação não poderá ser desfeita. Caso queira apenas
+                    {" "}
+                    <span className="font-bold">
+                      ocultar
+                    </span>
+                    {" "}
+                    essa categoria dos filtros em seu catálogo você pode
+                    {" "}
+                    <span className="font-bold">
+                      desativar
+                    </span>
+                    .
+                  </AlertDialogDescription>
+                  <AlertDialogTitle className="text-base">
+                    Como desativar esse item?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Clique em
+                    {" "}
+                    <span className="rounded-sm border p-2 text-xs">
+                      Cancelar
+                    </span>
+                    {" "}
+                    e depois no botão
+                    {" "}
+                    <div className="inline rounded-sm border p-2">
+                      <Archive className="inline size-4" />
+                    </div>
+                    {" ."}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
 
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
+                <AlertDialogFooter className="mt-6">
+                  <AlertDialogCancel asChild>
+                    <Button variant="secondary">Cancelar</Button>
+                  </AlertDialogCancel>
 
-            <AlertDialogFooter>
-              <AlertDialogCancel asChild>
-                <Button variant="secondary">Cancelar</Button>
-              </AlertDialogCancel>
-
-              <AlertDialogAction asChild>
-                <Button variant="ghost" onClick={() => toggleStatus(id)}>
-                  Sim! Quero desativar
-                </Button>
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+                  <AlertDialogAction asChild>
+                    <Button variant="ghost" onClick={() => handleRemove()}>
+                      Sim! Quero remover
+                    </Button>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
   },
