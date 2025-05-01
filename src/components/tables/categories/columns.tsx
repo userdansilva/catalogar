@@ -237,7 +237,7 @@ export const columns: ColumnDef<Category>[] = [
                   </AlertDialogCancel>
 
                   <AlertDialogAction asChild>
-                    <Button variant="ghost" onClick={handleRemove}>
+                    <Button variant="destructive" onClick={handleRemove}>
                       Sim! Quero remover
                     </Button>
                   </AlertDialogAction>
