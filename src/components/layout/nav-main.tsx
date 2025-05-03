@@ -16,6 +16,10 @@ const groups = [
     name: "Menu",
     items: [
       {
+        ...routes.preview,
+        isActive: false,
+      },
+      {
         ...routes.dashboard,
         isActive: true,
       },

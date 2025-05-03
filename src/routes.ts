@@ -1,5 +1,5 @@
 import {
-  Book, Building2, Filter, House, List, Palette, Settings,
+  Book, Building2, Filter, House, List, Palette, PanelsTopLeft, Settings,
 } from "lucide-react";
 
 export const routes = {
@@ -30,6 +30,7 @@ export const routes = {
   },
   preview: {
     title: "Preview",
+    icon: PanelsTopLeft,
     url: "/preview",
   },
   catalogItems: {
