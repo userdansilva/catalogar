@@ -96,6 +96,7 @@ export function InputImages({
               width={128}
               height={128}
               className="rounded-sm"
+              unoptimized
             />
           </div>
         ))}
