@@ -87,7 +87,10 @@ export function CategoriesFilter({
                     asChild
                     className="cursor-pointer"
                   >
-                    <Link href={searchUrl(category.slug)}>
+                    <Link
+                      href={searchUrl(category.slug)}
+                      className={cn(category.isDisabled && "line-through")}
+                    >
                       {category.name}
                       <Check
                         className={cn(
@@ -106,6 +109,10 @@ export function CategoriesFilter({
     );
   }
 
+  if (categories.filter((category) => !category.isDisabled).length === 0) {
+    return null;
+  }
+
   return (
     <div className="flex gap-2">
       <Button
@@ -119,19 +126,21 @@ export function CategoriesFilter({
         </Link>
       </Button>
 
-      {categories.map((category) => (
-        <Button
-          key={category.id}
-          variant="ghost"
-          className={cn(currentCategorySlug === category.slug
-            && "underline underline-offset-2")}
-          asChild
-        >
-          <Link href={searchUrl(category.slug)}>
-            {category.name}
-          </Link>
-        </Button>
-      ))}
+      {categories
+        .filter((category) => !category.isDisabled)
+        .map((category) => (
+          <Button
+            key={category.id}
+            variant="ghost"
+            className={cn(currentCategorySlug === category.slug
+              && "underline underline-offset-2")}
+            asChild
+          >
+            <Link href={searchUrl(category.slug)}>
+              {category.name}
+            </Link>
+          </Button>
+        ))}
     </div>
   );
 }

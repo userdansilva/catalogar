@@ -11,6 +11,7 @@ export async function CatalogItems({
   currentPage,
   perPage,
   withActions,
+  hideIfProductIsDisabled,
 }: {
   query: string
   productSlug: string
@@ -18,6 +19,7 @@ export async function CatalogItems({
   currentPage: number
   perPage: number
   withActions?: boolean
+  hideIfProductIsDisabled?: boolean
 }) {
   const { data: catalogItems } = await getCatalogItems();
 
@@ -27,6 +29,8 @@ export async function CatalogItems({
     categorySlug,
     currentPage,
     perPage,
+  }, {
+    hideIfProductIsDisabled,
   });
 
   const catalogItemsTotal = filteredCatalogItems.length;

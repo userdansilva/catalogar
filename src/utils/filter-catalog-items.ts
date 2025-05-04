@@ -10,6 +10,9 @@ export function filterCatalogItems(
     currentPage: number
     perPage: number
   },
+  config: {
+    hideIfProductIsDisabled?: boolean
+  } = {},
 ) {
   let result = [...catalogItems];
 
@@ -27,23 +30,25 @@ export function filterCatalogItems(
       .map((_) => _.item);
   }
 
-  if (filters.productSlug || filters.categorySlug) {
-    result = result.filter((catalogItem) => {
-      const isProductMatch = filters.productSlug
-        ? catalogItem.product.slug === filters.productSlug
-        : true;
+  return result.filter((catalogItem) => {
+    const isProductMatch = filters.productSlug
+      ? catalogItem.product.slug === filters.productSlug
+      : true;
 
-      const isCategoryMatch = filters.categorySlug
-        ? catalogItem.categories
-          .some((category) => category.slug === filters.categorySlug)
-        : true;
+    const isCategoryMatch = filters.categorySlug
+      ? catalogItem.categories
+        .some((category) => category.slug === filters.categorySlug)
+      : true;
 
-      if (filters.productSlug && !filters.categorySlug) return isProductMatch;
-      if (!filters.productSlug && filters.categorySlug) return isCategoryMatch;
+    const isProductEnabled = config.hideIfProductIsDisabled
+      ? !catalogItem.product.isDisabled
+      : true;
 
-      return isProductMatch && isCategoryMatch;
-    });
-  }
+    if (!isProductEnabled) return false;
 
-  return result;
+    if (filters.productSlug && !filters.categorySlug) return isProductMatch;
+    if (!filters.productSlug && filters.categorySlug) return isCategoryMatch;
+
+    return isProductMatch && isCategoryMatch;
+  });
 }

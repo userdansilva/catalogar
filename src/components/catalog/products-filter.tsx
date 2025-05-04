@@ -87,7 +87,10 @@ export function ProductsFilter({
                     asChild
                     className="cursor-pointer"
                   >
-                    <Link href={searchUrl(product.slug)}>
+                    <Link
+                      href={searchUrl(product.slug)}
+                      className={cn(product.isDisabled && "line-through")}
+                    >
                       {product.name}
                       <Check
                         className={cn(
@@ -106,6 +109,10 @@ export function ProductsFilter({
     );
   }
 
+  if (products.filter((product) => !product.isDisabled).length === 0) {
+    return null;
+  }
+
   return (
     <div className="flex items-center space-x-2">
       <div className="text-sm text-muted-foreground">Produtos</div>
@@ -122,24 +129,26 @@ export function ProductsFilter({
           </Link>
         </Button>
 
-        {products.map((product) => {
-          const isSelected = currentProductSlug === product.slug;
+        {products
+          .filter((product) => !product.isDisabled)
+          .map((product) => {
+            const isSelected = currentProductSlug === product.slug;
 
-          return (
-            <Button
-              key={product.id}
-              variant={isSelected
-                ? "default"
-                : "outline"}
-              size="sm"
-              asChild
-            >
-              <Link href={searchUrl(product.slug)}>
-                {product.name}
-              </Link>
-            </Button>
-          );
-        })}
+            return (
+              <Button
+                key={product.id}
+                variant={isSelected
+                  ? "default"
+                  : "outline"}
+                size="sm"
+                asChild
+              >
+                <Link href={searchUrl(product.slug)}>
+                  {product.name}
+                </Link>
+              </Button>
+            );
+          })}
       </div>
     </div>
   );

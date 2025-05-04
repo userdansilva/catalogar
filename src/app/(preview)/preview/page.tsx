@@ -66,6 +66,7 @@ export default async function Preview(props: {
           categorySlug={categorySlug}
           currentPage={currentPage}
           perPage={ITEMS_PER_PAGE}
+          hideIfProductIsDisabled
         />
       </Suspense>
     </div>
