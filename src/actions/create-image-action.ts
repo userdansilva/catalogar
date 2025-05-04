@@ -25,7 +25,7 @@ export const createImageAction = authActionClient
       const buffer = Buffer.from(arrayBuffer);
       const fileName = path.parse(image.name).name;
 
-      const { data } = await api.get<ApiResponse<Image>>(`/v1/images/generate-sas-token?fileName=${fileName}.webp`, {
+      const { data } = await api.get<ApiResponse<Image>>(`/v1/storage/generate-sas-token?fileName=${fileName}.webp`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
