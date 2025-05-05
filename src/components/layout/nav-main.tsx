@@ -13,12 +13,8 @@ import Link from "next/link";
 
 const groups = [
   {
-    name: "Menu",
+    name: "Menus",
     items: [
-      {
-        ...routes.preview,
-        isActive: false,
-      },
       {
         ...routes.dashboard,
         isActive: true,
@@ -40,6 +36,10 @@ const groups = [
   {
     name: "Personalização",
     items: [
+      {
+        ...routes.preview,
+        isActive: false,
+      },
       {
         ...routes.company,
         isActive: false,

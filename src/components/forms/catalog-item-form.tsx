@@ -97,7 +97,7 @@ export function CatalogItemForm({
               </FormControl>
 
               <FormDescription>
-                Dica: Aproveite para incluir palavras-chave que ajudem
+                Aproveite para incluir palavras-chave que ajudem
                 seus clientes a encontrar esse item mais facilmente na busca.
               </FormDescription>
 

@@ -41,7 +41,7 @@ export function CatalogForm({
 
               <FormControl>
                 <Input
-                  placeholder="Ex: Meu Catálogo"
+                  placeholder="Ex.: Meu Catálogo"
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"

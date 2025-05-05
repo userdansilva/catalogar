@@ -3,14 +3,35 @@ type PropsWithTimestamps<T> = T & {
   updatedAt: string
 }
 
+export type Company = PropsWithTimestamps<{
+  name: string
+  description: string
+  mainSiteUrl: string
+  phoneNumber: string
+  businessTypeDescription: string
+}>
+
+export type Logo = PropsWithTimestamps<{
+  name: string
+  url: string
+  width: number
+  height: number
+}>
+
+export type Theme = PropsWithTimestamps<{
+  primaryColor: string
+  secondaryColor: string
+  logo?: Logo
+}>
+
 export type Catalog = PropsWithTimestamps<{
   id: string
   name: string
   slug: string
   publishedAt?: string
   isPublished: boolean
-  company: null
-  theme: null
+  company?: Company
+  theme?: Theme
 }>
 
 export type User = PropsWithTimestamps<{
