@@ -12,7 +12,7 @@ export const catalogSchema = z.object({
 });
 
 /**
- * Comapany
+ * Company
  */
 export const companySchema = z.object({
   name: z.string().min(1, "Campo obrigatório"),
@@ -25,6 +25,21 @@ export const companySchema = z.object({
   ]),
   phoneNumber: z.string().optional(),
   businessTypeDescription: z.string().optional(),
+  redirectTo: z.string().optional(),
+});
+
+/**
+ * Theme
+ */
+export const themeSchema = z.object({
+  primaryColor: z.string().min(1, "Campo obrigatório"),
+  secondaryColor: z.string().min(1, "Campo obrigatório"),
+  logo: z.object({
+    name: z.string(),
+    width: z.number().positive(),
+    height: z.number().positive(),
+    url: z.string(),
+  }).optional(),
   redirectTo: z.string().optional(),
 });
 

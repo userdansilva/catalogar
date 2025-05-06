@@ -12,6 +12,7 @@ export type Company = PropsWithTimestamps<{
 }>
 
 export type Logo = PropsWithTimestamps<{
+  id: string
   name: string
   url: string
   width: number
@@ -80,29 +81,31 @@ export type ProductFilters = FiltersWithPagination<{
   sort?: "asc" | "desc"
 }>
 
+export type StorageSasToken = {
+  sasToken: string
+  name: string
+  url: string
+}
+
 export type Image = {
-  sasToken: string;
-  name: string;
-  url: string;
+  id: string
+  name: string
+  url: string
+  position: number
+  createdAt: string
 }
 
 export type CatalogItem = PropsWithTimestamps<{
-  id: string;
-  title: string;
-  caption?: string;
-  price?: number;
-  reference: number;
-  product: Product;
-  categories: Category[];
-  images: {
-    id: string;
-    name: string;
-    url: string;
-    position: number;
-    createdAt: string;
-  }[];
-  isDisabled: boolean;
-  disabled?: string;
+  id: string
+  title: string
+  caption?: string
+  price?: number
+  reference: number
+  product: Product
+  categories: Category[]
+  images: Image[]
+  isDisabled: boolean
+  disabled?: string
 }>
 
 export type CatalogItemFilters = FiltersWithPagination<{

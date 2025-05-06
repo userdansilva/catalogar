@@ -11,10 +11,10 @@ import { returnValidationErrorsIfExists } from "./return-validation-errors-if-ex
 import { authActionClient } from "./safe-action";
 import { imageSchema } from "./schema";
 
-export const createImageAction = authActionClient
+export const createLogoAction = authActionClient
   .schema(imageSchema)
   .metadata({
-    actionName: "create-image",
+    actionName: "create-logo",
   })
   .action(async ({
     parsedInput: { image },
@@ -33,20 +33,23 @@ export const createImageAction = authActionClient
 
       const { data: { name, sasToken, url } } = data;
 
-      const optimizedImage = await sharp(buffer)
-        .resize(600, 600, {
-          background: {
-            r: 255, g: 255, b: 255, alpha: 1,
-          },
-          fit: "contain",
+      const resizedImage = await sharp(buffer)
+        .resize({
+          height: 80,
         })
-        .webp({ quality: 80 })
         .toBuffer();
 
-      const blockBlobClient = new BlockBlobClient(sasToken);
-      await blockBlobClient.uploadData(optimizedImage);
+      const metadata = await sharp(resizedImage).metadata();
 
-      return { name, url };
+      const blockBlobClient = new BlockBlobClient(sasToken);
+      await blockBlobClient.uploadData(resizedImage);
+
+      return {
+        name,
+        url,
+        width: metadata.width || 0,
+        height: metadata.height || 0,
+      };
     } catch (e) {
       returnValidationErrorsIfExists(e, imageSchema as unknown as ZodObject<ZodRawShape>);
       throw e;
