@@ -119,8 +119,15 @@ export const routes = {
   },
   theme: {
     title: "Tema",
+    description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
     icon: Palette,
     url: "/tema",
+    sub: {
+      new: {
+        title: "Criar tema",
+        url: "/criar-tema",
+      },
+    },
   },
   config: {
     title: "Configuração",
