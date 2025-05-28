@@ -20,6 +20,7 @@ export function UpdateCatalogForm({
     zodResolver(catalogSchema),
     {
       formProps: {
+        mode: "onChange",
         defaultValues: {
           name: catalog.name,
           slug: catalog.slug,

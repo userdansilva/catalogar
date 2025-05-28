@@ -6,29 +6,34 @@ import { toast } from "sonner";
 import { Theme } from "@/types/api-types";
 import { updateThemeAction } from "@/actions/update-theme-action";
 import { themeSchema } from "@/actions/schema";
+import { routes } from "@/routes";
 import { ThemeForm } from "./theme-form";
 
 type UpdateThemeFormProps = {
   theme: Theme
+  callbackUrl?: string
 }
 
 export function UpdateThemeForm({
-  theme,
+  theme, callbackUrl,
 }: UpdateThemeFormProps) {
   const { form, handleSubmitWithAction } = useHookFormAction(
     updateThemeAction,
     zodResolver(themeSchema),
     {
       formProps: {
+        mode: "onChange",
         defaultValues: {
           primaryColor: theme.primaryColor,
           secondaryColor: theme.secondaryColor,
           logo: {
-            name: theme.logo?.name || "",
+            fileName: theme.logo?.url.split("/").pop(),
+            originalFileName: theme.logo?.name || "",
             height: theme.logo?.height || 0,
             width: theme.logo?.width || 0,
-            url: theme.logo?.url || "",
+            accessUrl: theme.logo?.url || "",
           },
+          redirectTo: callbackUrl || routes.theme.url,
         },
       },
       actionProps: {

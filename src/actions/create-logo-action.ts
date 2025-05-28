@@ -6,6 +6,7 @@ import { BlockBlobClient } from "@azure/storage-blob";
 import sharp from "sharp";
 import path from "path";
 import { StorageSasToken } from "@/types/api-types";
+import { getFileType } from "@/utils/getFileType";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { authActionClient } from "./safe-action";
@@ -23,15 +24,19 @@ export const createLogoAction = authActionClient
     try {
       const arrayBuffer = await image.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-      const fileName = path.parse(image.name).name;
+      const originalFileName = path.parse(image.name).base;
+      const fileExt = path.parse(image.name).ext;
+      const fileType = getFileType(fileExt);
 
-      const { data } = await api.get<ApiResponse<StorageSasToken>>(`/v1/storage/generate-sas-token?fileName=${fileName}.webp`, {
+      const { data } = await api.post<ApiResponse<StorageSasToken>>("/v1/storage/generate-sas-token", {
+        fileType,
+      }, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      const { data: { name, sasToken, url } } = data;
+      const { data: { fileName, uploadUrl, accessUrl } } = data;
 
       const resizedImage = await sharp(buffer)
         .resize({
@@ -41,12 +46,13 @@ export const createLogoAction = authActionClient
 
       const metadata = await sharp(resizedImage).metadata();
 
-      const blockBlobClient = new BlockBlobClient(sasToken);
+      const blockBlobClient = new BlockBlobClient(uploadUrl);
       await blockBlobClient.uploadData(resizedImage);
 
       return {
-        name,
-        url,
+        fileName,
+        originalFileName,
+        accessUrl,
         width: metadata.width || 0,
         height: metadata.height || 0,
       };

@@ -17,6 +17,7 @@ export function CreateCatalogForm() {
     zodResolver(catalogSchema),
     {
       formProps: {
+        mode: "onChange",
         defaultValues: {
           name: "",
           slug: "",

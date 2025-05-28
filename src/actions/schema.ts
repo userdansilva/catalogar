@@ -35,10 +35,11 @@ export const themeSchema = z.object({
   primaryColor: z.string().min(1, "Campo obrigatório"),
   secondaryColor: z.string().min(1, "Campo obrigatório"),
   logo: z.object({
-    name: z.string(),
+    fileName: z.string(),
+    originalFileName: z.string(),
     width: z.number().positive(),
     height: z.number().positive(),
-    url: z.string(),
+    accessUrl: z.string(),
   }).optional(),
   redirectTo: z.string().optional(),
 });
@@ -82,14 +83,13 @@ export const productStatusToggleSchema = z.object({
  */
 export const catalogItemSchema = z.object({
   id: z.string().uuid().optional(),
-
   title: z.string().min(1, "Campo obrigatório"),
   caption: z.string().optional(),
   productId: z.string().min(1, "Campo obrigatório").uuid(),
   images: z.array(z.object({
-    name: z.string(),
+    fileName: z.string(),
     position: z.number(),
-    url: z.string(),
+    accessUrl: z.string(),
   })).min(1, "É necessário adicionar, no mínimo, uma imagem"),
   price: z.string().optional(),
   categoryIds: z.array(z.string().uuid()).optional(),

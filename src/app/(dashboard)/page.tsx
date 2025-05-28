@@ -1,7 +1,13 @@
 import { auth } from "@/auth";
-import { Mission } from "@/components/guide/mission";
-import { Reward } from "@/components/guide/reward";
+import { MainCards } from "@/components/dash/main-cards";
+import { MainMissions } from "@/components/guide/main-missions";
+// import { Mission } from "@/components/guide/mission";
+// import { Reward } from "@/components/guide/reward";
 import { routes } from "@/routes";
+import { getCatalogItems } from "@/services/get-catalog-items";
+import { getCategories } from "@/services/get-categories";
+import { getProducts } from "@/services/get-products";
+import { getUser } from "@/services/get-user";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,6 +16,11 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const session = await auth();
+
+  const { data: products } = await getProducts();
+  const { data: categories } = await getCategories();
+  const { data: catalogItems } = await getCatalogItems();
+  const { data: user } = await getUser();
 
   // eslint-disable-next-line no-console
   console.log(session);
@@ -29,36 +40,22 @@ export default async function Home() {
         </p>
       </div>
 
-      <div className="space-y-3">
-        <h2 className="scroll-m-20 pb-2 text-2xl font-bold tracking-tight first:mt-0">
-          Missões Principais
-        </h2>
-
-        <Mission
-          title="1. Adicionar o primeiro produto"
-          status="COMPLETE"
+      {products.length > 0 && catalogItems.length > 0 ? (
+        <MainCards
+          products={products}
+          categories={categories}
+          catalogItems={catalogItems}
+          user={user}
         />
-        <Mission
-          title="2. Adicionar a primeira categoria"
-          status="COMPLETE"
+      ) : (
+        <MainMissions
+          products={products}
+          categories={categories}
+          catalogItems={catalogItems}
         />
+      )}
 
-        <Reward
-          title="Desbloqueia o catálogo"
-          isRewarded
-        />
-
-        <Mission
-          title="3. Adicionar o primeiro item de catálogo"
-          status="CURRENT"
-        />
-
-        <Reward
-          title="Desbloqueia o preview"
-        />
-      </div>
-
-      <div className="space-y-3">
+      {/* <div className="space-y-3">
         <h2 className="scroll-m-20 pb-2 text-2xl font-bold tracking-tight first:mt-0">
           Missões de Personalização
         </h2>
@@ -76,7 +73,7 @@ export default async function Home() {
         <Reward
           title="Desbloqueia o link para compartilhar"
         />
-      </div>
+      </div> */}
     </div>
   );
 }

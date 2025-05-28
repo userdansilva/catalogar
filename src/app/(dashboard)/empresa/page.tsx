@@ -9,7 +9,12 @@ export const metadata: Metadata = {
   title: routes.company.title,
 };
 
-export default async function Company() {
+export default async function Company({
+  searchParams,
+}: {
+  searchParams: Promise<{ callbackUrl?: string }>
+}) {
+  const { callbackUrl } = await searchParams;
   const { data: user } = await getUser();
 
   if (!user.currentCatalog.company) {
@@ -26,6 +31,7 @@ export default async function Company() {
       <SectionContent>
         <UpdateCompanyForm
           company={user.currentCatalog.company}
+          callbackUrl={callbackUrl}
         />
       </SectionContent>
     </Section>

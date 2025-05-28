@@ -10,18 +10,20 @@ import { Category, Product } from "@/types/api-types";
 import { CatalogItemForm } from "./catalog-item-form";
 
 type CreateCatalogItemFormProps = {
-  categories: Category[];
-  products: Product[];
+  categories: Category[]
+  products: Product[]
+  callbackUrl?: string
 }
 
 export function CreateCatalogItemForm({
-  categories, products,
+  categories, products, callbackUrl,
 }: CreateCatalogItemFormProps) {
   const { form, handleSubmitWithAction } = useHookFormAction(
     createCatalogItemAction,
     zodResolver(catalogItemSchema),
     {
       formProps: {
+        mode: "onChange",
         defaultValues: {
           title: "",
           caption: "",
@@ -30,12 +32,12 @@ export function CreateCatalogItemForm({
           price: "",
           categoryIds: [],
           isDisabled: false,
-          redirectTo: routes.catalogItems.url,
+          redirectTo: callbackUrl || routes.catalogItems.url,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso! Voltando para a lista...", {
+          toast.success(`Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`, {
             description: res.data?.message,
           });
         },

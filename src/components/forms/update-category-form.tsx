@@ -21,6 +21,7 @@ export function UpdateCategoryForm({
     zodResolver(categorySchema),
     {
       formProps: {
+        mode: "onChange",
         defaultValues: {
           ...category,
           redirectTo: routes.categories.url,

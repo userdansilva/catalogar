@@ -21,6 +21,7 @@ export function UpdateProductForm({
     zodResolver(productSchema),
     {
       formProps: {
+        mode: "onChange",
         defaultValues: {
           ...product,
           redirectTo: routes.products.url,

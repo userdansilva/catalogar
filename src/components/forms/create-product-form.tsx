@@ -8,22 +8,27 @@ import { routes } from "@/routes";
 import { createProductAction } from "@/actions/create-product-action";
 import { ProductForm } from "./product-form";
 
-export function CreateProductForm() {
+export function CreateProductForm({
+  callbackUrl,
+}: {
+  callbackUrl?: string
+}) {
   const { form, handleSubmitWithAction } = useHookFormAction(
     createProductAction,
     zodResolver(productSchema),
     {
       formProps: {
+        mode: "onChange",
         defaultValues: {
           name: "",
           slug: "",
           isDisabled: false,
-          redirectTo: routes.products.url,
+          redirectTo: callbackUrl || routes.products.url,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso! Voltando para a lista...", {
+          toast.success(`Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`, {
             description: res.data?.message,
           });
         },

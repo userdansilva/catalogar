@@ -16,9 +16,9 @@ import {
 import { Button } from "./button";
 
 type Image = {
-  name: string;
+  fileName: string;
   position: number;
-  url: string;
+  accessUrl: string;
 }
 
 type InputFilesProps = {
@@ -44,9 +44,9 @@ export function InputImages({
 
       if (res?.data) {
         onChange([...value, {
-          name: res.data.name,
+          fileName: res.data.fileName,
           position: value.length + 1,
-          url: res.data.url,
+          accessUrl: res.data.accessUrl,
         }]);
       }
     }
@@ -54,7 +54,7 @@ export function InputImages({
 
   const handleRemove = (url: string) => {
     onChange(value
-      .filter((image) => image.url !== url)
+      .filter((image) => image.accessUrl !== url)
       .map((image, i) => ({ ...image, position: i + 1 })));
   };
 
@@ -62,7 +62,7 @@ export function InputImages({
     <>
       <div className="flex w-full gap-4 rounded-md border border-input bg-transparent p-3 text-base shadow-sm md:text-sm">
         {value.map((image) => (
-          <div className="relative size-32 rounded-md" key={image.url}>
+          <div className="relative size-32 rounded-md" key={image.accessUrl}>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
@@ -82,7 +82,7 @@ export function InputImages({
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancelar</AlertDialogCancel>
                   <AlertDialogAction
-                    onClick={() => handleRemove(image.url)}
+                    onClick={() => handleRemove(image.accessUrl)}
                   >
                     Sim! Quero remover
                   </AlertDialogAction>
@@ -91,7 +91,7 @@ export function InputImages({
             </AlertDialog>
 
             <Image
-              src={image.url}
+              src={image.accessUrl}
               alt=""
               width={128}
               height={128}

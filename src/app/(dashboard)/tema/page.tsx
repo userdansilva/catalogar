@@ -9,7 +9,12 @@ export const metadata: Metadata = {
   title: routes.theme.title,
 };
 
-export default async function Theme() {
+export default async function Theme({
+  searchParams,
+}: {
+  searchParams: Promise<{ callbackUrl?: string }>
+}) {
+  const { callbackUrl } = await searchParams;
   const { data: user } = await getUser();
 
   if (!user.currentCatalog.theme) {
@@ -26,6 +31,7 @@ export default async function Theme() {
       <SectionContent>
         <UpdateThemeForm
           theme={user.currentCatalog.theme}
+          callbackUrl={callbackUrl}
         />
       </SectionContent>
     </Section>

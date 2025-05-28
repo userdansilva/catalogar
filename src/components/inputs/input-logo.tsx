@@ -15,10 +15,11 @@ import {
 import { Button } from "./button";
 
 type Logo = {
-  name: string;
-  width: number;
-  height: number;
-  url: string;
+  fileName: string
+  originalFileName: string
+  width: number
+  height: number
+  accessUrl: string
 }
 
 type InputLogoProps = {
@@ -43,69 +44,80 @@ export function InputLogo({
 
       if (res?.data) {
         onChange({
-          name: res.data.name,
+          fileName: res.data.fileName,
+          originalFileName: res.data.originalFileName,
           width: res.data.width,
           height: res.data.height,
-          url: res.data.url,
+          accessUrl: res.data.accessUrl,
         });
       }
     }
   };
 
   const handleRemove = () => onChange({
-    name: "", width: 0, height: 0, url: "",
+    fileName: "",
+    originalFileName: "",
+    width: 0,
+    height: 0,
+    accessUrl: "",
   });
 
   return (
     <>
       <div>
-        {value && value.name && value.width > 0 && value.height > 0 && value.url ? (
-          <div className="flex items-center space-x-4 rounded-md border p-4">
-            <div className="mr-3 flex-1 truncate text-sm">
-              {value.name}
-            </div>
+        {value
+          && value.fileName
+          && value.originalFileName
+          && value.width > 0
+          && value.height > 0
+          && value.accessUrl
+          ? (
+            <div className="flex items-center space-x-4 rounded-md border p-4">
+              <div className="mr-3 flex-1 truncate text-sm">
+                {value.originalFileName}
+              </div>
 
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                >
-                  Remover
-                  <Trash className="ml-1 size-3" />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    Tem certeza que quer remover a imagem?
-                  </AlertDialogTitle>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleRemove}
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="destructive"
+                    size="sm"
                   >
-                    Sim! Quero remover
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
-        ) : (
-          <Button
-            variant="outline"
-            type="button"
-            loading={isExecuting}
-            disabled={isExecuting}
-            onClick={() => {
-              inputFileRef.current?.click();
-            }}
-          >
-            <ImageUp className="mr-2 size-4" />
-            Carregar imagem
-          </Button>
-        )}
+                    Remover
+                    <Trash className="ml-1 size-3" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Tem certeza que quer remover a imagem?
+                    </AlertDialogTitle>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleRemove}
+                    >
+                      Sim! Quero remover
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          ) : (
+            <Button
+              variant="outline"
+              type="button"
+              loading={isExecuting}
+              disabled={isExecuting}
+              onClick={() => {
+                inputFileRef.current?.click();
+              }}
+            >
+              <ImageUp className="mr-2 size-4" />
+              Carregar imagem
+            </Button>
+          )}
 
       </div>
 

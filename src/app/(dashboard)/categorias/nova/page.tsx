@@ -7,7 +7,13 @@ export const metadata: Metadata = {
   title: routes.categories.sub.new.title,
 };
 
-export default function NewCategory() {
+export default async function NewCategory({
+  searchParams,
+}: {
+  searchParams: Promise<{ callbackUrl?: string }>
+}) {
+  const { callbackUrl } = await searchParams;
+
   return (
     <Section>
       <SectionHeader
@@ -16,7 +22,9 @@ export default function NewCategory() {
       />
 
       <SectionContent>
-        <CreateCategoryForm />
+        <CreateCategoryForm
+          callbackUrl={callbackUrl}
+        />
       </SectionContent>
     </Section>
   );

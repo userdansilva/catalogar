@@ -3,6 +3,10 @@ import {
 } from "lucide-react";
 
 export const routes = {
+  external: {
+    title: "Catálogo Público",
+    url: "https://app-dev.catalogar.com.br",
+  },
   catalog: {
     sub: {
       createFirst: {

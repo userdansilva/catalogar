@@ -4,7 +4,6 @@ import { ApiResponse } from "@/types/api-response";
 import { ZodObject, ZodRawShape } from "zod";
 import { BlockBlobClient } from "@azure/storage-blob";
 import sharp from "sharp";
-import path from "path";
 import { StorageSasToken } from "@/types/api-types";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
@@ -23,15 +22,16 @@ export const createImageAction = authActionClient
     try {
       const arrayBuffer = await image.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-      const fileName = path.parse(image.name).name;
 
-      const { data } = await api.get<ApiResponse<StorageSasToken>>(`/v1/storage/generate-sas-token?fileName=${fileName}.webp`, {
+      const { data } = await api.post<ApiResponse<StorageSasToken>>("/v1/storage/generate-sas-token", {
+        fileType: "WEBP",
+      }, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      const { data: { name, sasToken, url } } = data;
+      const { data: { fileName, uploadUrl, accessUrl } } = data;
 
       const optimizedImage = await sharp(buffer)
         .resize(600, 600, {
@@ -43,10 +43,10 @@ export const createImageAction = authActionClient
         .webp({ quality: 80 })
         .toBuffer();
 
-      const blockBlobClient = new BlockBlobClient(sasToken);
+      const blockBlobClient = new BlockBlobClient(uploadUrl);
       await blockBlobClient.uploadData(optimizedImage);
 
-      return { name, url };
+      return { fileName, accessUrl };
     } catch (e) {
       returnValidationErrorsIfExists(e, imageSchema as unknown as ZodObject<ZodRawShape>);
       throw e;

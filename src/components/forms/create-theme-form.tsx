@@ -17,11 +17,16 @@ export function CreateThemeForm() {
     zodResolver(themeSchema),
     {
       formProps: {
+        mode: "onChange",
         defaultValues: {
           primaryColor: "#390080",
           secondaryColor: "#70FF94",
           logo: {
-            name: "", height: 0, width: 0, url: "",
+            fileName: "",
+            originalFileName: "",
+            height: 0,
+            width: 0,
+            accessUrl: "",
           },
           redirectTo: routes.dashboard.url,
         },

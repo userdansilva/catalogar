@@ -82,14 +82,14 @@ export type ProductFilters = FiltersWithPagination<{
 }>
 
 export type StorageSasToken = {
-  sasToken: string
-  name: string
-  url: string
+  fileName: string
+  uploadUrl: string
+  accessUrl: string
 }
 
 export type Image = {
   id: string
-  name: string
+  fileName: string
   url: string
   position: number
   createdAt: string

@@ -9,7 +9,13 @@ export const metadata: Metadata = {
   title: routes.catalogItems.sub.new.title,
 };
 
-export default async function NewCatalogItem() {
+export default async function NewCatalogItem({
+  searchParams,
+}: {
+  searchParams: Promise<{ callbackUrl?: string }>
+}) {
+  const { callbackUrl } = await searchParams;
+
   const { data: products } = await getProducts();
   const { data: categories } = await getCategories();
 
@@ -24,6 +30,7 @@ export default async function NewCatalogItem() {
         <CreateCatalogItemForm
           products={products}
           categories={categories}
+          callbackUrl={callbackUrl}
         />
       </SectionContent>
     </Section>

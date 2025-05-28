@@ -34,7 +34,7 @@ export const createCatalogItemAction = authActionClient
         caption,
         productId,
         images: images.map((image) => ({
-          name: image.name,
+          fileName: image.fileName,
           position: image.position,
         })),
         price,

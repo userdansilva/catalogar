@@ -6,26 +6,30 @@ import { toast } from "sonner";
 import { Company } from "@/types/api-types";
 import { updateCompanyAction } from "@/actions/update-company-action";
 import { companySchema } from "@/actions/schema";
+import { routes } from "@/routes";
 import { CompanyForm } from "./company-form";
 
 type UpdateCompanyFormProps = {
   company: Company
+  callbackUrl?: string
 }
 
 export function UpdateCompanyForm({
-  company,
+  company, callbackUrl,
 }: UpdateCompanyFormProps) {
   const { form, handleSubmitWithAction } = useHookFormAction(
     updateCompanyAction,
     zodResolver(companySchema),
     {
       formProps: {
+        mode: "onChange",
         defaultValues: {
           name: company.name,
           description: company.description,
           mainSiteUrl: company.mainSiteUrl,
           businessTypeDescription: company.businessTypeDescription,
           phoneNumber: company.phoneNumber,
+          redirectTo: callbackUrl || routes.company.url,
         },
       },
       actionProps: {

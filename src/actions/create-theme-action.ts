@@ -25,9 +25,7 @@ export const createThemeAction = authActionClient
       const res = await api.post<ApiResponse<Theme>>("/v1/themes", {
         primaryColor,
         secondaryColor,
-        logo: (logo && logo.name && logo.width > 0 && logo.height > 0)
-          ? { name: logo.name, width: logo.width, height: logo.height }
-          : undefined,
+        logo,
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -42,6 +40,7 @@ export const createThemeAction = authActionClient
 
       return { theme: res.data.data, message: res.data.meta?.message };
     } catch (e) {
+      console.error(e);
       returnValidationErrorsIfExists(e, themeSchema);
       throw e;
     }

@@ -8,24 +8,29 @@ import { routes } from "@/routes";
 import { toast } from "sonner";
 import { CategoryForm } from "./category-form";
 
-export function CreateCategoryForm() {
+export function CreateCategoryForm({
+  callbackUrl,
+}: {
+  callbackUrl?: string
+}) {
   const { form, handleSubmitWithAction } = useHookFormAction(
     createCategoryAction,
     zodResolver(categorySchema),
     {
       formProps: {
+        mode: "onChange",
         defaultValues: {
           name: "",
           slug: "",
           textColor: "#FFFFFF",
           backgroundColor: "#000000",
           isDisabled: false,
-          redirectTo: routes.categories.url,
+          redirectTo: callbackUrl || routes.categories.url,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso! Voltando para a lista...", {
+          toast.success(`Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`, {
             description: res.data?.message,
           });
         },

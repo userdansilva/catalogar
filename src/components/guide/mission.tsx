@@ -1,17 +1,18 @@
+import { routes } from "@/routes";
 import { Badge } from "@/shadcn/components/ui/badge";
 import { Button } from "@/shadcn/components/ui/button";
 import { cn } from "@/shadcn/lib/utils";
-import {
-  Circle, CircleCheck, CircleDashed,
-} from "lucide-react";
+import { Circle, CircleCheck, Lock } from "lucide-react";
+import Link from "next/link";
 
 type MissionProps = {
   title: string
-  status?: "COMPLETE" | "CURRENT" | "PENDING"
+  status: "COMPLETE" | "CURRENT" | "PENDING"
+  href: string;
 }
 
 export function Mission({
-  title, status = "PENDING",
+  title, status = "PENDING", href,
 }: MissionProps) {
   const isComplete = status === "COMPLETE";
   const isCurrent = status === "CURRENT";
@@ -27,7 +28,7 @@ export function Mission({
       <div className="flex items-center gap-4">
         {isComplete && <CircleCheck className="size-5 text-green-500" />}
         {isCurrent && <Circle className="size-5" />}
-        {isPending && <CircleDashed className="size-5" />}
+        {isPending && <Lock className="size-5 text-muted-foreground" />}
 
         <h3 className={cn(
           "flex-1 text-sm font-medium",
@@ -58,8 +59,18 @@ export function Mission({
       )}
 
       {isCurrent && (
-        <Button>
-          Vamos lá
+        <Button asChild>
+          <Link
+            href={{
+              pathname: href,
+              query: {
+                callbackUrl: routes.dashboard.url,
+              },
+            }}
+            prefetch
+          >
+            Vamos lá
+          </Link>
         </Button>
       )}
     </div>

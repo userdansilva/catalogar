@@ -17,6 +17,7 @@ export function CreateCompanyForm() {
     zodResolver(companySchema),
     {
       formProps: {
+        mode: "onChange",
         defaultValues: {
           name: "",
           description: "",

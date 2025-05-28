@@ -23,12 +23,13 @@ export function UpdateCatalogItemForm({
     zodResolver(catalogItemSchema),
     {
       formProps: {
+        mode: "onChange",
         defaultValues: {
           ...catalogItem,
           images: catalogItem.images.map((image) => ({
-            name: image.name,
+            fileName: image.fileName,
             position: image.position,
-            url: image.url,
+            accessUrl: image.url,
           })),
           productId: catalogItem.product.id,
           categoryIds: catalogItem.categories.map((category) => category.id),

@@ -7,7 +7,13 @@ export const metadata: Metadata = {
   title: routes.products.sub.new.title,
 };
 
-export default function NewProduct() {
+export default async function NewProduct({
+  searchParams,
+}: {
+  searchParams: Promise<{ callbackUrl?: string }>
+}) {
+  const { callbackUrl } = await searchParams;
+
   return (
     <Section>
       <SectionHeader
@@ -16,7 +22,9 @@ export default function NewProduct() {
       />
 
       <SectionContent>
-        <CreateProductForm />
+        <CreateProductForm
+          callbackUrl={callbackUrl}
+        />
       </SectionContent>
     </Section>
   );
