@@ -30,7 +30,7 @@ export const toggleCatalogItemStatusAction = authActionClient
         caption: catalogItem.caption,
         productId: catalogItem.product.id,
         images: catalogItem.images.map((image) => ({
-          name: image.name,
+          fileName: image.fileName,
           position: image.position,
         })),
         price: catalogItem.price,
