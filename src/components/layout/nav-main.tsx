@@ -20,7 +20,7 @@ const groups = [
         isActive: true,
       },
       {
-        ...routes.catalogItems,
+        ...routes.products,
         isActive: false,
       },
       {
@@ -28,7 +28,11 @@ const groups = [
         isActive: false,
       },
       {
-        ...routes.products,
+        ...routes.catalogItems,
+        isActive: false,
+      },
+      {
+        ...routes.preview,
         isActive: false,
       },
     ],
@@ -36,10 +40,6 @@ const groups = [
   {
     name: "Personalização",
     items: [
-      {
-        ...routes.preview,
-        isActive: false,
-      },
       {
         ...routes.company,
         isActive: false,

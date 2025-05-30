@@ -11,7 +11,11 @@ import { CompanyForm } from "./company-form";
 
 export type CompanyFormValues = z.infer<typeof companySchema>
 
-export function CreateCompanyForm() {
+export function CreateCompanyForm({
+  callbackUrl,
+}: {
+  callbackUrl?: string
+}) {
   const { form, handleSubmitWithAction } = useHookFormAction(
     createCompanyAction,
     zodResolver(companySchema),
@@ -24,7 +28,7 @@ export function CreateCompanyForm() {
           mainSiteUrl: "",
           phoneNumber: "",
           businessTypeDescription: "",
-          redirectTo: routes.dashboard.url,
+          redirectTo: callbackUrl || routes.dashboard.url,
         },
       },
       actionProps: {

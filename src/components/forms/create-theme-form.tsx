@@ -11,7 +11,11 @@ import { ThemeForm } from "./theme-form";
 
 export type ThemeFormValues = z.infer<typeof themeSchema>
 
-export function CreateThemeForm() {
+export function CreateThemeForm({
+  callbackUrl,
+}: {
+  callbackUrl?: string
+}) {
   const { form, handleSubmitWithAction } = useHookFormAction(
     createThemeAction,
     zodResolver(themeSchema),
@@ -28,7 +32,7 @@ export function CreateThemeForm() {
             width: 0,
             accessUrl: "",
           },
-          redirectTo: routes.dashboard.url,
+          redirectTo: callbackUrl || routes.dashboard.url,
         },
       },
       actionProps: {

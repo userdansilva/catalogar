@@ -1,8 +1,7 @@
 import { auth } from "@/auth";
 import { MainCards } from "@/components/dash/main-cards";
+import { CustomizationMissions } from "@/components/guide/customization-missions";
 import { MainMissions } from "@/components/guide/main-missions";
-// import { Mission } from "@/components/guide/mission";
-// import { Reward } from "@/components/guide/reward";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
@@ -55,25 +54,11 @@ export default async function Home() {
         />
       )}
 
-      {/* <div className="space-y-3">
-        <h2 className="scroll-m-20 pb-2 text-2xl font-bold tracking-tight first:mt-0">
-          Missões de Personalização
-        </h2>
-
-        <Mission
-          title="1. Adicionar informações da empresa"
-          status="CURRENT"
+      {(!user.currentCatalog.company || !user.currentCatalog.theme) && (
+        <CustomizationMissions
+          user={user}
         />
-
-        <Mission
-          title="2. Adicionar tema da empresa"
-          status="PENDING"
-        />
-
-        <Reward
-          title="Desbloqueia o link para compartilhar"
-        />
-      </div> */}
+      )}
     </div>
   );
 }

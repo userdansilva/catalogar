@@ -9,7 +9,12 @@ export const metadata: Metadata = {
   title: routes.catalog.sub.createFirst.title,
 };
 
-export default async function RegisterCompany() {
+export default async function RegisterCompany({
+  searchParams,
+}: {
+  searchParams: Promise<{ callbackUrl?: string }>
+}) {
+  const { callbackUrl } = await searchParams;
   const { data: user } = await getUser<User>();
 
   if (user.currentCatalog?.theme) {
@@ -32,7 +37,9 @@ export default async function RegisterCompany() {
         </p>
       </div>
 
-      <CreateThemeForm />
+      <CreateThemeForm
+        callbackUrl={callbackUrl}
+      />
     </div>
   );
 }
