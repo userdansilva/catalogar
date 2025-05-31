@@ -1,6 +1,7 @@
 "use client";
 
 import { signOutUrl } from "@/auth";
+import { routes } from "@/routes";
 import { Avatar, AvatarFallback } from "@/shadcn/components/ui/avatar";
 import {
   DropdownMenu,
@@ -15,9 +16,10 @@ import {
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
 } from "@/shadcn/components/ui/sidebar";
 import {
-  Book, ChevronsUpDown, LogOut, User,
+  Book, ChevronsUpDown, LogOut,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 type NavUserProps = {
   user: {
@@ -76,14 +78,11 @@ export function NavUser({
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <User />
-                Meu perfil
-              </DropdownMenuItem>
-
-              <DropdownMenuItem>
-                <Book />
-                Meus Catálogos
+              <DropdownMenuItem asChild className="cursor-pointer">
+                <Link href={routes.catalog.sub.myCatalogs.url}>
+                  <Book />
+                  Meus Catálogos
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
 

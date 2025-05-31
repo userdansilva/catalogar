@@ -17,6 +17,10 @@ export const routes = {
         title: "Criar catálogo",
         url: "/criar-catalogo",
       },
+      myCatalogs: {
+        title: "Meus catálogos",
+        url: "/meus-catalogos",
+      },
     },
   },
   auth: {
