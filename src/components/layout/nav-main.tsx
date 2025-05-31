@@ -31,6 +31,11 @@ const groups = [
         ...routes.catalogItems,
         isActive: false,
       },
+    ],
+  },
+  {
+    name: "Utilidades",
+    items: [
       {
         ...routes.preview,
         isActive: false,

@@ -60,11 +60,7 @@ export function MyCatalogs({
                   </CardTitle>
 
                   <div className="absolute right-4 top-4">
-                    {isCurrentCatalog ? (
-                      <Check className="size-4" />
-                    ) : (
-                      <Box className="size-4 text-muted-foreground" />
-                    )}
+                    <Box className="size-4 text-muted-foreground" />
                   </div>
                 </CardHeader>
 
@@ -84,6 +80,7 @@ export function MyCatalogs({
                     }}
                   >
                     {isCurrentCatalog ? "Selecionado (Atual)" : "Selecionar"}
+                    {isCurrentCatalog && <Check className="size-3" />}
                   </Button>
                 </CardFooter>
               </Card>

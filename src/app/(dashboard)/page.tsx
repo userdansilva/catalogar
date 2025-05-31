@@ -69,10 +69,15 @@ export default async function Home() {
         />
       )}
 
-      <MyCatalogs
-        catalogs={user.catalogs}
-        currentCatalog={user.currentCatalog}
-      />
+      {((shouldDisplayMainMissions
+        || shouldDisplayCustomizationMissions
+        || user.catalogs.length > 1)
+        && (
+          <MyCatalogs
+            catalogs={user.catalogs}
+            currentCatalog={user.currentCatalog}
+          />
+        ))}
     </div>
   );
 }
