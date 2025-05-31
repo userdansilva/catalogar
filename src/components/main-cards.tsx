@@ -25,6 +25,40 @@ export function MainCards({
 }) {
   return (
     <div className="space-y-4">
+      <Card className="flex items-center bg-foreground">
+        <CardHeader className="flex-1">
+          <CardTitle className="text-2xl text-background">
+            {user.currentCatalog.name}
+          </CardTitle>
+
+          <CardDescription className="text-background">
+            <Button asChild className="dark pl-0" variant="link">
+              <a
+                href={`${routes.external.url}/${user.currentCatalog.slug}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {`${routes.external.url}/${user.currentCatalog.slug}`}
+                <ExternalLink className="size-4 text-foreground" />
+              </a>
+            </Button>
+          </CardDescription>
+        </CardHeader>
+
+        <div className="flex h-full items-center pr-6">
+          <Button className="dark" asChild>
+            <a
+              href={`${routes.external.url}/${user.currentCatalog.slug}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <ExternalLink className="size-4 text-background" />
+              Acessar
+            </a>
+          </Button>
+        </div>
+      </Card>
+
       <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardHeader className="relative">
@@ -43,14 +77,10 @@ export function MainCards({
 
           <CardFooter className="grid grid-cols-2 gap-2">
             <Button asChild size="sm" className="w-full">
-              <a
-                href={`${routes.external.url}/${user.currentCatalog.slug}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <ExternalLink className="size-3" />
-                Acessar
-              </a>
+              <Link href={routes.catalogItems.url}>
+                <Book className="size-3" />
+                Catálogo
+              </Link>
             </Button>
             <Button asChild size="sm" variant="outline" className="w-full">
               <Link href={routes.preview.url}>

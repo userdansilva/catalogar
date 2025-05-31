@@ -1,7 +1,8 @@
 import { auth } from "@/auth";
-import { MainCards } from "@/components/dash/main-cards";
-import { CustomizationMissions } from "@/components/guide/customization-missions";
-import { MainMissions } from "@/components/guide/main-missions";
+import { CustomizationMissions } from "@/components/customization-missions";
+import { MainCards } from "@/components/main-cards";
+import { MainMissions } from "@/components/main-missions";
+import { MyCatalogs } from "@/components/my-catalogs";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
@@ -24,6 +25,12 @@ export default async function Home() {
   // eslint-disable-next-line no-console
   console.log(session);
 
+  const shouldDisplayMainMissions = products.length === 0
+    || catalogItems.length === 0;
+
+  const shouldDisplayCustomizationMissions = !user.currentCatalog.company
+    || !user.currentCatalog.theme;
+
   return (
     <div className="space-y-10">
       <div>
@@ -31,34 +38,41 @@ export default async function Home() {
           Boas Vindas ao Calogar!
         </h1>
 
-        <p className="leading-7 [&:not(:first-child)]:mt-6">
-          Estamos super felizes por ter você por aqui!
-          Preparamos algumas missões pra te ajudar a configurar seu catálogo.
-          Ao completar cada etapa, você já vai ter um link pronto pra compartilhar seus
-          produtos com seus clientes!
-        </p>
+        {(shouldDisplayMainMissions || shouldDisplayCustomizationMissions) && (
+          <p className="leading-7 [&:not(:first-child)]:mt-6">
+            Estamos super felizes por ter você por aqui!
+            Preparamos algumas missões pra te ajudar a configurar seu catálogo.
+            Ao completar cada etapa, você já vai ter um link pronto pra compartilhar seus
+            produtos com seus clientes!
+          </p>
+        )}
       </div>
 
-      {products.length > 0 && catalogItems.length > 0 ? (
+      {shouldDisplayMainMissions ? (
+        <MainMissions
+          products={products}
+          categories={categories}
+          catalogItems={catalogItems}
+        />
+      ) : (
         <MainCards
           products={products}
           categories={categories}
           catalogItems={catalogItems}
           user={user}
         />
-      ) : (
-        <MainMissions
-          products={products}
-          categories={categories}
-          catalogItems={catalogItems}
-        />
       )}
 
-      {(!user.currentCatalog.company || !user.currentCatalog.theme) && (
+      {shouldDisplayCustomizationMissions && (
         <CustomizationMissions
           user={user}
         />
       )}
+
+      <MyCatalogs
+        catalogs={user.catalogs}
+        currentCatalog={user.currentCatalog}
+      />
     </div>
   );
 }

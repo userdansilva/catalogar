@@ -18,6 +18,7 @@ import { Catalog } from "@/types/api-types";
 import { Box, ChevronsUpDown, Plus } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
+import { toast } from "sonner";
 
 type CatalogSwitcheProps = {
   catalogs: Array<Catalog>
@@ -75,9 +76,12 @@ export function CatalogSwitcher({
                   onClick={() => {
                     if (isCurrentCatalog) return;
 
-                    switchCatalog.execute({ id: catalog.id });
+                    toast.promise(switchCatalog.executeAsync({ id: catalog.id }), {
+                      loading: "Trocando de catálogo...",
+                      success: () => "Catálogo atual alterado!",
+                    });
                   }}
-                  className="gap-2 p-2"
+                  className="cursor-pointer gap-2 p-2"
                 >
                   <div className="flex size-6 items-center justify-center rounded-sm border">
                     <Box className="size-4 shrink-0" />
