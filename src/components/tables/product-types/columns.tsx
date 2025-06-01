@@ -33,9 +33,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/shadcn/components/ui/alert-dialog";
-import { Product } from "@/types/api-types";
-import { toggleProductStatusAction } from "@/actions/toggle-status-product-action";
-import { deleteProductAction } from "@/actions/delete-product-action";
+import { ProductType } from "@/types/api-types";
+import { toggleProductTypeStatusAction } from "@/actions/toggle-status-product-type-action";
+import { deleteProductTypeAction } from "@/actions/delete-product-type-action";
 import {
   Form, FormControl, FormField, FormItem, FormMessage,
 } from "@/shadcn/components/ui/form";
@@ -45,7 +45,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/shadcn/components/ui/input";
 import { useState } from "react";
 
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<ProductType>[] = [
   {
     header: "Nome",
     accessorKey: "name",
@@ -110,11 +110,11 @@ export const columns: ColumnDef<Product>[] = [
 
       const {
         executeAsync: executeToggleStatusAsync,
-      } = useAction(toggleProductStatusAction);
+      } = useAction(toggleProductTypeStatusAction);
 
       const {
         executeAsync: executeDeleteAsync,
-      } = useAction(deleteProductAction);
+      } = useAction(deleteProductTypeAction);
 
       const handleToggleStatus = () => toast.promise(async () => {
         await executeToggleStatusAsync({ id });
@@ -127,7 +127,7 @@ export const columns: ColumnDef<Product>[] = [
         await executeDeleteAsync({ id });
       }, {
         loading: "Removendo produto...",
-        success: "Producto removido com sucesso!",
+        success: "Tipo de produto removido com sucesso!",
       });
 
       return (
@@ -145,7 +145,7 @@ export const columns: ColumnDef<Product>[] = [
 
             <DropdownMenuItem asChild>
               <Link
-                href={routes.products.sub.edit.url(id)}
+                href={routes.productTypes.sub.edit.url(id)}
                 className="cursor-pointer"
               >
                 <Pencil className="mr-2 size-4" />
