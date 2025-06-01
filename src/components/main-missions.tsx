@@ -1,23 +1,23 @@
-import { CatalogItem, Category, Product } from "@/types/api-types";
+import { CatalogItem, Category, ProductType } from "@/types/api-types";
 import { routes } from "@/routes";
 import { Mission } from "./mission";
 import { Reward } from "./reward";
 
 type MainMissionsProps = {
-  products: Product[];
+  productTypes: ProductType[];
   categories: Category[];
   catalogItems: CatalogItem[];
 }
 
 export function MainMissions({
-  products, categories, catalogItems,
+  productTypes, categories, catalogItems,
 }: MainMissionsProps) {
-  const productAmount = products.length;
+  const productTypeAmount = productTypes.length;
   const categoryAmount = categories.length;
   const catalogItemAmount = catalogItems.length;
 
-  const productMissionStatus = (() => {
-    if (productAmount > 0) return "COMPLETE";
+  const productTypeMissionStatus = (() => {
+    if (productTypeAmount > 0) return "COMPLETE";
     if (categoryAmount === 0) return "CURRENT";
 
     return "PENDING";
@@ -25,14 +25,14 @@ export function MainMissions({
 
   const categoryMissionStatus = (() => {
     if (categoryAmount > 0) return "COMPLETE";
-    if (productAmount > 0 && catalogItemAmount === 0) return "CURRENT";
+    if (productTypeAmount > 0 && catalogItemAmount === 0) return "CURRENT";
 
     return "PENDING";
   })();
 
   const catalogItemMissionStatus = (() => {
     if (catalogItemAmount > 0) return "COMPLETE";
-    if (productAmount > 0 && categoryAmount > 0) return "CURRENT";
+    if (productTypeAmount > 0 && categoryAmount > 0) return "CURRENT";
 
     return "PENDING";
   })();
@@ -45,8 +45,8 @@ export function MainMissions({
 
       <Mission
         title="1. Adicionar o primeiro produto"
-        status={productMissionStatus}
-        href={routes.products.sub.new.url}
+        status={productTypeMissionStatus}
+        href={routes.productTypes.sub.new.url}
       />
 
       <Mission
@@ -57,7 +57,7 @@ export function MainMissions({
 
       <Reward
         title="Desbloqueia o catálogo"
-        isRewarded={productMissionStatus === "COMPLETE"
+        isRewarded={productTypeMissionStatus === "COMPLETE"
           && categoryMissionStatus === "COMPLETE"}
       />
 

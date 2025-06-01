@@ -4,7 +4,7 @@ import {
   Card, CardDescription, CardFooter, CardHeader, CardTitle,
 } from "@/shadcn/components/ui/card";
 import {
-  CatalogItem, Category, Product, UserWithCatalog,
+  CatalogItem, Category, ProductType, UserWithCatalog,
 } from "@/types/api-types";
 import {
   Book, Box, Building2, ExternalLink, Filter, List, Paintbrush, Palette, Plus,
@@ -13,12 +13,12 @@ import {
 import Link from "next/link";
 
 export function MainCards({
-  products,
+  productTypes,
   categories,
   catalogItems,
   user,
 }: {
-  products: Product[]
+  productTypes: ProductType[]
   categories: Category[]
   catalogItems: CatalogItem[]
   user: UserWithCatalog
@@ -179,7 +179,7 @@ export function MainCards({
             </CardDescription>
 
             <CardTitle className="text-2xl">
-              {products.length}
+              {productTypes.length}
             </CardTitle>
 
             <div className="absolute right-6 top-6">
@@ -189,13 +189,13 @@ export function MainCards({
 
           <CardFooter className="grid grid-cols-2 gap-2">
             <Button asChild size="sm" className="w-full">
-              <Link href={routes.products.url}>
+              <Link href={routes.productTypes.url}>
                 Ver todos
               </Link>
             </Button>
             <Button asChild size="sm" variant="outline" className="w-full">
               <Link href={{
-                pathname: routes.products.sub.new.url,
+                pathname: routes.productTypes.sub.new.url,
                 query: {
                   callbackUrl: routes.dashboard.url,
                 },

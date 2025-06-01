@@ -7,10 +7,10 @@ import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { deleteSchema } from "./schema";
 
-export const deleteProductAction = authActionClient
+export const deleteProductTypeAction = authActionClient
   .schema(deleteSchema)
   .metadata({
-    actionName: "delete-product-item",
+    actionName: "delete-product-type",
   })
   .action(async ({
     parsedInput: {
@@ -20,7 +20,7 @@ export const deleteProductAction = authActionClient
     ctx: { accessToken },
   }) => {
     try {
-      await api.delete<void>(`/v1/products/${id}`, {
+      await api.delete<void>(`/v1/product-types/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -29,8 +29,8 @@ export const deleteProductAction = authActionClient
       revalidateTag(tags.catalogItems.getAll);
       revalidateTag(tags.catalogItems.getByIdAny);
 
-      revalidateTag(tags.products.getAll);
-      revalidateTag(tags.products.getById(id));
+      revalidateTag(tags.productTypes.getAll);
+      revalidateTag(tags.productTypes.getById(id));
 
       if (redirectTo) {
         redirect(redirectTo);

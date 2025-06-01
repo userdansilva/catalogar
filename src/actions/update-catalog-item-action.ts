@@ -20,7 +20,7 @@ export const updateCatalogItemAction = authActionClient
       id,
       title,
       caption,
-      productId,
+      productTypeId,
       images,
       price,
       categoryIds,
@@ -33,7 +33,7 @@ export const updateCatalogItemAction = authActionClient
       const res = await api.put<ApiResponse<CatalogItem>>(`/v1/catalog-items/${id}`, {
         title,
         caption,
-        productId,
+        productTypeId,
         images: images.map((image) => ({
           fileName: image.fileName,
           position: image.position,

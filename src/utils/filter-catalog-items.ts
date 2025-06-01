@@ -5,13 +5,13 @@ export function filterCatalogItems(
   catalogItems: CatalogItem[],
   filters: {
     query: string
-    productSlug: string
+    productTypeSlug: string
     categorySlug: string
     currentPage: number
     perPage: number
   },
   config: {
-    hideIfProductIsDisabled?: boolean
+    hideIfProductTypeIsDisabled?: boolean
   } = {},
 ) {
   let result = [...catalogItems];
@@ -21,7 +21,7 @@ export function filterCatalogItems(
       keys: [
         "title",
         "caption",
-        "product.name",
+        "productType.name",
         "category.name",
       ],
     });
@@ -31,8 +31,8 @@ export function filterCatalogItems(
   }
 
   return result.filter((catalogItem) => {
-    const isProductMatch = filters.productSlug
-      ? catalogItem.product.slug === filters.productSlug
+    const isProductTypeMatch = filters.productTypeSlug
+      ? catalogItem.productType.slug === filters.productTypeSlug
       : true;
 
     const isCategoryMatch = filters.categorySlug
@@ -40,15 +40,15 @@ export function filterCatalogItems(
         .some((category) => category.slug === filters.categorySlug)
       : true;
 
-    const isProductEnabled = config.hideIfProductIsDisabled
-      ? !catalogItem.product.isDisabled
+    const isProductTypeEnabled = config.hideIfProductTypeIsDisabled
+      ? !catalogItem.productType.isDisabled
       : true;
 
-    if (!isProductEnabled) return false;
+    if (!isProductTypeEnabled) return false;
 
-    if (filters.productSlug && !filters.categorySlug) return isProductMatch;
-    if (!filters.productSlug && filters.categorySlug) return isCategoryMatch;
+    if (filters.productTypeSlug && !filters.categorySlug) return isProductTypeMatch;
+    if (!filters.productTypeSlug && filters.categorySlug) return isCategoryMatch;
 
-    return isProductMatch && isCategoryMatch;
+    return isProductTypeMatch && isCategoryMatch;
   });
 }

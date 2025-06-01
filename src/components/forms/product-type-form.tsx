@@ -5,22 +5,22 @@ import {
   Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
-import { productSchema } from "@/actions/schema";
+import { productTypeSchema } from "@/actions/schema";
 import { Button } from "../inputs/button";
 
-export type ProductFormValues = z.infer<typeof productSchema>
+export type ProductTypeFormValues = z.infer<typeof productTypeSchema>
 
-type ProductFormProps = {
-  form: UseFormReturn<ProductFormValues>
+type ProductTypeFormProps = {
+  form: UseFormReturn<ProductTypeFormValues>
   onSubmit: FormEventHandler<HTMLFormElement>
   submitButtonLabel: string
 }
 
-export function ProductForm({
+export function ProductTypeForm({
   form,
   onSubmit,
   submitButtonLabel,
-}: ProductFormProps) {
+}: ProductTypeFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className="space-y-8">

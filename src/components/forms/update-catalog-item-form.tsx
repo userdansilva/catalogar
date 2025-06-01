@@ -4,7 +4,7 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { zodResolver } from "@hookform/resolvers/zod";
 import { routes } from "@/routes";
 import { toast } from "sonner";
-import { CatalogItem, Category, Product } from "@/types/api-types";
+import { CatalogItem, Category, ProductType } from "@/types/api-types";
 import { updateCatalogItemAction } from "@/actions/update-catalog-item-action";
 import { catalogItemSchema } from "@/actions/schema";
 import { CatalogItemForm } from "./catalog-item-form";
@@ -12,11 +12,11 @@ import { CatalogItemForm } from "./catalog-item-form";
 type UpdateCatalogItemFormProps = {
   catalogItem: CatalogItem;
   categories: Category[];
-  products: Product[];
+  productTypes: ProductType[];
 }
 
 export function UpdateCatalogItemForm({
-  catalogItem, categories, products,
+  catalogItem, categories, productTypes,
 }: UpdateCatalogItemFormProps) {
   const { form, handleSubmitWithAction } = useHookFormAction(
     updateCatalogItemAction,
@@ -31,7 +31,7 @@ export function UpdateCatalogItemForm({
             position: image.position,
             accessUrl: image.url,
           })),
-          productId: catalogItem.product.id,
+          productTypeId: catalogItem.productType.id,
           categoryIds: catalogItem.categories.map((category) => category.id),
           price: catalogItem.price?.toString(),
           redirectTo: routes.catalogItems.url,
@@ -62,7 +62,7 @@ export function UpdateCatalogItemForm({
       onSubmit={handleSubmitWithAction}
       submitButtonLabel="Salvar alterações"
       categories={categories}
-      products={products}
+      productTypes={productTypes}
     />
   );
 }

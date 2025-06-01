@@ -1,11 +1,11 @@
 import { CatalogItems } from "@/components/catalog/catalog-items";
 import CatalogItemsSkeleton from "@/components/catalog/catalog-items-skeleton";
 import { CategoriesFilter } from "@/components/catalog/categories-filter";
-import { ProductsFilter } from "@/components/catalog/products-filter";
+import { ProductTypesFilter } from "@/components/catalog/product-types-filter";
 import { QueryFilter } from "@/components/catalog/query-filter";
 import { routes } from "@/routes";
 import { getCategories } from "@/services/get-categories";
-import { getProducts } from "@/services/get-products";
+import { getProductTypes } from "@/services/get-product-types";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -23,13 +23,13 @@ export default async function Preview(props: {
     p?: string
   }>
 }) {
-  const { data: products } = await getProducts();
+  const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
 
   const searchParams = await props.searchParams;
 
   const query = searchParams?.q || "";
-  const productSlug = searchParams?.produto || "";
+  const productTypeSlug = searchParams?.produto || "";
   const categorySlug = searchParams?.categoria || "";
   const currentPage = Number(searchParams?.p) || 1;
 
@@ -43,10 +43,10 @@ export default async function Preview(props: {
           />
         </div>
 
-        <ProductsFilter
+        <ProductTypesFilter
           mode="preview"
-          products={products}
-          currentProductSlug={productSlug}
+          productTypes={productTypes}
+          currentProductTypeSlug={productTypeSlug}
         />
 
         <CategoriesFilter
@@ -57,16 +57,16 @@ export default async function Preview(props: {
       </div>
 
       <Suspense
-        key={query + productSlug + categorySlug + currentPage}
+        key={query + productTypeSlug + categorySlug + currentPage}
         fallback={<CatalogItemsSkeleton />}
       >
         <CatalogItems
           query={query}
-          productSlug={productSlug}
+          productTypeSlug={productTypeSlug}
           categorySlug={categorySlug}
           currentPage={currentPage}
           perPage={ITEMS_PER_PAGE}
-          hideIfProductIsDisabled
+          hideIfProductTypeIsDisabled
         />
       </Suspense>
     </div>

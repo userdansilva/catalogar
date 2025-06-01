@@ -19,7 +19,7 @@ export const createCatalogItemAction = authActionClient
     parsedInput: {
       title,
       caption,
-      productId,
+      productTypeId,
       images,
       price,
       categoryIds,
@@ -32,7 +32,7 @@ export const createCatalogItemAction = authActionClient
       const res = await api.post<ApiResponse<CatalogItem>>("/v1/catalog-items", {
         title,
         caption,
-        productId,
+        productTypeId,
         images: images.map((image) => ({
           fileName: image.fileName,
           position: image.position,

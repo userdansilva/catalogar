@@ -1,15 +1,15 @@
-import { getProducts } from "@/services/get-products";
+import { getProductTypes } from "@/services/get-product-types";
 import { columns } from "./columns";
 import { DataTable } from "../data-table";
 
-type ProductsTableProps = {
+type ProductTypesTableProps = {
   currentPage: number;
 }
 
-export async function ProductsTable({
+export async function ProductTypesTable({
   currentPage,
-}: ProductsTableProps) {
-  const { data: products, meta } = await getProducts({
+}: ProductTypesTableProps) {
+  const { data: productTypes, meta } = await getProductTypes({
     field: "createdAt",
     page: currentPage,
     perPage: 10,
@@ -19,7 +19,7 @@ export async function ProductsTable({
   return (
     <DataTable
       columns={columns}
-      data={products}
+      data={productTypes}
       pagination={meta.pagination}
     />
   );

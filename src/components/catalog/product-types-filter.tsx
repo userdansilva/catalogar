@@ -6,18 +6,18 @@ import {
 } from "@/shadcn/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shadcn/components/ui/popover";
 import { cn } from "@/shadcn/lib/utils";
-import { Product } from "@/types/api-types";
+import { ProductType } from "@/types/api-types";
 import { Check, ChevronsUpDown, List } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
-export function ProductsFilter({
-  products,
-  currentProductSlug,
+export function ProductTypesFilter({
+  productTypes,
+  currentProductTypeSlug,
   mode,
 }: {
-  products: Product[]
-  currentProductSlug: string
+  productTypes: ProductType[]
+  currentProductTypeSlug: string
   mode: "preview" | "dashboard"
 }) {
   const searchParams = useSearchParams();
@@ -49,8 +49,9 @@ export function ProductsFilter({
             role="combobox"
             className="w-[200px] justify-between"
           >
-            {currentProductSlug
-              ? products.find((product) => product.slug === currentProductSlug)?.name
+            {currentProductTypeSlug
+              ? productTypes
+                .find((productType) => productType.slug === currentProductTypeSlug)?.name
               : (
                 <span className="flex items-center gap-3">
                   <List className="size-4" />
@@ -74,28 +75,28 @@ export function ProductsFilter({
                     <Check
                       className={cn(
                         "ml-auto",
-                        !currentProductSlug ? "opacity-100" : "opacity-0",
+                        !currentProductTypeSlug ? "opacity-100" : "opacity-0",
                       )}
                     />
                   </Link>
                 </CommandItem>
 
-                {products.map((product) => (
+                {productTypes.map((productType) => (
                   <CommandItem
-                    key={product.slug}
-                    value={product.slug}
+                    key={productType.slug}
+                    value={productType.slug}
                     asChild
                     className="cursor-pointer"
                   >
                     <Link
-                      href={searchUrl(product.slug)}
-                      className={cn(product.isDisabled && "line-through")}
+                      href={searchUrl(productType.slug)}
+                      className={cn(productType.isDisabled && "line-through")}
                     >
-                      {product.name}
+                      {productType.name}
                       <Check
                         className={cn(
                           "ml-auto",
-                          currentProductSlug === product.slug ? "opacity-100" : "opacity-0",
+                          currentProductTypeSlug === productType.slug ? "opacity-100" : "opacity-0",
                         )}
                       />
                     </Link>
@@ -109,7 +110,7 @@ export function ProductsFilter({
     );
   }
 
-  if (products.filter((product) => !product.isDisabled).length === 0) {
+  if (productTypes.filter((productType) => !productType.isDisabled).length === 0) {
     return null;
   }
 
@@ -118,7 +119,7 @@ export function ProductsFilter({
       <div className="text-sm text-muted-foreground">Produtos</div>
       <div className="flex flex-wrap gap-2">
         <Button
-          variant={!currentProductSlug
+          variant={!currentProductTypeSlug
             ? "default"
             : "outline"}
           size="sm"
@@ -129,22 +130,22 @@ export function ProductsFilter({
           </Link>
         </Button>
 
-        {products
-          .filter((product) => !product.isDisabled)
-          .map((product) => {
-            const isSelected = currentProductSlug === product.slug;
+        {productTypes
+          .filter((productType) => !productType.isDisabled)
+          .map((productType) => {
+            const isSelected = currentProductTypeSlug === productType.slug;
 
             return (
               <Button
-                key={product.id}
+                key={productType.id}
                 variant={isSelected
                   ? "default"
                   : "outline"}
                 size="sm"
                 asChild
               >
-                <Link href={searchUrl(product.slug)}>
-                  {product.name}
+                <Link href={searchUrl(productType.slug)}>
+                  {productType.name}
                 </Link>
               </Button>
             );

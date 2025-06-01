@@ -6,31 +6,31 @@ import { CatalogPagination } from "./catalog-pagination";
 
 export async function CatalogItems({
   query,
-  productSlug,
+  productTypeSlug,
   categorySlug,
   currentPage,
   perPage,
   withActions,
-  hideIfProductIsDisabled,
+  hideIfProductTypeIsDisabled,
 }: {
   query: string
-  productSlug: string
+  productTypeSlug: string
   categorySlug: string
   currentPage: number
   perPage: number
   withActions?: boolean
-  hideIfProductIsDisabled?: boolean
+  hideIfProductTypeIsDisabled?: boolean
 }) {
   const { data: catalogItems } = await getCatalogItems();
 
   const filteredCatalogItems = filterCatalogItems(catalogItems, {
     query,
-    productSlug,
+    productTypeSlug,
     categorySlug,
     currentPage,
     perPage,
   }, {
-    hideIfProductIsDisabled,
+    hideIfProductTypeIsDisabled,
   });
 
   const catalogItemsTotal = filteredCatalogItems.length;

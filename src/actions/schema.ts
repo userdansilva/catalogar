@@ -63,9 +63,9 @@ export const categoryStatusToggleSchema = z.object({
 });
 
 /**
- * Product
+ * Product Type
  */
-export const productSchema = z.object({
+export const productTypeSchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string().min(1, "Campo obrigatório"),
   slug: z.string().min(1, "Campo obrigatório"),
@@ -73,7 +73,7 @@ export const productSchema = z.object({
   redirectTo: z.string().optional(),
 });
 
-export const productStatusToggleSchema = z.object({
+export const productTypeStatusToggleSchema = z.object({
   id: z.string().uuid(),
   redirectTo: z.string().optional(),
 });
@@ -85,7 +85,7 @@ export const catalogItemSchema = z.object({
   id: z.string().uuid().optional(),
   title: z.string().min(1, "Campo obrigatório"),
   caption: z.string().optional(),
-  productId: z.string().min(1, "Campo obrigatório").uuid(),
+  productTypeId: z.string().min(1, "Campo obrigatório").uuid(),
   images: z.array(z.object({
     fileName: z.string(),
     position: z.number(),

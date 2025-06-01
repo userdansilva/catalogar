@@ -10,17 +10,17 @@ import {
   SidebarMenuItem,
 } from "@/shadcn/components/ui/sidebar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shadcn/components/ui/tooltip";
-import { CatalogItem, Product } from "@/types/api-types";
+import { CatalogItem, ProductType } from "@/types/api-types";
 import { Lock } from "lucide-react";
 import Link from "next/link";
 
 type NavMainProps = {
-  products: Product[];
+  productTypes: ProductType[];
   catalogItems: CatalogItem[];
 }
 
 export default function NavMain({
-  products, catalogItems,
+  productTypes, catalogItems,
 }: NavMainProps) {
   const groups = [
     {
@@ -33,7 +33,7 @@ export default function NavMain({
           isActive: true,
         },
         {
-          ...routes.products,
+          ...routes.productTypes,
           isLocked: false,
           lockReason: "",
           isActive: false,
@@ -46,7 +46,7 @@ export default function NavMain({
         },
         {
           ...routes.catalogItems,
-          isLocked: products.length === 0,
+          isLocked: productTypes.length === 0,
           lockReason: "Para desbloquear o Catálogo, primeiro adicione um produto, pois cada item de catálogo é vinculado a um tipo de produto",
           isActive: false,
         },

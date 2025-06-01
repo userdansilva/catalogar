@@ -2,34 +2,33 @@
 
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { productTypeSchema } from "@/actions/schema";
 import { toast } from "sonner";
 import { routes } from "@/routes";
-import { Product } from "@/types/api-types";
-import { updateProductAction } from "@/actions/update-product-action";
-import { productSchema } from "@/actions/schema";
-import { ProductForm } from "./product-form";
+import { createProductTypeAction } from "@/actions/create-product-type-action";
+import { ProductTypeForm } from "./product-type-form";
 
-type UpdateProductFormProps = {
-  product: Product
-}
-
-export function UpdateProductForm({
-  product,
-}: UpdateProductFormProps) {
+export function CreateProductTypeForm({
+  callbackUrl,
+}: {
+  callbackUrl?: string
+}) {
   const { form, handleSubmitWithAction } = useHookFormAction(
-    updateProductAction,
-    zodResolver(productSchema),
+    createProductTypeAction,
+    zodResolver(productTypeSchema),
     {
       formProps: {
         mode: "onChange",
         defaultValues: {
-          ...product,
-          redirectTo: routes.products.url,
+          name: "",
+          slug: "",
+          isDisabled: false,
+          redirectTo: callbackUrl || routes.productTypes.url,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso! Voltando para a lista...", {
+          toast.success(`Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`, {
             description: res.data?.message,
           });
         },
@@ -47,10 +46,10 @@ export function UpdateProductForm({
   );
 
   return (
-    <ProductForm
+    <ProductTypeForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Salvar alterações"
+      submitButtonLabel="Criar produto"
     />
   );
 }

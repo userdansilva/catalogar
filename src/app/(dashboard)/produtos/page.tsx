@@ -1,7 +1,7 @@
 import { Button } from "@/components/inputs/button";
 import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
-import { ProductsTable } from "@/components/tables/products";
-import { ProductsSkeleton } from "@/components/tables/products/skeleton";
+import { ProductTypesTable } from "@/components/tables/product-types";
+import { ProductTypesSkeleton } from "@/components/tables/product-types/skeleton";
 import { routes } from "@/routes";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
@@ -9,16 +9,16 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: routes.products.title,
+  title: routes.productTypes.title,
 };
 
-type ProductsProps = {
+type ProductTypesProps = {
   searchParams?: Promise<{
     page?: string;
   }>
 }
 
-export default async function Products(props: ProductsProps) {
+export default async function ProductTypes(props: ProductTypesProps) {
   const searchParams = await props.searchParams;
   const currentPage = Number(searchParams?.page) || 1;
 
@@ -31,14 +31,14 @@ export default async function Products(props: ProductsProps) {
 
       <SectionContent>
         <Button asChild className="mb-10">
-          <Link href={routes.products.sub.new.url}>
+          <Link href={routes.productTypes.sub.new.url}>
             <Plus className="size-4" />
             Criar produto
           </Link>
         </Button>
 
-        <Suspense key={currentPage} fallback={<ProductsSkeleton />}>
-          <ProductsTable
+        <Suspense key={currentPage} fallback={<ProductTypesSkeleton />}>
+          <ProductTypesTable
             currentPage={currentPage}
           />
         </Suspense>

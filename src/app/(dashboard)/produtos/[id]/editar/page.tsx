@@ -1,21 +1,21 @@
-import { UpdateProductForm } from "@/components/forms/update-product-form";
+import { UpdateProductTypeForm } from "@/components/forms/update-product-type-form";
 import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
 import { routes } from "@/routes";
-import { getProductById } from "@/services/get-product-by-id";
+import { getProductTypeById } from "@/services/get-product-type-by-id";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: routes.products.sub.edit.title,
+  title: routes.productTypes.sub.edit.title,
 };
 
-type EditProductProps = {
+type EditProductTypeProps = {
   params: {
     id: string
   }
 }
 
-export default async function EditProduct(props: EditProductProps) {
-  const { data: product } = await getProductById(props.params.id);
+export default async function EditProductType(props: EditProductTypeProps) {
+  const { data: productType } = await getProductTypeById(props.params.id);
 
   return (
     <Section>
@@ -25,7 +25,7 @@ export default async function EditProduct(props: EditProductProps) {
       />
 
       <SectionContent>
-        <UpdateProductForm product={product} />
+        <UpdateProductTypeForm productType={productType} />
       </SectionContent>
     </Section>
   );

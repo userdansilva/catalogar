@@ -89,7 +89,7 @@ export const routes = {
       },
     },
   },
-  products: {
+  productTypes: {
     title: "Produtos",
     description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
     icon: List,

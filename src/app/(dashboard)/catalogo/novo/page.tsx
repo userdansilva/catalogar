@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
 import { routes } from "@/routes";
 import { CreateCatalogItemForm } from "@/components/forms/create-catalog-item-form";
-import { getProducts } from "@/services/get-products";
+import { getProductTypes } from "@/services/get-product-types";
 import { getCategories } from "@/services/get-categories";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export default async function NewCatalogItem({
 }) {
   const { callbackUrl } = await searchParams;
 
-  const { data: products } = await getProducts();
+  const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
 
   return (
@@ -28,7 +28,7 @@ export default async function NewCatalogItem({
 
       <SectionContent>
         <CreateCatalogItemForm
-          products={products}
+          productTypes={productTypes}
           categories={categories}
           callbackUrl={callbackUrl}
         />

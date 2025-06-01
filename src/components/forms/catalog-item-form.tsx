@@ -10,7 +10,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/shadcn/components/ui/select";
 import { Textarea } from "@/shadcn/components/ui/textarea";
-import { Category, Product } from "@/types/api-types";
+import { Category, ProductType } from "@/types/api-types";
 import { FormEventHandler } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -24,11 +24,11 @@ type CatalogItemFormProps = {
   onSubmit: FormEventHandler<HTMLFormElement>
   submitButtonLabel: string
   categories: Category[];
-  products: Product[];
+  productTypes: ProductType[];
 }
 
 export function CatalogItemForm({
-  form, onSubmit, submitButtonLabel, categories, products,
+  form, onSubmit, submitButtonLabel, categories, productTypes,
 }: CatalogItemFormProps) {
   return (
     <Form {...form}>
@@ -107,7 +107,7 @@ export function CatalogItemForm({
         />
 
         <FormField
-          name="productId"
+          name="productTypeId"
           control={form.control}
           disabled={form.formState.isSubmitting}
           render={({ field }) => (
@@ -122,9 +122,9 @@ export function CatalogItemForm({
                 </FormControl>
 
                 <SelectContent>
-                  {products.map((product) => (
-                    <SelectItem value={product.id} key={product.id}>
-                      {product.name}
+                  {productTypes.map((productType) => (
+                    <SelectItem value={productType.id} key={productType.id}>
+                      {productType.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

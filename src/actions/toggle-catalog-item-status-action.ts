@@ -28,7 +28,7 @@ export const toggleCatalogItemStatusAction = authActionClient
       const res = await api.put<ApiResponse<CatalogItem>>(`/v1/catalog-items/${id}`, {
         title: catalogItem.title,
         caption: catalogItem.caption,
-        productId: catalogItem.product.id,
+        productTypeId: catalogItem.productType.id,
         images: catalogItem.images.map((image) => ({
           fileName: image.fileName,
           position: image.position,

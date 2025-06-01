@@ -3,7 +3,7 @@ import { Section, SectionContent, SectionHeader } from "@/components/page-layout
 import { routes } from "@/routes";
 import { getCatalogItemById } from "@/services/get-catalog-item-by-id";
 import { getCategories } from "@/services/get-categories";
-import { getProducts } from "@/services/get-products";
+import { getProductTypes } from "@/services/get-product-types";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ type EditCatalogItemProps = {
 
 export default async function EditCatalogItem(props: EditCatalogItemProps) {
   const { data: catalogItem } = await getCatalogItemById(props.params.id);
-  const { data: products } = await getProducts();
+  const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
 
   return (
@@ -31,7 +31,7 @@ export default async function EditCatalogItem(props: EditCatalogItemProps) {
       <SectionContent>
         <UpdateCatalogItemForm
           catalogItem={catalogItem}
-          products={products}
+          productTypes={productTypes}
           categories={categories}
         />
       </SectionContent>

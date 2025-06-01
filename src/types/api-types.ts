@@ -68,7 +68,7 @@ export type CategoryFilters = FiltersWithPagination<{
   sort?: "asc" | "desc"
 }>
 
-export type Product = PropsWithTimestamps<{
+export type ProductType = PropsWithTimestamps<{
   id: string
   name: string
   slug: string
@@ -76,7 +76,7 @@ export type Product = PropsWithTimestamps<{
   disabledAt?: string
 }>
 
-export type ProductFilters = FiltersWithPagination<{
+export type ProductTypeFilters = FiltersWithPagination<{
   field?: "name" | "createdAt"
   sort?: "asc" | "desc"
 }>
@@ -101,7 +101,7 @@ export type CatalogItem = PropsWithTimestamps<{
   caption?: string
   price?: number
   reference: number
-  product: Product
+  productType: ProductType
   categories: Category[]
   images: Image[]
   isDisabled: boolean

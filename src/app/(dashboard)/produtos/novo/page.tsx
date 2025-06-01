@@ -1,13 +1,13 @@
 import { Metadata } from "next";
 import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
-import { CreateProductForm } from "@/components/forms/create-product-form";
+import { CreateProductTypeForm } from "@/components/forms/create-product-type-form";
 import { routes } from "@/routes";
 
 export const metadata: Metadata = {
-  title: routes.products.sub.new.title,
+  title: routes.productTypes.sub.new.title,
 };
 
-export default async function NewProduct({
+export default async function NewProductType({
   searchParams,
 }: {
   searchParams: Promise<{ callbackUrl?: string }>
@@ -22,7 +22,7 @@ export default async function NewProduct({
       />
 
       <SectionContent>
-        <CreateProductForm
+        <CreateProductTypeForm
           callbackUrl={callbackUrl}
         />
       </SectionContent>

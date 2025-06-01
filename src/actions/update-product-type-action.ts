@@ -1,28 +1,28 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
 import { ApiResponse } from "@/types/api-response";
-import { Product } from "@/types/api-types";
+import { redirect } from "next/navigation";
 import { tags } from "@/tags";
+import { ProductType } from "@/types/api-types";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
-import { productSchema } from "./schema";
+import { productTypeSchema } from "./schema";
 
-export const createProductAction = authActionClient
-  .schema(productSchema)
+export const updateProductTypeAction = authActionClient
+  .schema(productTypeSchema)
   .metadata({
-    actionName: "create-product",
+    actionName: "update-product-type",
   })
   .action(async ({
     parsedInput: {
-      name, slug, isDisabled, redirectTo,
+      id, name, slug, isDisabled, redirectTo,
     },
     ctx: { accessToken },
   }) => {
     try {
-      const res = await api.post<ApiResponse<Product>>("/v1/products", {
+      const res = await api.put<ApiResponse<ProductType>>(`/v1/product-types/${id}`, {
         name, slug, isDisabled,
       }, {
         headers: {
@@ -30,15 +30,19 @@ export const createProductAction = authActionClient
         },
       });
 
-      revalidateTag(tags.products.getAll);
+      revalidateTag(tags.productTypes.getAll);
+
+      if (id) {
+        revalidateTag(tags.productTypes.getById(id));
+      }
 
       if (redirectTo) {
         redirect(redirectTo);
       }
 
-      return { product: res.data.data, message: res.data.meta?.message };
+      return { productType: res.data.data, message: res.data.meta?.message };
     } catch (e) {
-      returnValidationErrorsIfExists(e, productSchema);
+      returnValidationErrorsIfExists(e, productTypeSchema);
       throw e;
     }
   });

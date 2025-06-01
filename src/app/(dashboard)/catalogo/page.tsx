@@ -1,13 +1,13 @@
 import { CatalogItems } from "@/components/catalog/catalog-items";
 import CatalogItemsSkeleton from "@/components/catalog/catalog-items-skeleton";
 import { CategoriesFilter } from "@/components/catalog/categories-filter";
-import { ProductsFilter } from "@/components/catalog/products-filter";
+import { ProductTypesFilter } from "@/components/catalog/product-types-filter";
 import { QueryFilter } from "@/components/catalog/query-filter";
 import { Button } from "@/components/inputs/button";
 import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
 import { routes } from "@/routes";
 import { getCategories } from "@/services/get-categories";
-import { getProducts } from "@/services/get-products";
+import { getProductTypes } from "@/services/get-product-types";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -27,13 +27,13 @@ export default async function Catalog(props: {
     p?: string
   }>
 }) {
-  const { data: products } = await getProducts();
+  const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
 
   const searchParams = await props.searchParams;
 
   const query = searchParams?.q || "";
-  const productSlug = searchParams?.produto || "";
+  const productTypeSlug = searchParams?.produto || "";
   const categorySlug = searchParams?.categoria || "";
   const currentPage = Number(searchParams?.p) || 1;
 
@@ -59,10 +59,10 @@ export default async function Catalog(props: {
               currentQuery={query}
             />
 
-            <ProductsFilter
+            <ProductTypesFilter
               mode="dashboard"
-              products={products}
-              currentProductSlug={productSlug}
+              productTypes={productTypes}
+              currentProductTypeSlug={productTypeSlug}
             />
 
             <CategoriesFilter
@@ -73,12 +73,12 @@ export default async function Catalog(props: {
           </div>
 
           <Suspense
-            key={query + productSlug + categorySlug + currentPage}
+            key={query + productTypeSlug + categorySlug + currentPage}
             fallback={<CatalogItemsSkeleton />}
           >
             <CatalogItems
               query={query}
-              productSlug={productSlug}
+              productTypeSlug={productTypeSlug}
               categorySlug={categorySlug}
               currentPage={currentPage}
               perPage={ITEMS_PER_PAGE}

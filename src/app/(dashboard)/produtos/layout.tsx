@@ -2,14 +2,14 @@ import { PropsWithChildren } from "react";
 import { Page, PageHeader } from "@/components/page-layout/page";
 import { routes } from "@/routes";
 
-export default function ProductsLayout({
+export default function Layout({
   children,
 }: PropsWithChildren) {
   return (
     <Page>
       <PageHeader
-        title={routes.products.title}
-        description={routes.products.description}
+        title={routes.productTypes.title}
+        description={routes.productTypes.description}
       />
 
       {children}

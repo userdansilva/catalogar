@@ -6,17 +6,17 @@ import { toast } from "sonner";
 import { routes } from "@/routes";
 import { createCatalogItemAction } from "@/actions/create-catalog-item-action";
 import { catalogItemSchema } from "@/actions/schema";
-import { Category, Product } from "@/types/api-types";
+import { Category, ProductType } from "@/types/api-types";
 import { CatalogItemForm } from "./catalog-item-form";
 
 type CreateCatalogItemFormProps = {
   categories: Category[]
-  products: Product[]
+  productTypes: ProductType[]
   callbackUrl?: string
 }
 
 export function CreateCatalogItemForm({
-  categories, products, callbackUrl,
+  categories, productTypes, callbackUrl,
 }: CreateCatalogItemFormProps) {
   const { form, handleSubmitWithAction } = useHookFormAction(
     createCatalogItemAction,
@@ -27,7 +27,7 @@ export function CreateCatalogItemForm({
         defaultValues: {
           title: "",
           caption: "",
-          productId: "",
+          productTypeId: "",
           images: [],
           price: "",
           categoryIds: [],
@@ -60,7 +60,7 @@ export function CreateCatalogItemForm({
       onSubmit={handleSubmitWithAction}
       submitButtonLabel="Criar item"
       categories={categories}
-      products={products}
+      productTypes={productTypes}
     />
   );
 }

@@ -6,7 +6,7 @@ import { MyCatalogs } from "@/components/my-catalogs";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
-import { getProducts } from "@/services/get-products";
+import { getProductTypes } from "@/services/get-product-types";
 import { getUser } from "@/services/get-user";
 import { Metadata } from "next";
 
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   // const session = await auth();
 
-  const { data: products } = await getProducts();
+  const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
   const { data: catalogItems } = await getCatalogItems();
   const { data: user } = await getUser();
@@ -25,7 +25,7 @@ export default async function Home() {
   // // eslint-disable-next-line no-console
   // console.log(session);
 
-  const shouldDisplayMainMissions = products.length === 0
+  const shouldDisplayMainMissions = productTypes.length === 0
     || catalogItems.length === 0;
 
   const shouldDisplayCustomizationMissions = !user.currentCatalog.company
@@ -50,13 +50,13 @@ export default async function Home() {
 
       {shouldDisplayMainMissions ? (
         <MainMissions
-          products={products}
+          productTypes={productTypes}
           categories={categories}
           catalogItems={catalogItems}
         />
       ) : (
         <MainCards
-          products={products}
+          productTypes={productTypes}
           categories={categories}
           catalogItems={catalogItems}
           user={user}

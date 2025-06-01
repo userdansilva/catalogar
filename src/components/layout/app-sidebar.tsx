@@ -6,7 +6,7 @@ import {
   SidebarRail,
 } from "@/shadcn/components/ui/sidebar";
 import { getUser } from "@/services/get-user";
-import { getProducts } from "@/services/get-products";
+import { getProductTypes } from "@/services/get-product-types";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { CatalogSwitcher } from "./catalog-switcher";
 import NavMain from "./nav-main";
@@ -14,7 +14,7 @@ import { NavUser } from "./nav-user";
 
 export async function AppSidebar() {
   const { data: user } = await getUser();
-  const { data: products } = await getProducts();
+  const { data: productTypes } = await getProductTypes();
   const { data: catalogItems } = await getCatalogItems();
 
   return (
@@ -28,7 +28,7 @@ export async function AppSidebar() {
 
       <SidebarContent>
         <NavMain
-          products={products}
+          productTypes={productTypes}
           catalogItems={catalogItems}
         />
       </SidebarContent>
