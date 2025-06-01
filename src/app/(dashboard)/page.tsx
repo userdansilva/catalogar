@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+// import { auth } from "@/auth";
 import { CustomizationMissions } from "@/components/customization-missions";
 import { MainCards } from "@/components/main-cards";
 import { MainMissions } from "@/components/main-missions";
@@ -15,15 +15,15 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const session = await auth();
+  // const session = await auth();
 
   const { data: products } = await getProducts();
   const { data: categories } = await getCategories();
   const { data: catalogItems } = await getCatalogItems();
   const { data: user } = await getUser();
 
-  // eslint-disable-next-line no-console
-  console.log(session);
+  // // eslint-disable-next-line no-console
+  // console.log(session);
 
   const shouldDisplayMainMissions = products.length === 0
     || catalogItems.length === 0;
