@@ -112,7 +112,7 @@ export function CatalogItemForm({
           disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Produto</FormLabel>
+              <FormLabel>Tipo de Produto</FormLabel>
 
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>

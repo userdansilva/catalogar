@@ -55,7 +55,7 @@ export function ProductTypesFilter({
               : (
                 <span className="flex items-center gap-3">
                   <List className="size-4" />
-                  Produto
+                  Tipo de produto
                 </span>
               )}
             <ChevronsUpDown className="opacity-50" />
@@ -63,9 +63,9 @@ export function ProductTypesFilter({
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            <CommandInput placeholder="Buscar produto..." className="h-9" />
+            <CommandInput placeholder="Buscar tipo de produto..." className="h-9" />
             <CommandList>
-              <CommandEmpty>Nenhum produto encontrado</CommandEmpty>
+              <CommandEmpty>Nenhum tipo de produto encontrado</CommandEmpty>
               <CommandGroup>
                 <CommandItem
                   asChild
@@ -116,7 +116,7 @@ export function ProductTypesFilter({
 
   return (
     <div className="flex items-center space-x-2">
-      <div className="text-sm text-muted-foreground">Produtos</div>
+      <div className="text-sm text-muted-foreground">Tipos de Produto</div>
       <div className="flex flex-wrap gap-2">
         <Button
           variant={!currentProductTypeSlug

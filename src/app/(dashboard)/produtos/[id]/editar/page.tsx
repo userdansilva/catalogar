@@ -20,7 +20,7 @@ export default async function EditProductType(props: EditProductTypeProps) {
   return (
     <Section>
       <SectionHeader
-        title="Editar produto"
+        title="Editar tipo de produto"
         description="This is how others will see you on the site."
       />
 

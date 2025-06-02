@@ -32,7 +32,7 @@ export const routes = {
     },
   },
   dashboard: {
-    title: "Dashboard",
+    title: "Página Inicial",
     icon: House,
     url: "/",
   },
@@ -83,33 +83,25 @@ export const routes = {
         title: "Desativar categoria",
         url: (id: string) => `/categorias/${id}/desativar`,
       },
-      delete: {
-        title: "Desativar categoria",
-        url: (id: string) => `/categorias/${id}/deletar`,
-      },
     },
   },
   productTypes: {
-    title: "Produtos",
+    title: "Tipos de Produto",
     description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
     icon: List,
     url: "/produtos",
     sub: {
       new: {
-        title: "Novo produto",
+        title: "Novo tipo de produto",
         url: "/produtos/novo",
       },
       edit: {
-        title: "Editar produto",
+        title: "Editar tipo de produto",
         url: (id: string) => `/produtos/${id}/editar`,
       },
       disable: {
-        title: "Desativar produto",
+        title: "Desativar tipo de produto",
         url: (id: string) => `/produtos/${id}/desativar`,
-      },
-      delete: {
-        title: "Desativar produto",
-        url: (id: string) => `/produtos/${id}/deletar`,
       },
     },
   },

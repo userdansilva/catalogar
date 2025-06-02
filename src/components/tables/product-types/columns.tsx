@@ -126,7 +126,7 @@ export const columns: ColumnDef<ProductType>[] = [
       const handleRemove = () => toast.promise(async () => {
         await executeDeleteAsync({ id });
       }, {
-        loading: "Removendo produto...",
+        loading: "Removendo tipo de produto...",
         success: "Tipo de produto removido com sucesso!",
       });
 
@@ -208,14 +208,14 @@ export const columns: ColumnDef<ProductType>[] = [
                 <AlertDialogContent>
                   <AlertDialogHeader>
                     <AlertDialogTitle>
-                      Tem certeza que quer remover esse produto?
+                      Tem certeza que quer remover esse tipo de produto?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                       Essa ação não poderá ser desfeita e
                       {" "}
                       <span className="font-bold uppercase text-destructive">
                         vai remover todos os itens de
-                        catálogo vinculados a esse produto
+                        catálogo vinculados a esse tipo de produto
                       </span>
                       {". "}
                       Caso queira apenas
@@ -224,16 +224,16 @@ export const columns: ColumnDef<ProductType>[] = [
                         ocultar
                       </span>
                       {" "}
-                      os itens de catálogo vinculados a esse produto
+                      os itens de catálogo vinculados a esse tipo de produto
                       você pode
                       {" "}
                       <span className="font-bold">
                         desativar
                       </span>
-                      esse produto.
+                      esse tipo de produto.
                     </AlertDialogDescription>
                     <AlertDialogTitle className="text-base">
-                      Como desativar esse produto?
+                      Como desativar esse tipo de produto?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                       Clique em

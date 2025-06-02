@@ -17,7 +17,7 @@ export default async function NewProductType({
   return (
     <Section>
       <SectionHeader
-        title="Novo produto"
+        title="Novo tipo de produto"
         description="This is how others will see you on the site."
       />
 

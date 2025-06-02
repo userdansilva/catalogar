@@ -49,7 +49,7 @@ export function CreateProductTypeForm({
     <ProductTypeForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Criar produto"
+      submitButtonLabel="Criar tipo de produto"
       withSlugAutocomplete
     />
   );

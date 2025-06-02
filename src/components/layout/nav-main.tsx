@@ -47,7 +47,7 @@ export default function NavMain({
         {
           ...routes.catalogItems,
           isLocked: productTypes.length === 0,
-          lockReason: "Para desbloquear o Catálogo, primeiro adicione um produto, pois cada item de catálogo é vinculado a um tipo de produto",
+          lockReason: "Para desbloquear o Catálogo, primeiro adicione um tipo de produto",
           isActive: false,
         },
       ],
@@ -111,7 +111,7 @@ export default function NavMain({
                   </SidebarMenuButton>
                 </TooltipTrigger>
                 {item.isLocked && (
-                  <TooltipContent side="right" className="ml-2">
+                  <TooltipContent side="right" className="ml-2 max-w-80">
                     {item.lockReason}
                   </TooltipContent>
                 )}

@@ -25,7 +25,7 @@ export default async function ProductTypes(props: ProductTypesProps) {
   return (
     <Section>
       <SectionHeader
-        title="Meus produtos"
+        title="Meus Tipos de Produto"
         description="This is how others will see you on the site."
       />
 
@@ -33,7 +33,7 @@ export default async function ProductTypes(props: ProductTypesProps) {
         <Button asChild className="mb-10">
           <Link href={routes.productTypes.sub.new.url}>
             <Plus className="size-4" />
-            Criar produto
+            Criar tipo de produto
           </Link>
         </Button>
 

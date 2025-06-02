@@ -44,7 +44,7 @@ export function MainMissions({
       </h2>
 
       <Mission
-        title="1. Adicionar o primeiro produto"
+        title="1. Adicionar o primeiro tipo de produto"
         status={productTypeMissionStatus}
         href={routes.productTypes.sub.new.url}
       />

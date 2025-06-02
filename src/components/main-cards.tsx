@@ -175,7 +175,7 @@ export function MainCards({
         <Card>
           <CardHeader className="relative">
             <CardDescription>
-              Produtos
+              Tipos de Produto
             </CardDescription>
 
             <CardTitle className="text-2xl">
