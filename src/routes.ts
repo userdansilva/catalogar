@@ -79,29 +79,21 @@ export const routes = {
         title: "Editar categoria",
         url: (id: string) => `/categorias/${id}/editar`,
       },
-      disable: {
-        title: "Desativar categoria",
-        url: (id: string) => `/categorias/${id}/desativar`,
-      },
     },
   },
   productTypes: {
     title: "Tipos de Produto",
     description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
     icon: List,
-    url: "/produtos",
+    url: "/tipos-de-produto",
     sub: {
       new: {
         title: "Novo tipo de produto",
-        url: "/produtos/novo",
+        url: "/tipos-de-produto/novo",
       },
       edit: {
         title: "Editar tipo de produto",
-        url: (id: string) => `/produtos/${id}/editar`,
-      },
-      disable: {
-        title: "Desativar tipo de produto",
-        url: (id: string) => `/produtos/${id}/desativar`,
+        url: (id: string) => `/tipos-de-produto/${id}/editar`,
       },
     },
   },
