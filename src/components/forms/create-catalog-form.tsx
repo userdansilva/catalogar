@@ -49,6 +49,7 @@ export function CreateCatalogForm() {
       form={form}
       onSubmit={handleSubmitWithAction}
       submitButtonLabel="Criar catálogo"
+      withSlugAutocomplete
     />
   );
 }

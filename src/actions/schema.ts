@@ -1,12 +1,13 @@
 import { z } from "zod";
 import { zfd } from "zod-form-data";
+import { validator } from "./validator";
 
 /**
  * Catalog
  */
 export const catalogSchema = z.object({
   name: z.string().min(1, "Campo obrigatório"),
-  slug: z.string().min(1, "Campo obrigatório"),
+  slug: z.string().min(1, "Campo obrigatório").and(validator.slugValidator),
   isPublished: z.boolean(),
   redirectTo: z.string().optional(),
 });
@@ -50,7 +51,7 @@ export const themeSchema = z.object({
 export const categorySchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string().min(1, "Campo obrigatório"),
-  slug: z.string().min(1, "Campo obrigatório"),
+  slug: z.string().min(1, "Campo obrigatório").and(validator.slugValidator),
   textColor: z.string().min(1, "Campo obrigatório"),
   backgroundColor: z.string().min(1, "Campo obrigatório"),
   isDisabled: z.boolean(),
@@ -68,7 +69,7 @@ export const categoryStatusToggleSchema = z.object({
 export const productTypeSchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string().min(1, "Campo obrigatório"),
-  slug: z.string().min(1, "Campo obrigatório"),
+  slug: z.string().min(1, "Campo obrigatório").and(validator.slugValidator),
   isDisabled: z.boolean(),
   redirectTo: z.string().optional(),
 });

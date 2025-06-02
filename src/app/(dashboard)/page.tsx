@@ -9,19 +9,24 @@ import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
 import { getUser } from "@/services/get-user";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: routes.dashboard.title,
 };
 
 export default async function Home() {
-  // const session = await auth();
+  const { data: user } = await getUser();
+
+  if (!user.currentCatalog) {
+    return redirect(routes.catalog.sub.createFirst.url);
+  }
 
   const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
   const { data: catalogItems } = await getCatalogItems();
-  const { data: user } = await getUser();
 
+  // const session = await auth();
   // // eslint-disable-next-line no-console
   // console.log(session);
 

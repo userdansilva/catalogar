@@ -6,6 +6,7 @@ import {
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
 import { productTypeSchema } from "@/actions/schema";
+import slugify from "slugify";
 import { Button } from "../inputs/button";
 
 export type ProductTypeFormValues = z.infer<typeof productTypeSchema>
@@ -14,12 +15,14 @@ type ProductTypeFormProps = {
   form: UseFormReturn<ProductTypeFormValues>
   onSubmit: FormEventHandler<HTMLFormElement>
   submitButtonLabel: string
+  withSlugAutocomplete?: boolean
 }
 
 export function ProductTypeForm({
   form,
   onSubmit,
   submitButtonLabel,
+  withSlugAutocomplete,
 }: ProductTypeFormProps) {
   return (
     <Form {...form}>
@@ -28,7 +31,7 @@ export function ProductTypeForm({
           name="name"
           control={form.control}
           disabled={form.formState.isSubmitting}
-          render={({ field }) => (
+          render={({ field: { onChange, ...field } }) => (
             <FormItem>
               <FormLabel>Nome</FormLabel>
 
@@ -38,6 +41,19 @@ export function ProductTypeForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  onChange={(e) => {
+                    onChange(e);
+
+                    if (withSlugAutocomplete) {
+                      const slug = e.target.value
+                        ? slugify(e.target.value, { lower: true })
+                        : "";
+
+                      form.setValue("slug", slug, {
+                        shouldValidate: true,
+                      });
+                    }
+                  }}
                   {...field}
                 />
               </FormControl>

@@ -50,6 +50,7 @@ export function CreateProductTypeForm({
       form={form}
       onSubmit={handleSubmitWithAction}
       submitButtonLabel="Criar produto"
+      withSlugAutocomplete
     />
   );
 }

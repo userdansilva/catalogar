@@ -52,6 +52,7 @@ export function CreateCategoryForm({
       form={form}
       onSubmit={handleSubmitWithAction}
       submitButtonLabel="Criar categoria"
+      withSlugAutocomplete
     />
   );
 }

@@ -10,6 +10,7 @@ import { Input } from "@/shadcn/components/ui/input";
 import { FormEventHandler } from "react";
 import { Control, UseFormReturn, useWatch } from "react-hook-form";
 import { z } from "zod";
+import slugify from "slugify";
 import { Button } from "../inputs/button";
 
 export type CategoryFormValues = z.infer<typeof categorySchema>
@@ -36,12 +37,14 @@ type CategoryFormProps = {
   form: UseFormReturn<CategoryFormValues>
   onSubmit: FormEventHandler<HTMLFormElement>
   submitButtonLabel: string
+  withSlugAutocomplete?: boolean
 }
 
 export function CategoryForm({
   form,
   onSubmit,
   submitButtonLabel,
+  withSlugAutocomplete,
 }: CategoryFormProps) {
   return (
     <Form {...form}>
@@ -50,7 +53,7 @@ export function CategoryForm({
           name="name"
           control={form.control}
           disabled={form.formState.isSubmitting}
-          render={({ field }) => (
+          render={({ field: { onChange, ...field } }) => (
             <FormItem>
               <FormLabel>Nome</FormLabel>
 
@@ -60,6 +63,19 @@ export function CategoryForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  onChange={(e) => {
+                    onChange(e);
+
+                    if (withSlugAutocomplete) {
+                      const slug = e.target.value
+                        ? slugify(e.target.value, { lower: true })
+                        : "";
+
+                      form.setValue("slug", slug, {
+                        shouldValidate: true,
+                      });
+                    }
+                  }}
                   {...field}
                 />
               </FormControl>

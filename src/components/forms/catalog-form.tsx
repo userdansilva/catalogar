@@ -11,6 +11,7 @@ import { Lightbulb } from "lucide-react";
 import { Checkbox } from "@/shadcn/components/ui/checkbox";
 import { UseFormReturn } from "react-hook-form";
 import { FormEventHandler } from "react";
+import slugify from "slugify";
 import { Button } from "../inputs/button";
 
 export type CatalogFormValues = z.infer<typeof catalogSchema>
@@ -19,14 +20,16 @@ type CatalogFormProps = {
   form: UseFormReturn<CatalogFormValues>
   onSubmit: FormEventHandler<HTMLFormElement>
   submitButtonLabel: string
+  withSlugAutocomplete?: boolean
   withSlugTip?: boolean
 }
 
 export function CatalogForm({
   form,
   onSubmit,
-  withSlugTip = false,
-  submitButtonLabel = "Salvar alterações",
+  submitButtonLabel,
+  withSlugAutocomplete,
+  withSlugTip,
 }: CatalogFormProps) {
   return (
     <Form {...form}>
@@ -35,7 +38,7 @@ export function CatalogForm({
           name="name"
           control={form.control}
           disabled={form.formState.isSubmitting}
-          render={({ field }) => (
+          render={({ field: { onChange, ...field } }) => (
             <FormItem>
               <FormLabel>Nome</FormLabel>
 
@@ -45,6 +48,19 @@ export function CatalogForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  onChange={(e) => {
+                    onChange(e);
+
+                    if (withSlugAutocomplete) {
+                      const slug = e.target.value
+                        ? slugify(e.target.value, { lower: true })
+                        : "";
+
+                      form.setValue("slug", slug, {
+                        shouldValidate: true,
+                      });
+                    }
+                  }}
                   {...field}
                 />
               </FormControl>
@@ -64,7 +80,7 @@ export function CatalogForm({
             <AlertTitle>Dica importante!</AlertTitle>
             <AlertDescription>
               Evite mudar o slug com frequência. Se você alterar o slug,
-              o link atual vai parar de funcionar e seus clientes
+              o link atual vai ser alterado e seus clientes
               precisarão acessar com o novo link.
             </AlertDescription>
           </Alert>
@@ -121,9 +137,8 @@ export function CatalogForm({
                   Publicar meu catálogo (recomendado)
                 </FormLabel>
                 <FormDescription>
-                  Públicos são visíveis para qualquer pessoa,
+                  Públicos são visíveis para qualquer pessoa, pelo o seu link público,
                   enquanto não publicado só podem se acessado por você.
-                  Não publicar pode ser útil enquanto você configura tudo.
                 </FormDescription>
               </div>
             </FormItem>
