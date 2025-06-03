@@ -4,12 +4,15 @@ import {
   Card, CardDescription, CardFooter, CardHeader, CardTitle,
 } from "@/shadcn/components/ui/card";
 import { Catalog } from "@/types/api-types";
-import { Box, Check, Plus } from "lucide-react";
+import {
+  Box, Check, Plus, Settings,
+} from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import { toast } from "sonner";
 import Link from "next/link";
 import { routes } from "@/routes";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/shadcn/components/ui/tooltip";
 import { Button } from "./inputs/button";
 
 type MyCatalogsProps = {
@@ -64,7 +67,7 @@ export function MyCatalogs({
                   </div>
                 </CardHeader>
 
-                <CardFooter>
+                <CardFooter className="space-x-2">
                   <Button
                     size="sm"
                     className="w-full"
@@ -82,6 +85,26 @@ export function MyCatalogs({
                     {isCurrentCatalog ? "Selecionado (Atual)" : "Selecionar"}
                     {isCurrentCatalog && <Check className="size-3" />}
                   </Button>
+
+                  {isCurrentCatalog ? (
+                    <Button size="sm" variant="outline" asChild>
+                      <Link href={routes.config.url}>
+                        <Settings className="size-3" />
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Button size="sm" variant="outline" disabled>
+                          <Settings className="size-3" />
+                        </Button>
+                      </TooltipTrigger>
+
+                      <TooltipContent side="top">
+                        Selecione o catálogo (Selecionar) para acessar configuração
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
                 </CardFooter>
               </Card>
             );
