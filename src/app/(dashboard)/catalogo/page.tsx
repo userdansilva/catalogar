@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 const ITEMS_PER_PAGE = 6;
 
-export default async function Catalog(props: {
+export default async function Page(props: {
   searchParams?: Promise<{
     categoria?: string
     produto?: string

@@ -4,7 +4,7 @@ export default function JourneyLayout({
   children,
 }: PropsWithChildren) {
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center">
       {children}
     </div>
   );

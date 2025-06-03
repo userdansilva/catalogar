@@ -1,33 +1,37 @@
-import { CreateCompanyForm } from "@/components/forms/create-company-form";
+import { CreateCatalogItemForm } from "@/components/forms/create-catalog-item-form";
 import { routes } from "@/routes";
-import { getUser } from "@/services/get-user";
-import { User } from "@/types/api-types";
+import { getCatalogItems } from "@/services/get-catalog-items";
+import { getCategories } from "@/services/get-categories";
+import { getProductTypes } from "@/services/get-product-types";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: routes.company.sub.new.title,
+  title: routes.catalogItems.sub.createFirst.title,
 };
 
-export default async function RegisterCompany({
+export default async function CreateFirstCatalogItem({
   searchParams,
 }: {
   searchParams: Promise<{ callbackUrl?: string }>
 }) {
   const { callbackUrl } = await searchParams;
-  const { data: user } = await getUser<User>();
+  const { data: catalogItems } = await getCatalogItems();
 
-  if (user.currentCatalog?.company) {
-    return redirect(routes.dashboard.url);
+  if (catalogItems.length >= 1) {
+    return redirect(routes.productTypes.url);
   }
+
+  const { data: productTypes } = await getProductTypes();
+  const { data: categories } = await getCategories();
 
   return (
     <div className="max-w-lg space-y-8">
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
-          Opa! Vamos cadastrar sua
+          Opa! Vamos cadastrar seu
           {" "}
-          <span className="font-bold">Empresa</span>
+          <span className="font-bold">Item de Catálogo</span>
         </h2>
 
         <p className="text-muted-foreground">
@@ -38,7 +42,9 @@ export default async function RegisterCompany({
         </p>
       </div>
 
-      <CreateCompanyForm
+      <CreateCatalogItemForm
+        productTypes={productTypes}
+        categories={categories}
         callbackUrl={callbackUrl}
       />
     </div>

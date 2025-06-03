@@ -58,7 +58,7 @@ export function CreateCatalogItemForm({
     <CatalogItemForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Criar item"
+      submitButtonLabel="Criar item de catálogo"
       categories={categories}
       productTypes={productTypes}
     />

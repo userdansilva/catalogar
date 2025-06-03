@@ -46,13 +46,13 @@ export function MainMissions({
       <Mission
         title="1. Adicionar o primeiro tipo de produto"
         status={productTypeMissionStatus}
-        href={routes.productTypes.sub.new.url}
+        href={routes.productTypes.sub.createFirst.url}
       />
 
       <Mission
         title="2. Adicionar a primeira categoria"
         status={categoryMissionStatus}
-        href={routes.categories.sub.new.url}
+        href={routes.categories.sub.createFirst.url}
       />
 
       <Reward
@@ -64,7 +64,7 @@ export function MainMissions({
       <Mission
         title="3. Adicionar o primeiro item de catálogo"
         status={catalogItemMissionStatus}
-        href={routes.catalogItems.sub.new.url}
+        href={routes.catalogItems.sub.createFirst.url}
       />
 
       <Reward

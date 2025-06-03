@@ -1,24 +1,23 @@
-import { CreateCompanyForm } from "@/components/forms/create-company-form";
+import { CreateCategoryForm } from "@/components/forms/create-category-form";
 import { routes } from "@/routes";
-import { getUser } from "@/services/get-user";
-import { User } from "@/types/api-types";
+import { getCategories } from "@/services/get-categories";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: routes.company.sub.new.title,
+  title: routes.categories.sub.createFirst.title,
 };
 
-export default async function RegisterCompany({
+export default async function CreateFirstCategory({
   searchParams,
 }: {
   searchParams: Promise<{ callbackUrl?: string }>
 }) {
   const { callbackUrl } = await searchParams;
-  const { data: user } = await getUser<User>();
+  const { data: categories } = await getCategories();
 
-  if (user.currentCatalog?.company) {
-    return redirect(routes.dashboard.url);
+  if (categories.length >= 1) {
+    return redirect(routes.productTypes.url);
   }
 
   return (
@@ -27,7 +26,7 @@ export default async function RegisterCompany({
         <h2 className="text-2xl tracking-tight">
           Opa! Vamos cadastrar sua
           {" "}
-          <span className="font-bold">Empresa</span>
+          <span className="font-bold">Categoria</span>
         </h2>
 
         <p className="text-muted-foreground">
@@ -38,7 +37,7 @@ export default async function RegisterCompany({
         </p>
       </div>
 
-      <CreateCompanyForm
+      <CreateCategoryForm
         callbackUrl={callbackUrl}
       />
     </div>

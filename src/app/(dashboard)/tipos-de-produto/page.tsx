@@ -12,13 +12,13 @@ export const metadata: Metadata = {
   title: routes.productTypes.title,
 };
 
-type ProductTypesProps = {
+type PageProps = {
   searchParams?: Promise<{
     page?: string;
   }>
 }
 
-export default async function ProductTypes(props: ProductTypesProps) {
+export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
   const currentPage = Number(searchParams?.page) || 1;
 

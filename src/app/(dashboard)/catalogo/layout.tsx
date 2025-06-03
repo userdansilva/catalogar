@@ -1,10 +1,18 @@
 import { PropsWithChildren } from "react";
 import { Page, PageHeader } from "@/components/page-layout/page";
 import { routes } from "@/routes";
+import { getCatalogItems } from "@/services/get-catalog-items";
+import { redirect } from "next/navigation";
 
-export default function CatalogLayout({
+export default async function Layout({
   children,
 }: PropsWithChildren) {
+  const { data: catalogItems } = await getCatalogItems();
+
+  if (catalogItems.length) {
+    redirect(routes.catalogItems.sub.createFirst.url);
+  }
+
   return (
     <Page>
       <PageHeader

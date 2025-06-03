@@ -10,17 +10,22 @@ import {
   SidebarMenuItem,
 } from "@/shadcn/components/ui/sidebar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shadcn/components/ui/tooltip";
-import { CatalogItem, ProductType } from "@/types/api-types";
+import {
+  CatalogItem, Category, ProductType,
+  UserWithCatalog,
+} from "@/types/api-types";
 import { Lock } from "lucide-react";
 import Link from "next/link";
 
 type NavMainProps = {
   productTypes: ProductType[];
+  categories: Category[];
   catalogItems: CatalogItem[];
+  user: UserWithCatalog;
 }
 
 export default function NavMain({
-  productTypes, catalogItems,
+  user, productTypes, categories, catalogItems,
 }: NavMainProps) {
   const groups = [
     {
@@ -34,20 +39,29 @@ export default function NavMain({
         },
         {
           ...routes.productTypes,
+          url: productTypes.length === 0
+            ? routes.productTypes.sub.createFirst.url
+            : routes.productTypes.url,
           isLocked: false,
           lockReason: "",
           isActive: false,
         },
         {
           ...routes.categories,
+          url: categories.length === 0
+            ? routes.categories.sub.createFirst.url
+            : routes.categories.url,
           isLocked: false,
           lockReason: "",
           isActive: false,
         },
         {
           ...routes.catalogItems,
+          url: catalogItems.length === 0
+            ? routes.catalogItems.sub.createFirst.url
+            : routes.catalogItems.url,
           isLocked: productTypes.length === 0,
-          lockReason: "Para desbloquear o Catálogo, primeiro adicione um tipo de produto",
+          lockReason: "Adicione um tipo de produto para desbloquear o Catálogo",
           isActive: false,
         },
       ],
@@ -58,7 +72,7 @@ export default function NavMain({
         {
           ...routes.preview,
           isLocked: catalogItems.length === 0,
-          lockReason: "Para desbloquear o Preview, primeiro adicione um item de catálogo",
+          lockReason: "Adicione um item no Catálogo para desbloquear o Preview",
           isActive: false,
         },
       ],
@@ -68,12 +82,18 @@ export default function NavMain({
       items: [
         {
           ...routes.company,
+          url: user.currentCatalog.company
+            ? routes.company.url
+            : routes.company.sub.new.url,
           isLocked: false,
           lockReason: "",
           isActive: false,
         },
         {
           ...routes.theme,
+          url: user.currentCatalog.theme
+            ? routes.theme.url
+            : routes.theme.sub.new.url,
           isLocked: false,
           lockReason: "",
           isActive: false,

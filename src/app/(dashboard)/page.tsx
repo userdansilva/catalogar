@@ -40,7 +40,7 @@ export default async function Home() {
     <div className="space-y-10">
       <div>
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-          Boas Vindas ao Calogar!
+          Boas Vindas ao Catalogar!
         </h1>
 
         {(shouldDisplayMainMissions || shouldDisplayCustomizationMissions) && (

@@ -47,6 +47,10 @@ export const routes = {
     icon: Book,
     url: "/catalogo",
     sub: {
+      createFirst: {
+        title: "Primeiro Item de Catálogo",
+        url: "/primeiro-item-de-catalogo",
+      },
       new: {
         title: "Novo item",
         url: "/catalogo/novo",
@@ -71,6 +75,10 @@ export const routes = {
     icon: Filter,
     url: "/categorias",
     sub: {
+      createFirst: {
+        title: "Primeira Categoria",
+        url: "/primeira-categoria",
+      },
       new: {
         title: "Nova categoria",
         url: "/categorias/nova",
@@ -87,6 +95,10 @@ export const routes = {
     icon: List,
     url: "/tipos-de-produto",
     sub: {
+      createFirst: {
+        title: "Primeiro Tipo de Produto",
+        url: "/primeiro-tipo-de-produto",
+      },
       new: {
         title: "Novo tipo de produto",
         url: "/tipos-de-produto/novo",
