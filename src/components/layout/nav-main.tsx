@@ -116,26 +116,32 @@ export default function NavMain({
         <SidebarMenu>
           {group.items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <SidebarMenuButton
-                    asChild
-                    tooltip={item.title}
-                    disabled={item.isLocked}
-                  >
-                    <Link href={item.url}>
+              {item.isLocked ? (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <SidebarMenuButton tooltip={item.title}>
                       <item.icon />
                       <span>{item.title}</span>
-                      {item.isLocked && <Lock className="ml-auto" />}
-                    </Link>
-                  </SidebarMenuButton>
-                </TooltipTrigger>
-                {item.isLocked && (
+                      <Lock className="ml-auto" />
+                    </SidebarMenuButton>
+                  </TooltipTrigger>
+
                   <TooltipContent side="right" className="ml-2 max-w-80">
                     {item.lockReason}
                   </TooltipContent>
-                )}
-              </Tooltip>
+
+                </Tooltip>
+              ) : (
+                <SidebarMenuButton
+                  asChild
+                  tooltip={item.title}
+                >
+                  <Link href={item.url}>
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </Link>
+                </SidebarMenuButton>
+              )}
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
