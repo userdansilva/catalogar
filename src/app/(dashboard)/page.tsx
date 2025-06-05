@@ -74,8 +74,7 @@ export default async function Home() {
         />
       )}
 
-      {((shouldDisplayMainMissions
-        || shouldDisplayCustomizationMissions
+      {((!shouldDisplayMainMissions
         || user.catalogs.length > 1)
         && (
           <MyCatalogs
