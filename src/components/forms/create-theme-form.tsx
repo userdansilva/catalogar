@@ -37,7 +37,7 @@ export function CreateThemeForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso! Redirecionando para tela inicial...", {
+          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`, {
             description: res.data?.message,
           });
         },

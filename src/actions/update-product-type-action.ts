@@ -5,6 +5,7 @@ import { ApiResponse } from "@/types/api-response";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { ProductType } from "@/types/api-types";
+import slugify from "slugify";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
@@ -17,13 +18,13 @@ export const updateProductTypeAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      id, name, slug, isDisabled, redirectTo,
+      id, name, isDisabled, redirectTo,
     },
     ctx: { accessToken },
   }) => {
     try {
       const res = await api.put<ApiResponse<ProductType>>(`/v1/product-types/${id}`, {
-        name, slug, isDisabled,
+        name, slug: slugify(name, { lower: true }), isDisabled,
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`,

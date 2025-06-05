@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { ApiResponse } from "@/types/api-response";
 import { ProductType } from "@/types/api-types";
 import { tags } from "@/tags";
+import slugify from "slugify";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
@@ -17,13 +18,13 @@ export const createProductTypeAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      name, slug, isDisabled, redirectTo,
+      name, isDisabled, redirectTo,
     },
     ctx: { accessToken },
   }) => {
     try {
       const res = await api.post<ApiResponse<ProductType>>("/v1/product-types", {
-        name, slug, isDisabled,
+        name, slug: slugify(name, { lower: true }), isDisabled,
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -38,6 +39,8 @@ export const createProductTypeAction = authActionClient
 
       return { productType: res.data.data, message: res.data.meta?.message };
     } catch (e) {
+      console.error(e);
+
       returnValidationErrorsIfExists(e, productTypeSchema);
       throw e;
     }

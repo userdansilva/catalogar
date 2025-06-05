@@ -21,7 +21,6 @@ export function CreateCategoryForm({
         mode: "onChange",
         defaultValues: {
           name: "",
-          slug: "",
           textColor: "#FFFFFF",
           backgroundColor: "#000000",
           isDisabled: false,
@@ -30,7 +29,7 @@ export function CreateCategoryForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`, {
+          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`, {
             description: res.data?.message,
           });
         },
@@ -52,7 +51,6 @@ export function CreateCategoryForm({
       form={form}
       onSubmit={handleSubmitWithAction}
       submitButtonLabel="Criar categoria"
-      withSlugAutocomplete
     />
   );
 }

@@ -12,6 +12,16 @@ export const catalogSchema = z.object({
   redirectTo: z.string().optional(),
 });
 
+export const createCatalogSchema = z.object({
+  name: catalogSchema.shape.name,
+  redirectTo: catalogSchema.shape.redirectTo,
+});
+
+export const publishCatalogSchema = z.object({
+  slug: catalogSchema.shape.slug,
+  redirectTo: catalogSchema.shape.redirectTo,
+});
+
 /**
  * Company
  */
@@ -51,7 +61,6 @@ export const themeSchema = z.object({
 export const categorySchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string().min(1, "Campo obrigatório"),
-  slug: z.string().min(1, "Campo obrigatório").and(validator.slugValidator),
   textColor: z.string().min(1, "Campo obrigatório"),
   backgroundColor: z.string().min(1, "Campo obrigatório"),
   isDisabled: z.boolean(),
@@ -69,7 +78,6 @@ export const categoryStatusToggleSchema = z.object({
 export const productTypeSchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string().min(1, "Campo obrigatório"),
-  slug: z.string().min(1, "Campo obrigatório").and(validator.slugValidator),
   isDisabled: z.boolean(),
   redirectTo: z.string().optional(),
 });

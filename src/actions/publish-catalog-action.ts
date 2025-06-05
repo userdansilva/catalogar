@@ -5,25 +5,31 @@ import { ApiResponse } from "@/types/api-response";
 import { Catalog } from "@/types/api-types";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
+import { getUser } from "@/services/get-user";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
-import { createCatalogSchema } from "./schema";
+import { publishCatalogSchema } from "./schema";
 
-export const createCatalogAction = authActionClient
-  .schema(createCatalogSchema)
+export const publishCatalogAction = authActionClient
+  .schema(publishCatalogSchema)
   .metadata({
-    actionName: "create-catalog",
+    actionName: "publish-catalog",
   })
   .action(async ({
     parsedInput: {
-      name, redirectTo,
+      slug, redirectTo,
     },
     ctx: { accessToken },
   }) => {
+    const { data: user } = await getUser();
+
+    /** Criar endpoint específico no backend para isso */
     try {
-      const res = await api.post<ApiResponse<Catalog>>("/v1/catalogs", {
-        name,
+      const res = await api.put<ApiResponse<Catalog>>("/v1/catalogs", {
+        name: user.currentCatalog.name,
+        slug,
+        isPublished: true,
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -38,7 +44,7 @@ export const createCatalogAction = authActionClient
 
       return { catalog: res.data.data, message: res.data.meta?.message };
     } catch (e) {
-      returnValidationErrorsIfExists(e, createCatalogSchema);
+      returnValidationErrorsIfExists(e, publishCatalogSchema);
       throw e;
     }
   });

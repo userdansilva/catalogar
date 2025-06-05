@@ -28,7 +28,7 @@ export type Theme = PropsWithTimestamps<{
 export type Catalog = PropsWithTimestamps<{
   id: string
   name: string
-  slug: string
+  slug?: string
   publishedAt?: string
   isPublished: boolean
   company?: Company

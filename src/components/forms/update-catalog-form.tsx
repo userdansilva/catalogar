@@ -51,7 +51,6 @@ export function UpdateCatalogForm({
       form={form}
       onSubmit={handleSubmitWithAction}
       submitButtonLabel="Salvar alterações"
-      withSlugTip
     />
   );
 }

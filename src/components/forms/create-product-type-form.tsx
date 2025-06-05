@@ -21,18 +21,19 @@ export function CreateProductTypeForm({
         mode: "onChange",
         defaultValues: {
           name: "",
-          slug: "",
           isDisabled: false,
           redirectTo: callbackUrl || routes.productTypes.url,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`, {
+          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`, {
             description: res.data?.message,
           });
         },
         onError: (e) => {
+          console.error(e);
+
           const { serverError } = e.error;
 
           if (serverError) {
@@ -50,7 +51,6 @@ export function CreateProductTypeForm({
       form={form}
       onSubmit={handleSubmitWithAction}
       submitButtonLabel="Criar tipo de produto"
-      withSlugAutocomplete
     />
   );
 }

@@ -8,6 +8,7 @@ import {
 } from "@/types/api-types";
 import {
   Book, Box, Building2, ExternalLink, Filter, List, Paintbrush, Palette, Plus,
+  Rocket,
   View,
 } from "lucide-react";
 import Link from "next/link";
@@ -31,31 +32,42 @@ export function MainCards({
             {user.currentCatalog.name}
           </CardTitle>
 
-          <CardDescription className="text-background">
-            <Button asChild className="dark pl-0" variant="link">
+          {user.currentCatalog.isPublished && (
+            <CardDescription className="text-background">
+              <Button asChild className="dark pl-0" variant="link">
+                <a
+                  href={`${routes.external.url}/${user.currentCatalog.slug}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {`${routes.external.url}/${user.currentCatalog.slug}`}
+                  <ExternalLink className="size-4 text-foreground" />
+                </a>
+              </Button>
+            </CardDescription>
+          )}
+        </CardHeader>
+
+        <div className="flex h-full items-center pr-6">
+          {user.currentCatalog.isPublished ? (
+            <Button className="dark" asChild>
               <a
                 href={`${routes.external.url}/${user.currentCatalog.slug}`}
                 target="_blank"
                 rel="noreferrer"
               >
-                {`${routes.external.url}/${user.currentCatalog.slug}`}
-                <ExternalLink className="size-4 text-foreground" />
+                <ExternalLink className="size-4 text-background" />
+                Acessar
               </a>
             </Button>
-          </CardDescription>
-        </CardHeader>
-
-        <div className="flex h-full items-center pr-6">
-          <Button className="dark" asChild>
-            <a
-              href={`${routes.external.url}/${user.currentCatalog.slug}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <ExternalLink className="size-4 text-background" />
-              Acessar
-            </a>
-          </Button>
+          ) : (
+            <Button className="dark" asChild>
+              <Link href={routes.catalog.sub.prePublish.url}>
+                <Rocket className="size-4 text-background" />
+                Publicar
+              </Link>
+            </Button>
+          )}
         </div>
       </Card>
 

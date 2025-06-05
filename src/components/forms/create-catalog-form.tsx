@@ -1,27 +1,29 @@
 "use client";
 
-import { catalogSchema } from "@/actions/schema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { createCatalogAction } from "@/actions/create-catalog-action";
 import { toast } from "sonner";
 import { routes } from "@/routes";
-import { CatalogForm } from "./catalog-form";
+import { createCatalogSchema } from "@/actions/schema";
+import {
+  Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
+} from "@/shadcn/components/ui/form";
+import { Input } from "@/shadcn/components/ui/input";
+import { Button } from "../inputs/button";
 
-export type CatalogFormValues = z.infer<typeof catalogSchema>
+export type CatalogFormValues = z.infer<typeof createCatalogSchema>
 
 export function CreateCatalogForm() {
   const { form, handleSubmitWithAction } = useHookFormAction(
     createCatalogAction,
-    zodResolver(catalogSchema),
+    zodResolver(createCatalogSchema),
     {
       formProps: {
         mode: "onChange",
         defaultValues: {
           name: "",
-          slug: "",
-          isPublished: true,
           redirectTo: routes.dashboard.url,
         },
       },
@@ -45,11 +47,43 @@ export function CreateCatalogForm() {
   );
 
   return (
-    <CatalogForm
-      form={form}
-      onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Criar catálogo"
-      withSlugAutocomplete
-    />
+    <Form {...form}>
+      <form onSubmit={handleSubmitWithAction} className="space-y-8">
+        <FormField
+          name="name"
+          control={form.control}
+          disabled={form.formState.isSubmitting}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nome</FormLabel>
+
+              <FormControl>
+                <Input
+                  placeholder="Ex.: Meu Catálogo"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  {...field}
+                />
+              </FormControl>
+
+              <FormDescription>
+                Você pode ter várias catálogos. O nome serve para identificar este catálogo.
+              </FormDescription>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button
+          type="submit"
+          disabled={form.formState.isSubmitting}
+          loading={form.formState.isSubmitting}
+        >
+          Criar catálogo
+        </Button>
+      </form>
+    </Form>
   );
 }

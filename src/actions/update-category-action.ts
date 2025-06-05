@@ -5,6 +5,7 @@ import { ApiResponse } from "@/types/api-response";
 import { Category } from "@/types/api-types";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
+import slugify from "slugify";
 import { authActionClient } from "./safe-action";
 import { categorySchema } from "./schema";
 import { api } from "./api";
@@ -17,13 +18,13 @@ export const updateCategoryAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      id, name, slug, textColor, backgroundColor, isDisabled, redirectTo,
+      id, name, textColor, backgroundColor, isDisabled, redirectTo,
     },
     ctx: { accessToken },
   }) => {
     try {
       const res = await api.put<ApiResponse<Category>>(`/v1/categories/${id}`, {
-        name, slug, textColor, backgroundColor, isDisabled,
+        name, slug: slugify(name, { lower: true }), textColor, backgroundColor, isDisabled,
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`,

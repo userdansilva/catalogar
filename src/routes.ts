@@ -5,13 +5,21 @@ import {
 export const routes = {
   external: {
     title: "Catálogo Público",
-    url: "https://app-dev.catalogar.com.br",
+    url: "https://app.catalogar.com.br",
   },
   catalog: {
     sub: {
       createFirst: {
         title: "Primeiro catálogo",
         url: "/primeiro-catalogo",
+      },
+      prePublish: {
+        title: "Pré-publicação",
+        url: "/pre-publicacao",
+      },
+      published: {
+        title: "Publicado",
+        url: "/publicado",
       },
       create: {
         title: "Criar catálogo",

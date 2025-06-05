@@ -6,12 +6,8 @@ import {
 } from "@/shadcn/components/ui/form";
 import { z } from "zod";
 import { Input } from "@/shadcn/components/ui/input";
-import { Alert, AlertDescription, AlertTitle } from "@/shadcn/components/ui/alert";
-import { Lightbulb } from "lucide-react";
-import { Checkbox } from "@/shadcn/components/ui/checkbox";
 import { UseFormReturn } from "react-hook-form";
 import { FormEventHandler } from "react";
-import slugify from "slugify";
 import { Button } from "../inputs/button";
 
 export type CatalogFormValues = z.infer<typeof catalogSchema>
@@ -20,16 +16,12 @@ type CatalogFormProps = {
   form: UseFormReturn<CatalogFormValues>
   onSubmit: FormEventHandler<HTMLFormElement>
   submitButtonLabel: string
-  withSlugAutocomplete?: boolean
-  withSlugTip?: boolean
 }
 
 export function CatalogForm({
   form,
   onSubmit,
   submitButtonLabel,
-  withSlugAutocomplete,
-  withSlugTip,
 }: CatalogFormProps) {
   return (
     <Form {...form}>
@@ -38,7 +30,7 @@ export function CatalogForm({
           name="name"
           control={form.control}
           disabled={form.formState.isSubmitting}
-          render={({ field: { onChange, ...field } }) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>Nome</FormLabel>
 
@@ -48,19 +40,6 @@ export function CatalogForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
-                  onChange={(e) => {
-                    onChange(e);
-
-                    if (withSlugAutocomplete) {
-                      const slug = e.target.value
-                        ? slugify(e.target.value, { lower: true })
-                        : "";
-
-                      form.setValue("slug", slug, {
-                        shouldValidate: true,
-                      });
-                    }
-                  }}
                   {...field}
                 />
               </FormControl>
@@ -74,19 +53,7 @@ export function CatalogForm({
           )}
         />
 
-        {withSlugTip && (
-          <Alert>
-            <Lightbulb className="size-4" />
-            <AlertTitle>Dica importante!</AlertTitle>
-            <AlertDescription>
-              Evite mudar o slug com frequência. Se você alterar o slug,
-              o link atual vai ser alterado e seus clientes
-              precisarão acessar com o novo link.
-            </AlertDescription>
-          </Alert>
-        )}
-
-        <FormField
+        {/* <FormField
           name="slug"
           control={form.control}
           disabled={form.formState.isSubmitting}
@@ -117,14 +84,15 @@ export function CatalogForm({
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
-        <FormField
+        {/* <FormField
           name="isPublished"
           control={form.control}
           disabled={form.formState.isSubmitting}
           render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0
+            rounded-md border p-4 shadow">
               <FormControl>
                 <Checkbox
                   checked={field.value}
@@ -143,7 +111,7 @@ export function CatalogForm({
               </div>
             </FormItem>
           )}
-        />
+        /> */}
 
         <Button
           type="submit"
