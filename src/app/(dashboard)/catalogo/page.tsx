@@ -83,6 +83,7 @@ export default async function Page(props: {
               currentPage={currentPage}
               perPage={ITEMS_PER_PAGE}
               withActions
+              unoptimized
             />
           </Suspense>
         </div>

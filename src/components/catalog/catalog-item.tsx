@@ -33,9 +33,11 @@ import { toast } from "sonner";
 export function CatalogItem({
   catalogItem,
   withActions,
+  unoptimized,
 }: {
   catalogItem: CatalogItemType
   withActions?: boolean
+  unoptimized?: boolean
 }) {
   const {
     executeAsync: executeToggleStatusAsync,
@@ -89,6 +91,7 @@ export function CatalogItem({
                 alt={catalogItem.title}
                 width={600}
                 height={600}
+                unoptimized={unoptimized}
               />
             </CarouselItem>
           ))}

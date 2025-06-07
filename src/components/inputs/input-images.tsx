@@ -62,7 +62,7 @@ export function InputImages({
     <>
       <div className="flex w-full gap-4 rounded-md border border-input bg-transparent p-3 text-base shadow-sm md:text-sm">
         {value.map((image) => (
-          <div className="relative size-32 rounded-md" key={image.accessUrl}>
+          <div className="relative size-52 rounded-md" key={image.accessUrl}>
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
@@ -93,8 +93,8 @@ export function InputImages({
             <Image
               src={image.accessUrl}
               alt=""
-              width={128}
-              height={128}
+              width={208}
+              height={208}
               className="rounded-sm"
               unoptimized
             />
@@ -106,7 +106,7 @@ export function InputImages({
           disabled={isExecuting || disabled}
           type="button"
           variant="outline"
-          className="flex size-32 flex-col"
+          className="flex size-52 flex-col"
           onClick={() => {
             inputFileRef.current?.click();
           }}

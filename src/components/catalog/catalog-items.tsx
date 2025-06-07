@@ -12,6 +12,7 @@ export async function CatalogItems({
   perPage,
   withActions,
   hideIfProductTypeIsDisabled,
+  unoptimized,
 }: {
   query: string
   productTypeSlug: string
@@ -20,6 +21,7 @@ export async function CatalogItems({
   perPage: number
   withActions?: boolean
   hideIfProductTypeIsDisabled?: boolean
+  unoptimized?: boolean
 }) {
   const { data: catalogItems } = await getCatalogItems();
 
@@ -42,12 +44,13 @@ export async function CatalogItems({
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+      <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {paginatedCatalogItems.map((catalogItem) => (
           <CatalogItem
             key={catalogItem.id}
             catalogItem={catalogItem}
             withActions={withActions}
+            unoptimized={unoptimized}
           />
         ))}
       </div>

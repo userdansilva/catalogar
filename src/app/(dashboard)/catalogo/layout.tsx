@@ -9,7 +9,7 @@ export default async function Layout({
 }: PropsWithChildren) {
   const { data: catalogItems } = await getCatalogItems();
 
-  if (catalogItems.length) {
+  if (catalogItems.length === 0) {
     redirect(routes.catalogItems.sub.createFirst.url);
   }
 

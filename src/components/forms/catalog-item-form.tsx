@@ -122,11 +122,13 @@ export function CatalogItemForm({
                 </FormControl>
 
                 <SelectContent>
-                  {productTypes.map((productType) => (
-                    <SelectItem value={productType.id} key={productType.id}>
-                      {productType.name}
-                    </SelectItem>
-                  ))}
+                  {productTypes
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((productType) => (
+                      <SelectItem value={productType.id} key={productType.id}>
+                        {productType.name}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
 
@@ -150,38 +152,46 @@ export function CatalogItemForm({
                 </FormDescription>
               </div>
 
-              <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <FormField
-                    key={category.id}
-                    control={form.control}
-                    name="categoryIds"
-                    render={({ field }) => (
-                      <FormItem
+              {categories.length >= 1 ? (
+                <div className="flex flex-wrap gap-2">
+                  {categories
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((category) => (
+                      <FormField
                         key={category.id}
-                        className="flex flex-row items-start space-x-2 space-y-0 rounded-md border px-3 py-2"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(category.id)}
-                            onCheckedChange={(checked) => (checked
-                              ? field.onChange([...(field.value || []), category.id])
-                              : field.onChange(
-                                field.value?.filter(
-                                  (value) => value !== category.id,
-                                ),
-                              ))}
-                          />
-                        </FormControl>
+                        control={form.control}
+                        name="categoryIds"
+                        render={({ field }) => (
+                          <FormItem
+                            key={category.id}
+                            className="flex flex-row items-start space-x-2 space-y-0 rounded-md border px-3 py-2"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(category.id)}
+                                onCheckedChange={(checked) => (checked
+                                  ? field.onChange([...(field.value || []), category.id])
+                                  : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== category.id,
+                                    ),
+                                  ))}
+                              />
+                            </FormControl>
 
-                        <FormLabel className="cursor-pointer font-normal">
-                          {category.name}
-                        </FormLabel>
-                      </FormItem>
-                    )}
-                  />
-                ))}
-              </div>
+                            <FormLabel className="cursor-pointer font-normal">
+                              {category.name}
+                            </FormLabel>
+                          </FormItem>
+                        )}
+                      />
+                    ))}
+                </div>
+              ) : (
+                <div className="text-sm">
+                  Nenhuma categoria adicionada
+                </div>
+              )}
 
               <FormMessage />
             </FormItem>

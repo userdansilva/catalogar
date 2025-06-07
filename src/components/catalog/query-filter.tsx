@@ -12,13 +12,19 @@ import { z } from "zod";
 
 type FormValues = z.infer<typeof queryFilterSchema>;
 
+type QueryFilterProps = {
+  currentQuery: string,
+  mode: "preview" | "dashboard"
+  primaryColor?: string
+  secondaryColor?: string
+}
+
 export function QueryFilter({
   currentQuery,
   mode,
-}: {
-  currentQuery: string,
-  mode: "preview" | "dashboard"
-}) {
+  primaryColor,
+  secondaryColor,
+}: QueryFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -75,7 +81,10 @@ export function QueryFilter({
             />
           </div>
 
-          <Button type="submit" className="rounded-l-none">
+          <Button
+            type="submit"
+            className="rounded-l-none"
+          >
             Buscar
           </Button>
         </form>
@@ -95,7 +104,7 @@ export function QueryFilter({
           render={({ field }) => (
             <Input
               placeholder="O que você está procurando?"
-              className="h-14 w-full rounded-full bg-background px-12 text-lg shadow-sm ring-1 ring-inset ring-input focus-visible:ring-2 focus-visible:ring-ring"
+              className="h-14 w-full rounded-full border-0 bg-background px-12 text-sm shadow-sm ring-1 ring-inset ring-input focus-visible:ring-2 focus-visible:ring-ring sm:text-base"
               autoCorrect="off"
               spellCheck="false"
               {...field}
@@ -115,7 +124,15 @@ export function QueryFilter({
             <span className="sr-only">Limpar busca</span>
           </Button>
         )}
-        <Button type="submit" size="sm" className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full">
+        <Button
+          type="submit"
+          size="sm"
+          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full shadow-none"
+          style={{
+            background: secondaryColor,
+            color: primaryColor,
+          }}
+        >
           Buscar
         </Button>
       </form>

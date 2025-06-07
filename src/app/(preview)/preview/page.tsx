@@ -6,6 +6,7 @@ import { QueryFilter } from "@/components/catalog/query-filter";
 import { routes } from "@/routes";
 import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
+import { getUser } from "@/services/get-user";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   title: routes.preview.title,
 };
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 16;
 
 export default async function Preview(props: {
   searchParams?: Promise<{
@@ -23,6 +24,7 @@ export default async function Preview(props: {
     p?: string
   }>
 }) {
+  const { data: user } = await getUser();
   const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
 
@@ -34,26 +36,32 @@ export default async function Preview(props: {
   const currentPage = Number(searchParams?.p) || 1;
 
   return (
-    <div className="container space-y-6">
+    <div className="space-y-10">
       <div className="flex flex-col items-center space-y-6">
-        <div className="w-2/3">
+        <div className="w-full sm:w-2/3">
           <QueryFilter
             mode="preview"
             currentQuery={query}
+            primaryColor={user.currentCatalog.theme?.primaryColor}
+            secondaryColor={user.currentCatalog.theme?.secondaryColor}
           />
         </div>
 
-        <ProductTypesFilter
-          mode="preview"
-          productTypes={productTypes}
-          currentProductTypeSlug={productTypeSlug}
-        />
+        {productTypes.length >= 2 && (
+          <ProductTypesFilter
+            mode="preview"
+            productTypes={productTypes}
+            currentProductTypeSlug={productTypeSlug}
+          />
+        )}
 
-        <CategoriesFilter
-          mode="preview"
-          categories={categories}
-          currentCategorySlug={categorySlug}
-        />
+        {categories.length >= 2 && (
+          <CategoriesFilter
+            mode="preview"
+            categories={categories}
+            currentCategorySlug={categorySlug}
+          />
+        )}
       </div>
 
       <Suspense

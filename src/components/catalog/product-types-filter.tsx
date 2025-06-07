@@ -116,7 +116,6 @@ export function ProductTypesFilter({
 
   return (
     <div className="flex items-center space-x-2">
-      <div className="text-sm text-muted-foreground">Tipos de Produto</div>
       <div className="flex flex-wrap gap-2">
         <Button
           variant={!currentProductTypeSlug
@@ -132,6 +131,7 @@ export function ProductTypesFilter({
 
         {productTypes
           .filter((productType) => !productType.isDisabled)
+          .sort((a, b) => a.name.localeCompare(b.name))
           .map((productType) => {
             const isSelected = currentProductTypeSlug === productType.slug;
 
