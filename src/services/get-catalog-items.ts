@@ -6,7 +6,9 @@ import { redirect } from "next/navigation";
 import { CatalogItem, CatalogItemFilters } from "@/types/api-types";
 import { formatParamsFrom } from "./format-params-from";
 
-export async function getCatalogItems(filters: CatalogItemFilters = {}) {
+export async function getCatalogItems(filters: CatalogItemFilters = {
+  perPage: 10_000,
+}) {
   const session = await auth();
   if (!session) redirect(routes.auth.sub.login.url);
 
