@@ -5,10 +5,8 @@ export function filterCatalogItems(
   catalogItems: CatalogItem[],
   filters: {
     query: string
-    productTypeSlug: string
-    categorySlug: string
-    currentPage: number
-    perPage: number
+    productTypeSlug?: string
+    categorySlug?: string
   },
   config: {
     hideIfProductTypeIsDisabled?: boolean
@@ -24,6 +22,7 @@ export function filterCatalogItems(
         "productType.name",
         "category.name",
       ],
+      ignoreDiacritics: true,
     });
 
     result = fuse.search(filters.query)

@@ -16,7 +16,7 @@ export default async function PreviewLayout({
   const logo = user.currentCatalog.theme?.logo;
 
   return (
-    <div className="space-y-10">
+    <div>
       <header
         className="w-full border-b border-slate-100 py-4"
         style={{
@@ -53,7 +53,7 @@ export default async function PreviewLayout({
         </div>
       </header>
 
-      <main className="container pb-10">
+      <main className="pb-10">
         {children}
       </main>
     </div>

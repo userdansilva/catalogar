@@ -29,8 +29,6 @@ export async function CatalogItems({
     query,
     productTypeSlug,
     categorySlug,
-    currentPage,
-    perPage,
   }, {
     hideIfProductTypeIsDisabled,
   });

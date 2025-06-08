@@ -16,19 +16,15 @@ import {
 } from "@/shadcn/components/ui/alert-dialog";
 import { Badge } from "@/shadcn/components/ui/badge";
 import { Button } from "@/shadcn/components/ui/button";
-import {
-  Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious,
-} from "@/shadcn/components/ui/carousel";
 import { cn } from "@/shadcn/lib/utils";
 import { CatalogItem as CatalogItemType } from "@/types/api-types";
 import {
   Archive, ChevronsUp, Pencil, Trash,
 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { CarouselImages } from "./carousel-images";
 
 export function CatalogItem({
   catalogItem,
@@ -47,23 +43,6 @@ export function CatalogItem({
     executeAsync: executeDeleteAsync,
   } = useAction(deleteCatalogItemAction);
 
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!api) return;
-
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
-  }, [api]);
-
-  const isMultiple = catalogItem.images.length > 1;
-
   const handleToggleStatus = () => toast.promise(async () => {
     await executeToggleStatusAsync({ id: catalogItem.id });
   }, {
@@ -80,50 +59,10 @@ export function CatalogItem({
 
   return (
     <div className={cn("space-y-2", catalogItem.isDisabled && "opacity-60")}>
-      <Carousel className="group w-full overflow-hidden rounded-md bg-background" setApi={setApi}>
-        <CarouselContent>
-          {catalogItem.images.map((image) => (
-            <CarouselItem
-              key={image.id}
-            >
-              <Image
-                src={image.url}
-                alt={catalogItem.title}
-                width={600}
-                height={600}
-                unoptimized={unoptimized}
-              />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-
-        {isMultiple && (
-          <>
-            {current > 1 && (
-              <CarouselPrevious className="left-2" />
-            )}
-
-            {current < catalogItem.images.length && (
-              <CarouselNext className="right-2" />
-            )}
-
-            <div className="absolute inset-x-0 bottom-0 flex justify-center p-4">
-              <div className="flex space-x-2">
-                {Array.from({ length: count }).map((_, i) => (
-                  <span
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={i}
-                    className={cn(
-                      "block size-2 rounded-full bg-background",
-                      (current === (i + 1)) && "bg-primary",
-                    )}
-                  />
-                ))}
-              </div>
-            </div>
-          </>
-        )}
-      </Carousel>
+      <CarouselImages
+        images={catalogItem.images}
+        unoptimized={unoptimized}
+      />
 
       <div className="flex flex-wrap gap-1">
         {catalogItem.categories.map((category) => (
@@ -147,9 +86,6 @@ export function CatalogItem({
         )}
         >
           {catalogItem.title}
-        </div>
-        <div className="text-sm text-muted-foreground">
-          {catalogItem.caption}
         </div>
         <div className="text-xs text-muted-foreground">
           {`Código: ${catalogItem.reference}`}

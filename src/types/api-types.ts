@@ -87,7 +87,7 @@ export type StorageSasToken = {
   accessUrl: string
 }
 
-export type Image = {
+export type CatalogItemImage = {
   id: string
   fileName: string
   url: string
@@ -103,7 +103,7 @@ export type CatalogItem = PropsWithTimestamps<{
   reference: number
   productType: ProductType
   categories: Category[]
-  images: Image[]
+  images: CatalogItemImage[]
   isDisabled: boolean
   disabled?: string
 }>
