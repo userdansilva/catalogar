@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { routes } from "@/routes";
 import { ApiResponse } from "@/types/api-response";
-import { Image } from "@/types/api-types";
+import { CatalogItemImage } from "@/types/api-types";
 import { redirect } from "next/navigation";
 
 export async function getSasToken(fileName: string) {
@@ -17,5 +17,5 @@ export async function getSasToken(fileName: string) {
 
   const data = await res.json();
 
-  return data as ApiResponse<Image>;
+  return data as ApiResponse<CatalogItemImage>;
 }
