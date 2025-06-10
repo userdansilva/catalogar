@@ -25,7 +25,7 @@ export default async function RegisterCompany({
     <div className="max-w-lg space-y-8">
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
-          Opa! Vamos cadastrar sua
+          Vamos cadastrar sua
           {" "}
           <span className="font-bold">Empresa</span>
         </h2>

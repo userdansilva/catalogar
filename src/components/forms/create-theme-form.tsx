@@ -58,7 +58,7 @@ export function CreateThemeForm({
     <ThemeForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Cadastrar tema"
+      submitButtonLabel="Cadastrar Tema"
     />
   );
 }

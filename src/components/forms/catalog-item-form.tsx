@@ -50,7 +50,7 @@ export function CatalogItemForm({
               </FormControl>
 
               <FormDescription>
-                As imagens do item serão exibidas na ordem em que forem adicionadas
+                As imagens serão exibidas na ordem em que forem adicionadas.
               </FormDescription>
 
               <FormMessage />
@@ -90,7 +90,7 @@ export function CatalogItemForm({
 
               <FormControl>
                 <Textarea
-                  placeholder="Descreva o item de catálogo"
+                  placeholder="Descreva o item..."
                   className="resize-none"
                   {...field}
                 />
@@ -144,11 +144,11 @@ export function CatalogItemForm({
           render={() => (
             <FormItem>
               <div className="mb-4">
-                <FormLabel>Categorias (Recomendado)</FormLabel>
+                <FormLabel>Categorias (Opcional)</FormLabel>
 
                 <FormDescription>
                   As categorias ajudam seus clientes a encontrar esse
-                  item mais facilmente nos filtros.
+                  item mais facilmente filtrando por categoria.
                 </FormDescription>
               </div>
 

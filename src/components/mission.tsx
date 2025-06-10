@@ -5,15 +5,14 @@ import { cn } from "@/shadcn/lib/utils";
 import { Circle, CircleCheck, Lock } from "lucide-react";
 import Link from "next/link";
 
-type MissionProps = {
-  title: string
-  status: "COMPLETE" | "CURRENT" | "PENDING"
-  href: string;
-}
-
 export function Mission({
-  title, status = "PENDING", href,
-}: MissionProps) {
+  title, description, status = "PENDING", href,
+}: {
+  title: string;
+  description: string;
+  status: "COMPLETE" | "CURRENT" | "PENDING";
+  href: string;
+}) {
   const isComplete = status === "COMPLETE";
   const isCurrent = status === "CURRENT";
   const isPending = status === "PENDING";
@@ -52,9 +51,7 @@ export function Mission({
 
       {isCurrent && (
         <p className="text-sm text-muted-foreground">
-          Nessa etapa, você cadastra o nome da empresa, uma breve descrição e um link
-          (como site, Instagram ou formulário).
-          Essas informações ajudam seus clientes a conhecer e se conectar com seu negócio.
+          {description}
         </p>
       )}
 

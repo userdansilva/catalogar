@@ -33,11 +33,11 @@ export function CompanyForm({
           disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome</FormLabel>
+              <FormLabel>Nome da empresa</FormLabel>
 
               <FormControl>
                 <Input
-                  placeholder="Ex.: Catalogar ou Catalogar - O Melhor Sistema de Catálogos!"
+                  // placeholder="Ex.: Catalogar"
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
@@ -46,7 +46,8 @@ export function CompanyForm({
               </FormControl>
 
               <FormDescription>
-                Qual o nome da sua empresa? Você pode aproveitar para colocar seu slogan.
+                Qual o nome da sua empresa? Você também pode colocar seu
+                slogan (Ex.: Catalogar - O Melhor Sistema de Catálogos!).
               </FormDescription>
 
               <FormMessage />
@@ -60,15 +61,10 @@ export function CompanyForm({
           disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Descrição (Recomendado)</FormLabel>
+              <FormLabel>Descrição (Opcional)</FormLabel>
 
               <FormControl>
                 <Textarea
-                  placeholder="Ex.: O Catalogar é uma plataforma simples e eficiente
-                  pra mostrar seus produtos de um jeito visual e organizado.
-                  Você pode montar catálogos com filtros por produto e categoria,
-                  facilitando a navegação e ajudando seus clientes a encontrar exatamente
-                  o que estão procurando."
                   className="resize-none"
                   rows={4}
                   {...field}
@@ -76,8 +72,8 @@ export function CompanyForm({
               </FormControl>
 
               <FormDescription>
-                Fale brevemente sobre sua empresa.
-                Isso ajuda seus clientes a se conectarem com o seu empresa.
+                Fale brevemente sobre sua empresa. Isso ajuda seus clientes
+                a entenderem melhor o que você vende.
               </FormDescription>
 
               <FormMessage />
@@ -91,11 +87,11 @@ export function CompanyForm({
           disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Site oficial (Recomendado)</FormLabel>
+              <FormLabel>Site oficial (Opcional)</FormLabel>
 
               <FormControl>
                 <Input
-                  placeholder="Ex.: https://catalogar.com.br/"
+                  placeholder="Ex.: https://minha-empresa.com.br/"
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
@@ -104,9 +100,9 @@ export function CompanyForm({
               </FormControl>
 
               <FormDescription>
-                Qual o link do seu site? Caso ainda não tenha, você pode usar o link
+                Qual o link do seu site? Caso ainda não tenha um site, você pode usar o link
                 do Instagram, Linktree, WhatsApp ou qualquer outro link que ajude seus clientes a
-                saberem mais sobre seu empresa.
+                entrar em contato.
               </FormDescription>
 
               <FormMessage />

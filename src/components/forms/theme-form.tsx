@@ -75,16 +75,6 @@ export function ThemeForm({
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className="space-y-8">
-        <div className="space-y-2">
-          <span className="text-sm font-medium">Preview (Apenas visualização)</span>
-          <ThemePreview control={form.control} />
-          <span className="text-[0.8rem] text-muted-foreground">
-            Aqui você tem uma ideia de como a logo e as cores vão aparecer no seu catálogo.
-            Pra ver tudo aplicado de verdade, é só acessar a aba Preview no menu lateral
-            depois de salvar o tema.
-          </span>
-        </div>
-
         <FormField
           name="logo"
           control={form.control}
@@ -109,6 +99,14 @@ export function ThemeForm({
           )}
         />
 
+        <div className="space-y-2">
+          <span className="text-sm font-medium">Pré-visualização</span>
+          <ThemePreview control={form.control} />
+          <span className="text-[0.8rem] text-muted-foreground">
+            Aqui você tem uma ideia de como a logo e as cores vão aparecer no seu catálogo.
+          </span>
+        </div>
+
         <div className="grid grid-cols-2 gap-8">
           <FormField
             name="primaryColor"
@@ -127,7 +125,7 @@ export function ThemeForm({
                 </FormControl>
 
                 <FormDescription>
-                  Escolha uma cor que ajude a destacar sua logo
+                  Escolha uma cor que ajude a destacar sua logo.
                 </FormDescription>
 
                 <FormMessage />
@@ -152,7 +150,7 @@ export function ThemeForm({
                 </FormControl>
 
                 <FormDescription>
-                  Escolha uma cor que se destaque na cor de fundo
+                  Escolha uma cor que se destaque na cor de fundo.
                 </FormDescription>
 
                 <FormMessage />

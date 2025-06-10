@@ -34,7 +34,7 @@ export function ProductTypeForm({
 
               <FormControl>
                 <Input
-                  placeholder="Ex.: Camisa, Caneca, Quadro, Moletom..."
+                  placeholder="Ex.: Camisa"
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"

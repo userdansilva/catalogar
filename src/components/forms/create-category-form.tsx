@@ -50,7 +50,7 @@ export function CreateCategoryForm({
     <CategoryForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Criar categoria"
+      submitButtonLabel="Criar Categoria"
     />
   );
 }

@@ -40,16 +40,16 @@ export default async function Home() {
     <div className="space-y-10">
       <div>
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-          Bem Vindo ao
+          Bem-Vindo ao
           {" "}
           <span className="underline underline-offset-2">Catalogar!</span>
         </h1>
 
         {(shouldDisplayMainMissions || shouldDisplayCustomizationMissions) && (
           <p className="leading-7 [&:not(:first-child)]:mt-6">
-            Preparamos algumas missões pra te ajudar a configurar seu catálogo.
-            Ao completar cada etapa, você já vai ter um link pronto pra compartilhar seus
-            produtos com seus clientes!
+            Preparamos algumas etapas para te ajudar a configurar seu catálogo.
+            Ao completar todas as etapas, você poderá publicar seu catálogo e
+            ter seu próprio link customizado para compartilhar com seus clientes!
           </p>
         )}
       </div>

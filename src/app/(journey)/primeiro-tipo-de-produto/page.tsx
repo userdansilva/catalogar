@@ -24,16 +24,15 @@ export default async function CreateFirstProductType({
     <div className="max-w-lg space-y-8">
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
-          Opa! Vamos cadastrar seu
+          Vamos cadastrar seu
           {" "}
           <span className="font-bold">Tipo de Produto</span>
         </h2>
 
         <p className="text-muted-foreground">
-          As informações abaixo ajudam seus clientes — e futuros clientes — a
-          conhecer melhor sua empresa.
-          Tudo isso será exibido no seu catálogo e vai facilitar o contato,
-          além de fortalecer a conexão com seu público. Bora começar?
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et
+          ligula sit amet est blandit molestie et in purus. Donec vitae
+          convallis libero, ac fermentum magna. Aenean vitae pharetra dolor. Proin nec.
         </p>
       </div>
 

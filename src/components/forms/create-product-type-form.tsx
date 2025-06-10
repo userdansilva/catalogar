@@ -50,7 +50,7 @@ export function CreateProductTypeForm({
     <ProductTypeForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Criar tipo de produto"
+      submitButtonLabel="Criar Tipo de Produto"
     />
   );
 }

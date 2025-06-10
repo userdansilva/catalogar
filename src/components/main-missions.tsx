@@ -1,7 +1,6 @@
 import { CatalogItem, Category, ProductType } from "@/types/api-types";
 import { routes } from "@/routes";
 import { Mission } from "./mission";
-import { Reward } from "./reward";
 
 type MainMissionsProps = {
   productTypes: ProductType[];
@@ -40,36 +39,34 @@ export function MainMissions({
   return (
     <div className="space-y-3">
       <h2 className="scroll-m-20 pb-2 text-2xl font-bold tracking-tight first:mt-0">
-        Missões Principais
+        Primeiros passos
       </h2>
 
       <Mission
-        title="1. Adicionar o primeiro tipo de produto"
+        title="1. Adicione o primeiro tipo de produto"
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
+        et ligula sit amet est blandit molestie et in purus. Donec vitae convallis
+        libero, ac fermentum magna. Aenean vitae pharetra dolor. Proin nec."
         status={productTypeMissionStatus}
         href={routes.productTypes.sub.createFirst.url}
       />
 
       <Mission
-        title="2. Adicionar a primeira categoria"
+        title="2. Adicione a primeira categoria"
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
+        et ligula sit amet est blandit molestie et in purus. Donec vitae convallis
+        libero, ac fermentum magna. Aenean vitae pharetra dolor. Proin nec."
         status={categoryMissionStatus}
         href={routes.categories.sub.createFirst.url}
       />
 
-      <Reward
-        title="Desbloqueia o catálogo"
-        isRewarded={productTypeMissionStatus === "COMPLETE"
-          && categoryMissionStatus === "COMPLETE"}
-      />
-
       <Mission
-        title="3. Adicionar o primeiro item de catálogo"
+        title="3. Adicione o primeiro item de catálogo"
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
+        et ligula sit amet est blandit molestie et in purus. Donec vitae convallis
+        libero, ac fermentum magna. Aenean vitae pharetra dolor. Proin nec."
         status={catalogItemMissionStatus}
         href={routes.catalogItems.sub.createFirst.url}
-      />
-
-      <Reward
-        title="Desbloqueia o preview"
-        isRewarded={catalogItemMissionStatus === "COMPLETE"}
       />
     </div>
   );

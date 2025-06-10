@@ -68,7 +68,7 @@ export function CreateCatalogForm() {
               </FormControl>
 
               <FormDescription>
-                Você pode ter várias catálogos. O nome serve para identificar este catálogo.
+                Esse nome aparecerá apenas para você.
               </FormDescription>
 
               <FormMessage />
@@ -81,7 +81,7 @@ export function CreateCatalogForm() {
           disabled={form.formState.isSubmitting}
           loading={form.formState.isSubmitting}
         >
-          Criar catálogo
+          Criar Catálogo
         </Button>
       </form>
     </Form>

@@ -22,7 +22,9 @@ export default async function FirstCatalog() {
         <h2 className="text-2xl tracking-tight">
           Boas Vindas ao
           {" "}
-          <span className="font-bold">Catalogar</span>
+          <span className="font-bold underline underline-offset-2">
+            Catalogar
+          </span>
         </h2>
 
         <p className="text-muted-foreground">

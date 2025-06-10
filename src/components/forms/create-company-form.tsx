@@ -54,7 +54,7 @@ export function CreateCompanyForm({
     <CompanyForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Cadastrar"
+      submitButtonLabel="Cadastrar Empresa"
     />
   );
 }

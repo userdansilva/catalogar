@@ -56,7 +56,7 @@ export function CategoryForm({
 
               <FormControl>
                 <Input
-                  placeholder="Ex: Formatura | Carnaval | Dia das Mães | Natal..."
+                  placeholder="Ex.: Diversas"
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
@@ -71,9 +71,10 @@ export function CategoryForm({
 
         <Card>
           <CardHeader>
-            <CardTitle>Preview</CardTitle>
+            <CardTitle>Pré visualização</CardTitle>
             <CardDescription>
-              Deploy your new project in one-click.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Fusce et ligula sit amet est blandit molestie et in purus.
             </CardDescription>
           </CardHeader>
 
