@@ -1,36 +1,35 @@
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
-import { getCatalogItems } from "@/services/get-catalog-items";
-import { CatalogItem } from "./catalog-item";
+import { CatalogItem } from "@/types/api-types";
 import { CatalogPagination } from "./catalog-pagination";
+import { PublicCatalogItem } from "./public-catalog-item";
+import { PrivateCatalogItem } from "./private-catalog-item";
 
-export async function CatalogItems({
+export function CatalogItems({
   query,
+  catalogItems,
   productTypeSlug,
   categorySlug,
   currentPage,
   perPage,
-  withActions,
-  hideIfProductTypeIsDisabled,
+  isPublic,
   unoptimized,
 }: {
   query: string
+  catalogItems: CatalogItem[]
   productTypeSlug: string
   categorySlug: string
   currentPage: number
   perPage: number
-  withActions?: boolean
-  hideIfProductTypeIsDisabled?: boolean
+  isPublic?: boolean
   unoptimized?: boolean
 }) {
-  const { data: catalogItems } = await getCatalogItems();
-
   const filteredCatalogItems = filterCatalogItems(catalogItems, {
     query,
     productTypeSlug,
     categorySlug,
   }, {
-    hideIfProductTypeIsDisabled,
+    hideIfProductTypeIsDisabled: isPublic,
   });
 
   const catalogItemsTotal = filteredCatalogItems.length;
@@ -43,14 +42,18 @@ export async function CatalogItems({
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {paginatedCatalogItems.map((catalogItem) => (
-          <CatalogItem
+        {paginatedCatalogItems.map((catalogItem) => (isPublic ? (
+          <PublicCatalogItem
             key={catalogItem.id}
             catalogItem={catalogItem}
-            withActions={withActions}
             unoptimized={unoptimized}
           />
-        ))}
+        ) : (
+          <PrivateCatalogItem
+            key={catalogItem.id}
+            catalogItem={catalogItem}
+          />
+        )))}
       </div>
 
       {catalogItemsTotal > perPage && (

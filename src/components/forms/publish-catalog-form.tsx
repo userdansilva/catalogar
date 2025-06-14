@@ -60,7 +60,7 @@ export function PublishCatalogForm() {
 
               <div className="flex">
                 <div className="flex h-9 items-center rounded-l-md border border-r-0 bg-muted px-3 py-2 text-sm text-muted-foreground">
-                  {`${routes.external.url}/`}
+                  {`${process.env.NEXT_PUBLIC_BASE_URL}/@`}
                 </div>
                 <div className="flex-1">
                   <FormControl>
@@ -102,7 +102,7 @@ export function PublishCatalogForm() {
             </CardTitle>
             <CardDescription>
               {form.watch("slug")
-                ? `${routes.external.url}/${form.watch("slug")}`
+                ? `${process.env.NEXT_PUBLIC_BASE_URL}/@${form.watch("slug")}`
                 : "Defina um link customizado para ver o resulto"}
             </CardDescription>
           </CardHeader>

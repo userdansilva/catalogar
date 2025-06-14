@@ -1,23 +1,18 @@
-import { CatalogItems } from "@/components/catalog-items";
 import { CategoriesFilter } from "@/components/categories-filter";
 import { ProductTypesFilter } from "@/components/product-types-filter";
 import { QueryFilter } from "@/components/query-filter";
-import { routes } from "@/routes";
-import { getCatalogItems } from "@/services/get-catalog-items";
-import { getCategories } from "@/services/get-categories";
-import { getProductTypes } from "@/services/get-product-types";
-import { getUser } from "@/services/get-user";
-import { Metadata } from "next";
+import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
+import { notFound } from "next/navigation";
+import { CatalogItems } from "@/components/catalog-items";
 
-export const metadata: Metadata = {
-  title: routes.preview.title,
-};
-
+const ASCIIforAt = "%40"; // @
 const ITEMS_PER_PAGE = 16;
 
-export default async function Preview({
+export default async function Page({
+  params,
   searchParams,
 }: {
+  params: Promise<{ slug: string }>
   searchParams: Promise<{
     categoria?: string
     produto?: string
@@ -25,10 +20,15 @@ export default async function Preview({
     p?: string
   }>
 }) {
-  const { data: user } = await getUser();
-  const { data: catalogItems } = await getCatalogItems();
-  const { data: productTypes } = await getProductTypes();
-  const { data: categories } = await getCategories();
+  const { slug: slugWithAt } = await params;
+
+  if (!slugWithAt.startsWith(ASCIIforAt)) {
+    return notFound();
+  }
+
+  const slug = slugWithAt.replace(ASCIIforAt, "");
+
+  const { data: catalog } = await getPublicCatalogBySlug(slug);
 
   const {
     q, p, categoria, produto,
@@ -46,23 +46,23 @@ export default async function Preview({
           <QueryFilter
             mode="preview"
             currentQuery={query}
-            primaryColor={user.currentCatalog.theme?.primaryColor}
-            secondaryColor={user.currentCatalog.theme?.secondaryColor}
+            primaryColor={catalog.theme.primaryColor}
+            secondaryColor={catalog.theme.secondaryColor}
           />
         </div>
 
-        {productTypes.length >= 2 && (
+        {catalog.productTypes.length >= 2 && (
           <ProductTypesFilter
             mode="preview"
-            productTypes={productTypes}
+            productTypes={catalog.productTypes}
             currentProductTypeSlug={productTypeSlug}
           />
         )}
 
-        {categories.length >= 2 && (
+        {catalog.categories.length >= 2 && (
           <CategoriesFilter
             mode="preview"
-            categories={categories}
+            categories={catalog.categories}
             currentCategorySlug={categorySlug}
           />
         )}
@@ -70,13 +70,12 @@ export default async function Preview({
 
       <CatalogItems
         query={query}
-        catalogItems={catalogItems}
+        catalogItems={catalog.catalogItems}
         productTypeSlug={productTypeSlug}
         categorySlug={categorySlug}
         currentPage={currentPage}
         perPage={ITEMS_PER_PAGE}
         isPublic
-        unoptimized
       />
     </div>
   );

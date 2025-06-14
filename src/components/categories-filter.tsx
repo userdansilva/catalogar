@@ -80,27 +80,29 @@ export function CategoriesFilter({
                   </Link>
                 </CommandItem>
 
-                {categories.map((category) => (
-                  <CommandItem
-                    key={category.slug}
-                    value={category.slug}
-                    asChild
-                    className="cursor-pointer"
-                  >
-                    <Link
-                      href={searchUrl(category.slug)}
-                      className={cn(category.isDisabled && "line-through")}
+                {categories
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((category) => (
+                    <CommandItem
+                      key={category.slug}
+                      value={category.slug}
+                      asChild
+                      className="cursor-pointer"
                     >
-                      {category.name}
-                      <Check
-                        className={cn(
-                          "ml-auto",
-                          currentCategorySlug === category.slug ? "opacity-100" : "opacity-0",
-                        )}
-                      />
-                    </Link>
-                  </CommandItem>
-                ))}
+                      <Link
+                        href={searchUrl(category.slug)}
+                        className={cn(category.isDisabled && "line-through")}
+                      >
+                        {category.name}
+                        <Check
+                          className={cn(
+                            "ml-auto",
+                            currentCategorySlug === category.slug ? "opacity-100" : "opacity-0",
+                          )}
+                        />
+                      </Link>
+                    </CommandItem>
+                  ))}
               </CommandGroup>
             </CommandList>
           </Command>
@@ -128,6 +130,7 @@ export function CategoriesFilter({
 
       {categories
         .filter((category) => !category.isDisabled)
+        .sort((a, b) => a.name.localeCompare(b.name))
         .map((category) => (
           <Button
             key={category.id}

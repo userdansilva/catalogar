@@ -81,27 +81,29 @@ export function ProductTypesFilter({
                   </Link>
                 </CommandItem>
 
-                {productTypes.map((productType) => (
-                  <CommandItem
-                    key={productType.slug}
-                    value={productType.slug}
-                    asChild
-                    className="cursor-pointer"
-                  >
-                    <Link
-                      href={searchUrl(productType.slug)}
-                      className={cn(productType.isDisabled && "line-through")}
+                {productTypes
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((productType) => (
+                    <CommandItem
+                      key={productType.slug}
+                      value={productType.slug}
+                      asChild
+                      className="cursor-pointer"
                     >
-                      {productType.name}
-                      <Check
-                        className={cn(
-                          "ml-auto",
-                          currentProductTypeSlug === productType.slug ? "opacity-100" : "opacity-0",
-                        )}
-                      />
-                    </Link>
-                  </CommandItem>
-                ))}
+                      <Link
+                        href={searchUrl(productType.slug)}
+                        className={cn(productType.isDisabled && "line-through")}
+                      >
+                        {productType.name}
+                        <Check
+                          className={cn(
+                            "ml-auto",
+                            currentProductTypeSlug === productType.slug ? "opacity-100" : "opacity-0",
+                          )}
+                        />
+                      </Link>
+                    </CommandItem>
+                  ))}
               </CommandGroup>
             </CommandList>
           </Command>

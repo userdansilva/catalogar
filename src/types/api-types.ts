@@ -112,3 +112,9 @@ export type CatalogItemFilters = FiltersWithPagination<{
   field?: "name" | "createdAt"
   sort?: "asc" | "desc"
 }>
+
+export type PublishedCatalog = Required<Catalog> & {
+  categories: Category[];
+  productTypes: ProductType[];
+  catalogItems: CatalogItem[];
+}

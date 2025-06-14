@@ -3,9 +3,9 @@ import {
 } from "lucide-react";
 
 export const routes = {
-  external: {
-    title: "Catálogo Público",
-    url: "https://app.catalogar.com.br",
+  public: {
+    title: "Catálogo",
+    url: (slug: string) => `/@${slug}`,
   },
   catalog: {
     sub: {

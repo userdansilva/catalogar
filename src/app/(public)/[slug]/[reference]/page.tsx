@@ -1,25 +1,35 @@
 import { PublicCatalogItemDetail } from "@/components/public-catalog-item-detail";
-import { getCatalogItems } from "@/services/get-catalog-items";
-import { getUser } from "@/services/get-user";
+import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
+import { notFound } from "next/navigation";
+
+const ASCIIforAt = "%40"; // @
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ reference: string }>
+  params: Promise<{
+    reference: string
+    slug: string
+  }>
 }) {
-  const { data: user } = await getUser();
+  const { slug: slugWithAt, reference } = await params;
 
-  const { reference } = await params;
-  const { data: catalogItems } = await getCatalogItems();
+  if (!slugWithAt.startsWith(ASCIIforAt)) {
+    return notFound();
+  }
 
-  const catalogItem = catalogItems
+  const slug = slugWithAt.replace(ASCIIforAt, "");
+
+  const { data: catalog } = await getPublicCatalogBySlug(slug);
+
+  const catalogItem = catalog.catalogItems
     .find((item) => item.reference === Number(reference));
 
   if (!catalogItem) return null;
 
-  const relatedCatalogItems = filterCatalogItems(catalogItems, {
+  const relatedCatalogItems = filterCatalogItems(catalog.catalogItems, {
     query: `${catalogItem.categories.map((category) => category.name).toString()}, ${catalogItem.productType.name}`,
   }, {
     hideIfProductTypeIsDisabled: true,
@@ -30,15 +40,11 @@ export default async function Page({
     currentPage: 1,
   });
 
-  if (!user.currentCatalog.theme || !user.currentCatalog.company) {
-    return null;
-  }
-
   return (
     <PublicCatalogItemDetail
       catalogItem={catalogItem}
-      theme={user.currentCatalog.theme}
-      company={user.currentCatalog.company}
+      theme={catalog.theme}
+      company={catalog.company}
       relatedCatalogItems={paginatedCatalogItems}
     />
   );

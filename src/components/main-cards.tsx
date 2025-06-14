@@ -36,11 +36,11 @@ export function MainCards({
             <CardDescription className="text-background">
               <Button asChild className="dark pl-0" variant="link">
                 <a
-                  href={`${routes.external.url}/${user.currentCatalog.slug}`}
+                  href={`${process.env.NEXT_PUBLIC_BASE_URL}/@${user.currentCatalog.slug}`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {`${routes.external.url}/${user.currentCatalog.slug}`}
+                  {`${process.env.NEXT_PUBLIC_BASE_URL}/@${user.currentCatalog.slug}`}
                   <ExternalLink className="size-4 text-foreground" />
                 </a>
               </Button>
@@ -52,7 +52,7 @@ export function MainCards({
           {user.currentCatalog.isPublished ? (
             <Button className="dark" asChild>
               <a
-                href={`${routes.external.url}/${user.currentCatalog.slug}`}
+                href={`${process.env.NEXT_PUBLIC_BASE_URL}/@${user.currentCatalog.slug}`}
                 target="_blank"
                 rel="noreferrer"
               >

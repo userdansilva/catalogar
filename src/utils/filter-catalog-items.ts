@@ -29,25 +29,28 @@ export function filterCatalogItems(
       .map((_) => _.item);
   }
 
-  return result.filter((catalogItem) => {
-    const isProductTypeMatch = filters.productTypeSlug
-      ? catalogItem.productType.slug === filters.productTypeSlug
-      : true;
+  return result
+    .sort((a, b) => new Date(b.createdAt).getTime()
+      - new Date(a.createdAt).getTime())
+    .filter((catalogItem) => {
+      const isProductTypeMatch = filters.productTypeSlug
+        ? catalogItem.productType.slug === filters.productTypeSlug
+        : true;
 
-    const isCategoryMatch = filters.categorySlug
-      ? catalogItem.categories
-        .some((category) => category.slug === filters.categorySlug)
-      : true;
+      const isCategoryMatch = filters.categorySlug
+        ? catalogItem.categories
+          .some((category) => category.slug === filters.categorySlug)
+        : true;
 
-    const isProductTypeEnabled = config.hideIfProductTypeIsDisabled
-      ? !catalogItem.productType.isDisabled
-      : true;
+      const isProductTypeEnabled = config.hideIfProductTypeIsDisabled
+        ? !catalogItem.productType.isDisabled
+        : true;
 
-    if (!isProductTypeEnabled) return false;
+      if (!isProductTypeEnabled) return false;
 
-    if (filters.productTypeSlug && !filters.categorySlug) return isProductTypeMatch;
-    if (!filters.productTypeSlug && filters.categorySlug) return isCategoryMatch;
+      if (filters.productTypeSlug && !filters.categorySlug) return isProductTypeMatch;
+      if (!filters.productTypeSlug && filters.categorySlug) return isCategoryMatch;
 
-    return isProductTypeMatch && isCategoryMatch;
-  });
+      return isProductTypeMatch && isCategoryMatch;
+    });
 }

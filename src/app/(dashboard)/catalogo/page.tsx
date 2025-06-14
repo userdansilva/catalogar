@@ -1,17 +1,16 @@
-import { CatalogItems } from "@/components/catalog/catalog-items";
-import CatalogItemsSkeleton from "@/components/catalog/catalog-items-skeleton";
-import { CategoriesFilter } from "@/components/catalog/categories-filter";
-import { ProductTypesFilter } from "@/components/catalog/product-types-filter";
-import { QueryFilter } from "@/components/catalog/query-filter";
+import { CatalogItems } from "@/components/catalog-items";
+import { CategoriesFilter } from "@/components/categories-filter";
 import { Button } from "@/components/inputs/button";
 import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
+import { ProductTypesFilter } from "@/components/product-types-filter";
+import { QueryFilter } from "@/components/query-filter";
 import { routes } from "@/routes";
+import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: routes.catalogItems.title,
@@ -29,6 +28,7 @@ export default async function Page(props: {
 }) {
   const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
+  const { data: catalogItems } = await getCatalogItems();
 
   const searchParams = await props.searchParams;
 
@@ -72,20 +72,14 @@ export default async function Page(props: {
             />
           </div>
 
-          <Suspense
-            key={query + productTypeSlug + categorySlug + currentPage}
-            fallback={<CatalogItemsSkeleton />}
-          >
-            <CatalogItems
-              query={query}
-              productTypeSlug={productTypeSlug}
-              categorySlug={categorySlug}
-              currentPage={currentPage}
-              perPage={ITEMS_PER_PAGE}
-              withActions
-              unoptimized
-            />
-          </Suspense>
+          <CatalogItems
+            query={query}
+            catalogItems={catalogItems}
+            productTypeSlug={productTypeSlug}
+            categorySlug={categorySlug}
+            currentPage={currentPage}
+            perPage={ITEMS_PER_PAGE}
+          />
         </div>
       </SectionContent>
     </Section>
