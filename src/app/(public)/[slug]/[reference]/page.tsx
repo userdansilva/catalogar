@@ -1,4 +1,6 @@
+import { PrevButton } from "@/components/prev-button";
 import { PublicCatalogItemDetail } from "@/components/public-catalog-item-detail";
+import { routes } from "@/routes";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
@@ -27,7 +29,9 @@ export default async function Page({
   const catalogItem = catalog.catalogItems
     .find((item) => item.reference === Number(reference));
 
-  if (!catalogItem) return null;
+  if (!catalogItem) {
+    notFound();
+  }
 
   const relatedCatalogItems = filterCatalogItems(catalog.catalogItems, {
     query: `${catalogItem.categories.map((category) => category.name).toString()}, ${catalogItem.productType.name}`,
@@ -41,11 +45,17 @@ export default async function Page({
   });
 
   return (
-    <PublicCatalogItemDetail
-      catalogItem={catalogItem}
-      theme={catalog.theme}
-      company={catalog.company}
-      relatedCatalogItems={paginatedCatalogItems}
-    />
+    <div className="max-w-7xl space-y-6 md:container">
+      <PrevButton
+        baseUrl={routes.public.url(slug)}
+      />
+
+      <PublicCatalogItemDetail
+        catalogItem={catalogItem}
+        theme={catalog.theme}
+        company={catalog.company}
+        relatedCatalogItems={paginatedCatalogItems}
+      />
+    </div>
   );
 }

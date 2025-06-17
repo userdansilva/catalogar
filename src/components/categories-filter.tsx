@@ -116,12 +116,13 @@ export function CategoriesFilter({
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-2">
       <Button
         variant="ghost"
         className={cn(!currentCategorySlug
           && "underline underline-offset-2")}
         asChild
+        size="sm"
       >
         <Link href={searchUrl("")}>
           Todos
@@ -138,6 +139,7 @@ export function CategoriesFilter({
             className={cn(currentCategorySlug === category.slug
               && "underline underline-offset-2")}
             asChild
+            size="sm"
           >
             <Link href={searchUrl(category.slug)}>
               {category.name}

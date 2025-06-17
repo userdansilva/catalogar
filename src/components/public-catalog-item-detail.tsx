@@ -22,7 +22,7 @@ export function PublicCatalogItemDetail({
   relatedCatalogItems: CatalogItem[]
 }) {
   return (
-    <div className="flex max-w-7xl flex-col space-y-10 md:container">
+    <div className="flex flex-col space-y-10">
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
         <CarouselImages
           images={catalogItem.images}
@@ -73,6 +73,11 @@ export function PublicCatalogItemDetail({
           <p className="leading-7">
             <span className="font-semibold">Produto: </span>
             {catalogItem.productType.name}
+          </p>
+
+          <p className="leading-7">
+            <span className="font-semibold">Código: </span>
+            {catalogItem.reference}
           </p>
 
           {company.mainSiteUrl && (

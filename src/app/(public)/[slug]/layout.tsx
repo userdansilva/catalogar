@@ -26,6 +26,7 @@ export default async function Layout({
 
   return (
     <CatalogLayout
+      company={catalog.company}
       primaryColor={catalog.theme.primaryColor}
       secondaryColor={catalog.theme.secondaryColor}
       baseUrl={routes.public.url(slug)}

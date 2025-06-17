@@ -11,8 +11,9 @@ export default async function PreviewLayout({
   const primaryColor = user.currentCatalog.theme?.primaryColor || "";
   const secondaryColor = user.currentCatalog.theme?.secondaryColor || "";
   const logo = user.currentCatalog.theme?.logo;
+  const { company } = user.currentCatalog;
 
-  if (!logo) return null;
+  if (!logo || !company) return null;
 
   return (
     <CatalogLayout
@@ -20,6 +21,7 @@ export default async function PreviewLayout({
       secondaryColor={secondaryColor}
       baseUrl={routes.preview.url}
       logo={logo}
+      company={company}
     >
       {children}
     </CatalogLayout>
