@@ -8,20 +8,15 @@ export default async function PreviewLayout({
 }: PropsWithChildren) {
   const { data: user } = await getUser();
 
-  const primaryColor = user.currentCatalog.theme?.primaryColor || "";
-  const secondaryColor = user.currentCatalog.theme?.secondaryColor || "";
-  const logo = user.currentCatalog.theme?.logo;
-  const { company } = user.currentCatalog;
+  const { company, theme } = user.currentCatalog;
 
-  if (!logo || !company) return null;
+  if (!theme || !company) return null;
 
   return (
     <CatalogLayout
-      primaryColor={primaryColor}
-      secondaryColor={secondaryColor}
       baseUrl={routes.preview.url}
-      logo={logo}
       company={company}
+      theme={theme}
     >
       {children}
     </CatalogLayout>

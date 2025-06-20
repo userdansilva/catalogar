@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { ExternalLink, Forward, Menu } from "lucide-react";
-import { Company, Logo } from "@/types/api-types";
+import { Company, Theme } from "@/types/api-types";
 import {
   Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger,
 } from "@/shadcn/components/ui/drawer";
@@ -10,38 +10,40 @@ import { Button } from "./inputs/button";
 
 export function CatalogLayout({
   children,
-  primaryColor,
-  secondaryColor,
   baseUrl,
-  logo,
   company,
+  theme,
 }: PropsWithChildren<{
-  company: Company
-  primaryColor: string;
-  secondaryColor: string;
-  logo: Logo;
   baseUrl: string;
+  company: Company;
+  theme: Theme;
 }>) {
   return (
     <div>
       <header
         className="w-full border-b border-slate-100 py-4"
         style={{
-          background: primaryColor,
-          color: secondaryColor,
+          background: theme.primaryColor,
+          color: theme.secondaryColor,
         }}
 
       >
         <div className="container">
           <div className="relative flex h-7 w-full items-center justify-between">
             <Link href={baseUrl}>
-              <Image
-                src={logo.url}
-                alt="logo"
-                height={logo.height}
-                width={logo.width}
-                style={{ height: 28, width: "auto" }}
-              />
+              {theme.logo ? (
+                <Image
+                  src={theme.logo.url}
+                  alt="logo"
+                  height={theme.logo.height}
+                  width={theme.logo.width}
+                  style={{ height: 28, width: "auto" }}
+                />
+              ) : (
+                <span className="text-2xl font-semibold">
+                  {company.name}
+                </span>
+              )}
             </Link>
 
             <Drawer>
@@ -49,8 +51,8 @@ export function CatalogLayout({
                 <Button
                   className="shadow-none"
                   style={{
-                    background: primaryColor,
-                    color: secondaryColor,
+                    background: theme.primaryColor,
+                    color: theme.secondaryColor,
                   }}
                 >
                   <Menu />
@@ -81,8 +83,8 @@ export function CatalogLayout({
                     <Button
                       asChild
                       style={{
-                        background: secondaryColor,
-                        color: primaryColor,
+                        background: theme.secondaryColor,
+                        color: theme.primaryColor,
                       }}
                     >
                       <a href="/">

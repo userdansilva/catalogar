@@ -22,15 +22,13 @@ export default async function Layout({
 
   const { data: catalog } = await getPublicCatalogBySlug(slug);
 
-  if (!catalog.theme.logo) return null;
+  if (!catalog.theme) return null;
 
   return (
     <CatalogLayout
-      company={catalog.company}
-      primaryColor={catalog.theme.primaryColor}
-      secondaryColor={catalog.theme.secondaryColor}
       baseUrl={routes.public.url(slug)}
-      logo={catalog.theme.logo}
+      company={catalog.company}
+      theme={catalog.theme}
     >
       {children}
     </CatalogLayout>

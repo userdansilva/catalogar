@@ -3,20 +3,21 @@
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Theme } from "@/types/api-types";
+import { Company, Theme } from "@/types/api-types";
 import { updateThemeAction } from "@/actions/update-theme-action";
 import { themeSchema } from "@/actions/schema";
 import { routes } from "@/routes";
 import { ThemeForm } from "./theme-form";
 
-type UpdateThemeFormProps = {
-  theme: Theme
-  callbackUrl?: string
-}
-
 export function UpdateThemeForm({
-  theme, callbackUrl,
-}: UpdateThemeFormProps) {
+  theme,
+  company,
+  callbackUrl,
+}: {
+  theme: Theme
+  company?: Company
+  callbackUrl?: string
+}) {
   const { form, handleSubmitWithAction } = useHookFormAction(
     updateThemeAction,
     zodResolver(themeSchema),
@@ -26,13 +27,13 @@ export function UpdateThemeForm({
         defaultValues: {
           primaryColor: theme.primaryColor,
           secondaryColor: theme.secondaryColor,
-          logo: {
-            fileName: theme.logo?.url.split("/").pop(),
-            originalFileName: theme.logo?.name || "",
-            height: theme.logo?.height || 0,
-            width: theme.logo?.width || 0,
-            accessUrl: theme.logo?.url || "",
-          },
+          logo: theme.logo ? {
+            fileName: theme.logo.url.split("/").pop(),
+            originalFileName: theme.logo.name,
+            height: theme.logo.height,
+            width: theme.logo.width,
+            accessUrl: theme.logo.url,
+          } : null,
           redirectTo: callbackUrl || routes.theme.url,
         },
       },
@@ -58,6 +59,7 @@ export function UpdateThemeForm({
   return (
     <ThemeForm
       form={form}
+      company={company}
       onSubmit={handleSubmitWithAction}
       submitButtonLabel="Salvar alterações"
     />

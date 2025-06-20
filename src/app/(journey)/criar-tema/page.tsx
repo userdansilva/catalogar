@@ -1,7 +1,7 @@
 import { CreateThemeForm } from "@/components/forms/create-theme-form";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
-import { User } from "@/types/api-types";
+import { UserWithCatalog } from "@/types/api-types";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -15,9 +15,9 @@ export default async function RegisterCompany({
   searchParams: Promise<{ callbackUrl?: string }>
 }) {
   const { callbackUrl } = await searchParams;
-  const { data: user } = await getUser<User>();
+  const { data: user } = await getUser<UserWithCatalog>();
 
-  if (user.currentCatalog?.theme) {
+  if (user.currentCatalog.theme) {
     return redirect(routes.dashboard.url);
   }
 
@@ -38,6 +38,7 @@ export default async function RegisterCompany({
       </div>
 
       <CreateThemeForm
+        company={user.currentCatalog.company}
         callbackUrl={callbackUrl}
       />
     </div>

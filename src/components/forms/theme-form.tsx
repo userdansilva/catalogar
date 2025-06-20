@@ -13,18 +13,19 @@ import {
 } from "@/shadcn/components/ui/card";
 import { Menu } from "lucide-react";
 import Image from "next/image";
+import { Company } from "@/types/api-types";
 import { Button } from "../inputs/button";
 import { InputLogo } from "../inputs/input-logo";
 
 export type ThemeFormValues = z.infer<typeof themeSchema>;
 
-type ThemePreviewProps = {
-  control: Control<ThemeFormValues>
-}
-
 function ThemePreview({
   control,
-}: ThemePreviewProps) {
+  company,
+}: {
+  control: Control<ThemeFormValues>;
+  company?: Company;
+}) {
   const {
     primaryColor, secondaryColor, logo,
   } = useWatch({ control });
@@ -53,7 +54,9 @@ function ThemePreview({
             />
           </CardContent>
         ) : (
-          <span className="flex-1 font-semibold">SUA LOGO</span>
+          <span className="flex-1 font-semibold">
+            {company ? company.name : "SUA LOGO"}
+          </span>
         )}
 
       <span className="text-sm">Saiba mais</span>
@@ -61,17 +64,17 @@ function ThemePreview({
   );
 }
 
-type ThemeFormProps = {
-  form: UseFormReturn<ThemeFormValues>
-  onSubmit: FormEventHandler<HTMLFormElement>
-  submitButtonLabel: string
-}
-
 export function ThemeForm({
   form,
   onSubmit,
   submitButtonLabel = "Salvar alterações",
-}: ThemeFormProps) {
+  company,
+}: {
+  form: UseFormReturn<ThemeFormValues>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  submitButtonLabel: string;
+  company?: Company;
+}) {
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className="space-y-8">
@@ -81,12 +84,12 @@ export function ThemeForm({
           disabled={form.formState.isSubmitting}
           render={({ field: { onChange, value } }) => (
             <FormItem>
-              <FormLabel>Logo da empresa</FormLabel>
+              <FormLabel>Logo da empresa (Opcional)</FormLabel>
 
               <FormControl>
                 <InputLogo
                   onChange={onChange}
-                  value={value}
+                  value={value ?? undefined}
                 />
               </FormControl>
 
@@ -101,7 +104,7 @@ export function ThemeForm({
 
         <div className="space-y-2">
           <span className="text-sm font-medium">Pré-visualização</span>
-          <ThemePreview control={form.control} />
+          <ThemePreview control={form.control} company={company} />
           <span className="text-[0.8rem] text-muted-foreground">
             Aqui você tem uma ideia de como a logo e as cores vão aparecer no seu catálogo.
           </span>

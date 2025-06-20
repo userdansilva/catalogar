@@ -31,6 +31,7 @@ export default async function Theme({
       <SectionContent>
         <UpdateThemeForm
           theme={user.currentCatalog.theme}
+          company={user.currentCatalog.company}
           callbackUrl={callbackUrl}
         />
       </SectionContent>

@@ -7,14 +7,17 @@ import { toast } from "sonner";
 import { routes } from "@/routes";
 import { themeSchema } from "@/actions/schema";
 import { createThemeAction } from "@/actions/create-theme-action";
+import { Company } from "@/types/api-types";
 import { ThemeForm } from "./theme-form";
 
 export type ThemeFormValues = z.infer<typeof themeSchema>
 
 export function CreateThemeForm({
   callbackUrl,
+  company,
 }: {
   callbackUrl?: string
+  company?: Company;
 }) {
   const { form, handleSubmitWithAction } = useHookFormAction(
     createThemeAction,
@@ -25,13 +28,7 @@ export function CreateThemeForm({
         defaultValues: {
           primaryColor: "#390080",
           secondaryColor: "#70FF94",
-          logo: {
-            fileName: "",
-            originalFileName: "",
-            height: 0,
-            width: 0,
-            accessUrl: "",
-          },
+          logo: null,
           redirectTo: callbackUrl || routes.dashboard.url,
         },
       },
@@ -57,6 +54,7 @@ export function CreateThemeForm({
   return (
     <ThemeForm
       form={form}
+      company={company}
       onSubmit={handleSubmitWithAction}
       submitButtonLabel="Cadastrar Tema"
     />

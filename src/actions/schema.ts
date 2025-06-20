@@ -45,13 +45,16 @@ export const companySchema = z.object({
 export const themeSchema = z.object({
   primaryColor: z.string().min(1, "Campo obrigatório"),
   secondaryColor: z.string().min(1, "Campo obrigatório"),
-  logo: z.object({
-    fileName: z.string(),
-    originalFileName: z.string(),
-    width: z.number().positive(),
-    height: z.number().positive(),
-    accessUrl: z.string(),
-  }).optional(),
+  logo: z.union([
+    z.object({
+      fileName: z.string(),
+      originalFileName: z.string(),
+      width: z.number().positive(),
+      height: z.number().positive(),
+      accessUrl: z.string(),
+    }),
+    z.null(),
+  ]),
   redirectTo: z.string().optional(),
 });
 
