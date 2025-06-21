@@ -1,12 +1,11 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { Catalog } from "@/types/api-types";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { getUser } from "@/services/get-user";
-import { routes } from "@/routes";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
@@ -40,8 +39,7 @@ export const publishCatalogAction = authActionClient
       revalidateTag(tags.users.me);
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        const path = routes.public.url(user.currentCatalog.slug);
-        revalidatePath(path, "layout");
+        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
       }
 
       if (redirectTo) {

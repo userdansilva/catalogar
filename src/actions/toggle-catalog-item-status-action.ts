@@ -1,12 +1,11 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { CatalogItem } from "@/types/api-types";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { getCatalogItemById } from "@/services/get-catalog-item-by-id";
-import { routes } from "@/routes";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { api } from "./api";
 import { authActionClient } from "./safe-action";
@@ -49,8 +48,7 @@ export const toggleCatalogItemStatusAction = authActionClient
       }
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        const path = routes.public.url(user.currentCatalog.slug);
-        revalidatePath(path, "layout");
+        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
       }
 
       if (redirectTo) {

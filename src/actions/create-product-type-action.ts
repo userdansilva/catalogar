@@ -1,12 +1,11 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { ApiResponse } from "@/types/api-response";
 import { ProductType } from "@/types/api-types";
 import { tags } from "@/tags";
 import slugify from "slugify";
-import { routes } from "@/routes";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
@@ -35,8 +34,7 @@ export const createProductTypeAction = authActionClient
       revalidateTag(tags.productTypes.getAll);
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        const path = routes.public.url(user.currentCatalog.slug);
-        revalidatePath(path, "layout");
+        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
       }
 
       if (redirectTo) {

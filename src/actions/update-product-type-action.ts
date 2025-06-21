@@ -1,12 +1,11 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { ProductType } from "@/types/api-types";
 import slugify from "slugify";
-import { routes } from "@/routes";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
@@ -39,8 +38,7 @@ export const updateProductTypeAction = authActionClient
       }
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        const path = routes.public.url(user.currentCatalog.slug);
-        revalidatePath(path, "layout");
+        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
       }
 
       if (redirectTo) {

@@ -1,18 +1,21 @@
 export const tags = {
   users: {
-    me: "users_me",
+    me: "users-me",
   },
   categories: {
     getAll: "categories",
-    getById: (id: string) => `categories_${id}`,
+    getById: (id: string) => `categories-${id}`,
   },
   productTypes: {
     getAll: "productTypes",
-    getById: (id: string) => `product_types_${id}`,
+    getById: (id: string) => `product-types-${id}`,
   },
   catalogItems: {
     getAll: "catalogItems",
-    getById: (id: string) => `catalogItems_${id}`,
-    getByIdAny: "catalogItems_any",
+    getById: (id: string) => `catalogItems-${id}`,
+    getByIdAny: "catalogItems-any",
+  },
+  publicCatalog: {
+    getBySlug: (slug: string) => `public-catalog-${slug}`,
   },
 };

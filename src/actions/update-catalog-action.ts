@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { Catalog } from "@/types/api-types";
 import { tags } from "@/tags";
@@ -33,11 +33,6 @@ export const updateCatalogAction = authActionClient
 
         revalidateTag(tags.users.me);
 
-        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-          const path = routes.public.url(user.currentCatalog.slug);
-          revalidatePath(path, "layout");
-        }
-
         redirect(routes.catalog.sub.prePublish.url);
       }
 
@@ -55,8 +50,7 @@ export const updateCatalogAction = authActionClient
       revalidateTag(tags.users.me);
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        const path = routes.public.url(user.currentCatalog.slug);
-        revalidatePath(path, "layout");
+        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
       }
 
       return { catalog: res.data.data, message: res.data.meta?.message };

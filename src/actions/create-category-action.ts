@@ -1,12 +1,11 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { Category } from "@/types/api-types";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import slugify from "slugify";
-import { routes } from "@/routes";
 import { authActionClient } from "./safe-action";
 import { categorySchema } from "./schema";
 import { api } from "./api";
@@ -39,8 +38,7 @@ export const createCategoryAction = authActionClient
       revalidateTag(tags.categories.getAll);
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        const path = routes.public.url(user.currentCatalog.slug);
-        revalidatePath(path, "layout");
+        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
       }
 
       if (redirectTo) {
