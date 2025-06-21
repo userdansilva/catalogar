@@ -10,17 +10,15 @@ import { Button } from "../inputs/button";
 
 export type ProductTypeFormValues = z.infer<typeof productTypeSchema>
 
-type ProductTypeFormProps = {
-  form: UseFormReturn<ProductTypeFormValues>
-  onSubmit: FormEventHandler<HTMLFormElement>
-  submitButtonLabel: string
-}
-
 export function ProductTypeForm({
   form,
   onSubmit,
   submitButtonLabel,
-}: ProductTypeFormProps) {
+}: {
+  form: UseFormReturn<ProductTypeFormValues>
+  onSubmit: FormEventHandler<HTMLFormElement>
+  submitButtonLabel: string
+}) {
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className="space-y-8">

@@ -14,13 +14,11 @@ import { Button } from "../inputs/button";
 
 export type CategoryFormValues = z.infer<typeof categorySchema>
 
-type CategoryPreviewProps = {
-  control: Control<CategoryFormValues>
-}
-
 function CategoryBadgePreview({
   control,
-}: CategoryPreviewProps) {
+}: {
+  control: Control<CategoryFormValues>
+}) {
   const {
     name, textColor, backgroundColor,
   } = useWatch({ control });
@@ -32,17 +30,15 @@ function CategoryBadgePreview({
   );
 }
 
-type CategoryFormProps = {
-  form: UseFormReturn<CategoryFormValues>
-  onSubmit: FormEventHandler<HTMLFormElement>
-  submitButtonLabel: string
-}
-
 export function CategoryForm({
   form,
   onSubmit,
   submitButtonLabel,
-}: CategoryFormProps) {
+}: {
+  form: UseFormReturn<CategoryFormValues>
+  onSubmit: FormEventHandler<HTMLFormElement>
+  submitButtonLabel: string
+}) {
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className="space-y-8">

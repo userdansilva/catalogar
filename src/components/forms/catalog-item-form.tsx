@@ -19,17 +19,19 @@ import { InputImages } from "../inputs/input-images";
 
 export type CatalogItemFormValues = z.infer<typeof catalogItemSchema>
 
-type CatalogItemFormProps = {
-  form: UseFormReturn<CatalogItemFormValues>
-  onSubmit: FormEventHandler<HTMLFormElement>
-  submitButtonLabel: string
+export function CatalogItemForm({
+  form,
+  onSubmit,
+  submitButtonLabel,
+  categories,
+  productTypes,
+}: {
+  form: UseFormReturn<CatalogItemFormValues>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  submitButtonLabel: string;
   categories: Category[];
   productTypes: ProductType[];
-}
-
-export function CatalogItemForm({
-  form, onSubmit, submitButtonLabel, categories, productTypes,
-}: CatalogItemFormProps) {
+}) {
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className="space-y-8">

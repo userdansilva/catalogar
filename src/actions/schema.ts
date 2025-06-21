@@ -5,7 +5,7 @@ import { validator } from "./validator";
 /**
  * Catalog
  */
-export const catalogSchema = z.object({
+const catalogSchema = z.object({
   name: z.string().min(1, "Campo obrigatório"),
   slug: z.string().min(1, "Campo obrigatório").and(validator.slugValidator),
   isPublished: z.boolean(),
@@ -14,6 +14,12 @@ export const catalogSchema = z.object({
 
 export const createCatalogSchema = z.object({
   name: catalogSchema.shape.name,
+  redirectTo: catalogSchema.shape.redirectTo,
+});
+
+export const updateCatalogSchema = z.object({
+  name: catalogSchema.shape.name,
+  isPublished: z.boolean(),
   redirectTo: catalogSchema.shape.redirectTo,
 });
 

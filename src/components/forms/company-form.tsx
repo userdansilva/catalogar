@@ -13,17 +13,15 @@ import { Button } from "../inputs/button";
 
 export type CompanyFormValues = z.infer<typeof companySchema>;
 
-type CompanyFormProps = {
-  form: UseFormReturn<CompanyFormValues>
-  onSubmit: FormEventHandler<HTMLFormElement>
-  submitButtonLabel: string
-}
-
 export function CompanyForm({
   form,
   onSubmit,
   submitButtonLabel = "Salvar alterações",
-}: CompanyFormProps) {
+}: {
+  form: UseFormReturn<CompanyFormValues>
+  onSubmit: FormEventHandler<HTMLFormElement>
+  submitButtonLabel: string
+}) {
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className="space-y-8">
