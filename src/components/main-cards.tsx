@@ -38,7 +38,7 @@ export function MainCards({
           {user.currentCatalog.isPublished && (
             <CardDescription className="text-background">
               <Button asChild className="dark pl-0 underline underline-offset-2" variant="link">
-                <Link href={publicLink}>
+                <Link href={publicLink} target="_blank">
                   {publicLink}
                 </Link>
               </Button>

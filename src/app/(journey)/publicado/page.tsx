@@ -32,7 +32,7 @@ export default async function Page() {
           </CardTitle>
           <CardDescription className="flex items-center gap-2">
             <Button variant="link" className="pl-0 underline underline-offset-2" asChild>
-              <Link href={publicLink}>
+              <Link href={publicLink} target="_blank">
                 {publicLink}
               </Link>
             </Button>
