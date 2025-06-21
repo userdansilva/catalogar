@@ -2,7 +2,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/shadcn/componen
 import { PropsWithChildren } from "react";
 import { Separator } from "@/shadcn/components/ui/separator";
 import {
-  Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator,
+  Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList,
 } from "@/shadcn/components/ui/breadcrumb";
 import Link from "next/link";
 import { getUser } from "@/services/get-user";
@@ -34,13 +34,9 @@ export default async function DashboardLayout({
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="#" asChild>
                     <Link href={routes.dashboard.url}>
-                      Dashboard
+                      Página Inicial
                     </Link>
                   </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Meu Catálogo</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

@@ -7,11 +7,12 @@ import {
   CatalogItem, Category, ProductType, UserWithCatalog,
 } from "@/types/api-types";
 import {
-  Book, Box, Building2, ExternalLink, Filter, List, Paintbrush, Palette, Plus,
+  Book, Box, Building2, Filter, List, Paintbrush, Palette, Plus,
   Rocket,
   View,
 } from "lucide-react";
 import Link from "next/link";
+import { CopyButton } from "./copy-button";
 
 export function MainCards({
   productTypes,
@@ -24,6 +25,8 @@ export function MainCards({
   catalogItems: CatalogItem[]
   user: UserWithCatalog
 }) {
+  const publicLink = `${process.env.NEXT_PUBLIC_BASE_URL}/@${user.currentCatalog.slug}`;
+
   return (
     <div className="space-y-4">
       <Card className="flex items-center bg-foreground">
@@ -34,16 +37,13 @@ export function MainCards({
 
           {user.currentCatalog.isPublished && (
             <CardDescription className="text-background">
-              <Button asChild className="dark pl-0" variant="link">
-                <a
-                  href={`${process.env.NEXT_PUBLIC_BASE_URL}/@${user.currentCatalog.slug}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {`${process.env.NEXT_PUBLIC_BASE_URL}/@${user.currentCatalog.slug}`}
-                  <ExternalLink className="size-4 text-foreground" />
-                </a>
+              <Button asChild className="dark pl-0 underline underline-offset-2" variant="link">
+                <Link href={publicLink}>
+                  {publicLink}
+                </Link>
               </Button>
+
+              <CopyButton textToCopy={publicLink} size="sm" variant="outline" className="dark" />
             </CardDescription>
           )}
         </CardHeader>
@@ -51,14 +51,9 @@ export function MainCards({
         <div className="flex h-full items-center pr-6">
           {user.currentCatalog.isPublished ? (
             <Button className="dark" asChild>
-              <a
-                href={`${process.env.NEXT_PUBLIC_BASE_URL}/@${user.currentCatalog.slug}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <ExternalLink className="size-4 text-background" />
+              <Link href={publicLink}>
                 Acessar
-              </a>
+              </Link>
             </Button>
           ) : (
             <Button className="dark" asChild>

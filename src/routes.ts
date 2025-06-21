@@ -45,7 +45,7 @@ export const routes = {
     url: "/",
   },
   preview: {
-    title: "Preview",
+    title: "Pré-visualização",
     icon: PanelsTopLeft,
     url: "/preview",
   },
