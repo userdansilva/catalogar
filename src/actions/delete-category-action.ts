@@ -1,8 +1,9 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
+import { routes } from "@/routes";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { deleteSchema } from "./schema";
@@ -17,7 +18,7 @@ export const deleteCategoryAction = authActionClient
       id,
       redirectTo,
     },
-    ctx: { accessToken },
+    ctx: { accessToken, user },
   }) => {
     try {
       await api.delete<void>(`/v1/categories/${id}`, {
@@ -31,6 +32,10 @@ export const deleteCategoryAction = authActionClient
 
       revalidateTag(tags.categories.getAll);
       revalidateTag(tags.categories.getById(id));
+
+      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+        revalidatePath(routes.public.url(user.currentCatalog.slug), "layout");
+      }
 
       if (redirectTo) {
         redirect(redirectTo);

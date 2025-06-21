@@ -1,11 +1,12 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { getProductTypeById } from "@/services/get-product-type-by-id";
 import { ProductType } from "@/types/api-types";
+import { routes } from "@/routes";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { api } from "./api";
 import { authActionClient } from "./safe-action";
@@ -20,7 +21,7 @@ export const toggleProductTypeStatusAction = authActionClient
     parsedInput: {
       id, redirectTo,
     },
-    ctx: { accessToken },
+    ctx: { accessToken, user },
   }) => {
     try {
       const { data: productType } = await getProductTypeById(id);
@@ -38,6 +39,10 @@ export const toggleProductTypeStatusAction = authActionClient
       revalidateTag(tags.productTypes.getAll);
       if (id) {
         revalidateTag(tags.productTypes.getById(id));
+      }
+
+      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+        revalidatePath(routes.public.url(user.currentCatalog.slug), "layout");
       }
 
       if (redirectTo) {

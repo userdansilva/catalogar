@@ -1,11 +1,12 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { Category } from "@/types/api-types";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { getCategoryById } from "@/services/get-category-by-id";
+import { routes } from "@/routes";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { api } from "./api";
 import { authActionClient } from "./safe-action";
@@ -20,7 +21,7 @@ export const toggleCategoryStatusAction = authActionClient
     parsedInput: {
       id, redirectTo,
     },
-    ctx: { accessToken },
+    ctx: { accessToken, user },
   }) => {
     try {
       const { data: category } = await getCategoryById(id);
@@ -38,6 +39,10 @@ export const toggleCategoryStatusAction = authActionClient
       revalidateTag(tags.categories.getAll);
       if (id) {
         revalidateTag(tags.categories.getById(id));
+      }
+
+      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+        revalidatePath(routes.public.url(user.currentCatalog.slug), "layout");
       }
 
       if (redirectTo) {

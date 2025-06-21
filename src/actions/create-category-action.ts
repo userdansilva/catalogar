@@ -1,11 +1,12 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { Category } from "@/types/api-types";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import slugify from "slugify";
+import { routes } from "@/routes";
 import { authActionClient } from "./safe-action";
 import { categorySchema } from "./schema";
 import { api } from "./api";
@@ -20,7 +21,7 @@ export const createCategoryAction = authActionClient
     parsedInput: {
       name, textColor, backgroundColor, isDisabled, redirectTo,
     },
-    ctx: { accessToken },
+    ctx: { accessToken, user },
   }) => {
     try {
       const res = await api.post<ApiResponse<Category>>("/v1/categories", {
@@ -36,6 +37,10 @@ export const createCategoryAction = authActionClient
       });
 
       revalidateTag(tags.categories.getAll);
+
+      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+        revalidatePath(routes.public.url(user.currentCatalog.slug), "layout");
+      }
 
       if (redirectTo) {
         redirect(redirectTo);

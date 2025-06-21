@@ -14,6 +14,7 @@ export async function getCategoryById(id: string) {
       Authorization: `Bearer ${session.accessToken}`,
     },
     next: { tags: [tags.categories.getById(id)] },
+    cache: "force-cache",
   });
 
   const data = await res.json();

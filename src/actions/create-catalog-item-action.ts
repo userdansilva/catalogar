@@ -1,10 +1,11 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { ApiResponse } from "@/types/api-response";
 import { tags } from "@/tags";
 import { CatalogItem } from "@/types/api-types";
+import { routes } from "@/routes";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
@@ -26,7 +27,7 @@ export const createCatalogItemAction = authActionClient
       isDisabled,
       redirectTo,
     },
-    ctx: { accessToken },
+    ctx: { accessToken, user },
   }) => {
     try {
       const res = await api.post<ApiResponse<CatalogItem>>("/v1/catalog-items", {
@@ -47,6 +48,10 @@ export const createCatalogItemAction = authActionClient
       });
 
       revalidateTag(tags.catalogItems.getAll);
+
+      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+        revalidatePath(routes.public.url(user.currentCatalog.slug), "layout");
+      }
 
       if (redirectTo) {
         redirect(redirectTo);

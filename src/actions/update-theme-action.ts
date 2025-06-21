@@ -1,10 +1,11 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { tags } from "@/tags";
 import { redirect } from "next/navigation";
 import { Theme } from "@/types/api-types";
+import { routes } from "@/routes";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
@@ -19,7 +20,7 @@ export const updateThemeAction = authActionClient
     parsedInput: {
       primaryColor, secondaryColor, logo, redirectTo,
     },
-    ctx: { accessToken },
+    ctx: { accessToken, user },
   }) => {
     try {
       const res = await api.put<ApiResponse<Theme>>("/v1/themes", {
@@ -33,6 +34,10 @@ export const updateThemeAction = authActionClient
       });
 
       revalidateTag(tags.users.me);
+
+      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+        revalidatePath(routes.public.url(user.currentCatalog.slug), "layout");
+      }
 
       if (redirectTo) {
         redirect(redirectTo);

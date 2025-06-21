@@ -1,11 +1,13 @@
 import { auth } from "@/auth";
+import { getUser } from "@/services/get-user";
 import { ApiError } from "@/types/api-error";
+import { UserWithCatalog } from "@/types/api-types";
 import { AxiosError } from "axios";
 import { createMiddleware, createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
 
 const authMiddleware = createMiddleware<{
-  ctx: { accessToken: string }
+  ctx: { accessToken: string, user: UserWithCatalog }
   metada: { actionName: string }
 }>().define(async ({ ctx, next }) => next({
   ctx: {
@@ -35,8 +37,10 @@ export const authActionClient = createSafeActionClient({
       throw new Error("Session not found!");
     }
 
+    const { data: user } = await getUser();
+
     const { accessToken } = session;
 
-    return next({ ctx: { accessToken } });
+    return next({ ctx: { accessToken, user } });
   })
   .use(authMiddleware);

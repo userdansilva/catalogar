@@ -34,6 +34,13 @@ export const createThemeAction = authActionClient
 
       revalidateTag(tags.users.me);
 
+      /**
+       * Não é necessário por que criação de tema é antes de publicação do catálogo
+       */
+      // if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+      //   revalidatePath(routes.public.url(user.currentCatalog.slug));
+      // }
+
       if (redirectTo) {
         redirect(redirectTo);
       }

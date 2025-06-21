@@ -17,6 +17,7 @@ export async function getCategories(filters: CategoryFilters = {}) {
       Authorization: `Bearer ${session.accessToken}`,
     },
     next: { tags: [tags.categories.getAll] },
+    cache: "force-cache",
   });
 
   const data = await res.json();

@@ -16,6 +16,7 @@ export async function getUser<T extends User | UserWithCatalog = UserWithCatalog
       Authorization: `Bearer ${session.accessToken}`,
     },
     next: { tags: [tags.users.me] },
+    cache: "force-cache",
   });
 
   const data = await res.json();

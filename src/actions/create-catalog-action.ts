@@ -32,6 +32,13 @@ export const createCatalogAction = authActionClient
 
       revalidateTag(tags.users.me);
 
+      /**
+       * Não é necessário por que catálogos são criados como privado
+       */
+      // if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+      //   revalidatePath(routes.public.url(user.currentCatalog.slug));
+      // }
+
       if (redirectTo) {
         redirect(redirectTo);
       }

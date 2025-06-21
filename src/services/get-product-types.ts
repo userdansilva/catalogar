@@ -17,6 +17,7 @@ export async function getProductTypes(filters: ProductTypeFilters = {}) {
       Authorization: `Bearer ${session.accessToken}`,
     },
     next: { tags: [tags.productTypes.getAll] },
+    cache: "force-cache",
   });
 
   const data = await res.json();

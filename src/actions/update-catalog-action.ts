@@ -1,10 +1,9 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { Catalog } from "@/types/api-types";
 import { tags } from "@/tags";
-import { getUser } from "@/services/get-user";
 import { redirect } from "next/navigation";
 import { routes } from "@/routes";
 import { authActionClient } from "./safe-action";
@@ -19,11 +18,9 @@ export const updateCatalogAction = authActionClient
   })
   .action(async ({
     parsedInput: { name, isPublished },
-    ctx: { accessToken },
+    ctx: { accessToken, user },
   }) => {
     try {
-      const { data: user } = await getUser();
-
       // Publicar pela a primeira vez
       if (isPublished && !user.currentCatalog.slug) {
         await api.put<ApiResponse<Catalog>>("/v1/catalogs", {
@@ -35,6 +32,11 @@ export const updateCatalogAction = authActionClient
         });
 
         revalidateTag(tags.users.me);
+
+        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+          revalidatePath(routes.public.url(user.currentCatalog.slug), "layout");
+        }
+
         redirect(routes.catalog.sub.prePublish.url);
       }
 
@@ -50,6 +52,10 @@ export const updateCatalogAction = authActionClient
       });
 
       revalidateTag(tags.users.me);
+
+      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+        revalidatePath(routes.public.url(user.currentCatalog.slug), "layout");
+      }
 
       return { catalog: res.data.data, message: res.data.meta?.message };
     } catch (e) {

@@ -1,11 +1,12 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { ProductType } from "@/types/api-types";
 import slugify from "slugify";
+import { routes } from "@/routes";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
@@ -20,7 +21,7 @@ export const updateProductTypeAction = authActionClient
     parsedInput: {
       id, name, isDisabled, redirectTo,
     },
-    ctx: { accessToken },
+    ctx: { accessToken, user },
   }) => {
     try {
       const res = await api.put<ApiResponse<ProductType>>(`/v1/product-types/${id}`, {
@@ -35,6 +36,10 @@ export const updateProductTypeAction = authActionClient
 
       if (id) {
         revalidateTag(tags.productTypes.getById(id));
+      }
+
+      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+        revalidatePath(routes.public.url(user.currentCatalog.slug), "layout");
       }
 
       if (redirectTo) {
