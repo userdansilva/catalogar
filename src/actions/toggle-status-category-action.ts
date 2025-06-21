@@ -42,7 +42,8 @@ export const toggleCategoryStatusAction = authActionClient
       }
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        revalidatePath(routes.public.url(user.currentCatalog.slug), "layout");
+        const path = routes.public.url(user.currentCatalog.slug);
+        revalidatePath(path, "layout");
       }
 
       if (redirectTo) {

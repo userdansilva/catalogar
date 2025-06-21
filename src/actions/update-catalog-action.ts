@@ -34,7 +34,8 @@ export const updateCatalogAction = authActionClient
         revalidateTag(tags.users.me);
 
         if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-          revalidatePath(routes.public.url(user.currentCatalog.slug), "layout");
+          const path = routes.public.url(user.currentCatalog.slug);
+          revalidatePath(path, "layout");
         }
 
         redirect(routes.catalog.sub.prePublish.url);
@@ -54,7 +55,8 @@ export const updateCatalogAction = authActionClient
       revalidateTag(tags.users.me);
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        revalidatePath(routes.public.url(user.currentCatalog.slug), "layout");
+        const path = routes.public.url(user.currentCatalog.slug);
+        revalidatePath(path, "layout");
       }
 
       return { catalog: res.data.data, message: res.data.meta?.message };
