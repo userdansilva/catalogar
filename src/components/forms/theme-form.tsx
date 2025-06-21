@@ -94,7 +94,24 @@ export function ThemeForm({
               </FormControl>
 
               <FormDescription>
-                Formatos recomendados: SVG (melhor qualidade), PNG sem fundo ou JPG.
+                <ul>
+                  <li>
+                    Formatos: SVG (melhor qualidade), PNG sem fundo ou JPG.
+                    (Dica: Use
+                    {" "}
+                    <a href="https://convertio.co/pt/" target="_blank" className="underline underline-offset-2">Convertio.co</a>
+                    {" "}
+                    para alterar o formato).
+                  </li>
+                  <li>
+                    Tamanho máximo: 1MB.
+                    (Dica: Use
+                    {" "}
+                    <a href="https://tinypng.com/" target="_blank" className="underline underline-offset-2">TinyPNG</a>
+                    {" "}
+                    para otimizar imagem).
+                  </li>
+                </ul>
               </FormDescription>
 
               <FormMessage />

@@ -40,7 +40,7 @@ export const createImageAction = authActionClient
           },
           fit: "contain",
         })
-        .webp({ quality: 80 })
+        .webp({ quality: 100 })
         .toBuffer();
 
       const blockBlobClient = new BlockBlobClient(uploadUrl);

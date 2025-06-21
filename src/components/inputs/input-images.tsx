@@ -13,6 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/shadcn/components/ui/alert-dialog";
+import { toast } from "sonner";
 import { Button } from "./button";
 
 type Image = {
@@ -37,6 +38,21 @@ export function InputImages({
     const { files } = e.target;
 
     if (files) {
+      const file = files[0];
+
+      if (file.size > (1.1 * 1024 * 1024)) {
+        toast.warning("Ops! Imagem muito pesada", {
+          description: "Tamanho máximo é de 1MB",
+        });
+
+        // Reset input
+        if (inputFileRef.current) {
+          inputFileRef.current.value = "";
+        }
+
+        return;
+      }
+
       const formData = new FormData();
       formData.append("image", files[0]);
 
@@ -48,6 +64,11 @@ export function InputImages({
           position: value.length + 1,
           accessUrl: res.data.accessUrl,
         }]);
+
+        // Reset input
+        if (inputFileRef.current) {
+          inputFileRef.current.value = "";
+        }
       }
     }
   };
