@@ -14,7 +14,6 @@ export async function getProductTypeById(id: string) {
       Authorization: `Bearer ${session.accessToken}`,
     },
     next: { tags: [tags.productTypes.getById(id)] },
-    cache: "force-cache",
   });
 
   const data = await res.json();

@@ -14,7 +14,6 @@ export async function getCatalogItemById(id: string) {
       Authorization: `Bearer ${session.accessToken}`,
     },
     next: { tags: [tags.catalogItems.getById(id), tags.catalogItems.getByIdAny] },
-    cache: "force-cache",
   });
 
   const data = await res.json();

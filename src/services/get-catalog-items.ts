@@ -19,7 +19,6 @@ export async function getCatalogItems(filters: CatalogItemFilters = {
       Authorization: `Bearer ${session.accessToken}`,
     },
     next: { tags: [tags.catalogItems.getAll] },
-    cache: "force-cache",
   });
 
   const data = await res.json();
