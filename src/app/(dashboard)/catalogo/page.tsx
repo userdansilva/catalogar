@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: routes.catalogItems.title,
 };
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 16;
 
 export default async function Page(props: {
   searchParams?: Promise<{
