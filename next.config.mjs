@@ -10,6 +10,11 @@ const nextConfig = {
         hostname: "catalogarblobdev.blob.core.windows.net",
         pathname: "/catalogar-dev/**",
       },
+      {
+        protocol: "https",
+        hostname: "media.catalogar.com.br",
+        pathname: "/catalogar-dev/**",
+      },
     ],
   },
 };
