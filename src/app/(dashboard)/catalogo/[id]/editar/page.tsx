@@ -10,14 +10,16 @@ export const metadata: Metadata = {
   title: routes.catalogItems.sub.edit.title,
 };
 
-type EditCatalogItemProps = {
-  params: {
+export default async function EditCatalogItem({
+  params,
+}: {
+  params: Promise<{
     id: string
-  }
-}
+  }>
+}) {
+  const { id } = await params;
 
-export default async function EditCatalogItem(props: EditCatalogItemProps) {
-  const { data: catalogItem } = await getCatalogItemById(props.params.id);
+  const { data: catalogItem } = await getCatalogItemById(id);
   const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
 
