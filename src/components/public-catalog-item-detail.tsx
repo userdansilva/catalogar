@@ -1,20 +1,21 @@
 import { CarouselImages } from "@/components/carousel-images";
-import { Button } from "@/components/inputs/button";
 import { Badge } from "@/shadcn/components/ui/badge";
-import { ScrollBar } from "@/shadcn/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/shadcn/components/ui/scroll-area";
 import { CatalogItem, Company, Theme } from "@/types/api-types";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Forward } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { ShareButton } from "./share-button";
 
 export function PublicCatalogItemDetail({
+  baseUrl,
   catalogItem,
   theme,
   company,
   unoptimized,
   relatedCatalogItems,
 }: {
+  baseUrl: string
   catalogItem: CatalogItem
   theme: Theme
   company: Company
@@ -57,18 +58,15 @@ export function PublicCatalogItemDetail({
             </p>
           )}
 
-          <Button
-            asChild
+          <ShareButton
             style={{
               background: theme.secondaryColor,
               color: theme.primaryColor,
             }}
           >
-            <a href="/">
-              <Forward />
-              Compartilhar
-            </a>
-          </Button>
+            <Forward />
+            Compartilhar
+          </ShareButton>
 
           <p className="leading-7">
             <span className="font-semibold">Produto: </span>
@@ -83,7 +81,11 @@ export function PublicCatalogItemDetail({
           {company.mainSiteUrl && (
             <div>
               <p className="font-semibold">Contato do Vendedor</p>
-              <a href="/" className="underline underline-offset-2">
+              <a
+                href={company.mainSiteUrl}
+                className="underline underline-offset-2"
+                target="_blank"
+              >
                 {company.mainSiteUrl}
               </a>
             </div>
@@ -98,7 +100,7 @@ export function PublicCatalogItemDetail({
           <ScrollArea className="whitespace-nowrap">
             <div className="flex gap-2 px-4 md:px-0">
               {relatedCatalogItems.map((relatedCatalogItem) => (
-                <Link key={relatedCatalogItem.id} href="/" className="w-[200px]">
+                <Link key={relatedCatalogItem.id} href={`${baseUrl}/${relatedCatalogItem.reference}`} className="w-[200px]">
                   <Image
                     src={relatedCatalogItem.images[0].url}
                     width={200}

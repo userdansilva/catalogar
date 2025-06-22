@@ -78,7 +78,13 @@ export function MyCatalogs({
 
                       toast.promise(switchCatalog.executeAsync({ id: catalog.id }), {
                         loading: "Trocando de catálogo...",
-                        success: () => "Catálogo atual alterado!",
+                        success: () => {
+                          setTimeout(() => {
+                            window.location.reload();
+                          }, 1_000);
+
+                          return "Catálogo atual alterado!";
+                        },
                       });
                     }}
                   >
@@ -94,7 +100,7 @@ export function MyCatalogs({
                     </Button>
                   ) : (
                     <Tooltip>
-                      <TooltipTrigger>
+                      <TooltipTrigger asChild>
                         <Button size="sm" variant="outline" disabled>
                           <Settings className="size-3" />
                         </Button>

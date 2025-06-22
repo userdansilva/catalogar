@@ -1,4 +1,5 @@
 import { PublicCatalogItemDetail } from "@/components/public-catalog-item-detail";
+import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getUser } from "@/services/get-user";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
@@ -36,6 +37,7 @@ export default async function Page({
 
   return (
     <PublicCatalogItemDetail
+      baseUrl={routes.preview.url}
       catalogItem={catalogItem}
       theme={user.currentCatalog.theme}
       company={user.currentCatalog.company}

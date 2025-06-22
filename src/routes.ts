@@ -48,6 +48,12 @@ export const routes = {
     title: "Pré-visualização",
     icon: PanelsTopLeft,
     url: "/preview",
+    sub: {
+      catalogItemDetail: {
+        title: "Detalhe item de catálogo",
+        url: (reference: number) => `/preview/${reference}`,
+      },
+    },
   },
   catalogItems: {
     title: "Catálogo",

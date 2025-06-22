@@ -78,7 +78,13 @@ export function CatalogSwitcher({
 
                     toast.promise(switchCatalog.executeAsync({ id: catalog.id }), {
                       loading: "Trocando de catálogo...",
-                      success: () => "Catálogo atual alterado!",
+                      success: () => {
+                        setTimeout(() => {
+                          window.location.reload();
+                        }, 1_000);
+
+                        return "Catálogo atual alterado!";
+                      },
                     });
                   }}
                   className="cursor-pointer gap-2 p-2"

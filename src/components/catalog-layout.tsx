@@ -7,6 +7,7 @@ import {
   Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger,
 } from "@/shadcn/components/ui/drawer";
 import { Button } from "./inputs/button";
+import { ShareButton } from "./share-button";
 
 export function CatalogLayout({
   children,
@@ -80,18 +81,15 @@ export function CatalogLayout({
                     )}
                   </DrawerHeader>
                   <DrawerFooter>
-                    <Button
-                      asChild
+                    <ShareButton
                       style={{
                         background: theme.secondaryColor,
                         color: theme.primaryColor,
                       }}
                     >
-                      <a href="/">
-                        <Forward />
-                        Compartilhar Catálogo
-                      </a>
-                    </Button>
+                      <Forward />
+                      Compartilhar Catálogo
+                    </ShareButton>
                   </DrawerFooter>
                 </div>
               </DrawerContent>
