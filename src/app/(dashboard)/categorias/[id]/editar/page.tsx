@@ -8,14 +8,16 @@ export const metadata: Metadata = {
   title: routes.categories.sub.edit.title,
 };
 
-type EditCategoryProps = {
-  params: {
+export default async function EditCategory({
+  params,
+}: {
+  params: Promise<{
     id: string
-  }
-}
+  }>
+}) {
+  const { id } = await params;
 
-export default async function EditCategory(props: EditCategoryProps) {
-  const { data: category } = await getCategoryById(props.params.id);
+  const { data: category } = await getCategoryById(id);
 
   return (
     <Section>
