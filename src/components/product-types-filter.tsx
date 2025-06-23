@@ -55,7 +55,7 @@ export function ProductTypesFilter({
               : (
                 <span className="flex items-center gap-3">
                   <List className="size-4" />
-                  Tipo de produto
+                  Tipo de Produto
                 </span>
               )}
             <ChevronsUpDown className="opacity-50" />

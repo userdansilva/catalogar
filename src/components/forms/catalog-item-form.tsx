@@ -168,7 +168,7 @@ export function CatalogItemForm({
 
                 <FormDescription>
                   As categorias ajudam seus clientes a encontrar esse
-                  item mais facilmente filtrando por categoria.
+                  item mais facilmente pelos filtros.
                 </FormDescription>
               </div>
 

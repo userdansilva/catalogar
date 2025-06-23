@@ -33,7 +33,7 @@ export default async function Page(props: PageProps) {
         <Button asChild className="mb-10">
           <Link href={routes.productTypes.sub.new.url}>
             <Plus className="size-4" />
-            Criar tipo de produto
+            Criar Tipo de Produto
           </Link>
         </Button>
 

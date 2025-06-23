@@ -19,7 +19,7 @@ import { Button } from "@/shadcn/components/ui/button";
 import { cn } from "@/shadcn/lib/utils";
 import { CatalogItem as CatalogItemType } from "@/types/api-types";
 import {
-  Archive, ChevronsUp, Pencil, Trash,
+  Eye, EyeOff, Pencil, Trash,
 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
@@ -54,11 +54,13 @@ export function PrivateCatalogItem({
   });
 
   return (
-    <div className={cn("space-y-2", catalogItem.isDisabled && "opacity-60")}>
-      <CarouselImages
-        images={catalogItem.images}
-        unoptimized
-      />
+    <div className="space-y-2">
+      <div className={cn(catalogItem.isDisabled && "opacity-60")}>
+        <CarouselImages
+          images={catalogItem.images}
+          unoptimized
+        />
+      </div>
 
       <div className="flex flex-wrap gap-1">
         {catalogItem.categories.map((category) => (
@@ -99,12 +101,14 @@ export function PrivateCatalogItem({
         <AlertDialog>
           {catalogItem.isDisabled ? (
             <Button size="sm" variant="outline" onClick={handleToggleStatus}>
-              <ChevronsUp className="size-2" />
+              <Eye className="size-2" />
+              Exibir
             </Button>
           ) : (
             <AlertDialogTrigger asChild>
               <Button size="sm" variant="outline">
-                <Archive className="size-2" />
+                <EyeOff className="size-2" />
+                Ocultar
               </Button>
             </AlertDialogTrigger>
           )}
@@ -112,22 +116,23 @@ export function PrivateCatalogItem({
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>
-                Tem certeza que quer arquivar esse item?
+                Tem certeza que quer ocultar esse item?
               </AlertDialogTitle>
             </AlertDialogHeader>
-            <AlertDialogDescription>
-              Ao arquivar o item ele será ocultado do seu catálogo.
-              Você pode reativar a qualquer momento clicando em
+            <AlertDialogDescription className="leading-relaxed">
+              Ao ocultar o item ele NÃO será exibido no seu catálogo.
+              Você pode voltar a exibir a qualquer momento clicando em
               {" "}
-              <div className="inline rounded-sm border p-2">
-                <ChevronsUp className="inline size-4" />
-              </div>
+              <span className="inline rounded-sm border px-2 py-1 text-xs">
+                <Eye className="-mt-1 mr-1 inline size-4" />
+                Mostrar
+              </span>
               {" ."}
             </AlertDialogDescription>
             <AlertDialogFooter className="mt-6">
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
               <AlertDialogAction onClick={handleToggleStatus}>
-                Sim! Quero arquivar
+                Sim! Quero ocultar
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -143,44 +148,31 @@ export function PrivateCatalogItem({
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>
-                Tem certeza que quer remover esse item?
+                Tem certeza que quer deletar esse item?
               </AlertDialogTitle>
-              <AlertDialogDescription>
-                Essa ação não poderá ser desfeita. Caso queira apenas
+              <AlertDialogDescription className="leading-relaxed">
+                <span className="font-bold">
+                  Essa ação não poderá ser desfeita
+                </span>
+                . Caso queira apenas
                 {" "}
                 <span className="font-bold">
                   ocultar
                 </span>
                 {" "}
-                esse item você pode
+                temporariamente esse item, você pode clicar em
                 {" "}
-                <span className="font-bold">
-                  arquivar
+                <span className="inline rounded-sm border px-2 py-1 text-xs">
+                  <EyeOff className="-mt-1 mr-1 inline size-4" />
+                  Ocultar
                 </span>
-                .
-              </AlertDialogDescription>
-              <AlertDialogTitle className="text-base">
-                Como arquivar esse item?
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                Clique em
-                {" "}
-                <span className="rounded-sm border p-2 text-xs">
-                  Cancelar
-                </span>
-                {" "}
-                e depois no botão
-                {" "}
-                <div className="inline rounded-sm border p-2">
-                  <Archive className="inline size-4" />
-                </div>
                 {" ."}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className="mt-6">
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
               <AlertDialogAction onClick={handleRemove}>
-                Sim! Quero remover
+                Sim! Quero deletar
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

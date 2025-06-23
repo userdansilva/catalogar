@@ -26,7 +26,7 @@ export default async function EditCatalogItem({
   return (
     <Section>
       <SectionHeader
-        title="Editar item"
+        title="Editar Item"
         description="This is how others will see you on the site."
       />
 

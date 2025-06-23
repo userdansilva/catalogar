@@ -40,7 +40,7 @@ export default async function Page(props: {
   return (
     <Section>
       <SectionHeader
-        title="Meus itens"
+        title="Meus Itens"
         description="This is how others will see you on the site."
       />
 
@@ -49,7 +49,7 @@ export default async function Page(props: {
           <Button asChild size="lg">
             <Link href={routes.catalogItems.sub.new.url}>
               <Plus className="size-4" />
-              Criar item
+              Criar Item
             </Link>
           </Button>
 

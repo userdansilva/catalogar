@@ -51,10 +51,6 @@ export const columns: ColumnDef<ProductType>[] = [
     accessorKey: "name",
   },
   {
-    accessorKey: "slug",
-    header: "Slug",
-  },
-  {
     accessorKey: "isDisabled",
     header: "Ativo",
     cell: ({ row }) => {

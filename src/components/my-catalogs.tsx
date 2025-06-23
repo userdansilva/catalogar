@@ -12,7 +12,6 @@ import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import { toast } from "sonner";
 import Link from "next/link";
 import { routes } from "@/routes";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/shadcn/components/ui/tooltip";
 import { Button } from "./inputs/button";
 
 type MyCatalogsProps = {
@@ -92,24 +91,12 @@ export function MyCatalogs({
                     {isCurrentCatalog && <Check className="size-3" />}
                   </Button>
 
-                  {isCurrentCatalog ? (
+                  {isCurrentCatalog && (
                     <Button size="sm" variant="outline" asChild>
                       <Link href={routes.config.url}>
                         <Settings className="size-3" />
                       </Link>
                     </Button>
-                  ) : (
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button size="sm" variant="outline" disabled>
-                          <Settings className="size-3" />
-                        </Button>
-                      </TooltipTrigger>
-
-                      <TooltipContent side="top">
-                        Selecione o catálogo (Selecionar) para acessar configuração
-                      </TooltipContent>
-                    </Tooltip>
                   )}
                 </CardFooter>
               </Card>

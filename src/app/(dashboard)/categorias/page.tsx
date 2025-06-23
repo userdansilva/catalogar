@@ -25,7 +25,7 @@ export default async function Categories(props: CategoriesProps) {
   return (
     <Section>
       <SectionHeader
-        title="Minhas categorias"
+        title="Minhas Categorias"
         description="This is how others will see you on the site."
       />
 
@@ -37,7 +37,6 @@ export default async function Categories(props: CategoriesProps) {
           </Link>
         </Button>
 
-        {/* key={query + currentPage} */}
         <Suspense key={currentPage} fallback={<CategoriesSkeleton />}>
           <CategoriesTable
             currentPage={currentPage}

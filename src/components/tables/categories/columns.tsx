@@ -57,10 +57,6 @@ export const columns: ColumnDef<Category>[] = [
     },
   },
   {
-    accessorKey: "slug",
-    header: "Slug",
-  },
-  {
     accessorKey: "isDisabled",
     header: "Ativo",
     cell: ({ row }) => {
