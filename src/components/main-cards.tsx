@@ -29,44 +29,44 @@ export function MainCards({
 
   return (
     <div className="space-y-4">
-      <Card className="flex items-center bg-foreground">
+      <Card className="flex flex-col bg-foreground lg:flex-row lg:items-center">
         <CardHeader className="flex-1">
           <CardTitle className="text-2xl text-background">
             {user.currentCatalog.name}
           </CardTitle>
 
           {user.currentCatalog.isPublished && (
-            <CardDescription className="text-background">
-              <Button asChild className="dark pl-0 underline underline-offset-2" variant="link">
-                <Link href={publicLink} target="_blank">
-                  {publicLink}
-                </Link>
-              </Button>
+            <CardDescription className="flex flex-col gap-2 text-background">
+              <Link href={publicLink} target="_blank" className="w-full max-w-[calc(100vw-80px)] truncate underline underline-offset-2">
+                {publicLink}
+              </Link>
 
-              <CopyButton textToCopy={publicLink} size="sm" variant="outline" className="dark" />
+              <div>
+                <CopyButton textToCopy={publicLink} size="sm" variant="outline" className="dark" />
+              </div>
             </CardDescription>
           )}
         </CardHeader>
 
-        <div className="flex h-full items-center pr-6">
+        <CardFooter className="flex size-full items-center pr-6 sm:w-auto lg:pb-0">
           {user.currentCatalog.isPublished ? (
-            <Button className="dark" asChild>
+            <Button className="dark w-full sm:w-auto" asChild>
               <Link href={publicLink}>
                 Acessar
               </Link>
             </Button>
           ) : (
-            <Button className="dark" asChild>
+            <Button className="dark w-full sm:w-auto" asChild>
               <Link href={routes.catalog.sub.prePublish.url}>
                 <Rocket className="size-4 text-background" />
                 Publicar
               </Link>
             </Button>
           )}
-        </div>
+        </CardFooter>
       </Card>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <Card>
           <CardHeader className="relative">
             <CardDescription>
@@ -142,7 +142,7 @@ export function MainCards({
         </Card>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="relative">
             <CardDescription>

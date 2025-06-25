@@ -6,8 +6,13 @@ import { validator } from "./validator";
  * Catalog
  */
 const catalogSchema = z.object({
-  name: z.string().min(1, "Campo obrigatório"),
-  slug: z.string().min(1, "Campo obrigatório").and(validator.slugValidator),
+  name: z.string()
+    .min(1, "Campo obrigatório")
+    .max(35, "Máximo de 35 caracteres"),
+  slug: z.string()
+    .min(1, "Campo obrigatório")
+    .max(30, "Máximo de 30 caracteres")
+    .and(validator.slugValidator),
   isPublished: z.boolean(),
   redirectTo: z.string().optional(),
 });
