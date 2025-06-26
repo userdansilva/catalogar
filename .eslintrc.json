@@ -60,6 +60,8 @@
         ]
       }
     ],
-    "react/destructuring-assignment": "off"
+    "react/destructuring-assignment": "off",
+    "eslint-disable react/display-name": "off",
+    "react/display-name": "off"
   }
 }

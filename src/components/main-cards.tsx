@@ -161,6 +161,7 @@ export function MainCards({
           <CardFooter className="grid grid-cols-2 gap-2">
             <Button asChild size="sm" className="w-full">
               <Link href={routes.catalogItems.url}>
+                <Book />
                 Ver todos
               </Link>
             </Button>
@@ -197,6 +198,7 @@ export function MainCards({
           <CardFooter className="grid grid-cols-2 gap-2">
             <Button asChild size="sm" className="w-full">
               <Link href={routes.productTypes.url}>
+                <List />
                 Ver todos
               </Link>
             </Button>
@@ -233,6 +235,7 @@ export function MainCards({
           <CardFooter className="grid grid-cols-2 gap-2">
             <Button asChild size="sm" className="w-full">
               <Link href={routes.categories.url}>
+                <Filter />
                 Ver todas
               </Link>
             </Button>

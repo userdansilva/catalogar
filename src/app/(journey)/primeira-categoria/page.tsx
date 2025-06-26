@@ -1,4 +1,5 @@
 import { CreateCategoryForm } from "@/components/forms/create-category-form";
+import { PrevButton } from "@/components/prev-button";
 import { routes } from "@/routes";
 import { getCategories } from "@/services/get-categories";
 import { Metadata } from "next";
@@ -22,6 +23,10 @@ export default async function CreateFirstCategory({
 
   return (
     <div className="max-w-lg space-y-8">
+      <PrevButton
+        fallbackUrl={routes.dashboard.url}
+      />
+
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
           Vamos cadastrar sua

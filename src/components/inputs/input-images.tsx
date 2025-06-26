@@ -14,6 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@/shadcn/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { ScrollArea, ScrollBar } from "@/shadcn/components/ui/scroll-area";
 import { Button } from "./button";
 
 type Image = {
@@ -31,6 +32,7 @@ type InputFilesProps = {
 export function InputImages({
   onChange, value, disabled,
 }: InputFilesProps) {
+  const buttonContainerRef = useRef<HTMLDivElement>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const { executeAsync, isExecuting } = useAction(createImageAction);
 
@@ -69,6 +71,16 @@ export function InputImages({
         if (inputFileRef.current) {
           inputFileRef.current.value = "";
         }
+
+        // scroll right
+        if (buttonContainerRef.current) {
+          setTimeout(() => {
+            buttonContainerRef.current?.scrollIntoView({
+              block: "center",
+              behavior: "smooth",
+            });
+          }, 1_500);
+        }
       }
     }
   };
@@ -81,61 +93,69 @@ export function InputImages({
 
   return (
     <>
-      <div className="flex w-full gap-4 rounded-md border border-input bg-transparent p-3 text-base shadow-sm md:text-sm">
-        {value.map((image) => (
-          <div className="relative size-52 rounded-md" key={image.accessUrl}>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button
-                  size="icon"
-                  className="absolute -right-1 -top-1 size-6 p-0"
-                  variant="destructive"
-                >
-                  <X className="size-4" />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    Tem certeza que quer remover a imagem?
-                  </AlertDialogTitle>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => handleRemove(image.accessUrl)}
+      <ScrollArea
+        className="w-full max-w-[calc(100vw-40px)] rounded-md border border-input bg-transparent text-base shadow-sm md:text-sm"
+      >
+        <div className="flex w-max gap-x-4 p-3">
+          {value.map((image) => (
+            <div className="relative size-52 rounded-md" key={image.accessUrl}>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    size="icon"
+                    className="absolute -right-1 -top-1 size-6 p-0"
+                    variant="destructive"
                   >
-                    Sim! Quero remover
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+                    <X className="size-4" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Tem certeza que quer remover a imagem?
+                    </AlertDialogTitle>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => handleRemove(image.accessUrl)}
+                    >
+                      Sim! Quero remover
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
 
-            <Image
-              src={image.accessUrl}
-              alt=""
-              width={208}
-              height={208}
-              className="rounded-sm"
-              unoptimized
-            />
+              <Image
+                src={image.accessUrl}
+                alt=""
+                width={208}
+                height={208}
+                className="rounded-sm"
+                unoptimized
+              />
+            </div>
+          ))}
+
+          <div ref={buttonContainerRef}>
+            <Button
+              loading={isExecuting}
+              disabled={isExecuting || disabled}
+              type="button"
+              variant="outline"
+              className="mr-3 flex size-52 flex-col"
+              onClick={() => {
+                inputFileRef.current?.click();
+              }}
+            >
+              <Plus className="mx-auto size-4" />
+              Adicionar
+            </Button>
           </div>
-        ))}
+        </div>
 
-        <Button
-          loading={isExecuting}
-          disabled={isExecuting || disabled}
-          type="button"
-          variant="outline"
-          className="flex size-52 flex-col"
-          onClick={() => {
-            inputFileRef.current?.click();
-          }}
-        >
-          <Plus className="mx-auto size-4" />
-          Adicionar
-        </Button>
-      </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
 
       <input
         type="file"

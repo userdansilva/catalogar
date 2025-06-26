@@ -27,15 +27,13 @@ export default async function Page() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">
+          <CardTitle className="text-center text-base">
             Seu link público
           </CardTitle>
-          <CardDescription className="flex items-center gap-2">
-            <Button variant="link" className="pl-0 underline underline-offset-2" asChild>
-              <Link href={publicLink} target="_blank">
-                {publicLink}
-              </Link>
-            </Button>
+          <CardDescription className="flex flex-col items-center gap-4">
+            <Link href={publicLink} target="_blank" className="w-full max-w-[calc(100vw-80px)] truncate underline underline-offset-2">
+              {publicLink}
+            </Link>
 
             <CopyButton textToCopy={publicLink} size="sm" />
           </CardDescription>

@@ -1,7 +1,5 @@
 "use client";
 
-/* eslint-disable react/display-name */
-
 import { Button } from "@/shadcn/components/ui/button";
 import { Check, Copy } from "lucide-react";
 import { ComponentProps, forwardRef, useState } from "react";

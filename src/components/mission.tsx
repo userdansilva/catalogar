@@ -6,12 +6,17 @@ import { Circle, CircleCheck, Lock } from "lucide-react";
 import Link from "next/link";
 
 export function Mission({
-  title, description, status = "PENDING", href,
+  title,
+  description,
+  status = "PENDING",
+  href,
+  isOptional,
 }: {
   title: string;
   description: string;
   status: "COMPLETE" | "CURRENT" | "PENDING";
   href: string;
+  isOptional?: boolean;
 }) {
   const isComplete = status === "COMPLETE";
   const isCurrent = status === "CURRENT";
@@ -56,19 +61,34 @@ export function Mission({
       )}
 
       {isCurrent && (
-        <Button asChild>
-          <Link
-            href={{
-              pathname: href,
-              query: {
-                callbackUrl: routes.dashboard.url,
-              },
-            }}
-            prefetch
-          >
-            Vamos lá
-          </Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button asChild>
+            <Link
+              href={{
+                pathname: href,
+                query: {
+                  callbackUrl: routes.dashboard.url,
+                },
+              }}
+              prefetch
+            >
+              Vamos lá
+            </Link>
+          </Button>
+
+          {isOptional && (
+            <Button variant="outline" asChild>
+              <Link href={{
+                query: {
+                  pular: "categoria",
+                },
+              }}
+              >
+                Pular
+              </Link>
+            </Button>
+          )}
+        </div>
       )}
     </div>
   );

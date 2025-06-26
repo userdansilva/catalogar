@@ -15,12 +15,18 @@ export const metadata: Metadata = {
   title: routes.dashboard.title,
 };
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ pular?: string }>
+}) {
   const { data: user } = await getUser();
 
   if (!user.currentCatalog) {
     return redirect(routes.catalog.sub.createFirst.url);
   }
+
+  const { pular } = await searchParams;
 
   const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
@@ -59,6 +65,7 @@ export default async function Home() {
           productTypes={productTypes}
           categories={categories}
           catalogItems={catalogItems}
+          skipCategory={pular === "categoria"}
         />
       ) : (
         <MainCards

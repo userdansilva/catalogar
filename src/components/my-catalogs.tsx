@@ -27,7 +27,7 @@ export function MyCatalogs({
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-4">
-        <h2 className="scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
+        <h2 className="flex-1 scroll-m-20 text-2xl font-bold tracking-tight first:mt-0 sm:flex-none">
           Meus catálogos
         </h2>
 
@@ -92,7 +92,7 @@ export function MyCatalogs({
                   </Button>
 
                   {isCurrentCatalog && (
-                    <Button size="sm" variant="outline" asChild>
+                    <Button size="sm" asChild>
                       <Link href={routes.config.url}>
                         <Settings className="size-3" />
                       </Link>

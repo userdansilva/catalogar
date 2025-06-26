@@ -1,4 +1,5 @@
 import { CreateCatalogItemForm } from "@/components/forms/create-catalog-item-form";
+import { PrevButton } from "@/components/prev-button";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
@@ -27,6 +28,10 @@ export default async function CreateFirstCatalogItem({
 
   return (
     <div className="max-w-2xl space-y-8">
+      <PrevButton
+        fallbackUrl={routes.dashboard.url}
+      />
+
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
           Vamos cadastrar seu

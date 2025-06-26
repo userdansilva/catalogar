@@ -1,4 +1,5 @@
 import { CreateCompanyForm } from "@/components/forms/create-company-form";
+import { PrevButton } from "@/components/prev-button";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
 import { User } from "@/types/api-types";
@@ -23,6 +24,10 @@ export default async function RegisterCompany({
 
   return (
     <div className="max-w-lg space-y-8">
+      <PrevButton
+        fallbackUrl={routes.dashboard.url}
+      />
+
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
           Vamos cadastrar sua

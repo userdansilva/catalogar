@@ -1,16 +1,20 @@
+"use client";
+
 import { CatalogItem, Category, ProductType } from "@/types/api-types";
 import { routes } from "@/routes";
 import { Mission } from "./mission";
 
-type MainMissionsProps = {
+export function MainMissions({
+  productTypes,
+  categories,
+  catalogItems,
+  skipCategory,
+}: {
   productTypes: ProductType[];
   categories: Category[];
   catalogItems: CatalogItem[];
-}
-
-export function MainMissions({
-  productTypes, categories, catalogItems,
-}: MainMissionsProps) {
+  skipCategory?: boolean;
+}) {
   const productTypeAmount = productTypes.length;
   const categoryAmount = categories.length;
   const catalogItemAmount = catalogItems.length;
@@ -23,15 +27,20 @@ export function MainMissions({
   })();
 
   const categoryMissionStatus = (() => {
-    if (categoryAmount > 0) return "COMPLETE";
-    if (productTypeAmount > 0 && catalogItemAmount === 0) return "CURRENT";
+    if (categoryAmount > 0 || skipCategory) return "COMPLETE";
+
+    if (productTypeMissionStatus === "COMPLETE"
+      && catalogItemAmount === 0) return "CURRENT";
 
     return "PENDING";
   })();
 
   const catalogItemMissionStatus = (() => {
     if (catalogItemAmount > 0) return "COMPLETE";
-    if (productTypeAmount > 0 && categoryAmount > 0) return "CURRENT";
+
+    if (productTypeMissionStatus === "COMPLETE"
+      && categoryMissionStatus === "COMPLETE"
+    ) return "CURRENT";
 
     return "PENDING";
   })();
@@ -52,12 +61,13 @@ export function MainMissions({
       />
 
       <Mission
-        title="2. Adicione a primeira categoria"
+        title="2. Adicione a primeira categoria (Opcional)"
         description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
         et ligula sit amet est blandit molestie et in purus. Donec vitae convallis
         libero, ac fermentum magna. Aenean vitae pharetra dolor. Proin nec."
         status={categoryMissionStatus}
         href={routes.categories.sub.createFirst.url}
+        isOptional
       />
 
       <Mission

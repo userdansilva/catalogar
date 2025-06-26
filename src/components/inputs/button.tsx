@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import { Button as ButtonUI } from "@/shadcn/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { ComponentProps, forwardRef } from "react";

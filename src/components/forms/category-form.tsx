@@ -91,7 +91,7 @@ export function CategoryForm({
                 <FormControl>
                   <Input
                     type="color"
-                    className="w-1/2"
+                    className="w-full max-w-48"
                     {...field}
                   />
                 </FormControl>
@@ -112,7 +112,7 @@ export function CategoryForm({
                 <FormControl>
                   <Input
                     type="color"
-                    className="w-1/2"
+                    className="w-full max-w-48"
                     {...field}
                   />
                 </FormControl>
