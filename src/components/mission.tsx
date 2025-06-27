@@ -25,40 +25,42 @@ export function Mission({
   return (
     <div
       className={cn(
-        "space-y-2 rounded-md border py-2 px-4",
+        "space-y-6 rounded-md border py-2 px-4",
         isComplete && "border-green-200 bg-green-50",
       )}
     >
-      <div className="flex items-center gap-4">
-        {isComplete && <CircleCheck className="size-5 text-green-500" />}
-        {isCurrent && <Circle className="size-5" />}
-        {isPending && <Lock className="size-5 text-muted-foreground" />}
+      <div className="space-y-4">
+        <div className="flex items-center gap-4">
+          {isComplete && <CircleCheck className="size-5 text-green-500" />}
+          {isCurrent && <Circle className="size-5" />}
+          {isPending && <Lock className="size-5 text-muted-foreground" />}
 
-        <h3 className={cn(
-          "flex-1 text-sm font-medium",
-          isPending && "text-muted-foreground",
-        )}
-        >
-          {title}
-        </h3>
-
-        <Badge
-          className={cn(
-            isComplete && "bg-green-100 text-green-500 shadow-none",
+          <h3 className={cn(
+            "flex-1 text-sm font-medium",
+            isPending && "text-muted-foreground",
           )}
-          variant={isPending ? "outline" : "default"}
-        >
-          {isComplete && "Finalizada"}
-          {isCurrent && "Atual"}
-          {isPending && "Pendente"}
-        </Badge>
-      </div>
+          >
+            {title}
+          </h3>
 
-      {isCurrent && (
-        <p className="text-sm text-muted-foreground">
-          {description}
-        </p>
-      )}
+          <Badge
+            className={cn(
+              isComplete && "bg-green-100 text-green-500 shadow-none",
+            )}
+            variant={isPending ? "outline" : "default"}
+          >
+            {isComplete && "Finalizada"}
+            {isCurrent && "Atual"}
+            {isPending && "Pendente"}
+          </Badge>
+        </div>
+
+        {isCurrent && (
+          <p className="text-sm text-muted-foreground">
+            {description}
+          </p>
+        )}
+      </div>
 
       {isCurrent && (
         <div className="flex items-center gap-2">

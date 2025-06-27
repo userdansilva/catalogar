@@ -4,7 +4,7 @@ import { CatalogItem, Category, ProductType } from "@/types/api-types";
 import { routes } from "@/routes";
 import { Mission } from "./mission";
 
-export function MainMissions({
+export function FirstSteps({
   productTypes,
   categories,
   catalogItems,
@@ -53,18 +53,17 @@ export function MainMissions({
 
       <Mission
         title="1. Adicione o primeiro tipo de produto"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-        et ligula sit amet est blandit molestie et in purus. Donec vitae convallis
-        libero, ac fermentum magna. Aenean vitae pharetra dolor. Proin nec."
+        description="O primeiro passo é cadastrar um tipo de produto.
+        Pode ser camisa, caneca, moletom, etc... Você poderá adicionar vários tipos.
+        Vamos começar com o primeiro."
         status={productTypeMissionStatus}
         href={routes.productTypes.sub.createFirst.url}
       />
 
       <Mission
         title="2. Adicione a primeira categoria (Opcional)"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-        et ligula sit amet est blandit molestie et in purus. Donec vitae convallis
-        libero, ac fermentum magna. Aenean vitae pharetra dolor. Proin nec."
+        description="O segundo passo é cadastrar a categoria. Por exemplo: feminino, masculino,
+        dia das mães, dia dos namorados, etc... Isso vai ajudar a filtrar mais fácil."
         status={categoryMissionStatus}
         href={routes.categories.sub.createFirst.url}
         isOptional
@@ -72,9 +71,8 @@ export function MainMissions({
 
       <Mission
         title="3. Adicione o primeiro item de catálogo"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-        et ligula sit amet est blandit molestie et in purus. Donec vitae convallis
-        libero, ac fermentum magna. Aenean vitae pharetra dolor. Proin nec."
+        description="Agora, você pode adicionar o item de catálogo vinculado ao tipo de produto e categoria
+        que criou."
         status={catalogItemMissionStatus}
         href={routes.catalogItems.sub.createFirst.url}
       />

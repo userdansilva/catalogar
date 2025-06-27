@@ -31,18 +31,16 @@ export function CustomizationMissions({
 
       <Mission
         title="1. Adicione informações da empresa"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-        et ligula sit amet est blandit molestie et in purus. Donec vitae convallis
-        libero, ac fermentum magna. Aenean vitae pharetra dolor. Proin nec."
+        description="Aqui, você pode colocar o nome, slogan (se tiver) e a descrição da sua empresa.
+        Além de link para contato."
         status={companyMissionStatus}
         href={routes.company.sub.new.url}
       />
 
       <Mission
         title="2. Adicione tema da empresa"
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-        et ligula sit amet est blandit molestie et in purus. Donec vitae convallis
-        libero, ac fermentum magna. Aenean vitae pharetra dolor. Proin nec."
+        description="É hora de personalizar como os visitantes vão ver o seu catálogo e sua marca!
+        Crie o tema com as cores e a logo da sua empresa."
         status={themeMissionStatus}
         href={routes.theme.sub.new.url}
       />

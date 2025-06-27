@@ -1,7 +1,7 @@
 // import { auth } from "@/auth";
 import { CustomizationMissions } from "@/components/customization-missions";
+import { FirstSteps } from "@/components/first-steps";
 import { MainCards } from "@/components/main-cards";
-import { MainMissions } from "@/components/main-missions";
 import { MyCatalogs } from "@/components/my-catalogs";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
@@ -53,15 +53,15 @@ export default async function Home({
 
         {(shouldDisplayMainMissions || shouldDisplayCustomizationMissions) && (
           <p className="leading-7 [&:not(:first-child)]:mt-6">
-            Preparamos algumas etapas para te ajudar a configurar seu catálogo.
-            Ao completar todas as etapas, você poderá publicar seu catálogo e
-            ter seu próprio link customizado para compartilhar com seus clientes!
+            Siga as etapas abaixo para configurar o seu catálogo. Ao completá-las,
+            você poderá publicar e ter um link customizado para compartilhar com
+            seus clientes!
           </p>
         )}
       </div>
 
       {shouldDisplayMainMissions ? (
-        <MainMissions
+        <FirstSteps
           productTypes={productTypes}
           categories={categories}
           catalogItems={catalogItems}
