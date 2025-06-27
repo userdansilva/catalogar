@@ -1,3 +1,4 @@
+import { PrevButton } from "@/components/prev-button";
 import { PublicCatalogItemDetail } from "@/components/public-catalog-item-detail";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
@@ -36,12 +37,18 @@ export default async function Page({
   }
 
   return (
-    <PublicCatalogItemDetail
-      baseUrl={routes.preview.url}
-      catalogItem={catalogItem}
-      theme={user.currentCatalog.theme}
-      company={user.currentCatalog.company}
-      relatedCatalogItems={paginatedCatalogItems}
-    />
+    <div className="max-w-7xl space-y-6 md:container">
+      <PrevButton
+        fallbackUrl={routes.public.url(routes.preview.url)}
+      />
+
+      <PublicCatalogItemDetail
+        baseUrl={routes.preview.url}
+        catalogItem={catalogItem}
+        theme={user.currentCatalog.theme}
+        company={user.currentCatalog.company}
+        relatedCatalogItems={paginatedCatalogItems}
+      />
+    </div>
   );
 }

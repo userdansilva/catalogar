@@ -92,7 +92,7 @@ export function MainCards({
             <Button asChild size="sm" variant="outline" className="w-full">
               <Link href={routes.preview.url}>
                 <View className="size-3" />
-                Preview
+                Pré-visualização
               </Link>
             </Button>
           </CardFooter>
