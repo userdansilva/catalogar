@@ -14,18 +14,22 @@ export function CatalogItems({
   perPage,
   isPublic,
   unoptimized,
+  searchParamNames,
 }: {
-  query: string
+  query?: string
   catalogItems: CatalogItem[]
-  productTypeSlug: string
-  categorySlug: string
-  currentPage: number
+  productTypeSlug?: string
+  categorySlug?: string
+  currentPage?: number
   perPage: number
   isPublic?: boolean
   unoptimized?: boolean
+  searchParamNames: {
+    page: string;
+  }
 }) {
   const filteredCatalogItems = filterCatalogItems(catalogItems, {
-    query,
+    query: query ?? "",
     productTypeSlug,
     categorySlug,
   }, {
@@ -61,6 +65,7 @@ export function CatalogItems({
           totalItems={catalogItemsTotal}
           itemsPerPage={perPage}
           currentPage={currentPage}
+          searchParamNames={searchParamNames}
         />
       )}
     </div>

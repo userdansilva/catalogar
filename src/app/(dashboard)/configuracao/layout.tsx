@@ -1,18 +1,18 @@
 import { PropsWithChildren } from "react";
-import { Page, PageHeader } from "@/components/page-layout/page";
 import { routes } from "@/routes";
+import { PageHeader } from "@/components/layout/page-header";
 
 export default function ConfigLayout({
   children,
 }: PropsWithChildren) {
   return (
-    <Page>
+    <div className="space-y-6">
       <PageHeader
         title={routes.config.title}
         description={routes.config.description}
       />
 
       {children}
-    </Page>
+    </div>
   );
 }

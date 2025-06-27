@@ -1,8 +1,8 @@
 import { PropsWithChildren } from "react";
-import { Page, PageHeader } from "@/components/page-layout/page";
 import { routes } from "@/routes";
 import { getCategories } from "@/services/get-categories";
 import { redirect } from "next/navigation";
+import { PageHeader } from "@/components/layout/page-header";
 
 export default async function CategoriesLayout({
   children,
@@ -14,13 +14,13 @@ export default async function CategoriesLayout({
   }
 
   return (
-    <Page>
+    <div className="space-y-6">
       <PageHeader
         title={routes.categories.title}
         description={routes.categories.description}
       />
 
       {children}
-    </Page>
+    </div>
   );
 }

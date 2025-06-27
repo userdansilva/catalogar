@@ -15,26 +15,31 @@ export function CategoriesFilter({
   categories,
   currentCategorySlug,
   mode,
+  searchParamNames,
 }: {
   categories: Category[]
-  currentCategorySlug: string
+  currentCategorySlug?: string
   mode: "preview" | "dashboard"
+  searchParamNames: {
+    page: string;
+    categorySlug: string;
+  }
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const searchUrl = (slug: string) => {
+  const getSearchUrl = (slug: string) => {
     const params = new URLSearchParams(searchParams);
 
     // Reset page
-    if (params.get("p")) {
-      params.delete("p");
+    if (params.get(searchParamNames.page)) {
+      params.delete(searchParamNames.page);
     }
 
     if (slug) {
-      params.set("categoria", slug);
+      params.set(searchParamNames.categorySlug, slug);
     } else {
-      params.delete("categoria");
+      params.delete(searchParamNames.categorySlug);
     }
 
     return `${pathname}?${params.toString()}`;
@@ -69,7 +74,7 @@ export function CategoriesFilter({
                 <CommandItem
                   asChild
                 >
-                  <Link href={searchUrl("")}>
+                  <Link href={getSearchUrl("")}>
                     Todos
                     <Check
                       className={cn(
@@ -90,7 +95,7 @@ export function CategoriesFilter({
                       className="cursor-pointer"
                     >
                       <Link
-                        href={searchUrl(category.slug)}
+                        href={getSearchUrl(category.slug)}
                         className={cn(category.isDisabled && "line-through")}
                       >
                         {category.name}
@@ -124,7 +129,7 @@ export function CategoriesFilter({
         asChild
         size="sm"
       >
-        <Link href={searchUrl("")}>
+        <Link href={getSearchUrl("")}>
           Todos
         </Link>
       </Button>
@@ -141,7 +146,7 @@ export function CategoriesFilter({
             asChild
             size="sm"
           >
-            <Link href={searchUrl(category.slug)}>
+            <Link href={getSearchUrl(category.slug)}>
               {category.name}
             </Link>
           </Button>

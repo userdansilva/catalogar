@@ -1,5 +1,4 @@
 import { UpdateThemeForm } from "@/components/forms/update-theme-form";
-import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
 import { Metadata } from "next";
@@ -12,7 +11,9 @@ export const metadata: Metadata = {
 export default async function Theme({
   searchParams,
 }: {
-  searchParams: Promise<{ callbackUrl?: string }>
+  searchParams: Promise<{
+    callbackUrl?: string
+  }>
 }) {
   const { callbackUrl } = await searchParams;
   const { data: user } = await getUser();
@@ -22,19 +23,10 @@ export default async function Theme({
   }
 
   return (
-    <Section>
-      <SectionHeader
-        title="Tema"
-        description="This is how others will see you on the site."
-      />
-
-      <SectionContent>
-        <UpdateThemeForm
-          theme={user.currentCatalog.theme}
-          company={user.currentCatalog.company}
-          callbackUrl={callbackUrl}
-        />
-      </SectionContent>
-    </Section>
+    <UpdateThemeForm
+      theme={user.currentCatalog.theme}
+      company={user.currentCatalog.company}
+      callbackUrl={callbackUrl}
+    />
   );
 }

@@ -44,8 +44,8 @@ export function CompanyForm({
               </FormControl>
 
               <FormDescription>
-                Qual o nome da sua empresa? Você também pode colocar seu
-                slogan (Ex.: Catalogar - O Melhor Sistema de Catálogos!).
+                Você também pode colocar seu slogan
+                (Ex.: Catalogar - O Melhor Sistema de Catálogos).
               </FormDescription>
 
               <FormMessage />

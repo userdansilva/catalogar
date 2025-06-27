@@ -15,10 +15,15 @@ export function ProductTypesFilter({
   productTypes,
   currentProductTypeSlug,
   mode,
+  searchParamNames,
 }: {
   productTypes: ProductType[]
-  currentProductTypeSlug: string
+  currentProductTypeSlug?: string
   mode: "preview" | "dashboard"
+  searchParamNames: {
+    page: string;
+    productSlug: string;
+  }
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -27,14 +32,14 @@ export function ProductTypesFilter({
     const params = new URLSearchParams(searchParams);
 
     // Reset page
-    if (params.get("p")) {
-      params.delete("p");
+    if (params.get(searchParamNames.page)) {
+      params.delete(searchParamNames.page);
     }
 
     if (slug) {
-      params.set("produto", slug);
+      params.set(searchParamNames.productSlug, slug);
     } else {
-      params.delete("produto");
+      params.delete(searchParamNames.productSlug);
     }
 
     return `${pathname}?${params.toString()}`;

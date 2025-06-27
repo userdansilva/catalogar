@@ -20,14 +20,12 @@ import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { toast } from "sonner";
 
-type CatalogSwitcheProps = {
-  catalogs: Array<Catalog>
-  currentCatalog: Catalog
-}
-
 export function CatalogSwitcher({
   catalogs, currentCatalog,
-}: CatalogSwitcheProps) {
+}: {
+  catalogs: Array<Catalog>
+  currentCatalog: Catalog
+}) {
   const switchCatalog = useAction(switchCatalogAction);
   const { isMobile } = useSidebar();
 

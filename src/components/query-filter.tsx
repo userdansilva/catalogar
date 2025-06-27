@@ -12,19 +12,22 @@ import { z } from "zod";
 
 type FormValues = z.infer<typeof queryFilterSchema>;
 
-type QueryFilterProps = {
-  currentQuery: string,
-  mode: "preview" | "dashboard"
-  primaryColor?: string
-  secondaryColor?: string
-}
-
 export function QueryFilter({
   currentQuery,
   mode,
   primaryColor,
   secondaryColor,
-}: QueryFilterProps) {
+  searchParamNames,
+}: {
+  currentQuery?: string,
+  mode: "preview" | "dashboard"
+  primaryColor?: string
+  secondaryColor?: string
+  searchParamNames: {
+    query: string;
+    page: string;
+  }
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -32,7 +35,7 @@ export function QueryFilter({
   const form = useForm<FormValues>({
     mode: "onChange",
     defaultValues: { query: "" },
-    values: { query: currentQuery },
+    values: { query: currentQuery ?? "" },
     resolver: zodResolver(queryFilterSchema),
   });
 
@@ -40,14 +43,14 @@ export function QueryFilter({
     const params = new URLSearchParams(searchParams);
 
     // Reset page filter
-    if (params.get("p")) {
-      params.delete("p");
+    if (params.get(searchParamNames.page)) {
+      params.delete(searchParamNames.page);
     }
 
     if (values.query) {
-      params.set("q", values.query);
+      params.set(searchParamNames.query, values.query);
     } else {
-      params.delete("q");
+      params.delete(searchParamNames.query);
     }
 
     router.push(`${pathname}?${params.toString()}`);

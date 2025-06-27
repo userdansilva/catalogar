@@ -1,5 +1,4 @@
 import { Button } from "@/components/inputs/button";
-import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
 import { CategoriesTable } from "@/components/tables/categories";
 import { CategoriesSkeleton } from "@/components/tables/categories/skeleton";
 import { routes } from "@/routes";
@@ -12,37 +11,30 @@ export const metadata: Metadata = {
   title: routes.categories.title,
 };
 
-type CategoriesProps = {
-  searchParams?: Promise<{
+export default async function Categories({
+  searchParams,
+}: {
+  searchParams: Promise<{
     page?: string;
   }>
-}
-
-export default async function Categories(props: CategoriesProps) {
-  const searchParams = await props.searchParams;
-  const currentPage = Number(searchParams?.page) || 1;
+}) {
+  const { page } = await searchParams;
+  const currentPage = page ? Number(page) : 1;
 
   return (
-    <Section>
-      <SectionHeader
-        title="Minhas Categorias"
-        description="This is how others will see you on the site."
-      />
+    <div>
+      <Button asChild className="mb-10">
+        <Link href={routes.categories.sub.new.url}>
+          <Plus className="size-4" />
+          Criar categoria
+        </Link>
+      </Button>
 
-      <SectionContent>
-        <Button asChild className="mb-10">
-          <Link href={routes.categories.sub.new.url}>
-            <Plus className="size-4" />
-            Criar categoria
-          </Link>
-        </Button>
-
-        <Suspense key={currentPage} fallback={<CategoriesSkeleton />}>
-          <CategoriesTable
-            currentPage={currentPage}
-          />
-        </Suspense>
-      </SectionContent>
-    </Section>
+      <Suspense key={currentPage} fallback={<CategoriesSkeleton />}>
+        <CategoriesTable
+          currentPage={currentPage}
+        />
+      </Suspense>
+    </div>
   );
 }

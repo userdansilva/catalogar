@@ -1,24 +1,11 @@
-import { PropsWithChildren } from "react";
 import { Separator } from "@/shadcn/components/ui/separator";
-
-export function Page({
-  children,
-}: PropsWithChildren) {
-  return (
-    <div className="space-y-6">
-      {children}
-    </div>
-  );
-}
-
-type PageHeaderProps = {
-  title: string
-  description: string
-}
 
 export function PageHeader({
   title, description,
-}: PageHeaderProps) {
+}: {
+  title: string
+  description: string
+}) {
   return (
     <div className="space-y-6">
       <div className="space-y-2">

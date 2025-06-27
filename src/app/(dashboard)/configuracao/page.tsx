@@ -1,5 +1,4 @@
 import { UpdateCatalogForm } from "@/components/forms/update-catalog-form";
-import { Section, SectionContent, SectionHeader } from "@/components/page-layout/section";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
 import { Metadata } from "next";
@@ -12,17 +11,20 @@ export default async function Settings() {
   const { data: user } = await getUser();
 
   return (
-    <Section>
-      <SectionHeader
-        title="Catálogo"
-        description="This is how others will see you on the site."
-      />
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-semibold">
+          Catálogo
+        </h3>
 
-      <SectionContent>
-        <UpdateCatalogForm
-          catalog={user.currentCatalog}
-        />
-      </SectionContent>
-    </Section>
+        <p className="text-sm text-muted-foreground">
+          This is how others will see you on the site.
+        </p>
+      </div>
+
+      <UpdateCatalogForm
+        catalog={user.currentCatalog}
+      />
+    </div>
   );
 }

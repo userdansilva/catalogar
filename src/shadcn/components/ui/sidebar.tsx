@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
-import { Menu } from "lucide-react"
+import { Menu, PanelLeftClose, PanelRightOpen } from "lucide-react"
 
 import { useIsMobile } from "@/shadcn/hooks/use-mobile"
 import { cn } from "@/shadcn/lib/utils"
@@ -287,7 +287,7 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <Menu />
+      <PanelLeftClose />
       Menu
       <span className="sr-only">Toggle Sidebar</span>
     </Button>

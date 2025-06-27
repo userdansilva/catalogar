@@ -7,6 +7,7 @@ import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
 import { getUser } from "@/services/get-user";
+import { SearchParams } from "@/types/system";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,15 +16,17 @@ export const metadata: Metadata = {
 
 const ITEMS_PER_PAGE = 16;
 
+const SEARCH_PARAM_NAMES = {
+  page: "p",
+  query: "busca",
+  categorySlug: "categoria",
+  productSlug: "produto",
+};
+
 export default async function Preview({
   searchParams,
 }: {
-  searchParams: Promise<{
-    categoria?: string
-    produto?: string
-    q?: string
-    p?: string
-  }>
+  searchParams: SearchParams<typeof SEARCH_PARAM_NAMES>
 }) {
   const { data: user } = await getUser();
   const { data: catalogItems } = await getCatalogItems();
@@ -48,6 +51,7 @@ export default async function Preview({
             currentQuery={query}
             primaryColor={user.currentCatalog.theme?.primaryColor}
             secondaryColor={user.currentCatalog.theme?.secondaryColor}
+            searchParamNames={SEARCH_PARAM_NAMES}
           />
         </div>
 
@@ -56,6 +60,7 @@ export default async function Preview({
             mode="preview"
             productTypes={productTypes}
             currentProductTypeSlug={productTypeSlug}
+            searchParamNames={SEARCH_PARAM_NAMES}
           />
         )}
 
@@ -64,6 +69,7 @@ export default async function Preview({
             mode="preview"
             categories={categories}
             currentCategorySlug={categorySlug}
+            searchParamNames={SEARCH_PARAM_NAMES}
           />
         )}
       </div>
@@ -77,6 +83,7 @@ export default async function Preview({
         perPage={ITEMS_PER_PAGE}
         isPublic
         unoptimized
+        searchParamNames={SEARCH_PARAM_NAMES}
       />
     </div>
   );

@@ -5,77 +5,85 @@ import {
 } from "@/shadcn/components/ui/pagination";
 import { usePathname, useSearchParams } from "next/navigation";
 
-export function CatalogPagination(props: {
+export function CatalogPagination({
+  totalItems,
+  itemsPerPage,
+  currentPage = 1,
+  searchParamNames,
+}: {
   totalItems: number
   itemsPerPage: number
-  currentPage: number
+  currentPage?: number
+  searchParamNames: {
+    page: string;
+  }
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const searchUrl = (page: number) => {
+  const getSearchUrl = (page: number) => {
     const params = new URLSearchParams(searchParams);
 
     if (page > 1) {
-      params.set("p", page.toString());
+      params.set(searchParamNames.page, page.toString());
     } else {
-      params.delete("p");
+      params.delete(searchParamNames.page);
     }
 
     return `${pathname}?${params.toString()}`;
   };
 
-  const totalPages = Math.ceil(props.totalItems / props.itemsPerPage);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return (
     <Pagination>
       <PaginationContent>
-        {props.currentPage > 1 && (
+        {currentPage > 1 && (
           <>
             <PaginationItem>
-              <PaginationPrevious href={searchUrl(props.currentPage - 1)} />
+              <PaginationPrevious href={getSearchUrl(currentPage - 1)} />
             </PaginationItem>
 
-            {props.currentPage === totalPages && totalPages > 2 && (
+            {currentPage === totalPages && totalPages > 2 && (
               <PaginationItem>
-                <PaginationLink href={searchUrl(props.currentPage - 2)}>
-                  {props.currentPage - 2}
+                <PaginationLink href={getSearchUrl(currentPage - 2)}>
+                  {currentPage - 2}
                 </PaginationLink>
               </PaginationItem>
             )}
 
             <PaginationItem>
-              <PaginationLink href={searchUrl(props.currentPage - 1)}>
-                {props.currentPage - 1}
+              <PaginationLink href={getSearchUrl(currentPage - 1)}>
+                {currentPage - 1}
               </PaginationLink>
             </PaginationItem>
           </>
         )}
 
         <PaginationItem>
-          <PaginationLink href={searchUrl(props.currentPage)} isActive>
-            {props.currentPage}
+          <PaginationLink href={getSearchUrl(currentPage)} isActive>
+            {currentPage}
           </PaginationLink>
         </PaginationItem>
 
-        {props.currentPage < totalPages && (
+        {currentPage < totalPages && (
           <>
             <PaginationItem>
-              <PaginationLink href={searchUrl(props.currentPage + 1)}>
-                {props.currentPage + 1}
+              <PaginationLink href={getSearchUrl(currentPage + 1)}>
+                {currentPage + 1}
               </PaginationLink>
             </PaginationItem>
 
-            {props.currentPage === 1 && totalPages > 2 && (
+            {currentPage === 1 && totalPages > 2 && (
               <PaginationItem>
-                <PaginationLink href={searchUrl(3)}>
+                <PaginationLink href={getSearchUrl(3)}>
                   3
                 </PaginationLink>
               </PaginationItem>
             )}
 
             <PaginationItem>
-              <PaginationNext href={searchUrl(props.currentPage + 1)} />
+              <PaginationNext href={getSearchUrl(currentPage + 1)} />
             </PaginationItem>
           </>
         )}
