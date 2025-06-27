@@ -4,14 +4,11 @@ import { getUser } from "@/services/get-user";
 import { Button } from "@/shadcn/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren } from "react";
 
 export default async function PreviewLayout({
   children,
-  drawerdialog,
-}: PropsWithChildren<{
-  drawerdialog: ReactNode // Slot
-}>) {
+}: PropsWithChildren) {
   const { data: user } = await getUser();
 
   const { company, theme } = user.currentCatalog;
@@ -20,7 +17,7 @@ export default async function PreviewLayout({
 
   return (
     <div>
-      <div className="container bg-primary">
+      <div className="bg-primary container">
         <Button variant="link" className="dark pl-0" size="sm" asChild>
           <Link href={routes.dashboard.url}>
             <ChevronLeft />
@@ -35,7 +32,6 @@ export default async function PreviewLayout({
         theme={theme}
       >
         {children}
-        {drawerdialog}
       </CatalogLayout>
     </div>
   );
