@@ -24,7 +24,7 @@ export function PublicCatalogItemDetail({
 }) {
   return (
     <div className="flex flex-col space-y-10">
-      <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+      <div className="flex flex-col  gap-10 lg:flex-row">
         <CarouselImages
           images={catalogItem.images}
           unoptimized={unoptimized}
@@ -94,19 +94,23 @@ export function PublicCatalogItemDetail({
       </div>
 
       {relatedCatalogItems.length >= 1 && (
-        <div className="space-y-6">
+        <div className="w-full max-w-[100vw] space-y-4">
           <div className="px-4 font-semibold md:px-0">Relacionados</div>
 
           <ScrollArea className="whitespace-nowrap">
             <div className="flex gap-2 px-4 md:px-0">
               {relatedCatalogItems.map((relatedCatalogItem) => (
-                <Link key={relatedCatalogItem.id} href={`${baseUrl}/${relatedCatalogItem.reference}`} className="w-[200px]">
+                <Link
+                  key={relatedCatalogItem.id}
+                  href={`${baseUrl}/${relatedCatalogItem.reference}`}
+                  className="size-40"
+                >
                   <Image
                     src={relatedCatalogItem.images[0].url}
-                    width={200}
-                    height={200}
+                    width={160}
+                    height={160}
                     alt="Mockup"
-                    className="overflow-hidden"
+                    className="overflow-hidden rounded-sm"
                     unoptimized={unoptimized}
                   />
                 </Link>

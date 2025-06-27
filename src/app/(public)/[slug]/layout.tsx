@@ -2,15 +2,17 @@ import { CatalogLayout } from "@/components/catalog-layout";
 import { routes } from "@/routes";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 import { notFound } from "next/navigation";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 
 const ASCIIforAt = "%40"; // @
 
 export default async function Layout({
   children,
   params,
+  drawerdialog,
 }: PropsWithChildren<{
   params: Promise<{ slug: string }>
+  drawerdialog: ReactNode // Slot
 }>) {
   const { slug: fullSlug } = await params;
 
@@ -31,6 +33,7 @@ export default async function Layout({
       theme={catalog.theme}
     >
       {children}
+      {drawerdialog}
     </CatalogLayout>
   );
 }
