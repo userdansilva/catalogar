@@ -39,7 +39,7 @@ export function MyCatalogs({
         </Button>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {catalogs
           .sort((a, b) => {
             if (a.id === currentCatalog.id) return -1;
