@@ -8,6 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/shadcn/components/ui/sidebar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shadcn/components/ui/tooltip";
 import {
@@ -27,6 +28,8 @@ type NavMainProps = {
 export default function NavMain({
   user, productTypes, categories, catalogItems,
 }: NavMainProps) {
+  const { setOpenMobile } = useSidebar();
+
   const groups = [
     {
       name: "Menus",
@@ -136,7 +139,7 @@ export default function NavMain({
                   asChild
                   tooltip={item.title}
                 >
-                  <Link href={item.url}>
+                  <Link href={item.url} onClick={() => setOpenMobile(false)}>
                     <item.icon />
                     <span>{item.title}</span>
                   </Link>
