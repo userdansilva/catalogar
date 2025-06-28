@@ -1,4 +1,5 @@
 // import { auth } from "@/auth";
+import { CatalogSwitcherDrawerDialog } from "@/components/catalog-switcher-drawer-dialog";
 import { CustomizationMissions } from "@/components/customization-missions";
 import { FirstSteps } from "@/components/first-steps";
 import { MainCards } from "@/components/main-cards";
@@ -68,10 +69,11 @@ export default async function Home({
           skipCategory={pular === "categoria"}
         />
       ) : (
-        <>
-          <div>
-            ...
-          </div>
+        <div className="space-y-6">
+          <CatalogSwitcherDrawerDialog
+            catalogs={user.catalogs}
+            currentCatalog={user.currentCatalog}
+          />
 
           <MainCards
             productTypes={productTypes}
@@ -79,7 +81,7 @@ export default async function Home({
             catalogItems={catalogItems}
             user={user}
           />
-        </>
+        </div>
       )}
 
       {shouldDisplayCustomizationMissions && (

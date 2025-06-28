@@ -79,7 +79,7 @@ export function NavUser({
 
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href={routes.catalog.sub.myCatalogs.url}>
+                <Link href={routes.catalog.url}>
                   <Book />
                   Meus Catálogos
                 </Link>

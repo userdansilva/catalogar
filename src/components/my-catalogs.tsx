@@ -32,7 +32,7 @@ export function MyCatalogs({
         </h2>
 
         <Button asChild variant="outline" size="sm">
-          <Link href={routes.catalog.sub.create.url}>
+          <Link href={routes.catalog.sub.new.url}>
             <Plus className="size-2" />
             Adicionar
           </Link>

@@ -18,6 +18,7 @@ import { Catalog } from "@/types/api-types";
 import { Box, ChevronsUpDown, Plus } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export function CatalogSwitcher({
@@ -26,6 +27,7 @@ export function CatalogSwitcher({
   catalogs: Array<Catalog>
   currentCatalog: Catalog
 }) {
+  const router = useRouter();
   const switchCatalog = useAction(switchCatalogAction);
   const { isMobile } = useSidebar();
 
@@ -77,11 +79,9 @@ export function CatalogSwitcher({
                     toast.promise(switchCatalog.executeAsync({ id: catalog.id }), {
                       loading: "Trocando de catálogo...",
                       success: () => {
-                        setTimeout(() => {
-                          window.location.reload();
-                        }, 1_000);
+                        router.refresh();
 
-                        return "Catálogo atual alterado!";
+                        return "Catálogo atual alterado! Atualizando...";
                       },
                     });
                   }}
@@ -105,7 +105,7 @@ export function CatalogSwitcher({
             <DropdownMenuSeparator />
 
             <DropdownMenuItem className="cursor-pointer gap-2 p-2" asChild>
-              <Link href={routes.catalog.sub.create.url}>
+              <Link href={routes.catalog.sub.new.url}>
                 <div className="flex size-6 items-center justify-center rounded-md border bg-background">
                   <Plus className="size-4" />
                 </div>

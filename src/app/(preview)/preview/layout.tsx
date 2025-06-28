@@ -17,7 +17,7 @@ export default async function PreviewLayout({
 
   return (
     <div>
-      <div className="bg-primary container">
+      <div className="container bg-primary">
         <Button variant="link" className="dark pl-0" size="sm" asChild>
           <Link href={routes.dashboard.url}>
             <ChevronLeft />

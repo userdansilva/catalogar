@@ -11,8 +11,8 @@ export default function MyCatalogsLayout({
       <PrevButton fallbackUrl={routes.dashboard.url} />
 
       <PageHeader
-        title={routes.company.title}
-        description={routes.company.description}
+        title={routes.catalog.title}
+        description={routes.catalog.description}
       />
 
       {children}

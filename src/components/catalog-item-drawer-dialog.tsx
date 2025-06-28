@@ -26,7 +26,7 @@ export function CatalogItemDrawerDialog({
     return (
       <Drawer open={open} onOpenChange={handleOpenChange}>
         <DrawerContent>
-          <ScrollArea className="h-[calc(100vh-120px)] pt-6">
+          <ScrollArea className="max-h-[calc(100vh-120px)] pt-6">
             <div className="pb-6">
               {children}
             </div>
@@ -39,7 +39,7 @@ export function CatalogItemDrawerDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-[1080px] pt-10">
-        <ScrollArea className="h-[calc(100vh-100px)]">
+        <ScrollArea className="max-h-[calc(100vh-100px)]">
           {children}
         </ScrollArea>
       </DialogContent>

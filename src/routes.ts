@@ -8,6 +8,10 @@ export const routes = {
     url: (slug: string) => `/@${slug}`,
   },
   catalog: {
+    title: "Catálogo",
+    description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+    icon: Book,
+    url: "/meus-catalogos",
     sub: {
       createFirst: {
         title: "Primeiro catálogo",
@@ -21,13 +25,9 @@ export const routes = {
         title: "Publicado",
         url: "/publicado",
       },
-      create: {
+      new: {
         title: "Criar catálogo",
-        url: "/criar-catalogo",
-      },
-      myCatalogs: {
-        title: "Meus catálogos",
-        url: "/meus-catalogos",
+        url: "/meus-catalogos/novo",
       },
     },
   },
