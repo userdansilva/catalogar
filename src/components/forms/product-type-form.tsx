@@ -25,7 +25,6 @@ export function ProductTypeForm({
         <FormField
           name="name"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nome</FormLabel>
@@ -36,6 +35,7 @@ export function ProductTypeForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>

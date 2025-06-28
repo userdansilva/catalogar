@@ -45,7 +45,6 @@ export function CategoryForm({
         <FormField
           name="name"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nome</FormLabel>
@@ -56,6 +55,7 @@ export function CategoryForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -83,7 +83,6 @@ export function CategoryForm({
           <FormField
             name="backgroundColor"
             control={form.control}
-            disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cor de fundo</FormLabel>
@@ -92,6 +91,7 @@ export function CategoryForm({
                   <Input
                     type="color"
                     className="w-full max-w-48"
+                    disabled={form.formState.isSubmitting}
                     {...field}
                   />
                 </FormControl>
@@ -104,7 +104,6 @@ export function CategoryForm({
           <FormField
             name="textColor"
             control={form.control}
-            disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cor do texto</FormLabel>
@@ -113,6 +112,7 @@ export function CategoryForm({
                   <Input
                     type="color"
                     className="w-full max-w-48"
+                    disabled={form.formState.isSubmitting}
                     {...field}
                   />
                 </FormControl>

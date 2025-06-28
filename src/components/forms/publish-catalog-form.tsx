@@ -56,7 +56,6 @@ export function PublishCatalogForm() {
         <FormField
           name="slug"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field: { onChange, ...field } }) => (
             <FormItem className="space-y-2">
               <FormLabel>Link customizado</FormLabel>
@@ -83,6 +82,7 @@ export function PublishCatalogForm() {
 
                         onChange(e);
                       }}
+                      disabled={form.formState.isSubmitting}
                       {...field}
                     />
                   </FormControl>

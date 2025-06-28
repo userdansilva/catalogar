@@ -35,7 +35,11 @@ export function UpdateCatalogForm({
     {
       formProps: {
         mode: "onChange",
-        defaultValues: {
+        // defaultValues: {
+        //   name: catalog.name,
+        //   isPublished: catalog.isPublished,
+        // },
+        values: {
           name: catalog.name,
           isPublished: catalog.isPublished,
         },
@@ -66,7 +70,6 @@ export function UpdateCatalogForm({
         <FormField
           name="name"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nome</FormLabel>
@@ -77,6 +80,7 @@ export function UpdateCatalogForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -93,7 +97,6 @@ export function UpdateCatalogForm({
         <FormField
           name="isPublished"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Visibilidade</FormLabel>
@@ -102,6 +105,7 @@ export function UpdateCatalogForm({
                   field.onChange(e === "PUBLIC");
                 }}
                 defaultValue={field.value ? "PUBLIC" : "PRIVATE"}
+                disabled={form.formState.isSubmitting}
               >
                 <FormControl>
                   <SelectTrigger>

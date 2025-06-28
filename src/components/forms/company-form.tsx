@@ -28,17 +28,16 @@ export function CompanyForm({
         <FormField
           name="name"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nome da empresa</FormLabel>
 
               <FormControl>
                 <Input
-                  // placeholder="Ex.: Catalogar"
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -56,7 +55,6 @@ export function CompanyForm({
         <FormField
           name="description"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Descrição (Opcional)</FormLabel>
@@ -65,6 +63,7 @@ export function CompanyForm({
                 <Textarea
                   className="resize-none"
                   rows={4}
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -82,7 +81,6 @@ export function CompanyForm({
         <FormField
           name="mainSiteUrl"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Site oficial (Opcional)</FormLabel>
@@ -93,6 +91,7 @@ export function CompanyForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>

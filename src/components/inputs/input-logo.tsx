@@ -23,14 +23,13 @@ type Logo = {
   accessUrl: string
 }
 
-type InputLogoProps = {
-  value?: Logo;
-  onChange: (value: Logo) => void;
-}
-
 export function InputLogo({
-  value, onChange,
-}: InputLogoProps) {
+  value, onChange, disabled,
+}: {
+  value?: Logo;
+  onChange: (v: Logo) => void;
+  disabled?: boolean;
+}) {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const { executeAsync, isExecuting } = useAction(createLogoAction);
 
@@ -103,6 +102,7 @@ export function InputLogo({
                   <Button
                     variant="destructive"
                     size="sm"
+                    disabled={disabled}
                   >
                     Remover
                     <Trash className="ml-1 size-3" />
@@ -130,7 +130,7 @@ export function InputLogo({
               variant="outline"
               type="button"
               loading={isExecuting}
-              disabled={isExecuting}
+              disabled={isExecuting || disabled}
               onClick={() => {
                 inputFileRef.current?.click();
               }}

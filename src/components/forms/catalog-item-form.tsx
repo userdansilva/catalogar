@@ -38,8 +38,7 @@ export function CatalogItemForm({
         <FormField
           name="images"
           control={form.control}
-          disabled={form.formState.isSubmitting}
-          render={({ field: { onChange, value, disabled } }) => (
+          render={({ field: { onChange, value } }) => (
             <FormItem>
               <FormLabel>Imagens</FormLabel>
 
@@ -47,7 +46,7 @@ export function CatalogItemForm({
                 <InputImages
                   onChange={onChange}
                   value={value}
-                  disabled={disabled}
+                  disabled={form.formState.isSubmitting}
                 />
               </FormControl>
 
@@ -81,7 +80,6 @@ export function CatalogItemForm({
         <FormField
           name="title"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Título</FormLabel>
@@ -91,6 +89,7 @@ export function CatalogItemForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -103,7 +102,6 @@ export function CatalogItemForm({
         <FormField
           name="caption"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Legenda (Opcional)</FormLabel>
@@ -112,6 +110,7 @@ export function CatalogItemForm({
                 <Textarea
                   placeholder="Descreva o item..."
                   className="resize-none"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -129,12 +128,15 @@ export function CatalogItemForm({
         <FormField
           name="productTypeId"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tipo de Produto</FormLabel>
 
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={form.formState.isSubmitting}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione o tipo de produto" />
@@ -160,7 +162,6 @@ export function CatalogItemForm({
         <FormField
           name="categoryIds"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={() => (
             <FormItem>
               <div className="mb-4">
@@ -188,6 +189,7 @@ export function CatalogItemForm({
                           >
                             <FormControl>
                               <Checkbox
+                                disabled={form.formState.isSubmitting}
                                 checked={field.value?.includes(category.id)}
                                 onCheckedChange={(checked) => (checked
                                   ? field.onChange([...(field.value || []), category.id])

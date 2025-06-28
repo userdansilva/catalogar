@@ -81,7 +81,6 @@ export function ThemeForm({
         <FormField
           name="logo"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field: { onChange, value } }) => (
             <FormItem>
               <FormLabel>Logo da empresa (Opcional)</FormLabel>
@@ -90,6 +89,7 @@ export function ThemeForm({
                 <InputLogo
                   onChange={onChange}
                   value={value ?? undefined}
+                  disabled={form.formState.isSubmitting}
                 />
               </FormControl>
 
@@ -131,7 +131,6 @@ export function ThemeForm({
           <FormField
             name="primaryColor"
             control={form.control}
-            disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cor de fundo</FormLabel>
@@ -140,6 +139,7 @@ export function ThemeForm({
                   <Input
                     type="color"
                     className="w-full"
+                    disabled={form.formState.isSubmitting}
                     {...field}
                   />
                 </FormControl>
@@ -156,7 +156,6 @@ export function ThemeForm({
           <FormField
             name="secondaryColor"
             control={form.control}
-            disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cor do texto</FormLabel>
@@ -165,6 +164,7 @@ export function ThemeForm({
                   <Input
                     type="color"
                     className="w-full"
+                    disabled={form.formState.isSubmitting}
                     {...field}
                   />
                 </FormControl>
