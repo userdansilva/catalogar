@@ -45,7 +45,6 @@ export default async function Page({
       <PublicCatalogItemDetail
         baseUrl={routes.preview.url}
         catalogItem={catalogItem}
-        theme={user.currentCatalog.theme}
         company={user.currentCatalog.company}
         relatedCatalogItems={paginatedCatalogItems}
       />

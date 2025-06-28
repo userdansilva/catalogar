@@ -18,7 +18,11 @@ export function PublicCatalogItem({
   const pathname = usePathname();
 
   return (
-    <Link className={cn("space-y-2", catalogItem.isDisabled && "opacity-60")} href={`${pathname}/${catalogItem.reference}`}>
+    <Link
+      className={cn("space-y-2", catalogItem.isDisabled && "opacity-60")}
+      href={`${pathname}/${catalogItem.reference}`}
+      prefetch={!unoptimized}
+    >
       <div className="relative">
         <Image
           src={catalogItem.images[0].url}
