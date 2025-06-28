@@ -220,7 +220,7 @@ export function CatalogSwitcherDrawerDialog({
               Qual catálogo deseja visualizar?
             </DrawerTitle>
           </DrawerHeader>
-          <ScrollArea className="max-h-[calc(100vh-120px)] pt-6">
+          <ScrollArea className="h-[calc(100vh-120px)] pt-6">
             <div className="pb-6">
               <CatalogSwitcherForm
                 form={form}
