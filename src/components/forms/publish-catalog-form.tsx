@@ -15,9 +15,14 @@ import {
 } from "@/shadcn/components/ui/card";
 import { publishCatalogAction } from "@/actions/publish-catalog-action";
 import { useRouter } from "next/navigation";
+import { Catalog } from "@/types/api-types";
 import { Button } from "../inputs/button";
 
-export function PublishCatalogForm() {
+export function PublishCatalogForm({
+  currentCatalog,
+}: {
+  currentCatalog: Catalog
+}) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(
@@ -27,7 +32,7 @@ export function PublishCatalogForm() {
       formProps: {
         mode: "onChange",
         defaultValues: {
-          slug: "",
+          slug: currentCatalog.slug ?? "",
         },
       },
       actionProps: {

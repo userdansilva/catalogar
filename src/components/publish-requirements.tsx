@@ -95,7 +95,9 @@ export function PublishRequirements({
       </ul>
 
       {isRequerimentsDone ? (
-        <PublishCatalogForm />
+        <PublishCatalogForm
+          currentCatalog={user.currentCatalog}
+        />
       ) : (
         <Button className="w-full" size="lg" disabled>
           <Lock />

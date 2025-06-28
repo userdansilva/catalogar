@@ -1,23 +1,22 @@
 import { CarouselImages } from "@/components/carousel-images";
 import { Badge } from "@/shadcn/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/shadcn/components/ui/scroll-area";
-import { CatalogItem, Company, Theme } from "@/types/api-types";
+import { CatalogItem, Company } from "@/types/api-types";
 import { Forward } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ShareButton } from "./share-button";
+import { CopyButton } from "./copy-button";
 
 export function PublicCatalogItemDetail({
   baseUrl,
   catalogItem,
-  theme,
   company,
   unoptimized,
   relatedCatalogItems,
 }: {
   baseUrl: string
   catalogItem: CatalogItem
-  theme: Theme
   company: Company
   unoptimized?: boolean
   relatedCatalogItems: CatalogItem[]
@@ -58,12 +57,7 @@ export function PublicCatalogItemDetail({
             </p>
           )}
 
-          <ShareButton
-            style={{
-              background: theme.secondaryColor,
-              color: theme.primaryColor,
-            }}
-          >
+          <ShareButton>
             <Forward />
             Compartilhar
           </ShareButton>
@@ -73,10 +67,17 @@ export function PublicCatalogItemDetail({
             {catalogItem.productType.name}
           </p>
 
-          <p className="leading-7">
-            <span className="font-semibold">Código: </span>
-            {catalogItem.reference}
-          </p>
+          <div className="flex items-center gap-2">
+            <p className="leading-7">
+              <span className="font-semibold">Código: </span>
+              {catalogItem.reference}
+            </p>
+            <CopyButton
+              textToCopy={catalogItem.reference.toString()}
+              size="sm"
+              variant="outline"
+            />
+          </div>
 
           {company.mainSiteUrl && (
             <div>
