@@ -3,7 +3,6 @@
 import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { CatalogItem } from "@/types/api-types";
-import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { getCatalogItemById } from "@/services/get-catalog-item-by-id";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
@@ -18,7 +17,7 @@ export const toggleCatalogItemStatusAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      id, redirectTo,
+      id,
     },
     ctx: { accessToken, user },
   }) => {
@@ -49,10 +48,6 @@ export const toggleCatalogItemStatusAction = authActionClient
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
         revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      if (redirectTo) {
-        redirect(redirectTo);
       }
 
       return { catalogItem: res.data.data, message: res.data.meta?.message };

@@ -7,6 +7,7 @@ import { Company, Theme } from "@/types/api-types";
 import { updateThemeAction } from "@/actions/update-theme-action";
 import { themeSchema } from "@/actions/schema";
 import { routes } from "@/routes";
+import { useRouter } from "next/navigation";
 import { ThemeForm } from "./theme-form";
 
 export function UpdateThemeForm({
@@ -18,6 +19,8 @@ export function UpdateThemeForm({
   company?: Company
   callbackUrl?: string
 }) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     updateThemeAction,
     zodResolver(themeSchema),
@@ -34,14 +37,14 @@ export function UpdateThemeForm({
             width: theme.logo.width,
             accessUrl: theme.logo.url,
           } : null,
-          redirectTo: callbackUrl || routes.theme.url,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso!", {
+          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`, {
             description: res.data?.message,
           });
+          router.push(callbackUrl || routes.theme.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

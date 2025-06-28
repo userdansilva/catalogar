@@ -3,7 +3,6 @@
 import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { Catalog } from "@/types/api-types";
-import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { getUser } from "@/services/get-user";
 import { authActionClient } from "./safe-action";
@@ -18,7 +17,7 @@ export const publishCatalogAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      slug, redirectTo,
+      slug,
     },
     ctx: { accessToken },
   }) => {
@@ -40,10 +39,6 @@ export const publishCatalogAction = authActionClient
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
         revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      if (redirectTo) {
-        redirect(redirectTo);
       }
 
       return { catalog: res.data.data, message: res.data.meta?.message };

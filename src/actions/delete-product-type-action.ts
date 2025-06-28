@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
@@ -15,7 +14,6 @@ export const deleteProductTypeAction = authActionClient
   .action(async ({
     parsedInput: {
       id,
-      redirectTo,
     },
     ctx: { accessToken, user },
   }) => {
@@ -34,10 +32,6 @@ export const deleteProductTypeAction = authActionClient
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
         revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      if (redirectTo) {
-        redirect(redirectTo);
       }
     } catch (e) {
       console.error(e);

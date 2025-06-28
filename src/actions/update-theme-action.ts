@@ -3,7 +3,6 @@
 import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { tags } from "@/tags";
-import { redirect } from "next/navigation";
 import { Theme } from "@/types/api-types";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
@@ -17,7 +16,7 @@ export const updateThemeAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      primaryColor, secondaryColor, logo, redirectTo,
+      primaryColor, secondaryColor, logo,
     },
     ctx: { accessToken, user },
   }) => {
@@ -36,10 +35,6 @@ export const updateThemeAction = authActionClient
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
         revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      if (redirectTo) {
-        redirect(redirectTo);
       }
 
       return { theme: res.data.data, message: res.data.meta?.message };

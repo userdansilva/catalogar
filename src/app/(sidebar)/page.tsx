@@ -68,12 +68,18 @@ export default async function Home({
           skipCategory={pular === "categoria"}
         />
       ) : (
-        <MainCards
-          productTypes={productTypes}
-          categories={categories}
-          catalogItems={catalogItems}
-          user={user}
-        />
+        <>
+          <div>
+            ...
+          </div>
+
+          <MainCards
+            productTypes={productTypes}
+            categories={categories}
+            catalogItems={catalogItems}
+            user={user}
+          />
+        </>
       )}
 
       {shouldDisplayCustomizationMissions && (

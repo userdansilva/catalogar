@@ -4,7 +4,6 @@ import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { tags } from "@/tags";
 import { Company } from "@/types/api-types";
-import { redirect } from "next/navigation";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
@@ -17,7 +16,7 @@ export const updateCompanyAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      name, description, mainSiteUrl, phoneNumber, businessTypeDescription, redirectTo,
+      name, description, mainSiteUrl, phoneNumber, businessTypeDescription,
     },
     ctx: { accessToken, user },
   }) => {
@@ -34,10 +33,6 @@ export const updateCompanyAction = authActionClient
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
         revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      if (redirectTo) {
-        redirect(redirectTo);
       }
 
       return { company: res.data.data, message: res.data.meta?.message };

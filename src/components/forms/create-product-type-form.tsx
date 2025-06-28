@@ -6,6 +6,7 @@ import { productTypeSchema } from "@/actions/schema";
 import { toast } from "sonner";
 import { routes } from "@/routes";
 import { createProductTypeAction } from "@/actions/create-product-type-action";
+import { useRouter } from "next/navigation";
 import { ProductTypeForm } from "./product-type-form";
 
 export function CreateProductTypeForm({
@@ -13,6 +14,8 @@ export function CreateProductTypeForm({
 }: {
   callbackUrl?: string
 }) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     createProductTypeAction,
     zodResolver(productTypeSchema),
@@ -22,7 +25,6 @@ export function CreateProductTypeForm({
         defaultValues: {
           name: "",
           isDisabled: false,
-          redirectTo: callbackUrl || routes.productTypes.url,
         },
       },
       actionProps: {
@@ -30,6 +32,7 @@ export function CreateProductTypeForm({
           toast.success(`Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`, {
             description: res.data?.message,
           });
+          router.push(callbackUrl || routes.productTypes.url);
         },
         onError: (e) => {
           console.error(e);

@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { categorySchema } from "@/actions/schema";
 import { routes } from "@/routes";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import { CategoryForm } from "./category-form";
 
 export function CreateCategoryForm({
@@ -13,6 +14,8 @@ export function CreateCategoryForm({
 }: {
   callbackUrl?: string
 }) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     createCategoryAction,
     zodResolver(categorySchema),
@@ -24,7 +27,6 @@ export function CreateCategoryForm({
           textColor: "#FFFFFF",
           backgroundColor: "#000000",
           isDisabled: false,
-          redirectTo: callbackUrl || routes.categories.url,
         },
       },
       actionProps: {
@@ -32,6 +34,7 @@ export function CreateCategoryForm({
           toast.success(`Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`, {
             description: res.data?.message,
           });
+          router.push(callbackUrl || routes.categories.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

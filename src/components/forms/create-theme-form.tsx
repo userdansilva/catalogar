@@ -8,6 +8,7 @@ import { routes } from "@/routes";
 import { themeSchema } from "@/actions/schema";
 import { createThemeAction } from "@/actions/create-theme-action";
 import { Company } from "@/types/api-types";
+import { useRouter } from "next/navigation";
 import { ThemeForm } from "./theme-form";
 
 export type ThemeFormValues = z.infer<typeof themeSchema>
@@ -19,6 +20,8 @@ export function CreateThemeForm({
   callbackUrl?: string
   company?: Company;
 }) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     createThemeAction,
     zodResolver(themeSchema),
@@ -29,14 +32,14 @@ export function CreateThemeForm({
           primaryColor: "#390080",
           secondaryColor: "#70FF94",
           logo: null,
-          redirectTo: callbackUrl || routes.dashboard.url,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`, {
+          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`, {
             description: res.data?.message,
           });
+          router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

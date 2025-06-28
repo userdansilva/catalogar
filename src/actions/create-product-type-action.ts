@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
 import { ApiResponse } from "@/types/api-response";
 import { ProductType } from "@/types/api-types";
 import { tags } from "@/tags";
@@ -18,7 +17,7 @@ export const createProductTypeAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      name, isDisabled, redirectTo,
+      name, isDisabled,
     },
     ctx: { accessToken, user },
   }) => {
@@ -35,10 +34,6 @@ export const createProductTypeAction = authActionClient
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
         revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      if (redirectTo) {
-        redirect(redirectTo);
       }
 
       return { productType: res.data.data, message: res.data.meta?.message };

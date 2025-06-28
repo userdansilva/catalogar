@@ -32,7 +32,9 @@ export function MainCards({
       <Card className="flex flex-col bg-foreground lg:flex-row lg:items-center">
         <CardHeader className="flex-1">
           <CardTitle className="text-2xl text-background">
-            {user.currentCatalog.name}
+            {user.currentCatalog.isPublished
+              ? "Link Público"
+              : "Publicar agora"}
           </CardTitle>
 
           {user.currentCatalog.isPublished && (

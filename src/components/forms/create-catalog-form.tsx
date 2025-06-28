@@ -11,11 +11,14 @@ import {
   Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
+import { useRouter } from "next/navigation";
 import { Button } from "../inputs/button";
 
 export type CatalogFormValues = z.infer<typeof createCatalogSchema>
 
 export function CreateCatalogForm() {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     createCatalogAction,
     zodResolver(createCatalogSchema),
@@ -24,7 +27,6 @@ export function CreateCatalogForm() {
         mode: "onChange",
         defaultValues: {
           name: "",
-          redirectTo: routes.dashboard.url,
         },
       },
       actionProps: {
@@ -32,6 +34,7 @@ export function CreateCatalogForm() {
           toast.success("Sucesso! Redirecionando para tela inicial...", {
             description: res.data?.message,
           });
+          router.push(routes.dashboard.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

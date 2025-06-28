@@ -7,6 +7,7 @@ import { Company } from "@/types/api-types";
 import { updateCompanyAction } from "@/actions/update-company-action";
 import { companySchema } from "@/actions/schema";
 import { routes } from "@/routes";
+import { useRouter } from "next/navigation";
 import { CompanyForm } from "./company-form";
 
 type UpdateCompanyFormProps = {
@@ -17,6 +18,8 @@ type UpdateCompanyFormProps = {
 export function UpdateCompanyForm({
   company, callbackUrl,
 }: UpdateCompanyFormProps) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     updateCompanyAction,
     zodResolver(companySchema),
@@ -29,14 +32,14 @@ export function UpdateCompanyForm({
           mainSiteUrl: company.mainSiteUrl,
           businessTypeDescription: company.businessTypeDescription,
           phoneNumber: company.phoneNumber,
-          redirectTo: callbackUrl || routes.company.url,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso!", {
+          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`, {
             description: res.data?.message,
           });
+          router.push(callbackUrl || routes.company.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

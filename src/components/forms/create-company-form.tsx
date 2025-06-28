@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { routes } from "@/routes";
 import { companySchema } from "@/actions/schema";
 import { createCompanyAction } from "@/actions/create-company-action";
+import { useRouter } from "next/navigation";
 import { CompanyForm } from "./company-form";
 
 export type CompanyFormValues = z.infer<typeof companySchema>
@@ -16,6 +17,8 @@ export function CreateCompanyForm({
 }: {
   callbackUrl?: string
 }) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     createCompanyAction,
     zodResolver(companySchema),
@@ -28,14 +31,14 @@ export function CreateCompanyForm({
           mainSiteUrl: "",
           phoneNumber: "",
           businessTypeDescription: "",
-          redirectTo: callbackUrl || routes.dashboard.url,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`, {
+          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`, {
             description: res.data?.message,
           });
+          router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

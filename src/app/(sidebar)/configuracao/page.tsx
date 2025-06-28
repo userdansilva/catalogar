@@ -7,8 +7,13 @@ export const metadata: Metadata = {
   title: routes.config.title,
 };
 
-export default async function Settings() {
+export default async function Settings({
+  searchParams,
+}: {
+  searchParams: Promise<{ callbackUrl?: string }>
+}) {
   const { data: user } = await getUser();
+  const { callbackUrl } = await searchParams;
 
   return (
     <div className="space-y-6">
@@ -24,6 +29,7 @@ export default async function Settings() {
 
       <UpdateCatalogForm
         catalog={user.currentCatalog}
+        callbackUrl={callbackUrl}
       />
     </div>
   );

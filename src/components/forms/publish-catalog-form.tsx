@@ -14,9 +14,12 @@ import {
   Card, CardDescription, CardHeader, CardTitle,
 } from "@/shadcn/components/ui/card";
 import { publishCatalogAction } from "@/actions/publish-catalog-action";
+import { useRouter } from "next/navigation";
 import { Button } from "../inputs/button";
 
 export function PublishCatalogForm() {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     publishCatalogAction,
     zodResolver(publishCatalogSchema),
@@ -25,7 +28,6 @@ export function PublishCatalogForm() {
         mode: "onChange",
         defaultValues: {
           slug: "",
-          redirectTo: routes.catalog.sub.published.url,
         },
       },
       actionProps: {
@@ -33,6 +35,7 @@ export function PublishCatalogForm() {
           toast.success("Sucesso! Catálogo publicado", {
             description: res.data?.message,
           });
+          router.push(routes.catalog.sub.published.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

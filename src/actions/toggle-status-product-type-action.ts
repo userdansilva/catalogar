@@ -2,7 +2,6 @@
 
 import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
-import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { getProductTypeById } from "@/services/get-product-type-by-id";
 import { ProductType } from "@/types/api-types";
@@ -18,7 +17,7 @@ export const toggleProductTypeStatusAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      id, redirectTo,
+      id,
     },
     ctx: { accessToken, user },
   }) => {
@@ -28,7 +27,6 @@ export const toggleProductTypeStatusAction = authActionClient
       const res = await api.put<ApiResponse<ProductType>>(`/v1/product-types/${id}`, {
         ...productType,
         isDisabled: !productType.isDisabled,
-        redirectTo,
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -42,10 +40,6 @@ export const toggleProductTypeStatusAction = authActionClient
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
         revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      if (redirectTo) {
-        redirect(redirectTo);
       }
 
       return { productType: res.data.data, message: res.data.meta?.message };

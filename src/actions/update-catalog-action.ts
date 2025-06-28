@@ -53,7 +53,10 @@ export const updateCatalogAction = authActionClient
         revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
       }
 
-      return { catalog: res.data.data, message: res.data.meta?.message };
+      return {
+        catalog: res.data.data,
+        message: res.data.meta?.message,
+      };
     } catch (e) {
       returnValidationErrorsIfExists(e, updateCatalogSchema);
       throw e;

@@ -14,23 +14,19 @@ const catalogSchema = z.object({
     .max(30, "Máximo de 30 caracteres")
     .and(validator.slugValidator),
   isPublished: z.boolean(),
-  redirectTo: z.string().optional(),
 });
 
 export const createCatalogSchema = z.object({
   name: catalogSchema.shape.name,
-  redirectTo: catalogSchema.shape.redirectTo,
 });
 
 export const updateCatalogSchema = z.object({
   name: catalogSchema.shape.name,
   isPublished: z.boolean(),
-  redirectTo: catalogSchema.shape.redirectTo,
 });
 
 export const publishCatalogSchema = z.object({
   slug: catalogSchema.shape.slug,
-  redirectTo: catalogSchema.shape.redirectTo,
 });
 
 /**
@@ -47,7 +43,6 @@ export const companySchema = z.object({
   ]),
   phoneNumber: z.string().optional(),
   businessTypeDescription: z.string().optional(),
-  redirectTo: z.string().optional(),
 });
 
 /**
@@ -66,7 +61,6 @@ export const themeSchema = z.object({
     }),
     z.null(),
   ]),
-  redirectTo: z.string().optional(),
 });
 
 /**
@@ -78,12 +72,10 @@ export const categorySchema = z.object({
   textColor: z.string().min(1, "Campo obrigatório"),
   backgroundColor: z.string().min(1, "Campo obrigatório"),
   isDisabled: z.boolean(),
-  redirectTo: z.string().optional(),
 });
 
 export const categoryStatusToggleSchema = z.object({
   id: z.string().uuid(),
-  redirectTo: z.string().optional(),
 });
 
 /**
@@ -93,12 +85,10 @@ export const productTypeSchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string().min(1, "Campo obrigatório"),
   isDisabled: z.boolean(),
-  redirectTo: z.string().optional(),
 });
 
 export const productTypeStatusToggleSchema = z.object({
   id: z.string().uuid(),
-  redirectTo: z.string().optional(),
 });
 
 /**
@@ -117,12 +107,10 @@ export const catalogItemSchema = z.object({
   price: z.string().optional(),
   categoryIds: z.array(z.string().uuid()).optional(),
   isDisabled: z.boolean(),
-  redirectTo: z.string().optional(),
 });
 
 export const catalogItemStatusToggleSchema = z.object({
   id: z.string().uuid(),
-  redirectTo: z.string().optional(),
 });
 
 /**
@@ -144,5 +132,4 @@ export const queryFilterSchema = z.object({
  */
 export const deleteSchema = z.object({
   id: z.string().uuid(),
-  redirectTo: z.string().optional(),
 });

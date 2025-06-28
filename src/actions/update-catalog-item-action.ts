@@ -2,7 +2,6 @@
 
 import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
-import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { CatalogItem } from "@/types/api-types";
 import { authActionClient } from "./safe-action";
@@ -25,7 +24,6 @@ export const updateCatalogItemAction = authActionClient
       price,
       categoryIds,
       isDisabled,
-      redirectTo,
     },
     ctx: { accessToken, user },
   }) => {
@@ -55,10 +53,6 @@ export const updateCatalogItemAction = authActionClient
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
         revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      if (redirectTo) {
-        redirect(redirectTo);
       }
 
       return { catalogItem: res.data.data, message: res.data.meta?.message };

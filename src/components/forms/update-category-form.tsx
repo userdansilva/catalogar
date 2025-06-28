@@ -7,6 +7,7 @@ import { categorySchema } from "@/actions/schema";
 import { routes } from "@/routes";
 import { toast } from "sonner";
 import { Category } from "@/types/api-types";
+import { useRouter } from "next/navigation";
 import { CategoryForm } from "./category-form";
 
 type UpdateCategoryFormProps = {
@@ -16,6 +17,8 @@ type UpdateCategoryFormProps = {
 export function UpdateCategoryForm({
   category,
 }: UpdateCategoryFormProps) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     updateCategoryAction,
     zodResolver(categorySchema),
@@ -24,7 +27,6 @@ export function UpdateCategoryForm({
         mode: "onChange",
         defaultValues: {
           ...category,
-          redirectTo: routes.categories.url,
         },
       },
       actionProps: {
@@ -32,6 +34,7 @@ export function UpdateCategoryForm({
           toast.success("Sucesso! Voltando para a lista...", {
             description: res.data?.message,
           });
+          router.push(routes.categories.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

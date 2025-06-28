@@ -14,15 +14,21 @@ import { Input } from "@/shadcn/components/ui/input";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/shadcn/components/ui/select";
+import { routes } from "@/routes";
+import { useRouter } from "next/navigation";
 import { Button } from "../inputs/button";
 
 export type CatalogFormValues = z.infer<typeof updateCatalogSchema>
 
 export function UpdateCatalogForm({
   catalog,
+  callbackUrl,
 }: {
   catalog: Catalog
+  callbackUrl?: string
 }) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     updateCatalogAction,
     zodResolver(updateCatalogSchema),
@@ -36,9 +42,10 @@ export function UpdateCatalogForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso!", {
+          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`, {
             description: res.data?.message,
           });
+          router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

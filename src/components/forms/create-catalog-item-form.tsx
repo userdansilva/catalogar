@@ -7,6 +7,7 @@ import { routes } from "@/routes";
 import { createCatalogItemAction } from "@/actions/create-catalog-item-action";
 import { catalogItemSchema } from "@/actions/schema";
 import { Category, ProductType } from "@/types/api-types";
+import { useRouter } from "next/navigation";
 import { CatalogItemForm } from "./catalog-item-form";
 
 type CreateCatalogItemFormProps = {
@@ -18,6 +19,8 @@ type CreateCatalogItemFormProps = {
 export function CreateCatalogItemForm({
   categories, productTypes, callbackUrl,
 }: CreateCatalogItemFormProps) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     createCatalogItemAction,
     zodResolver(catalogItemSchema),
@@ -32,7 +35,6 @@ export function CreateCatalogItemForm({
           price: "",
           categoryIds: [],
           isDisabled: false,
-          redirectTo: callbackUrl || routes.catalogItems.url,
         },
       },
       actionProps: {
@@ -40,6 +42,7 @@ export function CreateCatalogItemForm({
           toast.success(`Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`, {
             description: res.data?.message,
           });
+          router.push(callbackUrl || routes.catalogItems.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

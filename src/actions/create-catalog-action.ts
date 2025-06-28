@@ -3,7 +3,6 @@
 import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { Catalog } from "@/types/api-types";
-import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
@@ -17,7 +16,7 @@ export const createCatalogAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      name, redirectTo,
+      name,
     },
     ctx: { accessToken },
   }) => {
@@ -31,10 +30,6 @@ export const createCatalogAction = authActionClient
       });
 
       revalidateTag(tags.users.me);
-
-      if (redirectTo) {
-        redirect(redirectTo);
-      }
 
       return { catalog: res.data.data, message: res.data.meta?.message };
     } catch (e) {

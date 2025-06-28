@@ -2,7 +2,6 @@
 
 import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
-import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { Company } from "@/types/api-types";
 import { authActionClient } from "./safe-action";
@@ -17,7 +16,7 @@ export const createCompanyAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      name, description, mainSiteUrl, phoneNumber, businessTypeDescription, redirectTo,
+      name, description, mainSiteUrl, phoneNumber, businessTypeDescription,
     },
     ctx: { accessToken },
   }) => {
@@ -31,10 +30,6 @@ export const createCompanyAction = authActionClient
       });
 
       revalidateTag(tags.users.me);
-
-      if (redirectTo) {
-        redirect(redirectTo);
-      }
 
       return { company: res.data.data, message: res.data.meta?.message };
     } catch (e) {

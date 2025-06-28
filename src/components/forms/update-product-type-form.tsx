@@ -7,6 +7,7 @@ import { routes } from "@/routes";
 import { ProductType } from "@/types/api-types";
 import { updateProductTypeAction } from "@/actions/update-product-type-action";
 import { productTypeSchema } from "@/actions/schema";
+import { useRouter } from "next/navigation";
 import { ProductTypeForm } from "./product-type-form";
 
 type UpdateProductTypeFormProps = {
@@ -16,6 +17,8 @@ type UpdateProductTypeFormProps = {
 export function UpdateProductTypeForm({
   productType,
 }: UpdateProductTypeFormProps) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     updateProductTypeAction,
     zodResolver(productTypeSchema),
@@ -24,7 +27,6 @@ export function UpdateProductTypeForm({
         mode: "onChange",
         defaultValues: {
           ...productType,
-          redirectTo: routes.productTypes.url,
         },
       },
       actionProps: {
@@ -32,6 +34,7 @@ export function UpdateProductTypeForm({
           toast.success("Sucesso! Voltando para a lista...", {
             description: res.data?.message,
           });
+          router.push(routes.productTypes.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

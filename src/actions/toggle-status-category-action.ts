@@ -3,7 +3,6 @@
 import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { Category } from "@/types/api-types";
-import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import { getCategoryById } from "@/services/get-category-by-id";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
@@ -18,7 +17,7 @@ export const toggleCategoryStatusAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      id, redirectTo,
+      id,
     },
     ctx: { accessToken, user },
   }) => {
@@ -28,7 +27,6 @@ export const toggleCategoryStatusAction = authActionClient
       const res = await api.put<ApiResponse<Category>>(`/v1/categories/${id}`, {
         ...category,
         isDisabled: !category.isDisabled,
-        redirectTo,
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -42,10 +40,6 @@ export const toggleCategoryStatusAction = authActionClient
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
         revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      if (redirectTo) {
-        redirect(redirectTo);
       }
 
       return { category: res.data.data, message: res.data.meta?.message };

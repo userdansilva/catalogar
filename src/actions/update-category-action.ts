@@ -3,7 +3,6 @@
 import { revalidateTag } from "next/cache";
 import { ApiResponse } from "@/types/api-response";
 import { Category } from "@/types/api-types";
-import { redirect } from "next/navigation";
 import { tags } from "@/tags";
 import slugify from "slugify";
 import { authActionClient } from "./safe-action";
@@ -18,7 +17,7 @@ export const updateCategoryAction = authActionClient
   })
   .action(async ({
     parsedInput: {
-      id, name, textColor, backgroundColor, isDisabled, redirectTo,
+      id, name, textColor, backgroundColor, isDisabled,
     },
     ctx: { accessToken, user },
   }) => {
@@ -39,10 +38,6 @@ export const updateCategoryAction = authActionClient
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
         revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      if (redirectTo) {
-        redirect(redirectTo);
       }
 
       return { category: res.data.data, message: res.data.meta?.message };
