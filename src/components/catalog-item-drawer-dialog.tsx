@@ -7,6 +7,17 @@ import { useIsMobile } from "@/shadcn/hooks/use-mobile";
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, useState } from "react";
 
+/**
+ * Componente não utilizado
+ *
+ * Abordagem de Parallel Routes e Interceptuing Routes
+ * não funciona bem com [slug] no root, acaba quebrando
+ * outras telas como /categorias/novo (carrega a PR e
+ * IR ao invés da página)
+ *
+ * Acompanhar futuros updates do Nextjs
+ * Versão atual: 15.3.4
+ */
 export function CatalogItemDrawerDialog({
   children,
   defaultOpen = false,
