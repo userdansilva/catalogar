@@ -17,10 +17,7 @@ export const createLogoAction = authActionClient
   .metadata({
     actionName: "create-logo",
   })
-  .action(async ({
-    parsedInput: { image },
-    ctx: { accessToken },
-  }) => {
+  .action(async ({ parsedInput: { image }, ctx: { accessToken } }) => {
     try {
       const arrayBuffer = await image.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
@@ -28,15 +25,21 @@ export const createLogoAction = authActionClient
       const fileExt = path.parse(image.name).ext;
       const fileType = getFileType(fileExt);
 
-      const { data } = await api.post<ApiResponse<StorageSasToken>>("/v1/storage/generate-sas-token", {
-        fileType,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const { data } = await api.post<ApiResponse<StorageSasToken>>(
+        "/v1/storage/generate-sas-token",
+        {
+          fileType,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
 
-      const { data: { fileName, uploadUrl, accessUrl } } = data;
+      const {
+        data: { fileName, uploadUrl, accessUrl },
+      } = data;
 
       const resizedImage = await sharp(buffer)
         .resize({
@@ -57,7 +60,10 @@ export const createLogoAction = authActionClient
         height: metadata.height || 0,
       };
     } catch (e) {
-      returnValidationErrorsIfExists(e, imageSchema as unknown as ZodObject<ZodRawShape>);
+      returnValidationErrorsIfExists(
+        e,
+        imageSchema as unknown as ZodObject<ZodRawShape>,
+      );
       throw e;
     }
   });

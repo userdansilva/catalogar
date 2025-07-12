@@ -3,14 +3,19 @@
 /* eslint-disable react/no-array-index-key */
 
 import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/shadcn/components/ui/table";
 import { Skeleton } from "@/shadcn/components/ui/skeleton";
 import { ColumnDef } from "@tanstack/react-table";
 
 type TableSkeletonProps<TData, TValues> = {
-  columns: ColumnDef<TData, TValues>[]
-}
+  columns: ColumnDef<TData, TValues>[];
+};
 
 export function TableSkeleton<TData, TValues>({
   columns,
@@ -21,9 +26,7 @@ export function TableSkeleton<TData, TValues>({
         <TableHeader>
           <TableRow>
             {columns.map((column) => (
-              <TableHead key={column.id}>
-                {column.header?.toString()}
-              </TableHead>
+              <TableHead key={column.id}>{column.header?.toString()}</TableHead>
             ))}
           </TableRow>
         </TableHeader>

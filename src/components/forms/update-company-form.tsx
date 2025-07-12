@@ -11,12 +11,13 @@ import { useRouter } from "next/navigation";
 import { CompanyForm } from "./company-form";
 
 type UpdateCompanyFormProps = {
-  company: Company
-  callbackUrl?: string
-}
+  company: Company;
+  callbackUrl?: string;
+};
 
 export function UpdateCompanyForm({
-  company, callbackUrl,
+  company,
+  callbackUrl,
 }: UpdateCompanyFormProps) {
   const router = useRouter();
 
@@ -36,9 +37,12 @@ export function UpdateCompanyForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`, {
-            description: res.data?.message,
-          });
+          toast.success(
+            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
+            {
+              description: res.data?.message,
+            },
+          );
           router.push(callbackUrl || routes.company.url);
         },
         onError: (e) => {

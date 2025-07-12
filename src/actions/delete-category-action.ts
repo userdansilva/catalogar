@@ -11,12 +11,7 @@ export const deleteCategoryAction = authActionClient
   .metadata({
     actionName: "delete-category-item",
   })
-  .action(async ({
-    parsedInput: {
-      id,
-    },
-    ctx: { accessToken, user },
-  }) => {
+  .action(async ({ parsedInput: { id }, ctx: { accessToken, user } }) => {
     try {
       await api.delete<void>(`/v1/categories/${id}`, {
         headers: {

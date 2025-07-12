@@ -12,8 +12,8 @@ export function PublicCatalogItem({
   catalogItem,
   unoptimized,
 }: {
-  catalogItem: CatalogItemType
-  unoptimized?: boolean
+  catalogItem: CatalogItemType;
+  unoptimized?: boolean;
 }) {
   const pathname = usePathname();
 
@@ -57,10 +57,11 @@ export function PublicCatalogItem({
       </div>
 
       <div>
-        <div className={cn(
-          "text-base font-semibold",
-          catalogItem.isDisabled && "line-through",
-        )}
+        <div
+          className={cn(
+            "text-base font-semibold",
+            catalogItem.isDisabled && "line-through",
+          )}
         >
           {catalogItem.title}
         </div>

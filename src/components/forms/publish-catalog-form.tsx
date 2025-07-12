@@ -6,12 +6,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { toast } from "sonner";
 import {
-  Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
 import { Rocket } from "lucide-react";
 import {
-  Card, CardDescription, CardHeader, CardTitle,
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/shadcn/components/ui/card";
 import { publishCatalogAction } from "@/actions/publish-catalog-action";
 import { useRouter } from "next/navigation";
@@ -21,7 +30,7 @@ import { Button } from "../inputs/button";
 export function PublishCatalogForm({
   currentCatalog,
 }: {
-  currentCatalog: Catalog
+  currentCatalog: Catalog;
 }) {
   const router = useRouter();
 

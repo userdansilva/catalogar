@@ -1,7 +1,12 @@
 "use client";
 
 import {
-  Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious,
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 } from "@/shadcn/components/ui/pagination";
 import { usePathname, useSearchParams } from "next/navigation";
 
@@ -11,12 +16,12 @@ export function CatalogPagination({
   currentPage = 1,
   searchParamNames,
 }: {
-  totalItems: number
-  itemsPerPage: number
-  currentPage?: number
+  totalItems: number;
+  itemsPerPage: number;
+  currentPage?: number;
   searchParamNames: {
     page: string;
-  }
+  };
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -76,9 +81,7 @@ export function CatalogPagination({
 
             {currentPage === 1 && totalPages > 2 && (
               <PaginationItem>
-                <PaginationLink href={getSearchUrl(3)}>
-                  3
-                </PaginationLink>
+                <PaginationLink href={getSearchUrl(3)}>3</PaginationLink>
               </PaginationItem>
             )}
 
@@ -87,7 +90,6 @@ export function CatalogPagination({
             </PaginationItem>
           </>
         )}
-
       </PaginationContent>
     </Pagination>
   );

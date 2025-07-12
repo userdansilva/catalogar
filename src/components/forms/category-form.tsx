@@ -1,10 +1,19 @@
 import { categorySchema } from "@/actions/schema";
 import { Badge } from "@/shadcn/components/ui/badge";
 import {
-  Card, CardContent, CardDescription, CardHeader, CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/shadcn/components/ui/card";
 import {
-  Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
 import { FormEventHandler } from "react";
@@ -12,16 +21,14 @@ import { Control, UseFormReturn, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../inputs/button";
 
-export type CategoryFormValues = z.infer<typeof categorySchema>
+export type CategoryFormValues = z.infer<typeof categorySchema>;
 
 function CategoryBadgePreview({
   control,
 }: {
-  control: Control<CategoryFormValues>
+  control: Control<CategoryFormValues>;
 }) {
-  const {
-    name, textColor, backgroundColor,
-  } = useWatch({ control });
+  const { name, textColor, backgroundColor } = useWatch({ control });
 
   return (
     <Badge style={{ color: textColor, background: backgroundColor }}>
@@ -35,9 +42,9 @@ export function CategoryForm({
   onSubmit,
   submitButtonLabel,
 }: {
-  form: UseFormReturn<CategoryFormValues>
-  onSubmit: FormEventHandler<HTMLFormElement>
-  submitButtonLabel: string
+  form: UseFormReturn<CategoryFormValues>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  submitButtonLabel: string;
 }) {
   return (
     <Form {...form}>
@@ -69,8 +76,8 @@ export function CategoryForm({
           <CardHeader>
             <CardTitle>Pré visualização</CardTitle>
             <CardDescription>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Fusce et ligula sit amet est blandit molestie et in purus.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et
+              ligula sit amet est blandit molestie et in purus.
             </CardDescription>
           </CardHeader>
 

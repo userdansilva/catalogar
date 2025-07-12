@@ -7,18 +7,21 @@ import { createMiddleware, createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
 
 const authMiddleware = createMiddleware<{
-  ctx: { accessToken: string, user: UserWithCatalog }
-  metada: { actionName: string }
-}>().define(async ({ ctx, next }) => next({
-  ctx: {
-    accessToken: ctx.accessToken,
-  },
-}));
+  ctx: { accessToken: string; user: UserWithCatalog };
+  metada: { actionName: string };
+}>().define(async ({ ctx, next }) =>
+  next({
+    ctx: {
+      accessToken: ctx.accessToken,
+    },
+  }),
+);
 
 export const authActionClient = createSafeActionClient({
-  defineMetadataSchema: () => z.object({
-    actionName: z.string(),
-  }),
+  defineMetadataSchema: () =>
+    z.object({
+      actionName: z.string(),
+    }),
   handleServerError(e) {
     if (e instanceof AxiosError) {
       return (e as AxiosError<ApiError>).response?.data;

@@ -14,46 +14,52 @@ export const createCatalogItemAction = authActionClient
   .metadata({
     actionName: "create-catalog-item",
   })
-  .action(async ({
-    parsedInput: {
-      title,
-      caption,
-      productTypeId,
-      images,
-      price,
-      categoryIds,
-      isDisabled,
-    },
-    ctx: { accessToken, user },
-  }) => {
-    try {
-      const res = await api.post<ApiResponse<CatalogItem>>("/v1/catalog-items", {
+  .action(
+    async ({
+      parsedInput: {
         title,
         caption,
         productTypeId,
-        images: images.map((image) => ({
-          fileName: image.fileName,
-          position: image.position,
-        })),
+        images,
         price,
         categoryIds,
         isDisabled,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      },
+      ctx: { accessToken, user },
+    }) => {
+      try {
+        const res = await api.post<ApiResponse<CatalogItem>>(
+          "/v1/catalog-items",
+          {
+            title,
+            caption,
+            productTypeId,
+            images: images.map((image) => ({
+              fileName: image.fileName,
+              position: image.position,
+            })),
+            price,
+            categoryIds,
+            isDisabled,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
 
-      revalidateTag(tags.catalogItems.getAll);
+        revalidateTag(tags.catalogItems.getAll);
 
-      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
+        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
+        }
+
+        return { catalogItem: res.data.data, message: res.data.meta?.message };
+      } catch (e) {
+        console.error(e);
+        returnValidationErrorsIfExists(e, catalogItemSchema);
+        throw e;
       }
-
-      return { catalogItem: res.data.data, message: res.data.meta?.message };
-    } catch (e) {
-      console.error(e);
-      returnValidationErrorsIfExists(e, catalogItemSchema);
-      throw e;
-    }
-  });
+    },
+  );

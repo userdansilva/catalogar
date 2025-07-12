@@ -34,9 +34,7 @@ export default async function Page({
   const { data: categories } = await getCategories();
   const { data: catalogItems } = await getCatalogItems();
 
-  const {
-    categoria, p, produto, busca,
-  } = await searchParams;
+  const { categoria, p, produto, busca } = await searchParams;
 
   const query = busca;
   const productTypeSlug = produto;

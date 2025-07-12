@@ -4,11 +4,9 @@ import { DataTable } from "../data-table";
 
 type CategoriesTableProps = {
   currentPage: number;
-}
+};
 
-export async function CategoriesTable({
-  currentPage,
-}: CategoriesTableProps) {
+export async function CategoriesTable({ currentPage }: CategoriesTableProps) {
   const { data: categories, meta } = await getCategories({
     field: "createdAt",
     page: currentPage,

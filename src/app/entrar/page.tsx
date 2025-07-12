@@ -16,9 +16,7 @@ export default function SignInOrRegister() {
 
         <div className="text-center">
           <h1 className="text-2xl tracking-tight">
-            Boas Vindas ao
-            {" "}
-            <span className="font-bold">Catalogar</span>
+            Boas Vindas ao <span className="font-bold">Catalogar</span>
           </h1>
           <p className="mt-4 text-muted-foreground">
             Entre para gerenciar seus catálogos ou criar um novo cadastro
@@ -29,9 +27,11 @@ export default function SignInOrRegister() {
           <Button
             size="lg"
             className="w-full max-w-xs"
-            onClick={() => signIn("azure-ad-b2c", {
-              callbackUrl: routes.dashboard.url,
-            })}
+            onClick={() =>
+              signIn("azure-ad-b2c", {
+                callbackUrl: routes.dashboard.url,
+              })
+            }
           >
             Entrar / Cadastrar
           </Button>

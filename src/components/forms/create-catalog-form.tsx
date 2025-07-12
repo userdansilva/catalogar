@@ -8,13 +8,19 @@ import { toast } from "sonner";
 import { routes } from "@/routes";
 import { createCatalogSchema } from "@/actions/schema";
 import {
-  Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
 import { useRouter } from "next/navigation";
 import { Button } from "../inputs/button";
 
-export type CatalogFormValues = z.infer<typeof createCatalogSchema>
+export type CatalogFormValues = z.infer<typeof createCatalogSchema>;
 
 export function CreateCatalogForm() {
   const router = useRouter();

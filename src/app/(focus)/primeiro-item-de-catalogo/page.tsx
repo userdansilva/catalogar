@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default async function CreateFirstCatalogItem({
   searchParams,
 }: {
-  searchParams: Promise<{ callbackUrl?: string }>
+  searchParams: Promise<{ callbackUrl?: string }>;
 }) {
   const { callbackUrl } = await searchParams;
   const { data: catalogItems } = await getCatalogItems();
@@ -28,14 +28,11 @@ export default async function CreateFirstCatalogItem({
 
   return (
     <div className="max-w-2xl space-y-8">
-      <PrevButton
-        fallbackUrl={routes.dashboard.url}
-      />
+      <PrevButton fallbackUrl={routes.dashboard.url} />
 
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
-          Vamos cadastrar seu
-          {" "}
+          Vamos cadastrar seu{" "}
           <span className="font-bold">Item de Catálogo</span>
         </h2>
 

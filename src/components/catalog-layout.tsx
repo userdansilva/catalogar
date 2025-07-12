@@ -4,7 +4,13 @@ import { PropsWithChildren } from "react";
 import { ExternalLink, Forward, Menu } from "lucide-react";
 import { Company, Theme } from "@/types/api-types";
 import {
-  Drawer, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger,
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
 } from "@/shadcn/components/ui/drawer";
 import { Button } from "./inputs/button";
 import { ShareButton } from "./share-button";
@@ -27,7 +33,6 @@ export function CatalogLayout({
           background: theme.primaryColor,
           color: theme.secondaryColor,
         }}
-
       >
         <div className="container">
           <div className="relative flex h-7 w-full items-center justify-between">
@@ -41,9 +46,7 @@ export function CatalogLayout({
                   style={{ height: 28, width: "auto" }}
                 />
               ) : (
-                <span className="text-2xl font-semibold">
-                  {company.name}
-                </span>
+                <span className="text-2xl font-semibold">{company.name}</span>
               )}
             </Link>
 
@@ -68,9 +71,7 @@ export function CatalogLayout({
                     </DrawerTitle>
                     {company.mainSiteUrl && (
                       <Button variant="link">
-                        <a href={company.mainSiteUrl}>
-                          {company.mainSiteUrl}
-                        </a>
+                        <a href={company.mainSiteUrl}>{company.mainSiteUrl}</a>
                         <ExternalLink />
                       </Button>
                     )}
@@ -98,9 +99,7 @@ export function CatalogLayout({
         </div>
       </header>
 
-      <main className="container pb-10 pt-6">
-        {children}
-      </main>
+      <main className="container pb-10 pt-6">{children}</main>
     </div>
   );
 }

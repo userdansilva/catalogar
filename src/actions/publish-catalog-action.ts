@@ -15,25 +15,24 @@ export const publishCatalogAction = authActionClient
   .metadata({
     actionName: "publish-catalog",
   })
-  .action(async ({
-    parsedInput: {
-      slug,
-    },
-    ctx: { accessToken },
-  }) => {
+  .action(async ({ parsedInput: { slug }, ctx: { accessToken } }) => {
     const { data: user } = await getUser();
 
     /** Criar endpoint específico no backend para isso */
     try {
-      const res = await api.put<ApiResponse<Catalog>>("/v1/catalogs", {
-        name: user.currentCatalog.name,
-        slug,
-        isPublished: true,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const res = await api.put<ApiResponse<Catalog>>(
+        "/v1/catalogs",
+        {
+          name: user.currentCatalog.name,
+          slug,
+          isPublished: true,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
 
       revalidateTag(tags.users.me);
 

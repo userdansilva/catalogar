@@ -2,11 +2,7 @@ import { UserWithCatalog } from "@/types/api-types";
 import { routes } from "@/routes";
 import { Mission } from "./mission";
 
-export function CustomizationMissions({
-  user,
-}: {
-  user: UserWithCatalog
-}) {
+export function CustomizationMissions({ user }: { user: UserWithCatalog }) {
   const companyMissionStatus = (() => {
     if (user.currentCatalog.company) return "COMPLETE";
 

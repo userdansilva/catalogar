@@ -3,9 +3,7 @@ import { routes } from "@/routes";
 import { PageHeader } from "@/components/layout/page-header";
 import { PrevButton } from "@/components/prev-button";
 
-export default function ConfigLayout({
-  children,
-}: PropsWithChildren) {
+export default function ConfigLayout({ children }: PropsWithChildren) {
   return (
     <div className="space-y-6">
       <PrevButton fallbackUrl={routes.dashboard.url} />

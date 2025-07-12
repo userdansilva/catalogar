@@ -20,8 +20,8 @@ export default async function Page({
   params,
   searchParams,
 }: {
-  params: Promise<{ slug: string }>
-  searchParams: SearchParams<typeof SEARCH_PARAM_NAMES>
+  params: Promise<{ slug: string }>;
+  searchParams: SearchParams<typeof SEARCH_PARAM_NAMES>;
 }) {
   const { slug: slugWithAt } = await params;
 
@@ -33,9 +33,7 @@ export default async function Page({
 
   const { data: catalog } = await getPublicCatalogBySlug(slug);
 
-  const {
-    q, p, categoria, produto,
-  } = await searchParams;
+  const { q, p, categoria, produto } = await searchParams;
 
   const query = q || "";
   const productTypeSlug = produto || "";

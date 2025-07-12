@@ -15,34 +15,38 @@ export const createCategoryAction = authActionClient
   .metadata({
     actionName: "create-category",
   })
-  .action(async ({
-    parsedInput: {
-      name, textColor, backgroundColor, isDisabled,
-    },
-    ctx: { accessToken, user },
-  }) => {
-    try {
-      const res = await api.post<ApiResponse<Category>>("/v1/categories", {
-        name,
-        slug: slugify(name, { lower: true }),
-        textColor,
-        backgroundColor,
-        isDisabled,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+  .action(
+    async ({
+      parsedInput: { name, textColor, backgroundColor, isDisabled },
+      ctx: { accessToken, user },
+    }) => {
+      try {
+        const res = await api.post<ApiResponse<Category>>(
+          "/v1/categories",
+          {
+            name,
+            slug: slugify(name, { lower: true }),
+            textColor,
+            backgroundColor,
+            isDisabled,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
 
-      revalidateTag(tags.categories.getAll);
+        revalidateTag(tags.categories.getAll);
 
-      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
+        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
+        }
+
+        return { category: res.data.data, message: res.data.meta?.message };
+      } catch (e) {
+        returnValidationErrorsIfExists(e, categorySchema);
+        throw e;
       }
-
-      return { category: res.data.data, message: res.data.meta?.message };
-    } catch (e) {
-      returnValidationErrorsIfExists(e, categorySchema);
-      throw e;
-    }
-  });
+    },
+  );

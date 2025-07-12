@@ -10,13 +10,9 @@ import { createCompanyAction } from "@/actions/create-company-action";
 import { useRouter } from "next/navigation";
 import { CompanyForm } from "./company-form";
 
-export type CompanyFormValues = z.infer<typeof companySchema>
+export type CompanyFormValues = z.infer<typeof companySchema>;
 
-export function CreateCompanyForm({
-  callbackUrl,
-}: {
-  callbackUrl?: string
-}) {
+export function CreateCompanyForm({ callbackUrl }: { callbackUrl?: string }) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(
@@ -35,9 +31,12 @@ export function CreateCompanyForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`, {
-            description: res.data?.message,
-          });
+          toast.success(
+            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
+            {
+              description: res.data?.message,
+            },
+          );
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {

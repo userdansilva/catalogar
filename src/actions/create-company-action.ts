@@ -14,26 +14,40 @@ export const createCompanyAction = authActionClient
   .metadata({
     actionName: "create-company",
   })
-  .action(async ({
-    parsedInput: {
-      name, description, mainSiteUrl, phoneNumber, businessTypeDescription,
+  .action(
+    async ({
+      parsedInput: {
+        name,
+        description,
+        mainSiteUrl,
+        phoneNumber,
+        businessTypeDescription,
+      },
+      ctx: { accessToken },
+    }) => {
+      try {
+        const res = await api.post<ApiResponse<Company>>(
+          "/v1/companies",
+          {
+            name,
+            description,
+            mainSiteUrl,
+            phoneNumber,
+            businessTypeDescription,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+
+        revalidateTag(tags.users.me);
+
+        return { company: res.data.data, message: res.data.meta?.message };
+      } catch (e) {
+        returnValidationErrorsIfExists(e, companySchema);
+        throw e;
+      }
     },
-    ctx: { accessToken },
-  }) => {
-    try {
-      const res = await api.post<ApiResponse<Company>>("/v1/companies", {
-        name, description, mainSiteUrl, phoneNumber, businessTypeDescription,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      revalidateTag(tags.users.me);
-
-      return { company: res.data.data, message: res.data.meta?.message };
-    } catch (e) {
-      returnValidationErrorsIfExists(e, companySchema);
-      throw e;
-    }
-  });
+  );

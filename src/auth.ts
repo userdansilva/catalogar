@@ -3,7 +3,11 @@ import type {
   NextApiRequest,
   NextApiResponse,
 } from "next";
-import type { Account as AccountNextAuth, DefaultSession, NextAuthOptions } from "next-auth";
+import type {
+  Account as AccountNextAuth,
+  DefaultSession,
+  NextAuthOptions,
+} from "next-auth";
 import { getServerSession } from "next-auth";
 import AzureADB2C from "next-auth/providers/azure-ad-b2c";
 import { routes } from "./routes";
@@ -33,8 +37,10 @@ export const config = {
         return baseUrl + url;
       }
 
-      if (new URL(url).origin === `https://${tenantId}.b2clogin.com`
-        || new URL(url).origin === baseUrl) {
+      if (
+        new URL(url).origin === `https://${tenantId}.b2clogin.com` ||
+        new URL(url).origin === baseUrl
+      ) {
         return url;
       }
 
@@ -42,13 +48,11 @@ export const config = {
     },
 
     async jwt({ account, token }) {
-      const getExpireDate = (expiresIn: number) => Date.now()
-        + (expiresIn * 1_000);
+      const getExpireDate = (expiresIn: number) =>
+        Date.now() + expiresIn * 1_000;
 
       if (account) {
-        const tokenExpiresAt = getExpireDate(
-          account.id_token_expires_in,
-        );
+        const tokenExpiresAt = getExpireDate(account.id_token_expires_in);
 
         const refreshTokenExpiresAt = getExpireDate(
           account.refresh_token_expires_in as number,
@@ -64,15 +68,17 @@ export const config = {
         return newToken;
       }
 
-      const isAdB2CTokenValid = (token.tokenExpiresAt as number
-        - (60 * 5 * 1_000)) /* 5 min */ > Date.now();
+      const isAdB2CTokenValid =
+        (token.tokenExpiresAt as number) - 60 * 5 * 1_000 /* 5 min */ >
+        Date.now();
 
       if (isAdB2CTokenValid) {
         return token;
       }
 
-      const isAdB2CRefreshTokenValid = (token.refreshTokenExpiresAt as number
-        - (60 * 5 * 1_000)) /* 5 min */ > Date.now();
+      const isAdB2CRefreshTokenValid =
+        (token.refreshTokenExpiresAt as number) - 60 * 5 * 1_000 /* 5 min */ >
+        Date.now();
 
       if (!isAdB2CRefreshTokenValid) {
         console.error("SessionEnd");
@@ -95,11 +101,13 @@ export const config = {
           }),
         });
 
-        const tokens = await response.json() as AccountNextAuth;
+        const tokens = (await response.json()) as AccountNextAuth;
 
         const tokenExpiresAt = getExpireDate(tokens.id_token_expires_in);
 
-        const refreshTokenExpiresAt = getExpireDate(tokens.refresh_token_expires_in);
+        const refreshTokenExpiresAt = getExpireDate(
+          tokens.refresh_token_expires_in,
+        );
 
         const newToken = token;
 
@@ -137,23 +145,23 @@ export const signOutUrl = `https://${tenantId}.b2clogin.com/${tenantId}.onmicros
 
 declare module "next-auth" {
   interface Session {
-    user: DefaultSession["user"]
-    accessToken: string
+    user: DefaultSession["user"];
+    accessToken: string;
   }
 
   interface Account {
-    id_token: string
-    id_token_expires_in: number
-    refresh_token: string
-    refresh_token_expires_in: number
+    id_token: string;
+    id_token_expires_in: number;
+    refresh_token: string;
+    refresh_token_expires_in: number;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    accessToken: string
-    refreshToken: string
-    tokenExpiresAt: number
-    refreshTokenExpiresAt: number
+    accessToken: string;
+    refreshToken: string;
+    tokenExpiresAt: number;
+    refreshTokenExpiresAt: number;
   }
 }

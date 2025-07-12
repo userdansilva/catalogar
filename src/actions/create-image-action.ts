@@ -15,28 +15,34 @@ export const createImageAction = authActionClient
   .metadata({
     actionName: "create-image",
   })
-  .action(async ({
-    parsedInput: { image },
-    ctx: { accessToken },
-  }) => {
+  .action(async ({ parsedInput: { image }, ctx: { accessToken } }) => {
     try {
       const arrayBuffer = await image.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
 
-      const { data } = await api.post<ApiResponse<StorageSasToken>>("/v1/storage/generate-sas-token", {
-        fileType: "WEBP",
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const { data } = await api.post<ApiResponse<StorageSasToken>>(
+        "/v1/storage/generate-sas-token",
+        {
+          fileType: "WEBP",
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
 
-      const { data: { fileName, uploadUrl, accessUrl } } = data;
+      const {
+        data: { fileName, uploadUrl, accessUrl },
+      } = data;
 
       const optimizedImage = await sharp(buffer)
         .resize(600, 600, {
           background: {
-            r: 255, g: 255, b: 255, alpha: 1,
+            r: 255,
+            g: 255,
+            b: 255,
+            alpha: 1,
           },
           fit: "contain",
         })
@@ -48,7 +54,10 @@ export const createImageAction = authActionClient
 
       return { fileName, accessUrl };
     } catch (e) {
-      returnValidationErrorsIfExists(e, imageSchema as unknown as ZodObject<ZodRawShape>);
+      returnValidationErrorsIfExists(
+        e,
+        imageSchema as unknown as ZodObject<ZodRawShape>,
+      );
       throw e;
     }
   });

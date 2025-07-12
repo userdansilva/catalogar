@@ -15,9 +15,9 @@ export function UpdateThemeForm({
   company,
   callbackUrl,
 }: {
-  theme: Theme
-  company?: Company
-  callbackUrl?: string
+  theme: Theme;
+  company?: Company;
+  callbackUrl?: string;
 }) {
   const router = useRouter();
 
@@ -30,20 +30,25 @@ export function UpdateThemeForm({
         defaultValues: {
           primaryColor: theme.primaryColor,
           secondaryColor: theme.secondaryColor,
-          logo: theme.logo ? {
-            fileName: theme.logo.url.split("/").pop(),
-            originalFileName: theme.logo.name,
-            height: theme.logo.height,
-            width: theme.logo.width,
-            accessUrl: theme.logo.url,
-          } : null,
+          logo: theme.logo
+            ? {
+                fileName: theme.logo.url.split("/").pop(),
+                originalFileName: theme.logo.name,
+                height: theme.logo.height,
+                width: theme.logo.width,
+                accessUrl: theme.logo.url,
+              }
+            : null,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`, {
-            description: res.data?.message,
-          });
+          toast.success(
+            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
+            {
+              description: res.data?.message,
+            },
+          );
           router.push(callbackUrl || routes.theme.url);
         },
         onError: (e) => {

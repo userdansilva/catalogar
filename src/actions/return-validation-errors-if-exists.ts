@@ -10,17 +10,24 @@ import { ZodObject, ZodRawShape } from "zod";
  * handleValidationServerErrors(e, catalogSchema)
  * ```
  */
-export function returnValidationErrorsIfExists(e: unknown, schema: ZodObject<ZodRawShape>) {
-  const apiErrors = (e as AxiosError<ApiError<keyof typeof schema.shape>>)
-    .response?.data.errors || [];
+export function returnValidationErrorsIfExists(
+  e: unknown,
+  schema: ZodObject<ZodRawShape>,
+) {
+  const apiErrors =
+    (e as AxiosError<ApiError<keyof typeof schema.shape>>).response?.data
+      .errors || [];
 
   const hasValidationErrors = apiErrors.length > 0;
 
   if (hasValidationErrors) {
-    const formattedErrors = apiErrors.reduce((acc, error) => {
-      acc[error.field] = { _errors: [error.message] };
-      return acc;
-    }, {} as ValidationErrors<typeof schema>);
+    const formattedErrors = apiErrors.reduce(
+      (acc, error) => {
+        acc[error.field] = { _errors: [error.message] };
+        return acc;
+      },
+      {} as ValidationErrors<typeof schema>,
+    );
 
     returnValidationErrors(schema, formattedErrors);
   }

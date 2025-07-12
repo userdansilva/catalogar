@@ -11,13 +11,15 @@ import { useRouter } from "next/navigation";
 import { CatalogItemForm } from "./catalog-item-form";
 
 type CreateCatalogItemFormProps = {
-  categories: Category[]
-  productTypes: ProductType[]
-  callbackUrl?: string
-}
+  categories: Category[];
+  productTypes: ProductType[];
+  callbackUrl?: string;
+};
 
 export function CreateCatalogItemForm({
-  categories, productTypes, callbackUrl,
+  categories,
+  productTypes,
+  callbackUrl,
 }: CreateCatalogItemFormProps) {
   const router = useRouter();
 
@@ -39,9 +41,12 @@ export function CreateCatalogItemForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`, {
-            description: res.data?.message,
-          });
+          toast.success(
+            `Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`,
+            {
+              description: res.data?.message,
+            },
+          );
           router.push(callbackUrl || routes.catalogItems.url);
         },
         onError: (e) => {

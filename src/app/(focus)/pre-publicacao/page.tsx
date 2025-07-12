@@ -18,21 +18,18 @@ export default async function Page() {
 
   return (
     <div className="max-w-xl space-y-8">
-      <PrevButton
-        fallbackUrl={routes.dashboard.url}
-      />
+      <PrevButton fallbackUrl={routes.dashboard.url} />
 
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
-          Opa! Vamos cadastrar seu
-          {" "}
-          <span className="font-bold">Tema</span>
+          Opa! Vamos cadastrar seu <span className="font-bold">Tema</span>
         </h2>
 
         <p className="text-muted-foreground">
           Agora é hora de deixar seu catálogo com a identidade da sua empresa.
           Defina as cores e adicione sua logo para que tudo fique com a cara do
-          seu negócio — mais profissional, reconhecível e alinhado com a marca. Vamos lá?
+          seu negócio — mais profissional, reconhecível e alinhado com a marca.
+          Vamos lá?
         </p>
       </div>
 

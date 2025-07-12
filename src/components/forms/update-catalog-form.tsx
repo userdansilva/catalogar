@@ -7,25 +7,35 @@ import { updateCatalogSchema } from "@/actions/schema";
 import { toast } from "sonner";
 import { Catalog } from "@/types/api-types";
 import {
-  Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/shadcn/components/ui/form";
 import { z } from "zod";
 import { Input } from "@/shadcn/components/ui/input";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/shadcn/components/ui/select";
 import { routes } from "@/routes";
 import { useRouter } from "next/navigation";
 import { Button } from "../inputs/button";
 
-export type CatalogFormValues = z.infer<typeof updateCatalogSchema>
+export type CatalogFormValues = z.infer<typeof updateCatalogSchema>;
 
 export function UpdateCatalogForm({
   catalog,
   callbackUrl,
 }: {
-  catalog: Catalog
-  callbackUrl?: string
+  catalog: Catalog;
+  callbackUrl?: string;
 }) {
   const router = useRouter();
 
@@ -46,9 +56,12 @@ export function UpdateCatalogForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`, {
-            description: res.data?.message,
-          });
+          toast.success(
+            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
+            {
+              description: res.data?.message,
+            },
+          );
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
@@ -114,14 +127,16 @@ export function UpdateCatalogForm({
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="PUBLIC">
-                    Público
-                    {" "}
-                    <span className="text-muted-foreground">(Todos podem visualizar)</span>
+                    Público{" "}
+                    <span className="text-muted-foreground">
+                      (Todos podem visualizar)
+                    </span>
                   </SelectItem>
                   <SelectItem value="PRIVATE">
-                    Privado
-                    {" "}
-                    <span className="text-muted-foreground">(Apenas você pode visualizar)</span>
+                    Privado{" "}
+                    <span className="text-muted-foreground">
+                      (Apenas você pode visualizar)
+                    </span>
                   </SelectItem>
                 </SelectContent>
               </Select>

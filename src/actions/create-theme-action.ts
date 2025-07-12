@@ -14,29 +14,33 @@ export const createThemeAction = authActionClient
   .metadata({
     actionName: "create-theme",
   })
-  .action(async ({
-    parsedInput: {
-      primaryColor, secondaryColor, logo,
+  .action(
+    async ({
+      parsedInput: { primaryColor, secondaryColor, logo },
+      ctx: { accessToken },
+    }) => {
+      try {
+        const res = await api.post<ApiResponse<Theme>>(
+          "/v1/themes",
+          {
+            primaryColor,
+            secondaryColor,
+            logo,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+
+        revalidateTag(tags.users.me);
+
+        return { theme: res.data.data, message: res.data.meta?.message };
+      } catch (e) {
+        console.error(e);
+        returnValidationErrorsIfExists(e, themeSchema);
+        throw e;
+      }
     },
-    ctx: { accessToken },
-  }) => {
-    try {
-      const res = await api.post<ApiResponse<Theme>>("/v1/themes", {
-        primaryColor,
-        secondaryColor,
-        logo,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      revalidateTag(tags.users.me);
-
-      return { theme: res.data.data, message: res.data.meta?.message };
-    } catch (e) {
-      console.error(e);
-      returnValidationErrorsIfExists(e, themeSchema);
-      throw e;
-    }
-  });
+  );

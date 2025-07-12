@@ -4,13 +4,26 @@ import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import { routes } from "@/routes";
 import { Badge } from "@/shadcn/components/ui/badge";
 import {
-  Card, CardContent, CardDescription, CardHeader, CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/shadcn/components/ui/card";
 import {
-  Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTrigger,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
 } from "@/shadcn/components/ui/dialog";
 import {
-  Form, FormControl, FormField, FormItem, FormLabel,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
   FormMessage,
 } from "@/shadcn/components/ui/form";
 import { Label } from "@/shadcn/components/ui/label";
@@ -28,7 +41,11 @@ import { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import {
-  Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
   DrawerTrigger,
 } from "@/shadcn/components/ui/drawer";
 import { useIsMobile } from "@/shadcn/hooks/use-mobile";
@@ -38,7 +55,7 @@ function CatalogSwitcherCard({
   currentCatalog,
   children,
 }: PropsWithChildren<{
-  currentCatalog: Catalog
+  currentCatalog: Catalog;
 }>) {
   return (
     <Card className="flex items-center">
@@ -49,9 +66,7 @@ function CatalogSwitcherCard({
             <span className="text-muted-foreground">{` @${currentCatalog.slug}`}</span>
           )}
         </CardDescription>
-        <CardTitle className="text-xl">
-          {currentCatalog.name}
-        </CardTitle>
+        <CardTitle className="text-xl">{currentCatalog.name}</CardTitle>
       </CardHeader>
       <CardContent className="flex items-center justify-center pb-0">
         {children}
@@ -70,10 +85,10 @@ function CatalogSwitcherForm({
   catalogs,
   currentCatalog,
 }: {
-  form: UseFormReturn<z.infer<typeof schema>>
-  onSubmit: FormEventHandler<HTMLFormElement>
-  catalogs: Array<Catalog>
-  currentCatalog: Catalog
+  form: UseFormReturn<z.infer<typeof schema>>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  catalogs: Array<Catalog>;
+  currentCatalog: Catalog;
 }) {
   return (
     <Form {...form}>
@@ -110,7 +125,11 @@ function CatalogSwitcherForm({
                                   </CardTitle>
                                 </FormLabel>
                                 <CardDescription className="text-xs">
-                                  <span>{catalog.isPublished ? "Público" : "Privado"}</span>
+                                  <span>
+                                    {catalog.isPublished
+                                      ? "Público"
+                                      : "Privado"}
+                                  </span>
                                   {catalog.slug && (
                                     <span className="text-muted-foreground">{` @${catalog.slug}`}</span>
                                   )}
@@ -120,9 +139,7 @@ function CatalogSwitcherForm({
 
                             {isCurrent && (
                               <CardContent className="pb-0">
-                                <Badge>
-                                  Atual
-                                </Badge>
+                                <Badge>Atual</Badge>
                               </CardContent>
                             )}
                           </Card>
@@ -131,14 +148,15 @@ function CatalogSwitcherForm({
                     );
                   })}
 
-                  <FormItem
-                    className="flex items-center gap-3"
-                  >
+                  <FormItem className="flex items-center gap-3">
                     <Label className="w-full cursor-pointer">
                       <Card className="flex w-full items-center shadow-none">
                         <CardHeader className="flex flex-1 flex-row items-center gap-3 py-2">
                           <FormControl>
-                            <RadioGroupItem value="adicionar" className="mt-1" />
+                            <RadioGroupItem
+                              value="adicionar"
+                              className="mt-1"
+                            />
                           </FormControl>
                           <FormLabel asChild>
                             <CardTitle className="-mt-10 flex items-center text-base">
@@ -166,8 +184,8 @@ export function CatalogSwitcherDrawerDialog({
   catalogs,
   currentCatalog,
 }: {
-  catalogs: Array<Catalog>
-  currentCatalog: Catalog
+  catalogs: Array<Catalog>;
+  currentCatalog: Catalog;
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -216,9 +234,7 @@ export function CatalogSwitcherDrawerDialog({
 
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>
-              Qual catálogo deseja visualizar?
-            </DrawerTitle>
+            <DrawerTitle>Qual catálogo deseja visualizar?</DrawerTitle>
           </DrawerHeader>
           <ScrollArea className="h-[calc(100vh-200px)] pt-6">
             <div className="pb-6">
@@ -232,15 +248,11 @@ export function CatalogSwitcherDrawerDialog({
           </ScrollArea>
           <DialogFooter>
             <DrawerClose asChild>
-              <Button variant="ghost">
-                Cancelar
-              </Button>
+              <Button variant="ghost">Cancelar</Button>
             </DrawerClose>
             {form.watch("id") === "adicionar" ? (
               <Button asChild>
-                <Link href={routes.catalog.sub.new.url}>
-                  Confirmar
-                </Link>
+                <Link href={routes.catalog.sub.new.url}>Confirmar</Link>
               </Button>
             ) : (
               <Button
@@ -271,9 +283,7 @@ export function CatalogSwitcherDrawerDialog({
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            Qual catálogo deseja visualizar?
-          </DialogTitle>
+          <DialogTitle>Qual catálogo deseja visualizar?</DialogTitle>
         </DialogHeader>
 
         <ScrollArea className="max-h-[calc(100vh-200px)]">
@@ -287,15 +297,11 @@ export function CatalogSwitcherDrawerDialog({
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="ghost">
-              Cancelar
-            </Button>
+            <Button variant="ghost">Cancelar</Button>
           </DialogClose>
           {form.watch("id") === "adicionar" ? (
             <Button asChild>
-              <Link href={routes.catalog.sub.new.url}>
-                Confirmar
-              </Link>
+              <Link href={routes.catalog.sub.new.url}>Confirmar</Link>
             </Button>
           ) : (
             <Button

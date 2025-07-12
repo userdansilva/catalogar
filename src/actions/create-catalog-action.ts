@@ -14,20 +14,19 @@ export const createCatalogAction = authActionClient
   .metadata({
     actionName: "create-catalog",
   })
-  .action(async ({
-    parsedInput: {
-      name,
-    },
-    ctx: { accessToken },
-  }) => {
+  .action(async ({ parsedInput: { name }, ctx: { accessToken } }) => {
     try {
-      const res = await api.post<ApiResponse<Catalog>>("/v1/catalogs", {
-        name,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const res = await api.post<ApiResponse<Catalog>>(
+        "/v1/catalogs",
+        {
+          name,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
 
       revalidateTag(tags.users.me);
 

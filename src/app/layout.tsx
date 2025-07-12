@@ -23,19 +23,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter.className} antialiased`}
-      >
+      <body className={`${inter.className} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
           disableTransitionOnChange
         >
           <main>{children}</main>
-          <Toaster
-            duration={3_000}
-            position="top-center"
-          />
+          <Toaster duration={3_000} position="top-center" />
         </ThemeProvider>
       </body>
     </html>

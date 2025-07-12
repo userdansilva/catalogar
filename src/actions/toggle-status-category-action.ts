@@ -15,23 +15,22 @@ export const toggleCategoryStatusAction = authActionClient
   .metadata({
     actionName: "toggle-status-category",
   })
-  .action(async ({
-    parsedInput: {
-      id,
-    },
-    ctx: { accessToken, user },
-  }) => {
+  .action(async ({ parsedInput: { id }, ctx: { accessToken, user } }) => {
     try {
       const { data: category } = await getCategoryById(id);
 
-      const res = await api.put<ApiResponse<Category>>(`/v1/categories/${id}`, {
-        ...category,
-        isDisabled: !category.isDisabled,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const res = await api.put<ApiResponse<Category>>(
+        `/v1/categories/${id}`,
+        {
+          ...category,
+          isDisabled: !category.isDisabled,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
 
       revalidateTag(tags.categories.getAll);
       if (id) {

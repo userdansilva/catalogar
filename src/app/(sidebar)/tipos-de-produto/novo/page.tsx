@@ -9,13 +9,9 @@ export const metadata: Metadata = {
 export default async function NewProductType({
   searchParams,
 }: {
-  searchParams: Promise<{ callbackUrl?: string }>
+  searchParams: Promise<{ callbackUrl?: string }>;
 }) {
   const { callbackUrl } = await searchParams;
 
-  return (
-    <CreateProductTypeForm
-      callbackUrl={callbackUrl}
-    />
-  );
+  return <CreateProductTypeForm callbackUrl={callbackUrl} />;
 }

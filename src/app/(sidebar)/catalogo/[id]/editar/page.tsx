@@ -13,8 +13,8 @@ export default async function EditCatalogItem({
   params,
 }: {
   params: Promise<{
-    id: string
-  }>
+    id: string;
+  }>;
 }) {
   const { id } = await params;
 

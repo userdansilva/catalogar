@@ -2,9 +2,18 @@
 
 import { Button } from "@/shadcn/components/ui/button";
 import {
-  Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
 } from "@/shadcn/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shadcn/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/shadcn/components/ui/popover";
 import { cn } from "@/shadcn/lib/utils";
 import { ProductType } from "@/types/api-types";
 import { Check, ChevronsUpDown, List } from "lucide-react";
@@ -17,13 +26,13 @@ export function ProductTypesFilter({
   mode,
   searchParamNames,
 }: {
-  productTypes: ProductType[]
-  currentProductTypeSlug?: string
-  mode: "preview" | "dashboard"
+  productTypes: ProductType[];
+  currentProductTypeSlug?: string;
+  mode: "preview" | "dashboard";
   searchParamNames: {
     page: string;
     productSlug: string;
-  }
+  };
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -54,27 +63,29 @@ export function ProductTypesFilter({
             role="combobox"
             className="w-[200px] justify-between"
           >
-            {currentProductTypeSlug
-              ? productTypes
-                .find((productType) => productType.slug === currentProductTypeSlug)?.name
-              : (
-                <span className="flex items-center gap-3">
-                  <List className="size-4" />
-                  Tipo de Produto
-                </span>
-              )}
+            {currentProductTypeSlug ? (
+              productTypes.find(
+                (productType) => productType.slug === currentProductTypeSlug,
+              )?.name
+            ) : (
+              <span className="flex items-center gap-3">
+                <List className="size-4" />
+                Tipo de Produto
+              </span>
+            )}
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            <CommandInput placeholder="Buscar tipo de produto..." className="h-9" />
+            <CommandInput
+              placeholder="Buscar tipo de produto..."
+              className="h-9"
+            />
             <CommandList>
               <CommandEmpty>Nenhum tipo de produto encontrado</CommandEmpty>
               <CommandGroup>
-                <CommandItem
-                  asChild
-                >
+                <CommandItem asChild>
                   <Link href={searchUrl("")}>
                     Todos
                     <Check
@@ -103,7 +114,9 @@ export function ProductTypesFilter({
                         <Check
                           className={cn(
                             "ml-auto",
-                            currentProductTypeSlug === productType.slug ? "opacity-100" : "opacity-0",
+                            currentProductTypeSlug === productType.slug
+                              ? "opacity-100"
+                              : "opacity-0",
                           )}
                         />
                       </Link>
@@ -117,7 +130,9 @@ export function ProductTypesFilter({
     );
   }
 
-  if (productTypes.filter((productType) => !productType.isDisabled).length === 0) {
+  if (
+    productTypes.filter((productType) => !productType.isDisabled).length === 0
+  ) {
     return null;
   }
 
@@ -125,15 +140,11 @@ export function ProductTypesFilter({
     <div className="flex items-center space-x-2">
       <div className="flex flex-wrap gap-2">
         <Button
-          variant={!currentProductTypeSlug
-            ? "default"
-            : "outline"}
+          variant={!currentProductTypeSlug ? "default" : "outline"}
           size="sm"
           asChild
         >
-          <Link href={searchUrl("")}>
-            Todos
-          </Link>
+          <Link href={searchUrl("")}>Todos</Link>
         </Button>
 
         {productTypes
@@ -145,9 +156,7 @@ export function ProductTypesFilter({
             return (
               <Button
                 key={productType.id}
-                variant={isSelected
-                  ? "default"
-                  : "outline"}
+                variant={isSelected ? "default" : "outline"}
                 size="sm"
                 asChild
               >

@@ -19,37 +19,29 @@ const eslintConfig = [
         "error",
         "ignorePackages",
         {
-          "tsx": "never",
-          "ts": "never"
-        }
+          tsx: "never",
+          ts: "never",
+        },
       ],
       "react/require-default-props": "off",
       "react/jsx-filename-extension": [
         1,
         {
-          "extensions": [
-            ".tsx"
-          ]
-        }
+          extensions: [".tsx"],
+        },
       ],
       "react/jsx-props-no-spreading": "off",
-      "quotes": [
-        "error",
-        "double"
-      ],
+      quotes: ["error", "double"],
       "import/prefer-default-export": "off",
       "no-console": [
         "error",
         {
-          "allow": [
-            "warn",
-            "error"
-          ]
-        }
+          allow: ["warn", "error"],
+        },
       ],
       "react/destructuring-assignment": "off",
       "react/display-name": "off",
-    }
+    },
   }),
 ];
 

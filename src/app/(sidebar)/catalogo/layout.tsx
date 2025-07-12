@@ -4,9 +4,7 @@ import { getCatalogItems } from "@/services/get-catalog-items";
 import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 
-export default async function Layout({
-  children,
-}: PropsWithChildren) {
+export default async function Layout({ children }: PropsWithChildren) {
   const { data: catalogItems } = await getCatalogItems();
 
   if (catalogItems.length === 0) {

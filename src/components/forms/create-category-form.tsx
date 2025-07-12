@@ -9,11 +9,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { CategoryForm } from "./category-form";
 
-export function CreateCategoryForm({
-  callbackUrl,
-}: {
-  callbackUrl?: string
-}) {
+export function CreateCategoryForm({ callbackUrl }: { callbackUrl?: string }) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(
@@ -31,9 +27,12 @@ export function CreateCategoryForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`, {
-            description: res.data?.message,
-          });
+          toast.success(
+            `Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`,
+            {
+              description: res.data?.message,
+            },
+          );
           router.push(callbackUrl || routes.categories.url);
         },
         onError: (e) => {

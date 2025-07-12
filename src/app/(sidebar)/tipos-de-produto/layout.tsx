@@ -5,9 +5,7 @@ import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { PrevButton } from "@/components/prev-button";
 
-export default async function Layout({
-  children,
-}: PropsWithChildren) {
+export default async function Layout({ children }: PropsWithChildren) {
   const { data: productTypes } = await getProductTypes();
 
   if (productTypes.length === 0) {

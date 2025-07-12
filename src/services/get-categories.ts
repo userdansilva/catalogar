@@ -12,12 +12,15 @@ export async function getCategories(filters: CategoryFilters = {}) {
 
   const params = formatParamsFrom(filters);
 
-  const res = await fetch(`${process.env.API_URL}/api/v1/categories?${params}`, {
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
+  const res = await fetch(
+    `${process.env.API_URL}/api/v1/categories?${params}`,
+    {
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+      next: { tags: [tags.categories.getAll] },
     },
-    next: { tags: [tags.categories.getAll] },
-  });
+  );
 
   const data = await res.json();
 

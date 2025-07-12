@@ -14,50 +14,56 @@ export const updateCatalogItemAction = authActionClient
   .metadata({
     actionName: "update-catalog-item",
   })
-  .action(async ({
-    parsedInput: {
-      id,
-      title,
-      caption,
-      productTypeId,
-      images,
-      price,
-      categoryIds,
-      isDisabled,
-    },
-    ctx: { accessToken, user },
-  }) => {
-    try {
-      const res = await api.put<ApiResponse<CatalogItem>>(`/v1/catalog-items/${id}`, {
+  .action(
+    async ({
+      parsedInput: {
+        id,
         title,
         caption,
         productTypeId,
-        images: images.map((image) => ({
-          fileName: image.fileName,
-          position: image.position,
-        })),
+        images,
         price,
         categoryIds,
         isDisabled,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      },
+      ctx: { accessToken, user },
+    }) => {
+      try {
+        const res = await api.put<ApiResponse<CatalogItem>>(
+          `/v1/catalog-items/${id}`,
+          {
+            title,
+            caption,
+            productTypeId,
+            images: images.map((image) => ({
+              fileName: image.fileName,
+              position: image.position,
+            })),
+            price,
+            categoryIds,
+            isDisabled,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
 
-      revalidateTag(tags.catalogItems.getAll);
+        revalidateTag(tags.catalogItems.getAll);
 
-      if (id) {
-        revalidateTag(tags.catalogItems.getById(id));
+        if (id) {
+          revalidateTag(tags.catalogItems.getById(id));
+        }
+
+        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
+        }
+
+        return { catalogItem: res.data.data, message: res.data.meta?.message };
+      } catch (e) {
+        returnValidationErrorsIfExists(e, catalogItemSchema);
+        throw e;
       }
-
-      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      return { catalogItem: res.data.data, message: res.data.meta?.message };
-    } catch (e) {
-      returnValidationErrorsIfExists(e, catalogItemSchema);
-      throw e;
-    }
-  });
+    },
+  );

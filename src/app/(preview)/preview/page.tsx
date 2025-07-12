@@ -26,16 +26,14 @@ const SEARCH_PARAM_NAMES = {
 export default async function Preview({
   searchParams,
 }: {
-  searchParams: SearchParams<typeof SEARCH_PARAM_NAMES>
+  searchParams: SearchParams<typeof SEARCH_PARAM_NAMES>;
 }) {
   const { data: user } = await getUser();
   const { data: catalogItems } = await getCatalogItems();
   const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
 
-  const {
-    q, p, categoria, produto,
-  } = await searchParams;
+  const { q, p, categoria, produto } = await searchParams;
 
   const query = q || "";
   const productTypeSlug = produto || "";

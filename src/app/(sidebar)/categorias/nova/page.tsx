@@ -9,13 +9,9 @@ export const metadata: Metadata = {
 export default async function NewCategory({
   searchParams,
 }: {
-  searchParams: Promise<{ callbackUrl?: string }>
+  searchParams: Promise<{ callbackUrl?: string }>;
 }) {
   const { callbackUrl } = await searchParams;
 
-  return (
-    <CreateCategoryForm
-      callbackUrl={callbackUrl}
-    />
-  );
+  return <CreateCategoryForm callbackUrl={callbackUrl} />;
 }

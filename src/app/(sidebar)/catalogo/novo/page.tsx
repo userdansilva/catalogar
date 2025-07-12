@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default async function NewCatalogItem({
   searchParams,
 }: {
-  searchParams: Promise<{ callbackUrl?: string }>
+  searchParams: Promise<{ callbackUrl?: string }>;
 }) {
   const { callbackUrl } = await searchParams;
 

@@ -10,7 +10,7 @@ export default async function Layout({
   children,
   params,
 }: PropsWithChildren<{
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string }>;
 }>) {
   const { slug: fullSlug } = await params;
 

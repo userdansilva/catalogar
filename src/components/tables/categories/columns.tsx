@@ -31,7 +31,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import {
-  Archive, ArrowBigUpDash, Check, EllipsisVertical, Pencil, Trash, X,
+  Archive,
+  ArrowBigUpDash,
+  Check,
+  EllipsisVertical,
+  Pencil,
+  Trash,
+  X,
 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
@@ -62,9 +68,11 @@ export const columns: ColumnDef<Category>[] = [
     cell: ({ row }) => {
       const isDisabled = row.getValue("isDisabled");
 
-      return !isDisabled
-        ? <Check className="size-4" />
-        : <X className="size-4" />;
+      return !isDisabled ? (
+        <Check className="size-4" />
+      ) : (
+        <X className="size-4" />
+      );
     },
   },
   {
@@ -93,27 +101,34 @@ export const columns: ColumnDef<Category>[] = [
       const { id } = row.original;
       const isDisabled = row.getValue("isDisabled");
 
-      const {
-        executeAsync: executeToggleStatusAsync,
-      } = useAction(toggleCategoryStatusAction);
+      const { executeAsync: executeToggleStatusAsync } = useAction(
+        toggleCategoryStatusAction,
+      );
 
-      const {
-        executeAsync: executeDeleteAsync,
-      } = useAction(deleteCategoryAction);
+      const { executeAsync: executeDeleteAsync } =
+        useAction(deleteCategoryAction);
 
-      const handleToggleStatus = () => toast.promise(async () => {
-        await executeToggleStatusAsync({ id });
-      }, {
-        loading: "Alterando status...",
-        success: "Status atualizado!",
-      });
+      const handleToggleStatus = () =>
+        toast.promise(
+          async () => {
+            await executeToggleStatusAsync({ id });
+          },
+          {
+            loading: "Alterando status...",
+            success: "Status atualizado!",
+          },
+        );
 
-      const handleRemove = () => toast.promise(async () => {
-        await executeDeleteAsync({ id });
-      }, {
-        loading: "Removendo categoria...",
-        success: "Categoria removida com sucesso!",
-      });
+      const handleRemove = () =>
+        toast.promise(
+          async () => {
+            await executeDeleteAsync({ id });
+          },
+          {
+            loading: "Removendo categoria...",
+            success: "Categoria removida com sucesso!",
+          },
+        );
 
       return (
         <DropdownMenu>
@@ -124,9 +139,7 @@ export const columns: ColumnDef<Category>[] = [
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>
-              Ações
-            </DropdownMenuLabel>
+            <DropdownMenuLabel>Ações</DropdownMenuLabel>
 
             <DropdownMenuItem asChild>
               <Link
@@ -141,7 +154,10 @@ export const columns: ColumnDef<Category>[] = [
             {!isDisabled ? (
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onSelect={(e) => e.preventDefault()}
+                  >
                     <Archive className="mr-2 size-4" />
                     Desativar
                   </DropdownMenuItem>
@@ -154,8 +170,8 @@ export const columns: ColumnDef<Category>[] = [
                     </AlertDialogTitle>
 
                     <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete your
-                      account and remove your data from our servers.
+                      This action cannot be undone. This will permanently delete
+                      your account and remove your data from our servers.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
 
@@ -173,7 +189,10 @@ export const columns: ColumnDef<Category>[] = [
                 </AlertDialogContent>
               </AlertDialog>
             ) : (
-              <DropdownMenuItem className="cursor-pointer" onClick={handleToggleStatus}>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={handleToggleStatus}
+              >
                 <ArrowBigUpDash className="mr-2 size-4 animate-bounce" />
                 Ativar
               </DropdownMenuItem>
@@ -183,7 +202,10 @@ export const columns: ColumnDef<Category>[] = [
 
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onSelect={(e) => e.preventDefault()}
+                >
                   <Trash className="mr-2 size-4" />
                   Excluir
                 </DropdownMenuItem>
@@ -195,31 +217,20 @@ export const columns: ColumnDef<Category>[] = [
                     Tem certeza que quer remover essa categoria?
                   </AlertDialogTitle>
                   <AlertDialogDescription>
-                    Essa ação não poderá ser desfeita. Caso queira apenas
-                    {" "}
-                    <span className="font-bold">
-                      ocultar
-                    </span>
-                    {" "}
-                    essa categoria dos filtros em seu catálogo você pode
-                    {" "}
-                    <span className="font-bold">
-                      desativar
-                    </span>
-                    .
+                    Essa ação não poderá ser desfeita. Caso queira apenas{" "}
+                    <span className="font-bold">ocultar</span> essa categoria
+                    dos filtros em seu catálogo você pode{" "}
+                    <span className="font-bold">desativar</span>.
                   </AlertDialogDescription>
                   <AlertDialogTitle className="text-base">
                     Como desativar esse item?
                   </AlertDialogTitle>
                   <AlertDialogDescription>
-                    Clique em
-                    {" "}
+                    Clique em{" "}
                     <span className="rounded-sm border p-2 text-xs">
                       Cancelar
-                    </span>
-                    {" "}
-                    e depois no botão
-                    {" "}
+                    </span>{" "}
+                    e depois no botão{" "}
                     <div className="inline rounded-sm border p-2">
                       <Archive className="inline size-4" />
                     </div>

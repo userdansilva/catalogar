@@ -22,7 +22,7 @@ export function CatalogItemDrawerDialog({
   children,
   defaultOpen = false,
 }: PropsWithChildren<{
-  defaultOpen?: boolean
+  defaultOpen?: boolean;
 }>) {
   const router = useRouter();
   const [open, setOpen] = useState(defaultOpen);
@@ -38,9 +38,7 @@ export function CatalogItemDrawerDialog({
       <Drawer open={open} onOpenChange={handleOpenChange}>
         <DrawerContent>
           <ScrollArea className="h-[calc(100vh-120px)] pt-6">
-            <div className="pb-6">
-              {children}
-            </div>
+            <div className="pb-6">{children}</div>
           </ScrollArea>
         </DrawerContent>
       </Drawer>

@@ -16,49 +16,59 @@ export const updateCatalogAction = authActionClient
   .metadata({
     actionName: "update-catalog",
   })
-  .action(async ({
-    parsedInput: { name, isPublished },
-    ctx: { accessToken, user },
-  }) => {
-    try {
-      // Publicar pela a primeira vez
-      if (isPublished && !user.currentCatalog.slug) {
-        await api.put<ApiResponse<Catalog>>("/v1/catalogs", {
-          name,
-        }, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
+  .action(
+    async ({
+      parsedInput: { name, isPublished },
+      ctx: { accessToken, user },
+    }) => {
+      try {
+        // Publicar pela a primeira vez
+        if (isPublished && !user.currentCatalog.slug) {
+          await api.put<ApiResponse<Catalog>>(
+            "/v1/catalogs",
+            {
+              name,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            },
+          );
+
+          revalidateTag(tags.users.me);
+
+          redirect(routes.catalog.sub.prePublish.url);
+        }
+
+        // Alterar normalmente (caso já tenha publicado antes)
+        const res = await api.put<ApiResponse<Catalog>>(
+          "/v1/catalogs",
+          {
+            name,
+            isPublished,
+            slug: user.currentCatalog.slug,
           },
-        });
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
 
         revalidateTag(tags.users.me);
 
-        redirect(routes.catalog.sub.prePublish.url);
+        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
+        }
+
+        return {
+          catalog: res.data.data,
+          message: res.data.meta?.message,
+        };
+      } catch (e) {
+        returnValidationErrorsIfExists(e, updateCatalogSchema);
+        throw e;
       }
-
-      // Alterar normalmente (caso já tenha publicado antes)
-      const res = await api.put<ApiResponse<Catalog>>("/v1/catalogs", {
-        name,
-        isPublished,
-        slug: user.currentCatalog.slug,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      revalidateTag(tags.users.me);
-
-      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      return {
-        catalog: res.data.data,
-        message: res.data.meta?.message,
-      };
-    } catch (e) {
-      returnValidationErrorsIfExists(e, updateCatalogSchema);
-      throw e;
-    }
-  });
+    },
+  );

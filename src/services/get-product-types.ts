@@ -12,12 +12,15 @@ export async function getProductTypes(filters: ProductTypeFilters = {}) {
 
   const params = formatParamsFrom(filters);
 
-  const res = await fetch(`${process.env.API_URL}/api/v1/product-types?${params}`, {
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
+  const res = await fetch(
+    `${process.env.API_URL}/api/v1/product-types?${params}`,
+    {
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+      next: { tags: [tags.productTypes.getAll] },
     },
-    next: { tags: [tags.productTypes.getAll] },
-  });
+  );
 
   const data = await res.json();
 

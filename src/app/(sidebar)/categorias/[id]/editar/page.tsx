@@ -11,14 +11,12 @@ export default async function EditCategory({
   params,
 }: {
   params: Promise<{
-    id: string
-  }>
+    id: string;
+  }>;
 }) {
   const { id } = await params;
 
   const { data: category } = await getCategoryById(id);
 
-  return (
-    <UpdateCategoryForm category={category} />
-  );
+  return <UpdateCategoryForm category={category} />;
 }

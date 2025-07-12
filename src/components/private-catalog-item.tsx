@@ -18,9 +18,7 @@ import { Badge } from "@/shadcn/components/ui/badge";
 import { Button } from "@/shadcn/components/ui/button";
 import { cn } from "@/shadcn/lib/utils";
 import { CatalogItem as CatalogItemType } from "@/types/api-types";
-import {
-  Eye, EyeOff, Pencil, Trash,
-} from "lucide-react";
+import { Eye, EyeOff, Pencil, Trash } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -29,37 +27,42 @@ import { CarouselImages } from "./carousel-images";
 export function PrivateCatalogItem({
   catalogItem,
 }: {
-  catalogItem: CatalogItemType
+  catalogItem: CatalogItemType;
 }) {
-  const {
-    executeAsync: executeToggleStatusAsync,
-  } = useAction(toggleCatalogItemStatusAction);
+  const { executeAsync: executeToggleStatusAsync } = useAction(
+    toggleCatalogItemStatusAction,
+  );
 
-  const {
-    executeAsync: executeDeleteAsync,
-  } = useAction(deleteCatalogItemAction);
+  const { executeAsync: executeDeleteAsync } = useAction(
+    deleteCatalogItemAction,
+  );
 
-  const handleToggleStatus = () => toast.promise(async () => {
-    await executeToggleStatusAsync({ id: catalogItem.id });
-  }, {
-    loading: `${catalogItem.isDisabled ? "Ativando" : "Arquivando"}  item de catálogo...`,
-    success: `Item de catálogo ${catalogItem.isDisabled ? "ativado" : "arquivado"} com sucesso!`,
-  });
+  const handleToggleStatus = () =>
+    toast.promise(
+      async () => {
+        await executeToggleStatusAsync({ id: catalogItem.id });
+      },
+      {
+        loading: `${catalogItem.isDisabled ? "Ativando" : "Arquivando"}  item de catálogo...`,
+        success: `Item de catálogo ${catalogItem.isDisabled ? "ativado" : "arquivado"} com sucesso!`,
+      },
+    );
 
-  const handleRemove = () => toast.promise(async () => {
-    await executeDeleteAsync({ id: catalogItem.id });
-  }, {
-    loading: "Removendo item de catálogo...",
-    success: "Item de catálogo removido com sucesso!",
-  });
+  const handleRemove = () =>
+    toast.promise(
+      async () => {
+        await executeDeleteAsync({ id: catalogItem.id });
+      },
+      {
+        loading: "Removendo item de catálogo...",
+        success: "Item de catálogo removido com sucesso!",
+      },
+    );
 
   return (
     <div className="space-y-2">
       <div className={cn(catalogItem.isDisabled && "opacity-60")}>
-        <CarouselImages
-          images={catalogItem.images}
-          unoptimized
-        />
+        <CarouselImages images={catalogItem.images} unoptimized />
       </div>
 
       <div className="flex flex-wrap gap-1">
@@ -78,10 +81,11 @@ export function PrivateCatalogItem({
       </div>
 
       <div>
-        <div className={cn(
-          "text-base font-semibold",
-          catalogItem.isDisabled && "line-through",
-        )}
+        <div
+          className={cn(
+            "text-base font-semibold",
+            catalogItem.isDisabled && "line-through",
+          )}
         >
           {catalogItem.title}
         </div>
@@ -120,9 +124,8 @@ export function PrivateCatalogItem({
               </AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogDescription className="leading-relaxed">
-              Ao ocultar o item ele NÃO será exibido no seu catálogo.
-              Você pode voltar a exibir a qualquer momento clicando em
-              {" "}
+              Ao ocultar o item ele NÃO será exibido no seu catálogo. Você pode
+              voltar a exibir a qualquer momento clicando em{" "}
               <span className="inline rounded-sm border px-2 py-1 text-xs">
                 <Eye className="-mt-1 mr-1 inline size-4" />
                 Mostrar
@@ -154,14 +157,8 @@ export function PrivateCatalogItem({
                 <span className="font-bold">
                   Essa ação não poderá ser desfeita
                 </span>
-                . Caso queira apenas
-                {" "}
-                <span className="font-bold">
-                  ocultar
-                </span>
-                {" "}
-                temporariamente esse item, você pode clicar em
-                {" "}
+                . Caso queira apenas <span className="font-bold">ocultar</span>{" "}
+                temporariamente esse item, você pode clicar em{" "}
                 <span className="inline rounded-sm border px-2 py-1 text-xs">
                   <EyeOff className="-mt-1 mr-1 inline size-4" />
                   Ocultar

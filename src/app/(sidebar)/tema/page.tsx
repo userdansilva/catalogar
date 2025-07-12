@@ -12,8 +12,8 @@ export default async function Theme({
   searchParams,
 }: {
   searchParams: Promise<{
-    callbackUrl?: string
-  }>
+    callbackUrl?: string;
+  }>;
 }) {
   const { callbackUrl } = await searchParams;
   const { data: user } = await getUser();

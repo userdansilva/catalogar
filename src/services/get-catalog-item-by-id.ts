@@ -13,7 +13,9 @@ export async function getCatalogItemById(id: string) {
     headers: {
       Authorization: `Bearer ${session.accessToken}`,
     },
-    next: { tags: [tags.catalogItems.getById(id), tags.catalogItems.getByIdAny] },
+    next: {
+      tags: [tags.catalogItems.getById(id), tags.catalogItems.getByIdAny],
+    },
   });
 
   const data = await res.json();

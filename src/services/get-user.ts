@@ -7,7 +7,9 @@ import { redirect } from "next/navigation";
 /**
  * @tag user
  */
-export async function getUser<T extends User | UserWithCatalog = UserWithCatalog>() {
+export async function getUser<
+  T extends User | UserWithCatalog = UserWithCatalog,
+>() {
   const session = await auth();
   if (!session) redirect("/entrar");
 

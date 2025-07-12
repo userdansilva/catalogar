@@ -6,9 +6,7 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 
-export default async function PreviewLayout({
-  children,
-}: PropsWithChildren) {
+export default async function PreviewLayout({ children }: PropsWithChildren) {
   const { data: user } = await getUser();
 
   const { company, theme } = user.currentCatalog;

@@ -15,19 +15,16 @@ export function PublicCatalogItemDetail({
   unoptimized,
   relatedCatalogItems,
 }: {
-  baseUrl: string
-  catalogItem: CatalogItem
-  company: Company
-  unoptimized?: boolean
-  relatedCatalogItems: CatalogItem[]
+  baseUrl: string;
+  catalogItem: CatalogItem;
+  company: Company;
+  unoptimized?: boolean;
+  relatedCatalogItems: CatalogItem[];
 }) {
   return (
     <div className="flex flex-col space-y-10">
       <div className="flex flex-col  gap-10 lg:flex-row">
-        <CarouselImages
-          images={catalogItem.images}
-          unoptimized={unoptimized}
-        />
+        <CarouselImages images={catalogItem.images} unoptimized={unoptimized} />
 
         <div className="space-y-6 px-4 md:px-0">
           <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight">
@@ -52,9 +49,7 @@ export function PublicCatalogItemDetail({
           )}
 
           {catalogItem.caption && (
-            <p className="leading-7">
-              {catalogItem.caption}
-            </p>
+            <p className="leading-7">{catalogItem.caption}</p>
           )}
 
           <ShareButton>

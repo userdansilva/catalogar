@@ -1,25 +1,39 @@
 "use client";
 
 import {
-  Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious,
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
 } from "@/shadcn/components/ui/pagination";
 import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/shadcn/components/ui/table";
 import { Pagination as TPagination } from "@/types/api-response";
 import {
-  ColumnDef, flexRender, getCoreRowModel, useReactTable,
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
 import { usePathname, useSearchParams } from "next/navigation";
 
 type DataTableProps<TData, TValues> = {
-  columns: ColumnDef<TData, TValues>[]
-  data: TData[]
-  pagination: TPagination
-}
+  columns: ColumnDef<TData, TValues>[];
+  data: TData[];
+  pagination: TPagination;
+};
 
 export function DataTable<TData, TValues>({
-  columns, data, pagination,
+  columns,
+  data,
+  pagination,
 }: DataTableProps<TData, TValues>) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -62,9 +76,9 @@ export function DataTable<TData, TValues>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 ))}
               </TableRow>
@@ -80,14 +94,20 @@ export function DataTable<TData, TValues>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   Sem resutado
                 </TableCell>
               </TableRow>

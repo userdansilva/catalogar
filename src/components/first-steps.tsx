@@ -29,8 +29,8 @@ export function FirstSteps({
   const categoryMissionStatus = (() => {
     if (categoryAmount > 0 || skipCategory) return "COMPLETE";
 
-    if (productTypeMissionStatus === "COMPLETE"
-      && catalogItemAmount === 0) return "CURRENT";
+    if (productTypeMissionStatus === "COMPLETE" && catalogItemAmount === 0)
+      return "CURRENT";
 
     return "PENDING";
   })();
@@ -38,9 +38,11 @@ export function FirstSteps({
   const catalogItemMissionStatus = (() => {
     if (catalogItemAmount > 0) return "COMPLETE";
 
-    if (productTypeMissionStatus === "COMPLETE"
-      && categoryMissionStatus === "COMPLETE"
-    ) return "CURRENT";
+    if (
+      productTypeMissionStatus === "COMPLETE" &&
+      categoryMissionStatus === "COMPLETE"
+    )
+      return "CURRENT";
 
     return "PENDING";
   })();

@@ -16,7 +16,7 @@ export default async function Categories({
 }: {
   searchParams: Promise<{
     page?: string;
-  }>
+  }>;
 }) {
   const { page } = await searchParams;
   const currentPage = page ? Number(page) : 1;
@@ -31,9 +31,7 @@ export default async function Categories({
       </Button>
 
       <Suspense key={currentPage} fallback={<CategoriesSkeleton />}>
-        <CategoriesTable
-          currentPage={currentPage}
-        />
+        <CategoriesTable currentPage={currentPage} />
       </Suspense>
     </div>
   );

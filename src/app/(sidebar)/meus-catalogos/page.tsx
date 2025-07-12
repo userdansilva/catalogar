@@ -11,9 +11,6 @@ export default async function Page() {
   const { data: user } = await getUser();
 
   return (
-    <MyCatalogs
-      catalogs={user.catalogs}
-      currentCatalog={user.currentCatalog}
-    />
+    <MyCatalogs catalogs={user.catalogs} currentCatalog={user.currentCatalog} />
   );
 }

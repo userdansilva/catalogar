@@ -20,18 +20,16 @@ export default async function FirstCatalog() {
     <div className="max-w-lg space-y-8">
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
-          Boas Vindas ao
-          {" "}
+          Boas Vindas ao{" "}
           <span className="font-bold underline underline-offset-2">
             Catalogar
           </span>
         </h2>
 
         <p className="text-muted-foreground">
-          Obrigado por se cadastrar!
-          Você deu um grande passo para melhorar a experiência
-          de escolha para seus clientes.
-          Que tal começar criando seu primeiro catálogo?
+          Obrigado por se cadastrar! Você deu um grande passo para melhorar a
+          experiência de escolha para seus clientes. Que tal começar criando seu
+          primeiro catálogo?
         </p>
       </div>
 

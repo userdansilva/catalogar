@@ -35,10 +35,11 @@ export function Mission({
           {isCurrent && <Circle className="size-5" />}
           {isPending && <Lock className="size-5 text-muted-foreground" />}
 
-          <h3 className={cn(
-            "flex-1 text-sm font-medium",
-            isPending && "text-muted-foreground",
-          )}
+          <h3
+            className={cn(
+              "flex-1 text-sm font-medium",
+              isPending && "text-muted-foreground",
+            )}
           >
             {title}
           </h3>
@@ -56,9 +57,7 @@ export function Mission({
         </div>
 
         {isCurrent && (
-          <p className="text-sm text-muted-foreground">
-            {description}
-          </p>
+          <p className="text-sm text-muted-foreground">{description}</p>
         )}
       </div>
 
@@ -80,11 +79,12 @@ export function Mission({
 
           {isOptional && (
             <Button variant="outline" asChild>
-              <Link href={{
-                query: {
-                  pular: "categoria",
-                },
-              }}
+              <Link
+                href={{
+                  query: {
+                    pular: "categoria",
+                  },
+                }}
               >
                 Pular
               </Link>

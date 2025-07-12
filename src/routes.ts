@@ -1,5 +1,12 @@
 import {
-  Book, Building2, Filter, House, List, Palette, PanelsTopLeft, Settings,
+  Book,
+  Building2,
+  Filter,
+  House,
+  List,
+  Palette,
+  PanelsTopLeft,
+  Settings,
 } from "lucide-react";
 
 export const routes = {
@@ -9,7 +16,8 @@ export const routes = {
   },
   catalog: {
     title: "Catálogo",
-    description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+    description:
+      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
     icon: Book,
     url: "/meus-catalogos",
     sub: {
@@ -57,7 +65,8 @@ export const routes = {
   },
   catalogItems: {
     title: "Catálogo",
-    description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+    description:
+      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
     icon: Book,
     url: "/catalogo",
     sub: {
@@ -85,7 +94,8 @@ export const routes = {
   },
   categories: {
     title: "Categorias",
-    description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+    description:
+      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
     icon: Filter,
     url: "/categorias",
     sub: {
@@ -105,7 +115,8 @@ export const routes = {
   },
   productTypes: {
     title: "Tipos de Produto",
-    description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+    description:
+      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
     icon: List,
     url: "/tipos-de-produto",
     sub: {
@@ -125,7 +136,8 @@ export const routes = {
   },
   company: {
     title: "Empresa",
-    description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+    description:
+      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
     icon: Building2,
     url: "/empresa",
     sub: {
@@ -137,7 +149,8 @@ export const routes = {
   },
   theme: {
     title: "Tema",
-    description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+    description:
+      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
     icon: Palette,
     url: "/tema",
     sub: {
@@ -149,7 +162,8 @@ export const routes = {
   },
   config: {
     title: "Configuração",
-    description: "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+    description:
+      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
     icon: Settings,
     url: "/configuracao",
   },

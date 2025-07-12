@@ -3,7 +3,10 @@ import { Button } from "@/components/inputs/button";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
 import {
-  Card, CardDescription, CardHeader, CardTitle,
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/shadcn/components/ui/card";
 import { CircleCheckBig } from "lucide-react";
 import Link from "next/link";
@@ -31,7 +34,11 @@ export default async function Page() {
             Seu link público
           </CardTitle>
           <CardDescription className="flex flex-col items-center gap-4">
-            <Link href={publicLink} target="_blank" className="w-full max-w-[calc(100vw-80px)] truncate underline underline-offset-2">
+            <Link
+              href={publicLink}
+              target="_blank"
+              className="w-full max-w-[calc(100vw-80px)] truncate underline underline-offset-2"
+            >
               {publicLink}
             </Link>
 
@@ -41,9 +48,7 @@ export default async function Page() {
       </Card>
 
       <Button asChild variant="outline">
-        <Link href={routes.dashboard.url}>
-          Voltar para Página Inicial
-        </Link>
+        <Link href={routes.dashboard.url}>Voltar para Página Inicial</Link>
       </Button>
     </div>
   );

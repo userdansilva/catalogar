@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function CreateFirstCategory({
   searchParams,
 }: {
-  searchParams: Promise<{ callbackUrl?: string }>
+  searchParams: Promise<{ callbackUrl?: string }>;
 }) {
   const { callbackUrl } = await searchParams;
   const { data: categories } = await getCategories();
@@ -23,15 +23,11 @@ export default async function CreateFirstCategory({
 
   return (
     <div className="max-w-lg space-y-8">
-      <PrevButton
-        fallbackUrl={routes.dashboard.url}
-      />
+      <PrevButton fallbackUrl={routes.dashboard.url} />
 
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
-          Vamos cadastrar sua
-          {" "}
-          <span className="font-bold">Categoria</span>
+          Vamos cadastrar sua <span className="font-bold">Categoria</span>
         </h2>
 
         <p className="text-muted-foreground">
@@ -42,9 +38,7 @@ export default async function CreateFirstCategory({
         </p>
       </div>
 
-      <CreateCategoryForm
-        callbackUrl={callbackUrl}
-      />
+      <CreateCategoryForm callbackUrl={callbackUrl} />
     </div>
   );
 }

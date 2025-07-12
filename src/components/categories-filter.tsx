@@ -2,9 +2,18 @@
 
 import { Button } from "@/shadcn/components/ui/button";
 import {
-  Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
 } from "@/shadcn/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shadcn/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/shadcn/components/ui/popover";
 import { cn } from "@/shadcn/lib/utils";
 import { Category } from "@/types/api-types";
 import { Check, ChevronsUpDown, Filter } from "lucide-react";
@@ -17,13 +26,13 @@ export function CategoriesFilter({
   mode,
   searchParamNames,
 }: {
-  categories: Category[]
-  currentCategorySlug?: string
-  mode: "preview" | "dashboard"
+  categories: Category[];
+  currentCategorySlug?: string;
+  mode: "preview" | "dashboard";
   searchParamNames: {
     page: string;
     categorySlug: string;
-  }
+  };
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -54,14 +63,16 @@ export function CategoriesFilter({
             role="combobox"
             className="w-[200px] justify-between"
           >
-            {currentCategorySlug
-              ? categories.find((category) => category.slug === currentCategorySlug)?.name
-              : (
-                <span className="flex items-center gap-3">
-                  <Filter className="size-4" />
-                  Categoria
-                </span>
-              )}
+            {currentCategorySlug ? (
+              categories.find(
+                (category) => category.slug === currentCategorySlug,
+              )?.name
+            ) : (
+              <span className="flex items-center gap-3">
+                <Filter className="size-4" />
+                Categoria
+              </span>
+            )}
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -71,9 +82,7 @@ export function CategoriesFilter({
             <CommandList>
               <CommandEmpty>Nenhuma categoria encontrada</CommandEmpty>
               <CommandGroup>
-                <CommandItem
-                  asChild
-                >
+                <CommandItem asChild>
                   <Link href={getSearchUrl("")}>
                     Todos
                     <Check
@@ -102,7 +111,9 @@ export function CategoriesFilter({
                         <Check
                           className={cn(
                             "ml-auto",
-                            currentCategorySlug === category.slug ? "opacity-100" : "opacity-0",
+                            currentCategorySlug === category.slug
+                              ? "opacity-100"
+                              : "opacity-0",
                           )}
                         />
                       </Link>
@@ -124,14 +135,11 @@ export function CategoriesFilter({
     <div className="flex flex-wrap gap-2">
       <Button
         variant="ghost"
-        className={cn(!currentCategorySlug
-          && "underline underline-offset-2")}
+        className={cn(!currentCategorySlug && "underline underline-offset-2")}
         asChild
         size="sm"
       >
-        <Link href={getSearchUrl("")}>
-          Todos
-        </Link>
+        <Link href={getSearchUrl("")}>Todos</Link>
       </Button>
 
       {categories
@@ -141,14 +149,14 @@ export function CategoriesFilter({
           <Button
             key={category.id}
             variant="ghost"
-            className={cn(currentCategorySlug === category.slug
-              && "underline underline-offset-2")}
+            className={cn(
+              currentCategorySlug === category.slug &&
+                "underline underline-offset-2",
+            )}
             asChild
             size="sm"
           >
-            <Link href={getSearchUrl(category.slug)}>
-              {category.name}
-            </Link>
+            <Link href={getSearchUrl(category.slug)}>{category.name}</Link>
           </Button>
         ))}
     </div>

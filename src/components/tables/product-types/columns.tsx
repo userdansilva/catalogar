@@ -7,7 +7,12 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import {
   Archive,
-  ArrowBigUpDash, Check, EllipsisVertical, Pencil, Trash, X,
+  ArrowBigUpDash,
+  Check,
+  EllipsisVertical,
+  Pencil,
+  Trash,
+  X,
 } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
@@ -37,7 +42,11 @@ import { ProductType } from "@/types/api-types";
 import { toggleProductTypeStatusAction } from "@/actions/toggle-status-product-type-action";
 import { deleteProductTypeAction } from "@/actions/delete-product-type-action";
 import {
-  Form, FormControl, FormField, FormItem, FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
 } from "@/shadcn/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -56,9 +65,11 @@ export const columns: ColumnDef<ProductType>[] = [
     cell: ({ row }) => {
       const isDisabled = row.getValue("isDisabled");
 
-      return !isDisabled
-        ? <Check className="size-4" />
-        : <X className="size-4" />;
+      return !isDisabled ? (
+        <Check className="size-4" />
+      ) : (
+        <X className="size-4" />
+      );
     },
   },
   {
@@ -88,7 +99,8 @@ export const columns: ColumnDef<ProductType>[] = [
       const isDisabled = row.getValue("isDisabled");
 
       const schema = z.object({
-        confirm: z.string()
+        confirm: z
+          .string()
           .min(1, "Campo obrigatório")
           .refine((val) => val === "REMOVER", {
             message: "Digite REMOVER para confirmar.",
@@ -104,27 +116,35 @@ export const columns: ColumnDef<ProductType>[] = [
         },
       });
 
-      const {
-        executeAsync: executeToggleStatusAsync,
-      } = useAction(toggleProductTypeStatusAction);
+      const { executeAsync: executeToggleStatusAsync } = useAction(
+        toggleProductTypeStatusAction,
+      );
 
-      const {
-        executeAsync: executeDeleteAsync,
-      } = useAction(deleteProductTypeAction);
+      const { executeAsync: executeDeleteAsync } = useAction(
+        deleteProductTypeAction,
+      );
 
-      const handleToggleStatus = () => toast.promise(async () => {
-        await executeToggleStatusAsync({ id });
-      }, {
-        loading: "Alterando status...",
-        success: "Status atualizado!",
-      });
+      const handleToggleStatus = () =>
+        toast.promise(
+          async () => {
+            await executeToggleStatusAsync({ id });
+          },
+          {
+            loading: "Alterando status...",
+            success: "Status atualizado!",
+          },
+        );
 
-      const handleRemove = () => toast.promise(async () => {
-        await executeDeleteAsync({ id });
-      }, {
-        loading: "Removendo tipo de produto...",
-        success: "Tipo de produto removido com sucesso!",
-      });
+      const handleRemove = () =>
+        toast.promise(
+          async () => {
+            await executeDeleteAsync({ id });
+          },
+          {
+            loading: "Removendo tipo de produto...",
+            success: "Tipo de produto removido com sucesso!",
+          },
+        );
 
       return (
         <DropdownMenu>
@@ -135,9 +155,7 @@ export const columns: ColumnDef<ProductType>[] = [
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>
-              Ações
-            </DropdownMenuLabel>
+            <DropdownMenuLabel>Ações</DropdownMenuLabel>
 
             <DropdownMenuItem asChild>
               <Link
@@ -152,7 +170,10 @@ export const columns: ColumnDef<ProductType>[] = [
             {!isDisabled ? (
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onSelect={(e) => e.preventDefault()}
+                  >
                     <Archive className="mr-2 size-4" />
                     Desativar
                   </DropdownMenuItem>
@@ -165,8 +186,8 @@ export const columns: ColumnDef<ProductType>[] = [
                     </AlertDialogTitle>
 
                     <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete your
-                      account and remove your data from our servers.
+                      This action cannot be undone. This will permanently delete
+                      your account and remove your data from our servers.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
 
@@ -184,7 +205,10 @@ export const columns: ColumnDef<ProductType>[] = [
                 </AlertDialogContent>
               </AlertDialog>
             ) : (
-              <DropdownMenuItem className="cursor-pointer" onClick={handleToggleStatus}>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={handleToggleStatus}
+              >
                 <ArrowBigUpDash className="mr-2 size-4 animate-bounce" />
                 Ativar
               </DropdownMenuItem>
@@ -195,7 +219,10 @@ export const columns: ColumnDef<ProductType>[] = [
             <AlertDialog open={open} onOpenChange={setOpen}>
               <Form {...form}>
                 <AlertDialogTrigger asChild>
-                  <DropdownMenuItem className="cursor-pointer" onSelect={(e) => e.preventDefault()}>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onSelect={(e) => e.preventDefault()}
+                  >
                     <Trash className="mr-2 size-4" />
                     Excluir
                   </DropdownMenuItem>
@@ -207,39 +234,27 @@ export const columns: ColumnDef<ProductType>[] = [
                       Tem certeza que quer remover esse tipo de produto?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                      Essa ação não poderá ser desfeita e
-                      {" "}
+                      Essa ação não poderá ser desfeita e{" "}
                       <span className="font-bold uppercase text-destructive">
-                        vai remover todos os itens de
-                        catálogo vinculados a esse tipo de produto
+                        vai remover todos os itens de catálogo vinculados a esse
+                        tipo de produto
                       </span>
                       {". "}
-                      Caso queira apenas
-                      {" "}
-                      <span className="font-bold">
-                        ocultar
-                      </span>
-                      {" "}
-                      os itens de catálogo vinculados a esse tipo de produto
-                      você pode
-                      {" "}
-                      <span className="font-bold">
-                        desativar
-                      </span>
+                      Caso queira apenas{" "}
+                      <span className="font-bold">ocultar</span> os itens de
+                      catálogo vinculados a esse tipo de produto você pode{" "}
+                      <span className="font-bold">desativar</span>
                       esse tipo de produto.
                     </AlertDialogDescription>
                     <AlertDialogTitle className="text-base">
                       Como desativar esse tipo de produto?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                      Clique em
-                      {" "}
+                      Clique em{" "}
                       <span className="rounded-sm border p-2 text-xs">
                         Cancelar
-                      </span>
-                      {" "}
-                      e depois no botão
-                      {" "}
+                      </span>{" "}
+                      e depois no botão{" "}
                       <span className="inline rounded-sm border p-2">
                         <Archive className="inline size-4" />
                       </span>
@@ -251,7 +266,8 @@ export const columns: ColumnDef<ProductType>[] = [
                     </AlertDialogTitle>
 
                     <AlertDialogDescription className="mb-3">
-                      Digite REMOVER abaixo e clique em &quot;Sim! Quero remover&quot;
+                      Digite REMOVER abaixo e clique em &quot;Sim! Quero
+                      remover&quot;
                     </AlertDialogDescription>
 
                     <FormField

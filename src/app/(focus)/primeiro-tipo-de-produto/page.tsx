@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function CreateFirstProductType({
   searchParams,
 }: {
-  searchParams: Promise<{ callbackUrl?: string }>
+  searchParams: Promise<{ callbackUrl?: string }>;
 }) {
   const { callbackUrl } = await searchParams;
   const { data: productTypes } = await getProductTypes();
@@ -23,27 +23,22 @@ export default async function CreateFirstProductType({
 
   return (
     <div className="max-w-lg space-y-8">
-      <PrevButton
-        fallbackUrl={routes.dashboard.url}
-      />
+      <PrevButton fallbackUrl={routes.dashboard.url} />
 
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
-          Vamos cadastrar seu
-          {" "}
-          <span className="font-bold">Tipo de Produto</span>
+          Vamos cadastrar seu <span className="font-bold">Tipo de Produto</span>
         </h2>
 
         <p className="text-muted-foreground">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et
           ligula sit amet est blandit molestie et in purus. Donec vitae
-          convallis libero, ac fermentum magna. Aenean vitae pharetra dolor. Proin nec.
+          convallis libero, ac fermentum magna. Aenean vitae pharetra dolor.
+          Proin nec.
         </p>
       </div>
 
-      <CreateProductTypeForm
-        callbackUrl={callbackUrl}
-      />
+      <CreateProductTypeForm callbackUrl={callbackUrl} />
     </div>
   );
 }

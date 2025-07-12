@@ -12,7 +12,7 @@ import { ProductTypeForm } from "./product-type-form";
 export function CreateProductTypeForm({
   callbackUrl,
 }: {
-  callbackUrl?: string
+  callbackUrl?: string;
 }) {
   const router = useRouter();
 
@@ -29,9 +29,12 @@ export function CreateProductTypeForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`, {
-            description: res.data?.message,
-          });
+          toast.success(
+            `Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`,
+            {
+              description: res.data?.message,
+            },
+          );
           router.push(callbackUrl || routes.productTypes.url);
         },
         onError: (e) => {

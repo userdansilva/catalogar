@@ -15,23 +15,22 @@ export const toggleProductTypeStatusAction = authActionClient
   .metadata({
     actionName: "switch-product-type-enable",
   })
-  .action(async ({
-    parsedInput: {
-      id,
-    },
-    ctx: { accessToken, user },
-  }) => {
+  .action(async ({ parsedInput: { id }, ctx: { accessToken, user } }) => {
     try {
       const { data: productType } = await getProductTypeById(id);
 
-      const res = await api.put<ApiResponse<ProductType>>(`/v1/product-types/${id}`, {
-        ...productType,
-        isDisabled: !productType.isDisabled,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const res = await api.put<ApiResponse<ProductType>>(
+        `/v1/product-types/${id}`,
+        {
+          ...productType,
+          isDisabled: !productType.isDisabled,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
 
       revalidateTag(tags.productTypes.getAll);
       if (id) {

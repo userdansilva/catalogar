@@ -16,7 +16,7 @@ export default async function Page({
 }: {
   searchParams: Promise<{
     page?: string;
-  }>
+  }>;
 }) {
   const { page } = await searchParams;
   const currentPage = page ? Number(page) : 1;
@@ -31,9 +31,7 @@ export default async function Page({
       </Button>
 
       <Suspense key={currentPage} fallback={<ProductTypesSkeleton />}>
-        <ProductTypesTable
-          currentPage={currentPage}
-        />
+        <ProductTypesTable currentPage={currentPage} />
       </Suspense>
     </div>
   );

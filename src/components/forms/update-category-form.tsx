@@ -11,12 +11,10 @@ import { useRouter } from "next/navigation";
 import { CategoryForm } from "./category-form";
 
 type UpdateCategoryFormProps = {
-  category: Category
-}
+  category: Category;
+};
 
-export function UpdateCategoryForm({
-  category,
-}: UpdateCategoryFormProps) {
+export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(

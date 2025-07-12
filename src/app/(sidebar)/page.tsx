@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ pular?: string }>
+  searchParams: Promise<{ pular?: string }>;
 }) {
   const { data: user } = await getUser();
 
@@ -37,26 +37,25 @@ export default async function Home({
   // // eslint-disable-next-line no-console
   // console.log(session);
 
-  const shouldDisplayMainMissions = productTypes.length === 0
-    || catalogItems.length === 0;
+  const shouldDisplayMainMissions =
+    productTypes.length === 0 || catalogItems.length === 0;
 
-  const shouldDisplayCustomizationMissions = !user.currentCatalog.company
-    || !user.currentCatalog.theme;
+  const shouldDisplayCustomizationMissions =
+    !user.currentCatalog.company || !user.currentCatalog.theme;
 
   return (
     <div className="space-y-10">
       <div>
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-          Bem-Vindo ao
-          {" "}
+          Bem-Vindo ao{" "}
           <span className="underline underline-offset-2">Catalogar!</span>
         </h1>
 
         {(shouldDisplayMainMissions || shouldDisplayCustomizationMissions) && (
           <p className="leading-7 [&:not(:first-child)]:mt-6">
-            Siga as etapas abaixo para configurar o seu catálogo. Ao completá-las,
-            você poderá publicar e ter um link customizado para compartilhar com
-            seus clientes!
+            Siga as etapas abaixo para configurar o seu catálogo. Ao
+            completá-las, você poderá publicar e ter um link customizado para
+            compartilhar com seus clientes!
           </p>
         )}
       </div>
@@ -85,19 +84,15 @@ export default async function Home({
       )}
 
       {shouldDisplayCustomizationMissions && (
-        <CustomizationMissions
-          user={user}
-        />
+        <CustomizationMissions user={user} />
       )}
 
-      {((!shouldDisplayMainMissions
-        || user.catalogs.length > 1)
-        && (
-          <MyCatalogs
-            catalogs={user.catalogs}
-            currentCatalog={user.currentCatalog}
-          />
-        ))}
+      {(!shouldDisplayMainMissions || user.catalogs.length > 1) && (
+        <MyCatalogs
+          catalogs={user.catalogs}
+          currentCatalog={user.currentCatalog}
+        />
+      )}
     </div>
   );
 }

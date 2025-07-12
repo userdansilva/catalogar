@@ -4,7 +4,7 @@ import { DataTable } from "../data-table";
 
 type ProductTypesTableProps = {
   currentPage: number;
-}
+};
 
 export async function ProductTypesTable({
   currentPage,

@@ -11,8 +11,8 @@ import { useRouter } from "next/navigation";
 import { ProductTypeForm } from "./product-type-form";
 
 type UpdateProductTypeFormProps = {
-  productType: ProductType
-}
+  productType: ProductType;
+};
 
 export function UpdateProductTypeForm({
   productType,

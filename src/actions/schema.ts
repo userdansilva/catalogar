@@ -6,10 +6,12 @@ import { validator } from "./validator";
  * Catalog
  */
 const catalogSchema = z.object({
-  name: z.string()
+  name: z
+    .string()
     .min(1, "Campo obrigatório")
     .max(35, "Máximo de 35 caracteres"),
-  slug: z.string()
+  slug: z
+    .string()
     .min(1, "Campo obrigatório")
     .max(30, "Máximo de 30 caracteres")
     .and(validator.slugValidator),
@@ -36,9 +38,14 @@ export const companySchema = z.object({
   name: z.string().min(1, "Campo obrigatório"),
   description: z.string().optional(),
   mainSiteUrl: z.union([
-    z.string()
+    z
+      .string()
       .url({ message: "Link inválido" })
-      .startsWith("https://", { message: "O link precisa começar com: 'https://'. Ex.: https://catalogar.com.br/" }).optional(),
+      .startsWith("https://", {
+        message:
+          "O link precisa começar com: 'https://'. Ex.: https://catalogar.com.br/",
+      })
+      .optional(),
     z.literal(""),
   ]),
   phoneNumber: z.string().optional(),
@@ -99,11 +106,15 @@ export const catalogItemSchema = z.object({
   title: z.string().min(1, "Campo obrigatório"),
   caption: z.string().optional(),
   productTypeId: z.string().min(1, "Campo obrigatório").uuid(),
-  images: z.array(z.object({
-    fileName: z.string(),
-    position: z.number(),
-    accessUrl: z.string(),
-  })).min(1, "É necessário adicionar, no mínimo, uma imagem"),
+  images: z
+    .array(
+      z.object({
+        fileName: z.string(),
+        position: z.number(),
+        accessUrl: z.string(),
+      }),
+    )
+    .min(1, "É necessário adicionar, no mínimo, uma imagem"),
   price: z.string().optional(),
   categoryIds: z.array(z.string().uuid()).optional(),
   isDisabled: z.boolean(),

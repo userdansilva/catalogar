@@ -12,7 +12,10 @@ import {
   DropdownMenuTrigger,
 } from "@/shadcn/components/ui/dropdown-menu";
 import {
-  SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
 } from "@/shadcn/components/ui/sidebar";
 import { Catalog } from "@/types/api-types";
 import { Box, ChevronsUpDown, Plus } from "lucide-react";
@@ -22,10 +25,11 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export function CatalogSwitcher({
-  catalogs, currentCatalog,
+  catalogs,
+  currentCatalog,
 }: {
-  catalogs: Array<Catalog>
-  currentCatalog: Catalog
+  catalogs: Array<Catalog>;
+  currentCatalog: Catalog;
 }) {
   const router = useRouter();
   const switchCatalog = useAction(switchCatalogAction);
@@ -76,14 +80,17 @@ export function CatalogSwitcher({
                   onClick={() => {
                     if (isCurrentCatalog) return;
 
-                    toast.promise(switchCatalog.executeAsync({ id: catalog.id }), {
-                      loading: "Trocando de catálogo...",
-                      success: () => {
-                        router.refresh();
+                    toast.promise(
+                      switchCatalog.executeAsync({ id: catalog.id }),
+                      {
+                        loading: "Trocando de catálogo...",
+                        success: () => {
+                          router.refresh();
 
-                        return "Catálogo atual alterado! Atualizando...";
+                          return "Catálogo atual alterado! Atualizando...";
+                        },
                       },
-                    });
+                    );
                   }}
                   className="cursor-pointer gap-2 p-2"
                 >
@@ -91,13 +98,9 @@ export function CatalogSwitcher({
                     <Box className="size-4 shrink-0" />
                   </div>
 
-                  <span className="flex-1 truncate">
-                    {catalog.name}
-                  </span>
+                  <span className="flex-1 truncate">{catalog.name}</span>
 
-                  {isCurrentCatalog && (
-                    <Badge>Atual</Badge>
-                  )}
+                  {isCurrentCatalog && <Badge>Atual</Badge>}
                 </DropdownMenuItem>
               );
             })}
@@ -109,7 +112,9 @@ export function CatalogSwitcher({
                 <div className="flex size-6 items-center justify-center rounded-md border bg-background">
                   <Plus className="size-4" />
                 </div>
-                <div className="font-medium text-muted-foreground">Add Catálogo</div>
+                <div className="font-medium text-muted-foreground">
+                  Add Catálogo
+                </div>
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>

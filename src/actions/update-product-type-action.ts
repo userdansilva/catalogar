@@ -15,34 +15,40 @@ export const updateProductTypeAction = authActionClient
   .metadata({
     actionName: "update-product-type",
   })
-  .action(async ({
-    parsedInput: {
-      id, name, isDisabled,
+  .action(
+    async ({
+      parsedInput: { id, name, isDisabled },
+      ctx: { accessToken, user },
+    }) => {
+      try {
+        const res = await api.put<ApiResponse<ProductType>>(
+          `/v1/product-types/${id}`,
+          {
+            name,
+            slug: slugify(name, { lower: true }),
+            isDisabled,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+
+        revalidateTag(tags.productTypes.getAll);
+
+        if (id) {
+          revalidateTag(tags.productTypes.getById(id));
+        }
+
+        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
+        }
+
+        return { productType: res.data.data, message: res.data.meta?.message };
+      } catch (e) {
+        returnValidationErrorsIfExists(e, productTypeSchema);
+        throw e;
+      }
     },
-    ctx: { accessToken, user },
-  }) => {
-    try {
-      const res = await api.put<ApiResponse<ProductType>>(`/v1/product-types/${id}`, {
-        name, slug: slugify(name, { lower: true }), isDisabled,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      revalidateTag(tags.productTypes.getAll);
-
-      if (id) {
-        revalidateTag(tags.productTypes.getById(id));
-      }
-
-      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      return { productType: res.data.data, message: res.data.meta?.message };
-    } catch (e) {
-      returnValidationErrorsIfExists(e, productTypeSchema);
-      throw e;
-    }
-  });
+  );

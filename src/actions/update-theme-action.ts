@@ -14,32 +14,36 @@ export const updateThemeAction = authActionClient
   .metadata({
     actionName: "update-theme",
   })
-  .action(async ({
-    parsedInput: {
-      primaryColor, secondaryColor, logo,
-    },
-    ctx: { accessToken, user },
-  }) => {
-    try {
-      const res = await api.put<ApiResponse<Theme>>("/v1/themes", {
-        primaryColor,
-        secondaryColor,
-        logo,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+  .action(
+    async ({
+      parsedInput: { primaryColor, secondaryColor, logo },
+      ctx: { accessToken, user },
+    }) => {
+      try {
+        const res = await api.put<ApiResponse<Theme>>(
+          "/v1/themes",
+          {
+            primaryColor,
+            secondaryColor,
+            logo,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
 
-      revalidateTag(tags.users.me);
+        revalidateTag(tags.users.me);
 
-      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
+        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
+        }
+
+        return { theme: res.data.data, message: res.data.meta?.message };
+      } catch (e) {
+        returnValidationErrorsIfExists(e, themeSchema);
+        throw e;
       }
-
-      return { theme: res.data.data, message: res.data.meta?.message };
-    } catch (e) {
-      returnValidationErrorsIfExists(e, themeSchema);
-      throw e;
-    }
-  });
+    },
+  );

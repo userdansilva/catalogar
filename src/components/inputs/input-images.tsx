@@ -21,17 +21,15 @@ type Image = {
   fileName: string;
   position: number;
   accessUrl: string;
-}
+};
 
 type InputFilesProps = {
   value: Image[];
   onChange: (v: Image[]) => void;
   disabled?: boolean;
-}
+};
 
-export function InputImages({
-  onChange, value, disabled,
-}: InputFilesProps) {
+export function InputImages({ onChange, value, disabled }: InputFilesProps) {
   const buttonContainerRef = useRef<HTMLDivElement>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const { executeAsync, isExecuting } = useAction(createImageAction);
@@ -42,7 +40,7 @@ export function InputImages({
     if (files) {
       const file = files[0];
 
-      if (file.size > (1.1 * 1024 * 1024)) {
+      if (file.size > 1.1 * 1024 * 1024) {
         toast.warning("Ops! Imagem muito pesada", {
           description: "Tamanho máximo é de 1MB",
         });
@@ -61,11 +59,14 @@ export function InputImages({
       const res = await executeAsync(formData);
 
       if (res?.data) {
-        onChange([...value, {
-          fileName: res.data.fileName,
-          position: value.length + 1,
-          accessUrl: res.data.accessUrl,
-        }]);
+        onChange([
+          ...value,
+          {
+            fileName: res.data.fileName,
+            position: value.length + 1,
+            accessUrl: res.data.accessUrl,
+          },
+        ]);
 
         // Reset input
         if (inputFileRef.current) {
@@ -86,16 +87,16 @@ export function InputImages({
   };
 
   const handleRemove = (url: string) => {
-    onChange(value
-      .filter((image) => image.accessUrl !== url)
-      .map((image, i) => ({ ...image, position: i + 1 })));
+    onChange(
+      value
+        .filter((image) => image.accessUrl !== url)
+        .map((image, i) => ({ ...image, position: i + 1 })),
+    );
   };
 
   return (
     <>
-      <ScrollArea
-        className="w-full max-w-[calc(100vw-40px)] rounded-md border border-input bg-transparent text-base shadow-sm md:text-sm"
-      >
+      <ScrollArea className="w-full max-w-[calc(100vw-40px)] rounded-md border border-input bg-transparent text-base shadow-sm md:text-sm">
         <div className="flex w-max gap-x-4 p-3">
           {value.map((image) => (
             <div className="relative size-52 rounded-md" key={image.accessUrl}>

@@ -16,25 +16,29 @@ export function CatalogItems({
   unoptimized,
   searchParamNames,
 }: {
-  query?: string
-  catalogItems: CatalogItem[]
-  productTypeSlug?: string
-  categorySlug?: string
-  currentPage?: number
-  perPage: number
-  isPublic?: boolean
-  unoptimized?: boolean
+  query?: string;
+  catalogItems: CatalogItem[];
+  productTypeSlug?: string;
+  categorySlug?: string;
+  currentPage?: number;
+  perPage: number;
+  isPublic?: boolean;
+  unoptimized?: boolean;
   searchParamNames: {
     page: string;
-  }
+  };
 }) {
-  const filteredCatalogItems = filterCatalogItems(catalogItems, {
-    query: query ?? "",
-    productTypeSlug,
-    categorySlug,
-  }, {
-    hideIfProductTypeIsDisabled: isPublic,
-  });
+  const filteredCatalogItems = filterCatalogItems(
+    catalogItems,
+    {
+      query: query ?? "",
+      productTypeSlug,
+      categorySlug,
+    },
+    {
+      hideIfProductTypeIsDisabled: isPublic,
+    },
+  );
 
   const catalogItemsTotal = filteredCatalogItems.length;
 
@@ -46,18 +50,20 @@ export function CatalogItems({
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {paginatedCatalogItems.map((catalogItem) => (isPublic ? (
-          <PublicCatalogItem
-            key={catalogItem.id}
-            catalogItem={catalogItem}
-            unoptimized={unoptimized}
-          />
-        ) : (
-          <PrivateCatalogItem
-            key={catalogItem.id}
-            catalogItem={catalogItem}
-          />
-        )))}
+        {paginatedCatalogItems.map((catalogItem) =>
+          isPublic ? (
+            <PublicCatalogItem
+              key={catalogItem.id}
+              catalogItem={catalogItem}
+              unoptimized={unoptimized}
+            />
+          ) : (
+            <PrivateCatalogItem
+              key={catalogItem.id}
+              catalogItem={catalogItem}
+            />
+          ),
+        )}
       </div>
 
       {catalogItemsTotal > perPage && (

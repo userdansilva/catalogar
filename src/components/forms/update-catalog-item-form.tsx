@@ -14,10 +14,12 @@ type UpdateCatalogItemFormProps = {
   catalogItem: CatalogItem;
   categories: Category[];
   productTypes: ProductType[];
-}
+};
 
 export function UpdateCatalogItemForm({
-  catalogItem, categories, productTypes,
+  catalogItem,
+  categories,
+  productTypes,
 }: UpdateCatalogItemFormProps) {
   const router = useRouter();
 

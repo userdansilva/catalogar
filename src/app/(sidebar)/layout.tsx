@@ -1,8 +1,15 @@
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/shadcn/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/shadcn/components/ui/sidebar";
 import { PropsWithChildren } from "react";
 import { Separator } from "@/shadcn/components/ui/separator";
 import {
-  Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
 } from "@/shadcn/components/ui/breadcrumb";
 import Link from "next/link";
 import { getUser } from "@/services/get-user";
@@ -11,9 +18,7 @@ import { User } from "@/types/api-types";
 import { routes } from "@/routes";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 
-export default async function DashboardLayout({
-  children,
-}: PropsWithChildren) {
+export default async function DashboardLayout({ children }: PropsWithChildren) {
   const { data: user } = await getUser<User>();
 
   if (!user.currentCatalog) {
@@ -33,7 +38,10 @@ export default async function DashboardLayout({
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbLink href="#" asChild>
-                    <Link href={routes.dashboard.url} className="underline underline-offset-2">
+                    <Link
+                      href={routes.dashboard.url}
+                      className="underline underline-offset-2"
+                    >
                       Página Inicial
                     </Link>
                   </BreadcrumbLink>
@@ -43,9 +51,7 @@ export default async function DashboardLayout({
           </div>
         </header>
 
-        <div className="p-4 pt-0">
-          {children}
-        </div>
+        <div className="p-4 pt-0">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

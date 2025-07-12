@@ -11,14 +11,12 @@ export default async function EditProductType({
   params,
 }: {
   params: Promise<{
-    id: string
-  }>
+    id: string;
+  }>;
 }) {
   const { id } = await params;
 
   const { data: productType } = await getProductTypeById(id);
 
-  return (
-    <UpdateProductTypeForm productType={productType} />
-  );
+  return <UpdateProductTypeForm productType={productType} />;
 }

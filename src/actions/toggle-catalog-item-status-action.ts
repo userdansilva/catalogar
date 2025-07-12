@@ -15,31 +15,30 @@ export const toggleCatalogItemStatusAction = authActionClient
   .metadata({
     actionName: "toggle-catalog-item-status",
   })
-  .action(async ({
-    parsedInput: {
-      id,
-    },
-    ctx: { accessToken, user },
-  }) => {
+  .action(async ({ parsedInput: { id }, ctx: { accessToken, user } }) => {
     try {
       const { data: catalogItem } = await getCatalogItemById(id);
 
-      const res = await api.put<ApiResponse<CatalogItem>>(`/v1/catalog-items/${id}`, {
-        title: catalogItem.title,
-        caption: catalogItem.caption,
-        productTypeId: catalogItem.productType.id,
-        images: catalogItem.images.map((image) => ({
-          fileName: image.fileName,
-          position: image.position,
-        })),
-        price: catalogItem.price,
-        categoryIds: catalogItem.categories.map((category) => category.id),
-        isDisabled: !catalogItem.isDisabled,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const res = await api.put<ApiResponse<CatalogItem>>(
+        `/v1/catalog-items/${id}`,
+        {
+          title: catalogItem.title,
+          caption: catalogItem.caption,
+          productTypeId: catalogItem.productType.id,
+          images: catalogItem.images.map((image) => ({
+            fileName: image.fileName,
+            position: image.position,
+          })),
+          price: catalogItem.price,
+          categoryIds: catalogItem.categories.map((category) => category.id),
+          isDisabled: !catalogItem.isDisabled,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
 
       revalidateTag(tags.catalogItems.getAll);
       if (id) {

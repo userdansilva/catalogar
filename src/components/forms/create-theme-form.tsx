@@ -11,13 +11,13 @@ import { Company } from "@/types/api-types";
 import { useRouter } from "next/navigation";
 import { ThemeForm } from "./theme-form";
 
-export type ThemeFormValues = z.infer<typeof themeSchema>
+export type ThemeFormValues = z.infer<typeof themeSchema>;
 
 export function CreateThemeForm({
   callbackUrl,
   company,
 }: {
-  callbackUrl?: string
+  callbackUrl?: string;
   company?: Company;
 }) {
   const router = useRouter();
@@ -36,9 +36,12 @@ export function CreateThemeForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`, {
-            description: res.data?.message,
-          });
+          toast.success(
+            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
+            {
+              description: res.data?.message,
+            },
+          );
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {

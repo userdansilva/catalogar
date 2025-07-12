@@ -2,15 +2,19 @@
 
 import { themeSchema } from "@/actions/schema";
 import {
-  Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
 import { FormEventHandler } from "react";
 import { Control, UseFormReturn, useWatch } from "react-hook-form";
 import { z } from "zod";
-import {
-  Card, CardContent,
-} from "@/shadcn/components/ui/card";
+import { Card, CardContent } from "@/shadcn/components/ui/card";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import { Company } from "@/types/api-types";
@@ -26,9 +30,7 @@ function ThemePreview({
   control: Control<ThemeFormValues>;
   company?: Company;
 }) {
-  const {
-    primaryColor, secondaryColor, logo,
-  } = useWatch({ control });
+  const { primaryColor, secondaryColor, logo } = useWatch({ control });
 
   return (
     <Card
@@ -36,28 +38,27 @@ function ThemePreview({
       className="flex items-center gap-4 rounded-sm p-4"
     >
       <Menu className="size-4" />
-      {logo
-        && logo.fileName
-        && logo.originalFileName
-        && logo.width
-        && logo.height
-        && logo.accessUrl
-        ? (
-          <CardContent className="h-7 flex-1">
-            <Image
-              src={logo.accessUrl}
-              width={logo.width / 3}
-              height={logo.height / 3}
-              alt="Logo"
-              style={{ objectFit: "contain" }}
-              unoptimized
-            />
-          </CardContent>
-        ) : (
-          <span className="flex-1 font-semibold">
-            {company ? company.name : "SUA LOGO"}
-          </span>
-        )}
+      {logo &&
+      logo.fileName &&
+      logo.originalFileName &&
+      logo.width &&
+      logo.height &&
+      logo.accessUrl ? (
+        <CardContent className="h-7 flex-1">
+          <Image
+            src={logo.accessUrl}
+            width={logo.width / 3}
+            height={logo.height / 3}
+            alt="Logo"
+            style={{ objectFit: "contain" }}
+            unoptimized
+          />
+        </CardContent>
+      ) : (
+        <span className="flex-1 font-semibold">
+          {company ? company.name : "SUA LOGO"}
+        </span>
+      )}
 
       <span className="text-sm">Saiba mais</span>
     </Card>
@@ -97,18 +98,25 @@ export function ThemeForm({
                 <ul>
                   <li>
                     Formatos: SVG (melhor qualidade), PNG sem fundo ou JPG.
-                    (Dica: Use
-                    {" "}
-                    <a href="https://convertio.co/pt/" target="_blank" className="underline underline-offset-2">Convertio.co</a>
-                    {" "}
+                    (Dica: Use{" "}
+                    <a
+                      href="https://convertio.co/pt/"
+                      target="_blank"
+                      className="underline underline-offset-2"
+                    >
+                      Convertio.co
+                    </a>{" "}
                     para alterar o formato).
                   </li>
                   <li>
-                    Tamanho máximo: 1MB.
-                    (Dica: Use
-                    {" "}
-                    <a href="https://tinypng.com/" target="_blank" className="underline underline-offset-2">TinyPNG</a>
-                    {" "}
+                    Tamanho máximo: 1MB. (Dica: Use{" "}
+                    <a
+                      href="https://tinypng.com/"
+                      target="_blank"
+                      className="underline underline-offset-2"
+                    >
+                      TinyPNG
+                    </a>{" "}
                     para otimizar imagem).
                   </li>
                 </ul>
@@ -123,7 +131,8 @@ export function ThemeForm({
           <span className="text-sm font-medium">Pré-visualização</span>
           <ThemePreview control={form.control} company={company} />
           <span className="text-[0.8rem] text-muted-foreground">
-            Aqui você tem uma ideia de como a logo e as cores vão aparecer no seu catálogo.
+            Aqui você tem uma ideia de como a logo e as cores vão aparecer no
+            seu catálogo.
           </span>
         </div>
 

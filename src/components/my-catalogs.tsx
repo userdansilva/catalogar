@@ -1,12 +1,14 @@
 "use client";
 
 import {
-  Card, CardDescription, CardFooter, CardHeader, CardTitle,
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/shadcn/components/ui/card";
 import { Catalog } from "@/types/api-types";
-import {
-  Box, Check, Plus, Settings,
-} from "lucide-react";
+import { Box, Check, Plus, Settings } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import { toast } from "sonner";
@@ -15,13 +17,11 @@ import { routes } from "@/routes";
 import { Button } from "./inputs/button";
 
 type MyCatalogsProps = {
-  catalogs: Catalog[]
-  currentCatalog: Catalog
-}
+  catalogs: Catalog[];
+  currentCatalog: Catalog;
+};
 
-export function MyCatalogs({
-  catalogs, currentCatalog,
-}: MyCatalogsProps) {
+export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
   const switchCatalog = useAction(switchCatalogAction);
 
   return (
@@ -45,7 +45,9 @@ export function MyCatalogs({
             if (a.id === currentCatalog.id) return -1;
             if (b.id === currentCatalog.id) return 1;
 
-            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+            return (
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
           })
           .map((catalog) => {
             const isCurrentCatalog = catalog.id === currentCatalog.id;
@@ -57,9 +59,7 @@ export function MyCatalogs({
                     {catalog.isPublished ? "Público" : "Privado"}
                   </CardDescription>
 
-                  <CardTitle className="text-2xl">
-                    {catalog.name}
-                  </CardTitle>
+                  <CardTitle className="text-2xl">{catalog.name}</CardTitle>
 
                   <div className="absolute right-4 top-4">
                     <Box className="size-4 text-muted-foreground" />
@@ -75,16 +75,19 @@ export function MyCatalogs({
                     onClick={() => {
                       if (isCurrentCatalog) return;
 
-                      toast.promise(switchCatalog.executeAsync({ id: catalog.id }), {
-                        loading: "Trocando de catálogo...",
-                        success: () => {
-                          setTimeout(() => {
-                            window.location.reload();
-                          }, 1_000);
+                      toast.promise(
+                        switchCatalog.executeAsync({ id: catalog.id }),
+                        {
+                          loading: "Trocando de catálogo...",
+                          success: () => {
+                            setTimeout(() => {
+                              window.location.reload();
+                            }, 1_000);
 
-                          return "Catálogo atual alterado!";
+                            return "Catálogo atual alterado!";
+                          },
                         },
-                      });
+                      );
                     }}
                   >
                     {isCurrentCatalog ? "Selecionado (Atual)" : "Selecionar"}
