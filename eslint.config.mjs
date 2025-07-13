@@ -1,17 +1,29 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
+import importPlugin from "eslint-plugin-import";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
+  recommendedConfig: importPlugin.flatConfigs.recommended,
 });
 
 const eslintConfig = [
   ...compat.config({
-    extends: ["next/core-web-vitals", "next/typescript", "prettier"],
+    extends: [
+      "next/core-web-vitals",
+      "next/typescript",
+      "prettier",
+      "plugin:import/typescript",
+    ],
+    settings: {
+      "import/parsers": {
+        "@typescript-eslint/parser": [".ts", ".tsx"],
+      },
+    },
     ignorePatterns: ["src/shadcn/*"],
     rules: {
       "import/no-unresolved": "error",

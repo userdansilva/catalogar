@@ -66,7 +66,6 @@ export function CarouselImages({
             <div className="flex space-x-2">
               {Array.from({ length: count }).map((_, i) => (
                 <span
-                  // eslint-disable-next-line react/no-array-index-key
                   key={i}
                   className={cn(
                     "block size-2 rounded-full bg-background",

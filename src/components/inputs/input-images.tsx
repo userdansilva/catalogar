@@ -2,7 +2,7 @@ import { Plus, X } from "lucide-react";
 import { ChangeEvent, useRef } from "react";
 import { useAction } from "next-safe-action/hooks";
 import { createImageAction } from "@/actions/create-image-action";
-import Image from "next/image";
+import NextImage from "next/image";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,7 +25,7 @@ type Image = {
 
 type InputFilesProps = {
   value: Image[];
-  onChange: (v: Image[]) => void;
+  onChange: (x: Image[]) => void;
   disabled?: boolean;
 };
 
@@ -127,7 +127,7 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
                 </AlertDialogContent>
               </AlertDialog>
 
-              <Image
+              <NextImage
                 src={image.accessUrl}
                 alt=""
                 width={208}
