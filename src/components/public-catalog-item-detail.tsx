@@ -23,7 +23,7 @@ export function PublicCatalogItemDetail({
 }) {
   return (
     <div className="flex flex-col space-y-10">
-      <div className="flex flex-col  gap-10 lg:flex-row">
+      <div className="flex flex-col gap-10 lg:flex-row">
         <CarouselImages images={catalogItem.images} unoptimized={unoptimized} />
 
         <div className="space-y-6 px-4 md:px-0">

@@ -130,7 +130,7 @@ export function ThemeForm({
         <div className="space-y-2">
           <span className="text-sm font-medium">Pré-visualização</span>
           <ThemePreview control={form.control} company={company} />
-          <span className="text-[0.8rem] text-muted-foreground">
+          <span className="text-muted-foreground text-[0.8rem]">
             Aqui você tem uma ideia de como a logo e as cores vão aparecer no
             seu catálogo.
           </span>

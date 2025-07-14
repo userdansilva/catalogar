@@ -7,7 +7,7 @@ export default function Loader() {
       <Image src={logo} height={40} alt="Logo" />
 
       <div className="relative h-1 w-32 overflow-hidden rounded-full bg-gray-200">
-        <div className="animate-slide absolute left-0 top-0 h-full w-16 rounded-full bg-primary" />
+        <div className="animate-slide bg-primary absolute top-0 left-0 h-full w-16 rounded-full" />
       </div>
     </div>
   );

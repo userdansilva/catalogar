@@ -89,7 +89,7 @@ export function PrivateCatalogItem({
         >
           {catalogItem.title}
         </div>
-        <div className="text-xs text-muted-foreground">
+        <div className="text-muted-foreground text-xs">
           {`Código: ${catalogItem.reference}`}
         </div>
       </div>

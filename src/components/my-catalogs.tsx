@@ -61,8 +61,8 @@ export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
 
                   <CardTitle className="text-2xl">{catalog.name}</CardTitle>
 
-                  <div className="absolute right-4 top-4">
-                    <Box className="size-4 text-muted-foreground" />
+                  <div className="absolute top-4 right-4">
+                    <Box className="text-muted-foreground size-4" />
                   </div>
                 </CardHeader>
 

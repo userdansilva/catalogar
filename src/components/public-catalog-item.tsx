@@ -30,11 +30,11 @@ export function PublicCatalogItem({
           width={600}
           height={600}
           unoptimized={unoptimized}
-          className="rounded-md bg-background"
+          className="bg-background rounded-md"
         />
 
         {catalogItem.images.length >= 2 && (
-          <div className="absolute right-2 top-2 flex items-center gap-1 rounded-sm bg-white px-1 py-0.5 text-xs font-semibold text-muted-foreground">
+          <div className="text-muted-foreground absolute top-2 right-2 flex items-center gap-1 rounded-sm bg-white px-1 py-0.5 text-xs font-semibold">
             <Images className="size-3.5" />
             {catalogItem.images.length}
           </div>
@@ -65,7 +65,7 @@ export function PublicCatalogItem({
         >
           {catalogItem.title}
         </div>
-        <div className="text-xs text-muted-foreground">
+        <div className="text-muted-foreground text-xs">
           {`Código: ${catalogItem.reference}`}
         </div>
       </div>

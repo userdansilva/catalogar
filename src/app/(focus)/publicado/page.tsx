@@ -24,7 +24,7 @@ export default async function Page() {
   return (
     <div className="flex max-w-lg flex-col items-center gap-10">
       <CircleCheckBig className="size-10" />
-      <h1 className="scroll-m-20 text-balance text-center text-4xl font-extrabold tracking-tight">
+      <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
         Tudo pronto, seu catálogo foi publicado!
       </h1>
 

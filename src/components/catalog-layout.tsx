@@ -66,7 +66,7 @@ export function CatalogLayout({
               <DrawerContent>
                 <div className="mx-auto w-full max-w-xl text-center">
                   <DrawerHeader>
-                    <DrawerTitle className="text-balance text-center text-4xl font-extrabold tracking-tight underline underline-offset-4">
+                    <DrawerTitle className="text-center text-4xl font-extrabold tracking-tight text-balance underline underline-offset-4">
                       {company.name}
                     </DrawerTitle>
                     {company.mainSiteUrl && (
@@ -99,7 +99,7 @@ export function CatalogLayout({
         </div>
       </header>
 
-      <main className="container pb-10 pt-6">{children}</main>
+      <main className="container pt-6 pb-10">{children}</main>
     </div>
   );
 }

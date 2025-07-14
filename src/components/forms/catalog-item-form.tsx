@@ -203,7 +203,7 @@ export function CatalogItemForm({
                         render={({ field }) => (
                           <FormItem
                             key={category.id}
-                            className="flex flex-row items-start space-x-2 space-y-0 rounded-md border px-3 py-2"
+                            className="flex flex-row items-start space-y-0 space-x-2 rounded-md border px-3 py-2"
                           >
                             <FormControl>
                               <Checkbox

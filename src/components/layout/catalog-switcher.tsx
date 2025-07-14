@@ -44,7 +44,7 @@ export function CatalogSwitcher({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                 <Box className="size-4" />
               </div>
 
@@ -67,7 +67,7 @@ export function CatalogSwitcher({
             side={isMobile ? "bottom" : "right"}
             sideOffset={4}
           >
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
+            <DropdownMenuLabel className="text-muted-foreground text-xs">
               Catálogos
             </DropdownMenuLabel>
 
@@ -109,10 +109,10 @@ export function CatalogSwitcher({
 
             <DropdownMenuItem className="cursor-pointer gap-2 p-2" asChild>
               <Link href={routes.catalog.sub.new.url}>
-                <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+                <div className="bg-background flex size-6 items-center justify-center rounded-md border">
                   <Plus className="size-4" />
                 </div>
-                <div className="font-medium text-muted-foreground">
+                <div className="text-muted-foreground font-medium">
                   Add Catálogo
                 </div>
               </Link>

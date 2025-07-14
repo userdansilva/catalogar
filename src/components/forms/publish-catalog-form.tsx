@@ -75,7 +75,7 @@ export function PublishCatalogForm({
               <FormLabel>Link customizado</FormLabel>
 
               <div className="flex">
-                <div className="flex h-9 items-center rounded-l-md border border-r-0 bg-muted px-3 py-2 text-sm text-muted-foreground">
+                <div className="bg-muted text-muted-foreground flex h-9 items-center rounded-l-md border border-r-0 px-3 py-2 text-sm">
                   {`${process.env.NEXT_PUBLIC_BASE_URL}/@`}
                 </div>
                 <div className="flex-1">

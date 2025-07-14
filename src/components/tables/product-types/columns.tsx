@@ -235,7 +235,7 @@ export const columns: ColumnDef<ProductType>[] = [
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                       Essa ação não poderá ser desfeita e{" "}
-                      <span className="font-bold uppercase text-destructive">
+                      <span className="text-destructive font-bold uppercase">
                         vai remover todos os itens de catálogo vinculados a esse
                         tipo de produto
                       </span>

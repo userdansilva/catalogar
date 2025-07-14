@@ -69,7 +69,7 @@ export function QueryFilter({
           className="flex items-center"
         >
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="text-muted-foreground absolute top-1/2 left-4 size-4 -translate-y-1/2" />
 
             <FormField
               name="query"
@@ -98,7 +98,7 @@ export function QueryFilter({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="relative">
-        <Search className="absolute left-4 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
+        <Search className="text-muted-foreground absolute top-1/2 left-4 size-5 -translate-y-1/2" />
 
         <FormField
           name="query"
@@ -106,7 +106,7 @@ export function QueryFilter({
           render={({ field }) => (
             <Input
               placeholder="O que você está procurando?"
-              className="h-14 w-full rounded-full border-0 bg-background px-12 text-sm shadow-xs ring-1 ring-inset ring-input focus-visible:ring-2 focus-visible:ring-ring sm:text-base"
+              className="bg-background ring-input focus-visible:ring-ring h-14 w-full rounded-full border-0 px-12 text-sm shadow-xs ring-1 ring-inset focus-visible:ring-2 sm:text-base"
               autoCorrect="off"
               spellCheck="false"
               disabled={form.formState.isSubmitting}
@@ -121,7 +121,7 @@ export function QueryFilter({
             variant="ghost"
             size="icon"
             onClick={handleClear}
-            className="absolute right-20 top-1/2 size-5 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground absolute top-1/2 right-20 size-5 -translate-y-1/2"
           >
             <X className="size-5" />
             <span className="sr-only">Limpar busca</span>
@@ -130,7 +130,7 @@ export function QueryFilter({
         <Button
           type="submit"
           size="sm"
-          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full shadow-none"
+          className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full shadow-none"
           style={{
             background: secondaryColor,
             color: primaryColor,

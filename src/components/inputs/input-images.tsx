@@ -96,7 +96,7 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
 
   return (
     <>
-      <ScrollArea className="w-full max-w-[calc(100vw-40px)] rounded-md border border-input bg-transparent text-base shadow-xs md:text-sm">
+      <ScrollArea className="border-input w-full max-w-[calc(100vw-40px)] rounded-md border bg-transparent text-base shadow-xs md:text-sm">
         <div className="flex w-max gap-x-4 p-3">
           {value.map((image) => (
             <div className="relative size-52 rounded-md" key={image.accessUrl}>
@@ -104,7 +104,7 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
                 <AlertDialogTrigger asChild>
                   <Button
                     size="icon"
-                    className="absolute -right-1 -top-1 size-6 p-0"
+                    className="absolute -top-1 -right-1 size-6 p-0"
                     variant="destructive"
                   >
                     <X className="size-4" />

@@ -15,7 +15,7 @@ export default async function PreviewLayout({ children }: PropsWithChildren) {
 
   return (
     <div>
-      <div className="container bg-primary">
+      <div className="bg-primary container">
         <Button variant="link" className="dark pl-0" size="sm" asChild>
           <Link href={routes.dashboard.url}>
             <ChevronLeft />

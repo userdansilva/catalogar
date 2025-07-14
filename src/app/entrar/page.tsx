@@ -8,7 +8,7 @@ import logo from "@/assets/images/logo.svg";
 
 export default function SignInOrRegister() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
+    <div className="bg-background flex min-h-screen flex-col items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
         <div className="flex justify-center">
           <Image src={logo} alt="Logo escrito catalogar" width={246} />
@@ -18,7 +18,7 @@ export default function SignInOrRegister() {
           <h1 className="text-2xl tracking-tight">
             Boas Vindas ao <span className="font-bold">Catalogar</span>
           </h1>
-          <p className="mt-4 text-muted-foreground">
+          <p className="text-muted-foreground mt-4">
             Entre para gerenciar seus catálogos ou criar um novo cadastro
           </p>
         </div>
@@ -37,7 +37,7 @@ export default function SignInOrRegister() {
           </Button>
         </div>
 
-        <p className="mt-6 text-center text-sm text-muted-foreground" />
+        <p className="text-muted-foreground mt-6 text-center text-sm" />
       </div>
     </div>
   );

@@ -39,7 +39,7 @@ export function CarouselImages({
 
   return (
     <Carousel
-      className="group max-h-[600px] w-full max-w-[600px] overflow-hidden rounded-md bg-background"
+      className="group bg-background max-h-[600px] w-full max-w-[600px] overflow-hidden rounded-md"
       setApi={setApi}
     >
       <CarouselContent>
@@ -68,7 +68,7 @@ export function CarouselImages({
                 <span
                   key={i}
                   className={cn(
-                    "block size-2 rounded-full bg-background",
+                    "bg-background block size-2 rounded-full",
                     current === i + 1 && "bg-primary",
                   )}
                 />

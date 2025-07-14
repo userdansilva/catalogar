@@ -43,16 +43,16 @@ export function MainCards({
 
   return (
     <div className="space-y-4">
-      <Card className="flex flex-col bg-foreground lg:flex-row lg:items-center">
+      <Card className="bg-foreground flex flex-col lg:flex-row lg:items-center">
         <CardHeader className="flex-1">
-          <CardTitle className="text-2xl text-background">
+          <CardTitle className="text-background text-2xl">
             {user.currentCatalog.isPublished
               ? "Link Público"
               : "Publicar agora"}
           </CardTitle>
 
           {user.currentCatalog.isPublished && (
-            <CardDescription className="flex flex-col gap-2 text-background">
+            <CardDescription className="text-background flex flex-col gap-2">
               <Link
                 href={publicLink}
                 target="_blank"
@@ -81,7 +81,7 @@ export function MainCards({
           ) : (
             <Button className="dark w-full sm:w-auto" asChild>
               <Link href={routes.catalog.sub.prePublish.url}>
-                <Rocket className="size-4 text-background" />
+                <Rocket className="text-background size-4" />
                 Publicar
               </Link>
             </Button>
@@ -98,8 +98,8 @@ export function MainCards({
               {user.currentCatalog.name}
             </CardTitle>
 
-            <div className="absolute right-4 top-4">
-              <Box className="size-4 text-muted-foreground" />
+            <div className="absolute top-4 right-4">
+              <Box className="text-muted-foreground size-4" />
             </div>
           </CardHeader>
 
@@ -127,8 +127,8 @@ export function MainCards({
               {user.currentCatalog.company?.name || "Não definido"}
             </CardTitle>
 
-            <div className="absolute right-4 top-4">
-              <Paintbrush className="size-4 text-muted-foreground" />
+            <div className="absolute top-4 right-4">
+              <Paintbrush className="text-muted-foreground size-4" />
             </div>
           </CardHeader>
 
@@ -170,8 +170,8 @@ export function MainCards({
 
             <CardTitle className="text-2xl">{catalogItems.length}</CardTitle>
 
-            <div className="absolute right-4 top-4">
-              <Book className="size-4 text-muted-foreground" />
+            <div className="absolute top-4 right-4">
+              <Book className="text-muted-foreground size-4" />
             </div>
           </CardHeader>
 
@@ -204,8 +204,8 @@ export function MainCards({
 
             <CardTitle className="text-2xl">{productTypes.length}</CardTitle>
 
-            <div className="absolute right-6 top-6">
-              <List className="size-4 text-muted-foreground" />
+            <div className="absolute top-6 right-6">
+              <List className="text-muted-foreground size-4" />
             </div>
           </CardHeader>
 
@@ -238,8 +238,8 @@ export function MainCards({
 
             <CardTitle className="text-2xl">{categories.length}</CardTitle>
 
-            <div className="absolute right-6 top-6">
-              <Filter className="size-4 text-muted-foreground" />
+            <div className="absolute top-6 right-6">
+              <Filter className="text-muted-foreground size-4" />
             </div>
           </CardHeader>
 
