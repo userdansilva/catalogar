@@ -47,7 +47,7 @@ export default async function Home({
         </h1>
 
         {(shouldDisplayMainMissions || shouldDisplayCustomizationMissions) && (
-          <p className="leading-7 [&:not(:first-child)]:mt-6">
+          <p className="leading-7 not-first:mt-6">
             Siga as etapas abaixo para configurar o seu catálogo. Ao
             completá-las, você poderá publicar e ter um link customizado para
             compartilhar com seus clientes!

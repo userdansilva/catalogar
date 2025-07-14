@@ -106,7 +106,7 @@ export function QueryFilter({
           render={({ field }) => (
             <Input
               placeholder="O que você está procurando?"
-              className="h-14 w-full rounded-full border-0 bg-background px-12 text-sm shadow-sm ring-1 ring-inset ring-input focus-visible:ring-2 focus-visible:ring-ring sm:text-base"
+              className="h-14 w-full rounded-full border-0 bg-background px-12 text-sm shadow-xs ring-1 ring-inset ring-input focus-visible:ring-2 focus-visible:ring-ring sm:text-base"
               autoCorrect="off"
               spellCheck="false"
               disabled={form.formState.isSubmitting}

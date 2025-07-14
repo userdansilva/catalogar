@@ -96,7 +96,7 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
 
   return (
     <>
-      <ScrollArea className="w-full max-w-[calc(100vw-40px)] rounded-md border border-input bg-transparent text-base shadow-sm md:text-sm">
+      <ScrollArea className="w-full max-w-[calc(100vw-40px)] rounded-md border border-input bg-transparent text-base shadow-xs md:text-sm">
         <div className="flex w-max gap-x-4 p-3">
           {value.map((image) => (
             <div className="relative size-52 rounded-md" key={image.accessUrl}>

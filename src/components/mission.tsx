@@ -25,7 +25,7 @@ export function Mission({
   return (
     <div
       className={cn(
-        "space-y-6 rounded-md border py-2 px-4",
+        "space-y-6 rounded-md border px-4 py-2",
         isComplete && "border-green-200 bg-green-50",
       )}
     >
@@ -33,7 +33,7 @@ export function Mission({
         <div className="flex items-center gap-4">
           {isComplete && <CircleCheck className="size-5 text-green-500" />}
           {isCurrent && <Circle className="size-5" />}
-          {isPending && <Lock className="size-5 text-muted-foreground" />}
+          {isPending && <Lock className="text-muted-foreground size-5" />}
 
           <h3
             className={cn(
@@ -57,7 +57,7 @@ export function Mission({
         </div>
 
         {isCurrent && (
-          <p className="text-sm text-muted-foreground">{description}</p>
+          <p className="text-muted-foreground text-sm">{description}</p>
         )}
       </div>
 

@@ -90,7 +90,7 @@ export function PublicCatalogItemDetail({
       </div>
 
       {relatedCatalogItems.length >= 1 && (
-        <div className="w-full max-w-[100vw] space-y-4">
+        <div className="w-full max-w-screen space-y-4">
           <div className="px-4 font-semibold md:px-0">Relacionados</div>
 
           <ScrollArea className="whitespace-nowrap">
