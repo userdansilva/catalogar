@@ -1,5 +1,10 @@
 "use client";
 
+import { Box, ChevronsUpDown, Plus } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import { routes } from "@/routes";
 import { Badge } from "@/shadcn/components/ui/badge";
@@ -18,11 +23,6 @@ import {
   useSidebar,
 } from "@/shadcn/components/ui/sidebar";
 import { Catalog } from "@/types/api-types";
-import { Box, ChevronsUpDown, Plus } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 export function CatalogSwitcher({
   catalogs,

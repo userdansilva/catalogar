@@ -1,3 +1,17 @@
+import {
+  Book,
+  Box,
+  Building2,
+  Filter,
+  List,
+  Paintbrush,
+  Palette,
+  Plus,
+  Rocket,
+  View,
+} from "lucide-react";
+import Link from "next/link";
+import { CopyButton } from "./copy-button";
 import { routes } from "@/routes";
 import { Button } from "@/shadcn/components/ui/button";
 import {
@@ -13,20 +27,6 @@ import {
   ProductType,
   UserWithCatalog,
 } from "@/types/api-types";
-import {
-  Book,
-  Box,
-  Building2,
-  Filter,
-  List,
-  Paintbrush,
-  Palette,
-  Plus,
-  Rocket,
-  View,
-} from "lucide-react";
-import Link from "next/link";
-import { CopyButton } from "./copy-button";
 
 export function MainCards({
   productTypes,

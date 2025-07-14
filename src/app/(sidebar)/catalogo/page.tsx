@@ -1,3 +1,6 @@
+import { Plus } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 import { CatalogItems } from "@/components/catalog-items";
 import { CategoriesFilter } from "@/components/categories-filter";
 import { Button } from "@/components/inputs/button";
@@ -8,9 +11,6 @@ import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
 import { SearchParams } from "@/types/system";
-import { Plus } from "lucide-react";
-import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: routes.catalogItems.title,

@@ -1,8 +1,8 @@
+import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { tags } from "@/tags";
 import { ApiResponse } from "@/types/api-response";
 import { User, UserWithCatalog } from "@/types/api-types";
-import { redirect } from "next/navigation";
 
 /**
  * @tag user

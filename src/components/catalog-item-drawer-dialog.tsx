@@ -1,11 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { PropsWithChildren, useState } from "react";
 import { Dialog, DialogContent } from "@/shadcn/components/ui/dialog";
 import { Drawer, DrawerContent } from "@/shadcn/components/ui/drawer";
 import { ScrollArea } from "@/shadcn/components/ui/scroll-area";
 import { useIsMobile } from "@/shadcn/hooks/use-mobile";
-import { useRouter } from "next/navigation";
-import { PropsWithChildren, useState } from "react";
 
 /**
  * Componente não utilizado

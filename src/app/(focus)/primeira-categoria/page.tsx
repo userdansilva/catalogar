@@ -1,9 +1,9 @@
+import { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { CreateCategoryForm } from "@/components/forms/create-category-form";
 import { PrevButton } from "@/components/prev-button";
 import { routes } from "@/routes";
 import { getCategories } from "@/services/get-categories";
-import { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: routes.categories.sub.createFirst.title,

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   Pagination,
   PaginationContent,
@@ -8,7 +9,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/shadcn/components/ui/pagination";
-import { usePathname, useSearchParams } from "next/navigation";
 
 export function CatalogPagination({
   totalItems,

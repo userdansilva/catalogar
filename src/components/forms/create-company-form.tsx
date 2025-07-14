@@ -4,11 +4,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { CompanyForm } from "./company-form";
 import { routes } from "@/routes";
 import { companySchema } from "@/actions/schema";
 import { createCompanyAction } from "@/actions/create-company-action";
-import { useRouter } from "next/navigation";
-import { CompanyForm } from "./company-form";
 
 export type CompanyFormValues = z.infer<typeof companySchema>;
 

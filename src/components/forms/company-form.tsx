@@ -1,5 +1,9 @@
 "use client";
 
+import { FormEventHandler } from "react";
+import { UseFormReturn } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "../inputs/button";
 import { companySchema } from "@/actions/schema";
 import {
   Form,
@@ -12,10 +16,6 @@ import {
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
 import { Textarea } from "@/shadcn/components/ui/textarea";
-import { FormEventHandler } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "../inputs/button";
 
 export type CompanyFormValues = z.infer<typeof companySchema>;
 

@@ -1,11 +1,11 @@
-import { Button } from "@/components/inputs/button";
-import { CategoriesTable } from "@/components/tables/categories";
-import { CategoriesSkeleton } from "@/components/tables/categories/skeleton";
-import { routes } from "@/routes";
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+import { Button } from "@/components/inputs/button";
+import { CategoriesTable } from "@/components/tables/categories";
+import { CategoriesSkeleton } from "@/components/tables/categories/skeleton";
+import { routes } from "@/routes";
 
 export const metadata: Metadata = {
   title: routes.categories.title,

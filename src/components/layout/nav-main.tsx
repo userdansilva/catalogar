@@ -1,5 +1,7 @@
 "use client";
 
+import { Lock } from "lucide-react";
+import Link from "next/link";
 import { routes } from "@/routes";
 import {
   SidebarGroup,
@@ -21,8 +23,6 @@ import {
   ProductType,
   UserWithCatalog,
 } from "@/types/api-types";
-import { Lock } from "lucide-react";
-import Link from "next/link";
 
 type NavMainProps = {
   productTypes: ProductType[];

@@ -1,10 +1,10 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { tags } from "@/tags";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { deleteSchema } from "./schema";
+import { tags } from "@/tags";
 
 export const deleteCategoryAction = authActionClient
   .schema(deleteSchema)

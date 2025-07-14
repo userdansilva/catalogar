@@ -1,5 +1,16 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { DialogTitle } from "@radix-ui/react-dialog";
+import { ChevronDown, Plus } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FormEventHandler, PropsWithChildren, useState } from "react";
+import { UseFormReturn } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { Button } from "./inputs/button";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import { routes } from "@/routes";
 import { Badge } from "@/shadcn/components/ui/badge";
@@ -30,16 +41,6 @@ import { Label } from "@/shadcn/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/shadcn/components/ui/radio-group";
 import { ScrollArea } from "@/shadcn/components/ui/scroll-area";
 import { Catalog } from "@/types/api-types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { DialogTitle } from "@radix-ui/react-dialog";
-import { ChevronDown, Plus } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FormEventHandler, PropsWithChildren, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 import {
   Drawer,
   DrawerClose,
@@ -49,7 +50,6 @@ import {
   DrawerTrigger,
 } from "@/shadcn/components/ui/drawer";
 import { useIsMobile } from "@/shadcn/hooks/use-mobile";
-import { Button } from "./inputs/button";
 
 function CatalogSwitcherCard({
   currentCatalog,

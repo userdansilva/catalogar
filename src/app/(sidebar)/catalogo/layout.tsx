@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
+import { redirect } from "next/navigation";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
-import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 
 export default async function Layout({ children }: PropsWithChildren) {

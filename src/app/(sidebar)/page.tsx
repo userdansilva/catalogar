@@ -1,16 +1,16 @@
 // import { auth } from "@/auth";
-import { CatalogSwitcherDrawerDialog } from "@/components/catalog-switcher-drawer-dialog";
+import { redirect } from "next/navigation";
+import { Metadata } from "next";
 import { CustomizationMissions } from "@/components/customization-missions";
 import { FirstSteps } from "@/components/first-steps";
-import { MainCards } from "@/components/main-cards";
-import { MyCatalogs } from "@/components/my-catalogs";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
+import { getUser } from "@/services/get-user";
+import { MainCards } from "@/components/main-cards";
+import { MyCatalogs } from "@/components/my-catalogs";
+import { CatalogSwitcherDrawerDialog } from "@/components/catalog-switcher-drawer-dialog";
 import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
-import { getUser } from "@/services/get-user";
-import { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: routes.dashboard.title,
@@ -46,7 +46,7 @@ export default async function Home({
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+        <h1 className="font-extrabold scroll-m-20 text-4xl tracking-tight lg:text-5xl">
           Bem-Vindo ao{" "}
           <span className="underline underline-offset-2">Catalogar!</span>
         </h1>

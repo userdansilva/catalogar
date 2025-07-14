@@ -2,12 +2,12 @@
 
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { productTypeSchema } from "@/actions/schema";
 import { toast } from "sonner";
-import { routes } from "@/routes";
-import { createProductTypeAction } from "@/actions/create-product-type-action";
 import { useRouter } from "next/navigation";
 import { ProductTypeForm } from "./product-type-form";
+import { productTypeSchema } from "@/actions/schema";
+import { routes } from "@/routes";
+import { createProductTypeAction } from "@/actions/create-product-type-action";
 
 export function CreateProductTypeForm({
   callbackUrl,

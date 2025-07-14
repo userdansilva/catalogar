@@ -1,6 +1,6 @@
-import { Button as ButtonUI } from "@/shadcn/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { ComponentProps, forwardRef } from "react";
+import { Button as ButtonUI } from "@/shadcn/components/ui/button";
 
 type ButtonProps = ComponentProps<typeof ButtonUI> & {
   loading?: boolean;

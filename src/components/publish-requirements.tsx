@@ -1,11 +1,11 @@
-import { routes } from "@/routes";
-import { Alert, AlertTitle } from "@/shadcn/components/ui/alert";
-import { Button } from "@/shadcn/components/ui/button";
-import { CatalogItem, ProductType, UserWithCatalog } from "@/types/api-types";
 import { AlertCircle, Check, CircleCheckBigIcon, Lock, X } from "lucide-react";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { PublishCatalogForm } from "./forms/publish-catalog-form";
+import { routes } from "@/routes";
+import { Alert, AlertTitle } from "@/shadcn/components/ui/alert";
+import { Button } from "@/shadcn/components/ui/button";
+import { CatalogItem, ProductType, UserWithCatalog } from "@/types/api-types";
 
 function RequireItem({
   done,

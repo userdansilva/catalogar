@@ -1,9 +1,9 @@
+import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { routes } from "@/routes";
 import { tags } from "@/tags";
 import { ApiResponse } from "@/types/api-response";
 import { CatalogItem } from "@/types/api-types";
-import { redirect } from "next/navigation";
 
 export async function getCatalogItemById(id: string) {
   const session = await auth();

@@ -1,7 +1,8 @@
 import { ImageUp, Trash } from "lucide-react";
-import { createLogoAction } from "@/actions/create-logo-action";
 import { useAction } from "next-safe-action/hooks";
 import { ChangeEvent, useRef } from "react";
+import { toast } from "sonner";
+import { Button } from "./button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,8 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/shadcn/components/ui/alert-dialog";
-import { toast } from "sonner";
-import { Button } from "./button";
+import { createLogoAction } from "@/actions/create-logo-action";
 
 type Logo = {
   fileName: string;

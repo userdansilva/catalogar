@@ -3,12 +3,12 @@
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { CatalogItemForm } from "./catalog-item-form";
 import { routes } from "@/routes";
 import { createCatalogItemAction } from "@/actions/create-catalog-item-action";
 import { catalogItemSchema } from "@/actions/schema";
 import { Category, ProductType } from "@/types/api-types";
-import { useRouter } from "next/navigation";
-import { CatalogItemForm } from "./catalog-item-form";
 
 type CreateCatalogItemFormProps = {
   categories: Category[];

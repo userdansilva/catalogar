@@ -3,12 +3,12 @@
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { CompanyForm } from "./company-form";
 import { Company } from "@/types/api-types";
 import { updateCompanyAction } from "@/actions/update-company-action";
 import { companySchema } from "@/actions/schema";
 import { routes } from "@/routes";
-import { useRouter } from "next/navigation";
-import { CompanyForm } from "./company-form";
 
 type UpdateCompanyFormProps = {
   company: Company;

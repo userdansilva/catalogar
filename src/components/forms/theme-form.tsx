@@ -1,6 +1,15 @@
 "use client";
 
-import { themeSchema } from "@/actions/schema";
+import { FormEventHandler } from "react";
+import { Control, UseFormReturn, useWatch } from "react-hook-form";
+import { z } from "zod";
+import { Menu } from "lucide-react";
+import Image from "next/image";
+import { Button } from "../inputs/button";
+import { InputLogo } from "../inputs/input-logo";
+import { Company } from "@/types/api-types";
+import { Card, CardContent } from "@/shadcn/components/ui/card";
+import { Input } from "@/shadcn/components/ui/input";
 import {
   Form,
   FormControl,
@@ -10,16 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/shadcn/components/ui/form";
-import { Input } from "@/shadcn/components/ui/input";
-import { FormEventHandler } from "react";
-import { Control, UseFormReturn, useWatch } from "react-hook-form";
-import { z } from "zod";
-import { Card, CardContent } from "@/shadcn/components/ui/card";
-import { Menu } from "lucide-react";
-import Image from "next/image";
-import { Company } from "@/types/api-types";
-import { Button } from "../inputs/button";
-import { InputLogo } from "../inputs/input-logo";
+import { themeSchema } from "@/actions/schema";
 
 export type ThemeFormValues = z.infer<typeof themeSchema>;
 

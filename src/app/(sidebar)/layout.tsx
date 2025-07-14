@@ -1,9 +1,11 @@
+import { PropsWithChildren } from "react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/shadcn/components/ui/sidebar";
-import { PropsWithChildren } from "react";
 import { Separator } from "@/shadcn/components/ui/separator";
 import {
   Breadcrumb,
@@ -11,9 +13,7 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
 } from "@/shadcn/components/ui/breadcrumb";
-import Link from "next/link";
 import { getUser } from "@/services/get-user";
-import { redirect } from "next/navigation";
 import { User } from "@/types/api-types";
 import { routes } from "@/routes";
 import { AppSidebar } from "@/components/layout/app-sidebar";

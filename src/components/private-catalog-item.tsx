@@ -1,5 +1,10 @@
 "use client";
 
+import { Eye, EyeOff, Pencil, Trash } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import Link from "next/link";
+import { toast } from "sonner";
+import { CarouselImages } from "./carousel-images";
 import { deleteCatalogItemAction } from "@/actions/delete-catalog-item-action";
 import { toggleCatalogItemStatusAction } from "@/actions/toggle-catalog-item-status-action";
 import { routes } from "@/routes";
@@ -18,11 +23,6 @@ import { Badge } from "@/shadcn/components/ui/badge";
 import { Button } from "@/shadcn/components/ui/button";
 import { cn } from "@/shadcn/lib/utils";
 import { CatalogItem as CatalogItemType } from "@/types/api-types";
-import { Eye, EyeOff, Pencil, Trash } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import Link from "next/link";
-import { toast } from "sonner";
-import { CarouselImages } from "./carousel-images";
 
 export function PrivateCatalogItem({
   catalogItem,

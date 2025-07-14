@@ -1,6 +1,6 @@
-import { getProductTypes } from "@/services/get-product-types";
-import { columns } from "./columns";
 import { DataTable } from "../data-table";
+import { columns } from "./columns";
+import { getProductTypes } from "@/services/get-product-types";
 
 type ProductTypesTableProps = {
   currentPage: number;

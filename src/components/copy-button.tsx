@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/shadcn/components/ui/button";
 import { Check, Copy } from "lucide-react";
 import { ComponentProps, forwardRef, useState } from "react";
+import { Button } from "@/shadcn/components/ui/button";
 
 type CopyButtonProps = Omit<
   ComponentProps<typeof Button>,

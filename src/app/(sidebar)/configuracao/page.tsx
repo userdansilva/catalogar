@@ -1,7 +1,7 @@
+import { Metadata } from "next";
 import { UpdateCatalogForm } from "@/components/forms/update-catalog-form";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: routes.config.title,

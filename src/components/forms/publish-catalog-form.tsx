@@ -1,10 +1,13 @@
 "use client";
 
-import { publishCatalogSchema } from "@/actions/schema";
-import { routes } from "@/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { toast } from "sonner";
+import { Rocket } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Button } from "../inputs/button";
+import { publishCatalogSchema } from "@/actions/schema";
+import { routes } from "@/routes";
 import {
   Form,
   FormControl,
@@ -15,7 +18,6 @@ import {
   FormMessage,
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
-import { Rocket } from "lucide-react";
 import {
   Card,
   CardDescription,
@@ -23,9 +25,7 @@ import {
   CardTitle,
 } from "@/shadcn/components/ui/card";
 import { publishCatalogAction } from "@/actions/publish-catalog-action";
-import { useRouter } from "next/navigation";
 import { Catalog } from "@/types/api-types";
-import { Button } from "../inputs/button";
 
 export function PublishCatalogForm({
   currentCatalog,

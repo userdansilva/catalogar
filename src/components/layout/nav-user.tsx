@@ -1,5 +1,8 @@
 "use client";
 
+import { Book, ChevronsUpDown, LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
+import Link from "next/link";
 import { signOutUrl } from "@/auth";
 import { routes } from "@/routes";
 import { Avatar, AvatarFallback } from "@/shadcn/components/ui/avatar";
@@ -18,9 +21,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/shadcn/components/ui/sidebar";
-import { Book, ChevronsUpDown, LogOut } from "lucide-react";
-import { signOut } from "next-auth/react";
-import Link from "next/link";
 
 type NavUserProps = {
   user: {

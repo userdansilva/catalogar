@@ -1,6 +1,6 @@
+import { Metadata } from "next";
 import { CreateCategoryForm } from "@/components/forms/create-category-form";
 import { routes } from "@/routes";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: routes.categories.sub.new.title,

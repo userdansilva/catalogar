@@ -1,6 +1,6 @@
-import { getCategories } from "@/services/get-categories";
-import { columns } from "./columns";
 import { DataTable } from "../data-table";
+import { columns } from "./columns";
+import { getCategories } from "@/services/get-categories";
 
 type CategoriesTableProps = {
   currentPage: number;

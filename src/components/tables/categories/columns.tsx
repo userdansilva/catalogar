@@ -2,6 +2,22 @@
 
 "use client";
 
+import { AlertDialogAction } from "@radix-ui/react-alert-dialog";
+import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import {
+  Archive,
+  ArrowBigUpDash,
+  Check,
+  EllipsisVertical,
+  Pencil,
+  Trash,
+  X,
+} from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import Link from "next/link";
+import { toast } from "sonner";
 import { deleteCategoryAction } from "@/actions/delete-category-action";
 import { toggleCategoryStatusAction } from "@/actions/toggle-status-category-action";
 import { routes } from "@/routes";
@@ -26,22 +42,6 @@ import {
   DropdownMenuTrigger,
 } from "@/shadcn/components/ui/dropdown-menu";
 import { Category } from "@/types/api-types";
-import { AlertDialogAction } from "@radix-ui/react-alert-dialog";
-import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import {
-  Archive,
-  ArrowBigUpDash,
-  Check,
-  EllipsisVertical,
-  Pencil,
-  Trash,
-  X,
-} from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import Link from "next/link";
-import { toast } from "sonner";
 
 export const columns: ColumnDef<Category>[] = [
   {

@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
+import { redirect } from "next/navigation";
 import { routes } from "@/routes";
 import { getCategories } from "@/services/get-categories";
-import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { PrevButton } from "@/components/prev-button";
 

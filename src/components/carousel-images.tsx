@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import {
   Carousel,
   CarouselApi,
@@ -10,8 +12,6 @@ import {
 } from "@/shadcn/components/ui/carousel";
 import { cn } from "@/shadcn/lib/utils";
 import { CatalogItemImage } from "@/types/api-types";
-import Image from "next/image";
-import { useEffect, useState } from "react";
 
 export function CarouselImages({
   images,

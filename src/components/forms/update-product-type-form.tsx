@@ -3,12 +3,12 @@
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { ProductTypeForm } from "./product-type-form";
 import { routes } from "@/routes";
 import { ProductType } from "@/types/api-types";
 import { updateProductTypeAction } from "@/actions/update-product-type-action";
 import { productTypeSchema } from "@/actions/schema";
-import { useRouter } from "next/navigation";
-import { ProductTypeForm } from "./product-type-form";
 
 type UpdateProductTypeFormProps = {
   productType: ProductType;

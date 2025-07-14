@@ -1,7 +1,7 @@
+import { Metadata } from "next";
 import { UpdateProductTypeForm } from "@/components/forms/update-product-type-form";
 import { routes } from "@/routes";
 import { getProductTypeById } from "@/services/get-product-type-by-id";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: routes.productTypes.sub.edit.title,

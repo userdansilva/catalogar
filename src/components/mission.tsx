@@ -1,9 +1,9 @@
+import { Circle, CircleCheck, Lock } from "lucide-react";
+import Link from "next/link";
 import { routes } from "@/routes";
 import { Badge } from "@/shadcn/components/ui/badge";
 import { Button } from "@/shadcn/components/ui/button";
 import { cn } from "@/shadcn/lib/utils";
-import { Circle, CircleCheck, Lock } from "lucide-react";
-import Link from "next/link";
 
 export function Mission({
   title,

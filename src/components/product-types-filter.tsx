@@ -1,5 +1,8 @@
 "use client";
 
+import { Check, ChevronsUpDown, List } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Button } from "@/shadcn/components/ui/button";
 import {
   Command,
@@ -16,9 +19,6 @@ import {
 } from "@/shadcn/components/ui/popover";
 import { cn } from "@/shadcn/lib/utils";
 import { ProductType } from "@/types/api-types";
-import { Check, ChevronsUpDown, List } from "lucide-react";
-import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
 
 export function ProductTypesFilter({
   productTypes,

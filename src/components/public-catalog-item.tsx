@@ -1,12 +1,12 @@
 "use client";
 
-import { Badge } from "@/shadcn/components/ui/badge";
-import { cn } from "@/shadcn/lib/utils";
-import { CatalogItem as CatalogItemType } from "@/types/api-types";
 import { Images } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CatalogItem as CatalogItemType } from "@/types/api-types";
+import { cn } from "@/shadcn/lib/utils";
+import { Badge } from "@/shadcn/components/ui/badge";
 
 export function PublicCatalogItem({
   catalogItem,

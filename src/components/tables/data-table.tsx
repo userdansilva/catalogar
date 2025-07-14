@@ -1,6 +1,13 @@
 "use client";
 
 import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { usePathname, useSearchParams } from "next/navigation";
+import {
   Pagination,
   PaginationContent,
   PaginationItem,
@@ -16,13 +23,6 @@ import {
   TableRow,
 } from "@/shadcn/components/ui/table";
 import { Pagination as TPagination } from "@/types/api-response";
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { usePathname, useSearchParams } from "next/navigation";
 
 type DataTableProps<TData, TValues> = {
   columns: ColumnDef<TData, TValues>[];

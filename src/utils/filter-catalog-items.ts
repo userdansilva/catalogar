@@ -1,5 +1,5 @@
-import { CatalogItem } from "@/types/api-types";
 import Fuse from "fuse.js";
+import { CatalogItem } from "@/types/api-types";
 
 export function filterCatalogItems(
   catalogItems: CatalogItem[],

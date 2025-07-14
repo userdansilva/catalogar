@@ -1,6 +1,7 @@
 import { FormEventHandler } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
+import { Button } from "../inputs/button";
 import {
   Form,
   FormControl,
@@ -11,7 +12,6 @@ import {
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
 import { productTypeSchema } from "@/actions/schema";
-import { Button } from "../inputs/button";
 
 export type ProductTypeFormValues = z.infer<typeof productTypeSchema>;
 

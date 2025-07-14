@@ -1,8 +1,8 @@
 "use client";
 
+import { Mission } from "./mission";
 import { CatalogItem, Category, ProductType } from "@/types/api-types";
 import { routes } from "@/routes";
-import { Mission } from "./mission";
 
 export function FirstSteps({
   productTypes,

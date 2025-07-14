@@ -1,14 +1,14 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { ApiResponse } from "@/types/api-response";
-import { tags } from "@/tags";
-import { ProductType } from "@/types/api-types";
 import slugify from "slugify";
 import { authActionClient } from "./safe-action";
 import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { productTypeSchema } from "./schema";
+import { ProductType } from "@/types/api-types";
+import { tags } from "@/tags";
+import { ApiResponse } from "@/types/api-response";
 
 export const updateProductTypeAction = authActionClient
   .schema(productTypeSchema)

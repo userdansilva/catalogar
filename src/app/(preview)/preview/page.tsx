@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { CatalogItems } from "@/components/catalog-items";
 import { CategoriesFilter } from "@/components/categories-filter";
 import { ProductTypesFilter } from "@/components/product-types-filter";
@@ -8,7 +9,6 @@ import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
 import { getUser } from "@/services/get-user";
 import { SearchParams } from "@/types/system";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: routes.preview.title,

@@ -1,10 +1,10 @@
+import { redirect } from "next/navigation";
 import { PrevButton } from "@/components/prev-button";
 import { PublishRequirements } from "@/components/publish-requirements";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getProductTypes } from "@/services/get-product-types";
 import { getUser } from "@/services/get-user";
-import { redirect } from "next/navigation";
 
 export default async function Page() {
   const { data: user } = await getUser();

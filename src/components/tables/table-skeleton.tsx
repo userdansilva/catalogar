@@ -1,5 +1,6 @@
 "use client";
 
+import { ColumnDef } from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -9,7 +10,6 @@ import {
   TableRow,
 } from "@/shadcn/components/ui/table";
 import { Skeleton } from "@/shadcn/components/ui/skeleton";
-import { ColumnDef } from "@tanstack/react-table";
 
 type TableSkeletonProps<TData, TValues> = {
   columns: ColumnDef<TData, TValues>[];

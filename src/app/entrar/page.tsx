@@ -1,10 +1,10 @@
 "use client";
 
+import { signIn } from "next-auth/react";
+import Image from "next/image";
 import { routes } from "@/routes";
 import { Button } from "@/shadcn/components/ui/button";
-import { signIn } from "next-auth/react";
 import logo from "@/assets/images/logo.svg";
-import Image from "next/image";
 
 export default function SignInOrRegister() {
   return (

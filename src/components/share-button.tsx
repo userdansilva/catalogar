@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/shadcn/components/ui/button";
 import { ComponentProps, forwardRef } from "react";
+import { Button } from "@/shadcn/components/ui/button";
 
 type ShareButtonProps = Omit<ComponentProps<typeof Button>, "onClick"> & {
   shareData?: {

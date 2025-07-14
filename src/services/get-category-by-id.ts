@@ -1,9 +1,9 @@
+import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { routes } from "@/routes";
 import { tags } from "@/tags";
 import { ApiResponse } from "@/types/api-response";
 import { Category } from "@/types/api-types";
-import { redirect } from "next/navigation";
 
 export async function getCategoryById(id: string) {
   const session = await auth();

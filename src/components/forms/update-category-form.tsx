@@ -1,14 +1,14 @@
 "use client";
 
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { updateCategoryAction } from "@/actions/update-category-action";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { categorySchema } from "@/actions/schema";
-import { routes } from "@/routes";
 import { toast } from "sonner";
-import { Category } from "@/types/api-types";
 import { useRouter } from "next/navigation";
 import { CategoryForm } from "./category-form";
+import { updateCategoryAction } from "@/actions/update-category-action";
+import { categorySchema } from "@/actions/schema";
+import { routes } from "@/routes";
+import { Category } from "@/types/api-types";
 
 type UpdateCategoryFormProps = {
   category: Category;

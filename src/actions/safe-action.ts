@@ -1,10 +1,10 @@
+import { AxiosError } from "axios";
+import { createMiddleware, createSafeActionClient } from "next-safe-action";
+import { z } from "zod";
 import { auth } from "@/auth";
 import { getUser } from "@/services/get-user";
 import { ApiError } from "@/types/api-error";
 import { UserWithCatalog } from "@/types/api-types";
-import { AxiosError } from "axios";
-import { createMiddleware, createSafeActionClient } from "next-safe-action";
-import { z } from "zod";
 
 const authMiddleware = createMiddleware<{
   ctx: { accessToken: string; user: UserWithCatalog };

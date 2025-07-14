@@ -1,8 +1,8 @@
+import { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { UpdateThemeForm } from "@/components/forms/update-theme-form";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
-import { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: routes.theme.title,

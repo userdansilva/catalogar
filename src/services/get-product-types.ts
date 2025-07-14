@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
+import { formatParamsFrom } from "./format-params-from";
 import { auth } from "@/auth";
 import { routes } from "@/routes";
 import { tags } from "@/tags";
 import { ApiResponseWithPagination } from "@/types/api-response";
 import { ProductType, ProductTypeFilters } from "@/types/api-types";
-import { formatParamsFrom } from "./format-params-from";
 
 export async function getProductTypes(filters: ProductTypeFilters = {}) {
   const session = await auth();

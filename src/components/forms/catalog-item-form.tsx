@@ -1,5 +1,10 @@
 "use client";
 
+import { FormEventHandler } from "react";
+import { UseFormReturn } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "../inputs/button";
+import { InputImages } from "../inputs/input-images";
 import { catalogItemSchema } from "@/actions/schema";
 import { Checkbox } from "@/shadcn/components/ui/checkbox";
 import {
@@ -21,11 +26,6 @@ import {
 } from "@/shadcn/components/ui/select";
 import { Textarea } from "@/shadcn/components/ui/textarea";
 import { Category, ProductType } from "@/types/api-types";
-import { FormEventHandler } from "react";
-import { UseFormReturn } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "../inputs/button";
-import { InputImages } from "../inputs/input-images";
 
 export type CatalogItemFormValues = z.infer<typeof catalogItemSchema>;
 

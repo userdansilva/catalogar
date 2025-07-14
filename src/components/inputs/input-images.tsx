@@ -1,8 +1,10 @@
 import { Plus, X } from "lucide-react";
 import { ChangeEvent, useRef } from "react";
 import { useAction } from "next-safe-action/hooks";
-import { createImageAction } from "@/actions/create-image-action";
 import NextImage from "next/image";
+import { toast } from "sonner";
+import { Button } from "./button";
+import { createImageAction } from "@/actions/create-image-action";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,9 +15,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/shadcn/components/ui/alert-dialog";
-import { toast } from "sonner";
 import { ScrollArea, ScrollBar } from "@/shadcn/components/ui/scroll-area";
-import { Button } from "./button";
 
 type Image = {
   fileName: string;

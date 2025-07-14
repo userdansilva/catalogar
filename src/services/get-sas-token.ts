@@ -1,8 +1,8 @@
+import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { routes } from "@/routes";
 import { ApiResponse } from "@/types/api-response";
 import { CatalogItemImage } from "@/types/api-types";
-import { redirect } from "next/navigation";
 
 export async function getSasToken(fileName: string) {
   const session = await auth();

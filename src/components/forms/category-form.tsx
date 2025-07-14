@@ -1,3 +1,7 @@
+import { FormEventHandler } from "react";
+import { Control, UseFormReturn, useWatch } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "../inputs/button";
 import { categorySchema } from "@/actions/schema";
 import { Badge } from "@/shadcn/components/ui/badge";
 import {
@@ -16,10 +20,6 @@ import {
   FormMessage,
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
-import { FormEventHandler } from "react";
-import { Control, UseFormReturn, useWatch } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "../inputs/button";
 
 export type CategoryFormValues = z.infer<typeof categorySchema>;
 

@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
-import { ApiError } from "@/types/api-error";
 import { returnValidationErrors, ValidationErrors } from "next-safe-action";
 import { ZodObject, ZodRawShape } from "zod";
+import { ApiError } from "@/types/api-error";
 
 /**
  * @example

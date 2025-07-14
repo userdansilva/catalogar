@@ -1,3 +1,6 @@
+import { CircleCheckBig } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import { CopyButton } from "@/components/copy-button";
 import { Button } from "@/components/inputs/button";
 import { routes } from "@/routes";
@@ -8,9 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shadcn/components/ui/card";
-import { CircleCheckBig } from "lucide-react";
-import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export default async function Page() {
   const { data: user } = await getUser();

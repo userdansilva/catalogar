@@ -1,7 +1,7 @@
+import { Metadata } from "next";
 import { UpdateCategoryForm } from "@/components/forms/update-category-form";
 import { routes } from "@/routes";
 import { getCategoryById } from "@/services/get-category-by-id";
-import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: routes.categories.sub.edit.title,

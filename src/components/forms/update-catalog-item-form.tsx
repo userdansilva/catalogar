@@ -2,13 +2,13 @@
 
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { routes } from "@/routes";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { CatalogItemForm } from "./catalog-item-form";
+import { routes } from "@/routes";
 import { CatalogItem, Category, ProductType } from "@/types/api-types";
 import { updateCatalogItemAction } from "@/actions/update-catalog-item-action";
 import { catalogItemSchema } from "@/actions/schema";
-import { useRouter } from "next/navigation";
-import { CatalogItemForm } from "./catalog-item-form";
 
 type UpdateCatalogItemFormProps = {
   catalogItem: CatalogItem;
