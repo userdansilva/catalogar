@@ -8,25 +8,18 @@ const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-  recommendedConfig: importPlugin.flatConfigs.recommended,
 });
 
 const eslintConfig = [
-  ...compat.config({
-    extends: [
-      "next/core-web-vitals",
-      "next/typescript",
-      "prettier",
-      "plugin:import/typescript",
-    ],
-    settings: {
-      "import/parsers": {
-        "@typescript-eslint/parser": [".ts", ".tsx"],
-      },
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    plugins: {
+      import: importPlugin,
     },
-    ignorePatterns: ["src/shadcn/*"],
+    ignores: ["src/shadcn/*"],
     rules: {
       "import/no-unresolved": "error",
+      "import/order": "error",
       "import/extensions": [
         "error",
         "ignorePackages",
@@ -35,6 +28,7 @@ const eslintConfig = [
           ts: "never",
         },
       ],
+      "import/prefer-default-export": "off",
       "react/require-default-props": "off",
       "react/jsx-filename-extension": [
         1,
@@ -44,7 +38,6 @@ const eslintConfig = [
       ],
       "react/jsx-props-no-spreading": "off",
       quotes: ["error", "double"],
-      "import/prefer-default-export": "off",
       "no-console": [
         "error",
         {
@@ -54,7 +47,7 @@ const eslintConfig = [
       "react/destructuring-assignment": "off",
       "react/display-name": "off",
     },
-  }),
+  },
 ];
 
 export default eslintConfig;
