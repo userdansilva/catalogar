@@ -1,7 +1,6 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
-import tailwind from "eslint-plugin-tailwindcss";
 import sonarjs from "eslint-plugin-sonarjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,7 +15,6 @@ const eslintConfig = [
     ignores: ["src/shadcn/*"],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
-  ...tailwind.configs["flat/recommended"],
   sonarjs.configs.recommended,
   {
     rules: {
