@@ -1,4 +1,3 @@
-// import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import { CustomizationMissions } from "@/components/customization-missions";
@@ -32,10 +31,6 @@ export default async function Home({
   const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
   const { data: catalogItems } = await getCatalogItems();
-
-  // const session = await auth();
-  // // eslint-disable-next-line no-console
-  // console.log(session);
 
   const shouldDisplayMainMissions =
     productTypes.length === 0 || catalogItems.length === 0;
