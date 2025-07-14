@@ -14,34 +14,15 @@ const eslintConfig = [
   {
     ignores: ["src/shadcn/**/.*"],
     rules: {
-      "import/no-unresolved": "error",
       "import/order": "error",
-      "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          tsx: "never",
-          ts: "never",
-        },
-      ],
-      "import/prefer-default-export": "off",
-      "react/require-default-props": "off",
-      "react/jsx-filename-extension": [
-        1,
-        {
-          extensions: [".tsx"],
-        },
-      ],
-      "react/jsx-props-no-spreading": "off",
       quotes: ["error", "double"],
+      "react/display-name": "off",
       "no-console": [
         "error",
         {
           allow: ["warn", "error"],
         },
       ],
-      "react/destructuring-assignment": "off",
-      "react/display-name": "off",
     },
   },
 ];
