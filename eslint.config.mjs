@@ -11,10 +11,12 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  {
+    ignores: ["src/shadcn/*"],
+  },
   ...tailwind.configs["flat/recommended"],
   ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
   {
-    ignores: ["src/shadcn/**/.*"],
     rules: {
       "import/order": "error",
       quotes: ["error", "double"],

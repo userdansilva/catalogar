@@ -46,7 +46,7 @@ export default async function Home({
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="font-extrabold scroll-m-20 text-4xl tracking-tight lg:text-5xl">
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
           Bem-Vindo ao{" "}
           <span className="underline underline-offset-2">Catalogar!</span>
         </h1>
