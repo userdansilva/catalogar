@@ -64,10 +64,16 @@ export default async function Home({
         />
       ) : (
         <div className="space-y-6">
-          <CatalogSwitcherDrawerDialog
-            catalogs={user.catalogs}
-            currentCatalog={user.currentCatalog}
-          />
+          <div className="space-y-2">
+            <p className="text-muted-foreground text-xs">
+              Catálogo selecionado
+            </p>
+
+            <CatalogSwitcherDrawerDialog
+              catalogs={user.catalogs}
+              currentCatalog={user.currentCatalog}
+            />
+          </div>
 
           <MainCards
             productTypes={productTypes}

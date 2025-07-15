@@ -58,7 +58,7 @@ function CatalogSwitcherCard({
   currentCatalog: Catalog;
 }>) {
   return (
-    <Card className="flex items-center">
+    <Card className="flex flex-row items-center">
       <CardHeader className="flex-1">
         <CardDescription className="text-xs">
           <span>{currentCatalog.isPublished ? "Público" : "Privado"}</span>
@@ -113,7 +113,7 @@ function CatalogSwitcherForm({
                         key={catalog.id}
                       >
                         <Label className="w-full cursor-pointer">
-                          <Card className="flex w-full items-center shadow-none">
+                          <Card className="flex w-full flex-row items-center py-4 shadow-none">
                             <CardHeader className="flex flex-1 flex-row items-center gap-3 py-2">
                               <FormControl>
                                 <RadioGroupItem value={catalog.id} />
@@ -150,7 +150,7 @@ function CatalogSwitcherForm({
 
                   <FormItem className="flex items-center gap-3">
                     <Label className="w-full cursor-pointer">
-                      <Card className="flex w-full items-center shadow-none">
+                      <Card className="flex w-full flex-row items-center py-4 shadow-none">
                         <CardHeader className="flex flex-1 flex-row items-center gap-3 py-2">
                           <FormControl>
                             <RadioGroupItem
@@ -159,7 +159,7 @@ function CatalogSwitcherForm({
                             />
                           </FormControl>
                           <FormLabel asChild>
-                            <CardTitle className="-mt-10 flex items-center text-base">
+                            <CardTitle className="flex items-center text-base">
                               <Plus className="mr-2 size-4" />
                               Adicionar
                             </CardTitle>
