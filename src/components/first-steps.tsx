@@ -56,16 +56,16 @@ export function FirstSteps({
       <Mission
         title="1. Adicione o primeiro tipo de produto"
         description="O primeiro passo é cadastrar um tipo de produto.
-        Pode ser camisa, caneca, moletom, etc... Você poderá adicionar vários tipos.
-        Vamos começar com o primeiro."
+        Pode ser camisa, caneca, moletom, etc. Você poderá adicionar vários tipos,
+        mas vamos começar com o primeiro."
         status={productTypeMissionStatus}
         href={routes.productTypes.sub.createFirst.url}
       />
 
       <Mission
         title="2. Adicione a primeira categoria (Opcional)"
-        description="O segundo passo é cadastrar a categoria. Por exemplo: feminino, masculino,
-        dia das mães, dia dos namorados, etc... Isso vai ajudar a filtrar mais fácil."
+        description="O segundo passo é cadastrar a categoria. Por exemplo:
+        dia das mães, dia dos namorados, carnaval, feminino, masculino, etc."
         status={categoryMissionStatus}
         href={routes.categories.sub.createFirst.url}
         isOptional
@@ -73,8 +73,8 @@ export function FirstSteps({
 
       <Mission
         title="3. Adicione o primeiro item de catálogo"
-        description="Agora, você pode adicionar o item de catálogo vinculado ao tipo de produto e categoria
-        que criou."
+        description="Agora, você pode adicionar o item de catálogo vinculado 
+        ao tipo de produto que criou."
         status={catalogItemMissionStatus}
         href={routes.catalogItems.sub.createFirst.url}
       />

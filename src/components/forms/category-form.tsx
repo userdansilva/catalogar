@@ -7,7 +7,6 @@ import { Badge } from "@/shadcn/components/ui/badge";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/shadcn/components/ui/card";
@@ -58,7 +57,7 @@ export function CategoryForm({
 
               <FormControl>
                 <Input
-                  placeholder="Ex.: Diversas"
+                  placeholder="Ex.: Dia dos namorados"
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
@@ -74,11 +73,7 @@ export function CategoryForm({
 
         <Card>
           <CardHeader>
-            <CardTitle>Pré visualização</CardTitle>
-            <CardDescription>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et
-              ligula sit amet est blandit molestie et in purus.
-            </CardDescription>
+            <CardTitle>Pré-visualização</CardTitle>
           </CardHeader>
 
           <CardContent>

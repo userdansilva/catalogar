@@ -37,10 +37,8 @@ export default async function CreateFirstCatalogItem({
         </h2>
 
         <p className="text-muted-foreground">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et
-          ligula sit amet est blandit molestie et in purus. Donec vitae
-          convallis libero, ac fermentum magna. Aenean vitae pharetra dolor.
-          Proin nec.
+          Qual item você quer exibir? Agora você pode adicinar a foto, título,
+          descrição, tipo de produto e categoria(s).
         </p>
       </div>
 

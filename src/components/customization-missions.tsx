@@ -27,8 +27,8 @@ export function CustomizationMissions({ user }: { user: UserWithCatalog }) {
 
       <Mission
         title="1. Adicione informações da empresa"
-        description="Aqui, você pode colocar o nome, slogan (se tiver) e a descrição da sua empresa.
-        Além de link para contato."
+        description="Aqui, você pode colocar o nome e descrição da sua empresa, 
+        e link para contato."
         status={companyMissionStatus}
         href={routes.company.sub.new.url}
       />

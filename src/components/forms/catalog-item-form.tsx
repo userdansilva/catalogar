@@ -134,8 +134,8 @@ export function CatalogItemForm({
               </FormControl>
 
               <FormDescription>
-                Aproveite para incluir palavras-chave que ajudem seus clientes a
-                encontrar esse item mais facilmente na busca.
+                Aproveite para incluir palavras-chave que ajude seus clientes a
+                encontrarem esse item mais facilmente.
               </FormDescription>
 
               <FormMessage />
@@ -156,7 +156,7 @@ export function CatalogItemForm({
                 disabled={form.formState.isSubmitting}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Selecione o tipo de produto" />
                   </SelectTrigger>
                 </FormControl>

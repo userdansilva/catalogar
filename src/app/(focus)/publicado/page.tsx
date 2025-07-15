@@ -7,7 +7,7 @@ import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
 import {
   Card,
-  CardDescription,
+  CardContent,
   CardHeader,
   CardTitle,
 } from "@/shadcn/components/ui/card";
@@ -28,23 +28,23 @@ export default async function Page() {
         Tudo pronto, seu catálogo foi publicado!
       </h1>
 
-      <Card>
+      <Card className="w-full gap-1">
         <CardHeader>
           <CardTitle className="text-center text-base">
             Seu link público
           </CardTitle>
-          <CardDescription className="flex flex-col items-center gap-4">
-            <Link
-              href={publicLink}
-              target="_blank"
-              className="w-full max-w-[calc(100vw-80px)] truncate underline underline-offset-2"
-            >
-              {publicLink}
-            </Link>
-
-            <CopyButton textToCopy={publicLink} size="sm" />
-          </CardDescription>
         </CardHeader>
+        <CardContent className="space-y-2 text-center">
+          <Link
+            href={publicLink}
+            target="_blank"
+            className="text-muted-foreground block w-full max-w-[calc(100vw-80px)] truncate text-sm underline underline-offset-2"
+          >
+            {publicLink}
+          </Link>
+
+          <CopyButton textToCopy={publicLink} size="sm" />
+        </CardContent>
       </Card>
 
       <Button asChild variant="outline">

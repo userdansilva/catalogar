@@ -89,7 +89,7 @@ export function CompanyForm({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Site oficial (Opcional)</FormLabel>
+              <FormLabel>Link para contato (Opcional)</FormLabel>
 
               <FormControl>
                 <Input
@@ -104,8 +104,8 @@ export function CompanyForm({
 
               <FormDescription>
                 Qual o link do seu site? Caso ainda não tenha um site, você pode
-                usar o link do Instagram, Linktree, WhatsApp ou qualquer outro
-                link que ajude seus clientes a entrar em contato.
+                usar o link do Instagram, Linktree ou qualquer outro link que
+                ajude seus clientes a entrar em contato.
               </FormDescription>
 
               <FormMessage />
