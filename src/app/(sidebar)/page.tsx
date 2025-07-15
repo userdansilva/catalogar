@@ -65,7 +65,7 @@ export default async function Home({
       ) : (
         <div className="space-y-6">
           <div className="space-y-2">
-            <p className="text-muted-foreground text-xs">
+            <p className="text-muted-foreground text-sm">
               Catálogo selecionado
             </p>
 

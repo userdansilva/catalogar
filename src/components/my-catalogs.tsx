@@ -41,7 +41,7 @@ export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {catalogs
-          .sort((a, b) => {
+          .toSorted((a, b) => {
             if (a.id === currentCatalog.id) return -1;
             if (b.id === currentCatalog.id) return 1;
 
@@ -66,33 +66,43 @@ export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
                   </div>
                 </CardHeader>
 
-                <CardFooter className="space-x-2">
-                  <Button
-                    size="sm"
-                    className="w-full"
-                    disabled={isCurrentCatalog}
-                    variant="outline"
-                    onClick={() => {
-                      if (isCurrentCatalog) return;
+                <CardFooter className="flex flex-row space-x-2">
+                  {isCurrentCatalog ? (
+                    <Button
+                      size="sm"
+                      className="flex-1"
+                      disabled
+                      variant="outline"
+                    >
+                      Selecionado (atual)
+                      <Check />
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      className="flex-1 cursor-pointer"
+                      variant="outline"
+                      onClick={() => {
+                        if (isCurrentCatalog) return;
 
-                      toast.promise(
-                        switchCatalog.executeAsync({ id: catalog.id }),
-                        {
-                          loading: "Trocando de catálogo...",
-                          success: () => {
-                            setTimeout(() => {
-                              window.location.reload();
-                            }, 1_000);
+                        toast.promise(
+                          switchCatalog.executeAsync({ id: catalog.id }),
+                          {
+                            loading: "Trocando de catálogo...",
+                            success: () => {
+                              setTimeout(() => {
+                                window.location.reload();
+                              }, 1_000);
 
-                            return "Catálogo atual alterado!";
+                              return "Catálogo atual alterado!";
+                            },
                           },
-                        },
-                      );
-                    }}
-                  >
-                    {isCurrentCatalog ? "Selecionado (Atual)" : "Selecionar"}
-                    {isCurrentCatalog && <Check />}
-                  </Button>
+                        );
+                      }}
+                    >
+                      Selecionar
+                    </Button>
+                  )}
 
                   {isCurrentCatalog && (
                     <Button size="sm" asChild>
