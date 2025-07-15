@@ -123,11 +123,47 @@
   }
 }
 
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  50% {
+    transform: translateX(calc(100% + 64px));
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  @keyframes slide {
+    0% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(calc(100% + 64px));
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .animate-slide {
+    animation: slide 2s ease-in-out infinite;
   }
 }
