@@ -134,7 +134,7 @@ export const columns: ColumnDef<Category>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
-              <EllipsisVertical className="size-4" />
+              <EllipsisVertical />
             </Button>
           </DropdownMenuTrigger>
 

@@ -107,7 +107,7 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
                     className="absolute -top-1 -right-1 size-6 p-0"
                     variant="destructive"
                   >
-                    <X className="size-4" />
+                    <X />
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>

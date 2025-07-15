@@ -106,13 +106,13 @@ export function MainCards({
           <CardFooter className="grid grid-cols-2 gap-2">
             <Button asChild size="sm" className="w-full">
               <Link href={routes.catalogItems.url}>
-                <Book className="size-3" />
+                <Book />
                 Catálogo
               </Link>
             </Button>
             <Button asChild size="sm" variant="outline" className="w-full">
               <Link href={routes.preview.url}>
-                <View className="size-3" />
+                <View />
                 Pré-visualização
               </Link>
             </Button>
@@ -142,7 +142,7 @@ export function MainCards({
                   },
                 }}
               >
-                <Building2 className="size-3" />
+                <Building2 />
                 Empresa
               </Link>
             </Button>
@@ -155,7 +155,7 @@ export function MainCards({
                   },
                 }}
               >
-                <Palette className="size-3" />
+                <Palette />
                 Tema
               </Link>
             </Button>
@@ -191,7 +191,7 @@ export function MainCards({
                   },
                 }}
               >
-                <Plus className="size-3" />
+                <Plus />
                 Adicionar
               </Link>
             </Button>
@@ -225,7 +225,7 @@ export function MainCards({
                   },
                 }}
               >
-                <Plus className="size-3" />
+                <Plus />
                 Adicionar
               </Link>
             </Button>
@@ -259,7 +259,7 @@ export function MainCards({
                   },
                 }}
               >
-                <Plus className="size-3" />
+                <Plus />
                 Adicionar
               </Link>
             </Button>

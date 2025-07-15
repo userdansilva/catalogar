@@ -25,7 +25,7 @@ export default async function Categories({
     <div>
       <Button asChild className="mb-10">
         <Link href={routes.categories.sub.new.url}>
-          <Plus className="size-4" />
+          <Plus />
           Criar categoria
         </Link>
       </Button>

@@ -45,7 +45,7 @@ export default async function Page({
     <div className="space-y-6">
       <Button asChild size="lg">
         <Link href={routes.catalogItems.sub.new.url}>
-          <Plus className="size-4" />
+          <Plus />
           Adicionar Item
         </Link>
       </Button>

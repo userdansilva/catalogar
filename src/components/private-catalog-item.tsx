@@ -97,7 +97,7 @@ export function PrivateCatalogItem({
       <div className="space-x-2">
         <Button size="sm" variant="outline" asChild>
           <Link href={routes.catalogItems.sub.edit.url(catalogItem.id)}>
-            <Pencil className="size-2" />
+            <Pencil />
             Editar
           </Link>
         </Button>
@@ -105,13 +105,13 @@ export function PrivateCatalogItem({
         <AlertDialog>
           {catalogItem.isDisabled ? (
             <Button size="sm" variant="outline" onClick={handleToggleStatus}>
-              <Eye className="size-2" />
+              <Eye />
               Exibir
             </Button>
           ) : (
             <AlertDialogTrigger asChild>
               <Button size="sm" variant="outline">
-                <EyeOff className="size-2" />
+                <EyeOff />
                 Ocultar
               </Button>
             </AlertDialogTrigger>
@@ -144,7 +144,7 @@ export function PrivateCatalogItem({
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button size="sm" variant="outline">
-              <Trash className="size-2" />
+              <Trash />
             </Button>
           </AlertDialogTrigger>
 

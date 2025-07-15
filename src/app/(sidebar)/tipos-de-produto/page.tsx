@@ -25,7 +25,7 @@ export default async function Page({
     <div>
       <Button asChild className="mb-10">
         <Link href={routes.productTypes.sub.new.url}>
-          <Plus className="size-4" />
+          <Plus />
           Criar Tipo de Produto
         </Link>
       </Button>

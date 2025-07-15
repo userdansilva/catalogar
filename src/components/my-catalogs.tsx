@@ -33,7 +33,7 @@ export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
 
         <Button asChild variant="outline" size="sm">
           <Link href={routes.catalog.sub.new.url}>
-            <Plus className="size-2" />
+            <Plus />
             Adicionar
           </Link>
         </Button>
@@ -91,13 +91,13 @@ export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
                     }}
                   >
                     {isCurrentCatalog ? "Selecionado (Atual)" : "Selecionar"}
-                    {isCurrentCatalog && <Check className="size-3" />}
+                    {isCurrentCatalog && <Check />}
                   </Button>
 
                   {isCurrentCatalog && (
                     <Button size="sm" asChild>
                       <Link href={routes.config.url}>
-                        <Settings className="size-3" />
+                        <Settings />
                       </Link>
                     </Button>
                   )}
