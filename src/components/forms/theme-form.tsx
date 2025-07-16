@@ -60,7 +60,7 @@ function ThemePreview({
         </span>
       )}
 
-      <span className="text-sm">Saiba mais</span>
+      <span className="text-sm">Menu</span>
     </Card>
   );
 }

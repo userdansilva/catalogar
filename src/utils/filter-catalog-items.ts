@@ -45,6 +45,13 @@ export function filterCatalogItems(
 
       if (!isProductTypeEnabled) return false;
 
+      if (
+        catalogItem.categories.length >= 1 &&
+        catalogItem.categories.every((category) => category.isDisabled)
+      ) {
+        return false;
+      }
+
       if (filters.productTypeSlug && !filters.categorySlug)
         return isProductTypeMatch;
       if (!filters.productTypeSlug && filters.categorySlug)

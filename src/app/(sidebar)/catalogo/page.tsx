@@ -50,26 +50,28 @@ export default async function Page({
         </Link>
       </Button>
 
-      <div className="flex space-x-2">
+      <div className="flex flex-col gap-2 lg:flex-row">
         <QueryFilter
           mode="dashboard"
           currentQuery={query}
           searchParamNames={SEARCH_PARAM_NAMES}
         />
 
-        <ProductTypesFilter
-          mode="dashboard"
-          productTypes={productTypes}
-          currentProductTypeSlug={productTypeSlug}
-          searchParamNames={SEARCH_PARAM_NAMES}
-        />
+        <div className="flex flex-row gap-2 *:flex-1">
+          <ProductTypesFilter
+            mode="dashboard"
+            productTypes={productTypes}
+            currentProductTypeSlug={productTypeSlug}
+            searchParamNames={SEARCH_PARAM_NAMES}
+          />
 
-        <CategoriesFilter
-          mode="dashboard"
-          categories={categories}
-          currentCategorySlug={categorySlug}
-          searchParamNames={SEARCH_PARAM_NAMES}
-        />
+          <CategoriesFilter
+            mode="dashboard"
+            categories={categories}
+            currentCategorySlug={categorySlug}
+            searchParamNames={SEARCH_PARAM_NAMES}
+          />
+        </div>
       </div>
 
       <CatalogItems

@@ -42,18 +42,20 @@ export function PublicCatalogItem({
       </div>
 
       <div className="flex flex-wrap gap-1">
-        {catalogItem.categories.map((category) => (
-          <Badge
-            key={category.id}
-            style={{
-              color: category.textColor,
-              background: category.backgroundColor,
-            }}
-            className="px-1 shadow-none"
-          >
-            {category.name}
-          </Badge>
-        ))}
+        {catalogItem.categories
+          .filter((category) => !category.isDisabled)
+          .map((category) => (
+            <Badge
+              key={category.id}
+              style={{
+                color: category.textColor,
+                background: category.backgroundColor,
+              }}
+              className="px-1 shadow-none"
+            >
+              {category.name}
+            </Badge>
+          ))}
       </div>
 
       <div>

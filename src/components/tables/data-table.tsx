@@ -7,6 +7,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { usePathname, useSearchParams } from "next/navigation";
+import clsx from "clsx";
 import {
   Pagination,
   PaginationContent,
@@ -72,7 +73,12 @@ export function DataTable<TData, TValues>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    className={clsx(
+                      header.id === "actions" && "bg-background sticky right-0",
+                    )}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -93,7 +99,13 @@ export function DataTable<TData, TValues>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className={clsx(
+                        cell.column.id === "actions" &&
+                          "bg-background sticky right-0",
+                      )}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

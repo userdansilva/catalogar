@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { PageHeader } from "@/components/layout/page-header";
+import { PrevButton } from "@/components/prev-button";
 
 export default async function Layout({ children }: PropsWithChildren) {
   const { data: catalogItems } = await getCatalogItems();
@@ -13,6 +14,8 @@ export default async function Layout({ children }: PropsWithChildren) {
 
   return (
     <div className="space-y-6">
+      <PrevButton fallbackUrl={routes.dashboard.url} />
+
       <PageHeader
         title={routes.catalogItems.title}
         description={routes.catalogItems.description}

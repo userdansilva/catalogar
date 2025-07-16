@@ -6,10 +6,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import {
-  Archive,
-  ArrowBigUpDash,
   Check,
+  CloudUpload,
   EllipsisVertical,
+  EyeOff,
   Pencil,
   Trash,
   X,
@@ -102,17 +102,18 @@ export const columns: ColumnDef<ProductType>[] = [
         confirm: z
           .string()
           .min(1, "Campo obrigatório")
-          .refine((val) => val === "REMOVER", {
-            message: "Digite REMOVER para confirmar.",
+          .refine((s) => s === "DELETAR", {
+            message: "Digite DELETAR para confirmar.",
           }),
       });
 
-      const [open, setOpen] = useState(false);
+      const [alertDialogOpen, setAlertDialogOpen] = useState(false);
+      const [dropdownOpen, setDropdownOpen] = useState(false);
 
       const form = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues: {
-          confirm: "" as "REMOVER",
+          confirm: "" as "DELETAR",
         },
       });
 
@@ -141,13 +142,13 @@ export const columns: ColumnDef<ProductType>[] = [
             await executeDeleteAsync({ id });
           },
           {
-            loading: "Removendo tipo de produto...",
-            success: "Tipo de produto removido com sucesso!",
+            loading: "Deletando tipo de produto...",
+            success: "Tipo de produto deletado com sucesso!",
           },
         );
 
       return (
-        <DropdownMenu>
+        <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
               <EllipsisVertical className="size-4" />
@@ -174,20 +175,25 @@ export const columns: ColumnDef<ProductType>[] = [
                     className="cursor-pointer"
                     onSelect={(e) => e.preventDefault()}
                   >
-                    <Archive className="mr-2 size-4" />
-                    Desativar
+                    <EyeOff className="mr-2 size-4" />
+                    Ocultar
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
 
                 <AlertDialogContent>
                   <AlertDialogHeader>
                     <AlertDialogTitle>
-                      Are you absolutely sure?
+                      Tem certeza que quer ocultar esse tipo de produto?
                     </AlertDialogTitle>
 
                     <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      your account and remove your data from our servers.
+                      Ao ocultar o tipo de produto, os itens vinculados a ele
+                      NÃO seram exibidos no seu catálogo. Você pode voltar a
+                      exibir a qualquer momento clicando em{" "}
+                      <span className="inline rounded-sm border px-2 py-1 text-xs text-nowrap">
+                        <CloudUpload className="-mt-1 mr-1 inline size-4" />
+                        Ativar
+                      </span>
                     </AlertDialogDescription>
                   </AlertDialogHeader>
 
@@ -197,8 +203,8 @@ export const columns: ColumnDef<ProductType>[] = [
                     </AlertDialogCancel>
 
                     <AlertDialogAction asChild>
-                      <Button variant="ghost" onClick={handleToggleStatus}>
-                        Sim! Quero desativar
+                      <Button onClick={handleToggleStatus}>
+                        Sim! Quero ocultar
                       </Button>
                     </AlertDialogAction>
                   </AlertDialogFooter>
@@ -209,14 +215,17 @@ export const columns: ColumnDef<ProductType>[] = [
                 className="cursor-pointer"
                 onClick={handleToggleStatus}
               >
-                <ArrowBigUpDash className="mr-2 size-4 animate-bounce" />
+                <CloudUpload className="mr-2 size-4" />
                 Ativar
               </DropdownMenuItem>
             )}
 
             <DropdownMenuSeparator />
 
-            <AlertDialog open={open} onOpenChange={setOpen}>
+            <AlertDialog
+              open={alertDialogOpen}
+              onOpenChange={setAlertDialogOpen}
+            >
               <Form {...form}>
                 <AlertDialogTrigger asChild>
                   <DropdownMenuItem
@@ -224,74 +233,53 @@ export const columns: ColumnDef<ProductType>[] = [
                     onSelect={(e) => e.preventDefault()}
                   >
                     <Trash className="mr-2 size-4" />
-                    Excluir
+                    Deletar
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
 
                 <AlertDialogContent>
                   <AlertDialogHeader>
                     <AlertDialogTitle>
-                      Tem certeza que quer remover esse tipo de produto?
+                      Tem certeza que quer deletar esse tipo de produto?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                       Essa ação não poderá ser desfeita e{" "}
-                      <span className="text-destructive font-bold uppercase">
-                        vai remover todos os itens de catálogo vinculados a esse
+                      <span className="font-bold">
+                        vai deletar todos os itens de catálogo vinculados a esse
                         tipo de produto
                       </span>
                       {". "}
                       Caso queira apenas{" "}
-                      <span className="font-bold">ocultar</span> os itens de
-                      catálogo vinculados a esse tipo de produto você pode{" "}
-                      <span className="font-bold">desativar</span>
-                      esse tipo de produto.
-                    </AlertDialogDescription>
-                    <AlertDialogTitle className="text-base">
-                      Como desativar esse tipo de produto?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Clique em{" "}
-                      <span className="rounded-sm border p-2 text-xs">
-                        Cancelar
-                      </span>{" "}
-                      e depois no botão{" "}
-                      <span className="inline rounded-sm border p-2">
-                        <Archive className="inline size-4" />
+                      <span className="font-bold">ocultar</span> temporariamente
+                      essses itens vinculados você pode clicar em{" "}
+                      <span className="inline rounded-sm border px-2 py-1 text-xs">
+                        <EyeOff className="-mt-1 mr-1 inline size-4" />
+                        Ocultar
                       </span>
-                      {" ."}
                     </AlertDialogDescription>
-
-                    <AlertDialogTitle className="text-base">
-                      Quer seguir com a remoção?
-                    </AlertDialogTitle>
-
-                    <AlertDialogDescription className="mb-3">
-                      Digite REMOVER abaixo e clique em &quot;Sim! Quero
-                      remover&quot;
-                    </AlertDialogDescription>
-
-                    <FormField
-                      name="confirm"
-                      control={form.control}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input
-                              placeholder="Digite REMOVER"
-                              autoComplete="off"
-                              autoCorrect="off"
-                              spellCheck="false"
-                              {...field}
-                            />
-                          </FormControl>
-
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
                   </AlertDialogHeader>
 
-                  <AlertDialogFooter className="mt-6">
+                  <FormField
+                    name="confirm"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            placeholder="Digite DELETAR"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            spellCheck="false"
+                            {...field}
+                          />
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <AlertDialogFooter>
                     <AlertDialogCancel asChild>
                       <Button variant="secondary">Cancelar</Button>
                     </AlertDialogCancel>
@@ -300,10 +288,11 @@ export const columns: ColumnDef<ProductType>[] = [
                       variant="destructive"
                       onClick={form.handleSubmit(() => {
                         handleRemove();
-                        setOpen(false);
+                        setAlertDialogOpen(false);
+                        setDropdownOpen(false);
                       })}
                     >
-                      Sim! Quero remover
+                      Sim! Quero deletar
                     </Button>
                   </AlertDialogFooter>
                 </AlertDialogContent>

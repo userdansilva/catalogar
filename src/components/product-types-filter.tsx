@@ -61,7 +61,7 @@ export function ProductTypesFilter({
           <Button
             variant="outline"
             role="combobox"
-            className="w-[200px] justify-between"
+            className="cursor-pointer justify-between"
           >
             {currentProductTypeSlug ? (
               productTypes.find(

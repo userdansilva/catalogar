@@ -60,35 +60,33 @@ export function CatalogItemForm({
                 />
               </FormControl>
 
-              <FormDescription>
-                <ul>
-                  <li>
-                    As imagens serão exibidas na ordem em que forem adicionadas.
-                  </li>
-                  <li>
-                    Formatos: JPG (recomendado), PNG ou WEBP. (Dica: Use{" "}
-                    <a
-                      href="https://convertio.co/pt/"
-                      target="_blank"
-                      className="underline underline-offset-2"
-                    >
-                      Convertio.co
-                    </a>{" "}
-                    para alterar o formato).
-                  </li>
-                  <li>
-                    Tamanho máximo: 1MB. (Dica: Use{" "}
-                    <a
-                      href="https://tinyjpg.com/"
-                      target="_blank"
-                      className="underline underline-offset-2"
-                    >
-                      TinyJPG
-                    </a>{" "}
-                    para otimizar imagem).
-                  </li>
-                </ul>
-              </FormDescription>
+              <ul className="text-muted-foreground text-sm">
+                <li>
+                  As imagens serão exibidas na ordem em que forem adicionadas.
+                </li>
+                <li>
+                  Formatos: JPG (recomendado), PNG ou WEBP. (Dica: Use{" "}
+                  <a
+                    href="https://convertio.co/pt/"
+                    target="_blank"
+                    className="underline underline-offset-2"
+                  >
+                    Convertio.co
+                  </a>{" "}
+                  para alterar o formato).
+                </li>
+                <li>
+                  Tamanho máximo: 1MB. (Dica: Use{" "}
+                  <a
+                    href="https://tinyjpg.com/"
+                    target="_blank"
+                    className="underline underline-offset-2"
+                  >
+                    TinyJPG
+                  </a>{" "}
+                  para otimizar imagem).
+                </li>
+              </ul>
 
               <FormMessage />
             </FormItem>

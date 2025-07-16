@@ -66,7 +66,7 @@ export const routes = {
   catalogItems: {
     title: "Catálogo",
     description:
-      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+      "Estes são os itens já cadastrados neste catálogo. Você pode adicionar, editar, ocultar ou excluir um item.",
     icon: Book,
     url: "/catalogo",
     sub: {
@@ -95,7 +95,7 @@ export const routes = {
   categories: {
     title: "Categorias",
     description:
-      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+      "Aqui você pode ver a lista de categorias já cadastradas, adicionar, editar, desativar ou excluir.",
     icon: Filter,
     url: "/categorias",
     sub: {
@@ -116,7 +116,7 @@ export const routes = {
   productTypes: {
     title: "Tipos de Produto",
     description:
-      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+      "Aqui você pode ver a lista de tipos produtos já cadastrados, adicionar, editar, desativar ou excluir.",
     icon: List,
     url: "/tipos-de-produto",
     sub: {
@@ -136,8 +136,7 @@ export const routes = {
   },
   company: {
     title: "Empresa",
-    description:
-      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+    description: "Aqui você pode atualizar as informações da sua empresa",
     icon: Building2,
     url: "/empresa",
     sub: {
@@ -149,8 +148,7 @@ export const routes = {
   },
   theme: {
     title: "Tema",
-    description:
-      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+    description: "Aqui você pode atualizar o tema do seu catálogo",
     icon: Palette,
     url: "/tema",
     sub: {
@@ -162,8 +160,7 @@ export const routes = {
   },
   config: {
     title: "Configuração",
-    description:
-      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
+    description: "Aqui você pode atualizar as configurações do seu catálogo",
     icon: Settings,
     url: "/configuracao",
   },

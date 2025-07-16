@@ -121,7 +121,7 @@ export function UpdateCatalogForm({
                 disabled={form.formState.isSubmitting}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Selecione uma opção" />
                   </SelectTrigger>
                 </FormControl>
@@ -157,7 +157,7 @@ export function UpdateCatalogForm({
           disabled={form.formState.isSubmitting}
           loading={form.formState.isSubmitting}
         >
-          Salvar Alterações
+          Salvar alterações
         </Button>
       </form>
     </Form>

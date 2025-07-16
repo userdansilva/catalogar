@@ -1,6 +1,5 @@
-"use client";
-
 import { ColumnDef } from "@tanstack/react-table";
+import { v4 as uuidv4 } from "uuid";
 import {
   Table,
   TableBody,
@@ -30,11 +29,8 @@ export function TableSkeleton<TData, TValues>({
         </TableHeader>
 
         <TableBody>
-          {[...Array(10)].map((_, index) => (
-            <TableRow
-              key={index.toString()}
-              className="h-[49px] hover:bg-transparent"
-            >
+          {Array.from({ length: 10 }, () => uuidv4()).map((id) => (
+            <TableRow key={id} className="h-[49px] hover:bg-transparent">
               {columns.map((column) => (
                 <TableCell key={column.id}>
                   <Skeleton className="h-3 w-2/3" />
