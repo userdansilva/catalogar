@@ -125,10 +125,10 @@ export const columns: ColumnDef<Category>[] = [
       const [alertDialogOpen, setAlertDialogOpen] = useState(false);
       const [dropdownOpen, setDropdownOpen] = useState(false);
 
-      const form = useForm<z.infer<typeof schema>>({
+      const form = useForm({
         resolver: zodResolver(schema),
         defaultValues: {
-          confirm: "" as "DELETAR",
+          confirm: "",
         },
       });
 
