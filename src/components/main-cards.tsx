@@ -75,11 +75,11 @@ export function MainCards({
 
         <CardFooter className="flex size-full items-center pr-6 sm:w-auto lg:pb-0">
           {user.currentCatalog.isPublished ? (
-            <Button className="dark w-full sm:w-auto" asChild>
+            <Button className="dark bg-foreground w-full sm:w-auto" asChild>
               <Link href={publicLink}>Acessar</Link>
             </Button>
           ) : (
-            <Button className="dark w-full sm:w-auto" asChild>
+            <Button className="dark bg-foreground w-full sm:w-auto" asChild>
               <Link href={routes.catalog.sub.prePublish.url}>
                 <Rocket className="text-background size-4" />
                 Publicar

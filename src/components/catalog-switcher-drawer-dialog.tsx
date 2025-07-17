@@ -233,11 +233,11 @@ export function CatalogSwitcherDrawerDialog({
         </CatalogSwitcherCard>
 
         <DrawerContent>
-          <DrawerHeader>
+          <DrawerHeader className="mb-2">
             <DrawerTitle>Qual catálogo deseja visualizar?</DrawerTitle>
           </DrawerHeader>
-          <ScrollArea className="h-[calc(100vh-200px)] pt-6">
-            <div className="pb-6">
+          <ScrollArea className="h-[calc(100vh-200px)]">
+            <div className="pb-32">
               <CatalogSwitcherForm
                 form={form}
                 onSubmit={handleSubmitWithAction}
@@ -246,7 +246,7 @@ export function CatalogSwitcherDrawerDialog({
               />
             </div>
           </ScrollArea>
-          <DialogFooter>
+          <DialogFooter className="bg-background sticky bottom-0 pt-4">
             <DrawerClose asChild>
               <Button variant="ghost">Cancelar</Button>
             </DrawerClose>
