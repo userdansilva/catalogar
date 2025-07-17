@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-// import { routes } from "@/routes";
 import { Button } from "@/shadcn/components/ui/button";
 import logo from "@/assets/images/logo.svg";
 
