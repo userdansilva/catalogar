@@ -8,13 +8,13 @@ export const switchCatalogAction = authActionClient
   .metadata({
     actionName: "switch-catalog-action",
   })
-  .action(async ({ parsedInput: { id }, ctx: { accessToken } }) => {
+  .action(async ({ parsedInput: { id }, ctx: { Authorization } }) => {
     await fetch(
       `${process.env.API_URL}/api/v1/users/me/current-catalog/${id}`,
       {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization,
         },
       },
     );

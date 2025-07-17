@@ -18,7 +18,7 @@ export const updateProductTypeAction = authActionClient
   .action(
     async ({
       parsedInput: { id, name, isDisabled },
-      ctx: { accessToken, user },
+      ctx: { Authorization, user },
     }) => {
       try {
         const res = await api.put<ApiResponse<ProductType>>(
@@ -30,7 +30,7 @@ export const updateProductTypeAction = authActionClient
           },
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization,
             },
           },
         );

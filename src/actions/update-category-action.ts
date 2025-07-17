@@ -18,7 +18,7 @@ export const updateCategoryAction = authActionClient
   .action(
     async ({
       parsedInput: { id, name, textColor, backgroundColor, isDisabled },
-      ctx: { accessToken, user },
+      ctx: { Authorization, user },
     }) => {
       try {
         const res = await api.put<ApiResponse<Category>>(
@@ -32,7 +32,7 @@ export const updateCategoryAction = authActionClient
           },
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization,
             },
           },
         );

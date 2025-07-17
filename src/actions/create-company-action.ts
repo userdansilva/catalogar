@@ -23,7 +23,7 @@ export const createCompanyAction = authActionClient
         phoneNumber,
         businessTypeDescription,
       },
-      ctx: { accessToken },
+      ctx: { Authorization },
     }) => {
       try {
         const res = await api.post<ApiResponse<Company>>(
@@ -37,7 +37,7 @@ export const createCompanyAction = authActionClient
           },
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization,
             },
           },
         );

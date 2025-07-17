@@ -25,7 +25,7 @@ export const createCatalogItemAction = authActionClient
         categoryIds,
         isDisabled,
       },
-      ctx: { accessToken, user },
+      ctx: { Authorization, user },
     }) => {
       try {
         const res = await api.post<ApiResponse<CatalogItem>>(
@@ -44,7 +44,7 @@ export const createCatalogItemAction = authActionClient
           },
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization,
             },
           },
         );

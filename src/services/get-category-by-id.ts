@@ -1,18 +1,13 @@
-import { redirect } from "next/navigation";
-import { auth } from "@/auth";
-import { routes } from "@/routes";
 import { tags } from "@/tags";
 import { ApiResponse } from "@/types/api-response";
 import { Category } from "@/types/api-types";
+import { getSession } from "@/utils/get-session";
 
 export async function getCategoryById(id: string) {
-  const session = await auth();
-  if (!session) redirect(routes.auth.sub.login.url);
+  const { Authorization } = await getSession();
 
   const res = await fetch(`${process.env.API_URL}/api/v1/categories/${id}`, {
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
-    },
+    headers: { Authorization },
     next: { tags: [tags.categories.getById(id)] },
   });
 

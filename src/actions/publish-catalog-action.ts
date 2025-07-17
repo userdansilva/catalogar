@@ -15,10 +15,9 @@ export const publishCatalogAction = authActionClient
   .metadata({
     actionName: "publish-catalog",
   })
-  .action(async ({ parsedInput: { slug }, ctx: { accessToken } }) => {
+  .action(async ({ parsedInput: { slug }, ctx: { Authorization } }) => {
     const { data: user } = await getUser();
 
-    /** Criar endpoint específico no backend para isso */
     try {
       const res = await api.put<ApiResponse<Catalog>>(
         "/v1/catalogs",
@@ -29,7 +28,7 @@ export const publishCatalogAction = authActionClient
         },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization,
           },
         },
       );

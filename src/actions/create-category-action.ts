@@ -18,7 +18,7 @@ export const createCategoryAction = authActionClient
   .action(
     async ({
       parsedInput: { name, textColor, backgroundColor, isDisabled },
-      ctx: { accessToken, user },
+      ctx: { Authorization, user },
     }) => {
       try {
         const res = await api.post<ApiResponse<Category>>(
@@ -32,7 +32,7 @@ export const createCategoryAction = authActionClient
           },
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization,
             },
           },
         );

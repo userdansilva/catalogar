@@ -26,7 +26,7 @@ export const updateCatalogItemAction = authActionClient
         categoryIds,
         isDisabled,
       },
-      ctx: { accessToken, user },
+      ctx: { Authorization, user },
     }) => {
       try {
         const res = await api.put<ApiResponse<CatalogItem>>(
@@ -45,7 +45,7 @@ export const updateCatalogItemAction = authActionClient
           },
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization,
             },
           },
         );

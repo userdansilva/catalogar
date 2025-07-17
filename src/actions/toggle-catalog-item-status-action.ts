@@ -15,7 +15,7 @@ export const toggleCatalogItemStatusAction = authActionClient
   .metadata({
     actionName: "toggle-catalog-item-status",
   })
-  .action(async ({ parsedInput: { id }, ctx: { accessToken, user } }) => {
+  .action(async ({ parsedInput: { id }, ctx: { Authorization, user } }) => {
     try {
       const { data: catalogItem } = await getCatalogItemById(id);
 
@@ -35,7 +35,7 @@ export const toggleCatalogItemStatusAction = authActionClient
         },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization,
           },
         },
       );

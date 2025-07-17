@@ -1,8 +1,7 @@
-import { redirect } from "next/navigation";
-import { auth } from "@/auth";
 import { tags } from "@/tags";
 import { ApiResponse } from "@/types/api-response";
 import { User, UserWithCatalog } from "@/types/api-types";
+import { getSession } from "@/utils/get-session";
 
 /**
  * @tag user
@@ -10,13 +9,10 @@ import { User, UserWithCatalog } from "@/types/api-types";
 export async function getUser<
   T extends User | UserWithCatalog = UserWithCatalog,
 >() {
-  const session = await auth();
-  if (!session) redirect("/entrar");
+  const { Authorization } = await getSession();
 
   const res = await fetch(`${process.env.API_URL}/api/v1/users/me`, {
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
-    },
+    headers: { Authorization },
     next: { tags: [tags.users.me] },
   });
 

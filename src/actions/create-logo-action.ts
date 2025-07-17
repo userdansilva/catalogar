@@ -8,7 +8,7 @@ import { api } from "./api";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { authActionClient } from "./safe-action";
 import { imageSchema } from "./schema";
-import { getFileType } from "@/utils/getFileType";
+import { getFileType } from "@/utils/get-file-type";
 import { StorageSasToken } from "@/types/api-types";
 import { ApiResponse } from "@/types/api-response";
 
@@ -17,7 +17,7 @@ export const createLogoAction = authActionClient
   .metadata({
     actionName: "create-logo",
   })
-  .action(async ({ parsedInput: { image }, ctx: { accessToken } }) => {
+  .action(async ({ parsedInput: { image }, ctx: { Authorization } }) => {
     try {
       const arrayBuffer = await image.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
@@ -32,7 +32,7 @@ export const createLogoAction = authActionClient
         },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization,
           },
         },
       );

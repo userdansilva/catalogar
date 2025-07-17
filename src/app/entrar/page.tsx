@@ -1,8 +1,8 @@
 "use client";
 
-import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { routes } from "@/routes";
+import Link from "next/link";
+// import { routes } from "@/routes";
 import { Button } from "@/shadcn/components/ui/button";
 import logo from "@/assets/images/logo.svg";
 
@@ -24,16 +24,8 @@ export default function SignInOrRegister() {
         </div>
 
         <div className="mt-8 flex justify-center">
-          <Button
-            size="lg"
-            className="w-full max-w-xs"
-            onClick={() =>
-              signIn("azure-ad-b2c", {
-                callbackUrl: routes.dashboard.url,
-              })
-            }
-          >
-            Entrar / Cadastrar
+          <Button size="lg" className="w-full max-w-xs" asChild>
+            <Link href="/auth/login">Entrar / Cadastrar</Link>
           </Button>
         </div>
 

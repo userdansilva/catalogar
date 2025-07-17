@@ -19,7 +19,7 @@ export const updateCatalogAction = authActionClient
   .action(
     async ({
       parsedInput: { name, isPublished },
-      ctx: { accessToken, user },
+      ctx: { Authorization, user },
     }) => {
       try {
         // Publicar pela a primeira vez
@@ -31,7 +31,7 @@ export const updateCatalogAction = authActionClient
             },
             {
               headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization,
               },
             },
           );
@@ -51,7 +51,7 @@ export const updateCatalogAction = authActionClient
           },
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization,
             },
           },
         );

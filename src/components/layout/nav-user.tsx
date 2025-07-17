@@ -1,9 +1,7 @@
 "use client";
 
 import { Book, ChevronsUpDown, LogOut } from "lucide-react";
-import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { signOutUrl } from "@/auth";
 import { routes } from "@/routes";
 import { Avatar, AvatarFallback } from "@/shadcn/components/ui/avatar";
 import {
@@ -93,16 +91,11 @@ export function NavUser({ user }: NavUserProps) {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem
-                onClick={() =>
-                  signOut({
-                    callbackUrl: signOutUrl,
-                  })
-                }
-                className="cursor-pointer"
-              >
-                <LogOut />
-                Sair
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link href="/auth/logout">
+                  <LogOut />
+                  Sair
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

@@ -14,7 +14,7 @@ export const createCatalogAction = authActionClient
   .metadata({
     actionName: "create-catalog",
   })
-  .action(async ({ parsedInput: { name }, ctx: { accessToken } }) => {
+  .action(async ({ parsedInput: { name }, ctx: { Authorization } }) => {
     try {
       const res = await api.post<ApiResponse<Catalog>>(
         "/v1/catalogs",
@@ -23,7 +23,7 @@ export const createCatalogAction = authActionClient
         },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization,
           },
         },
       );

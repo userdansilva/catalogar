@@ -15,7 +15,7 @@ export const toggleCategoryStatusAction = authActionClient
   .metadata({
     actionName: "toggle-status-category",
   })
-  .action(async ({ parsedInput: { id }, ctx: { accessToken, user } }) => {
+  .action(async ({ parsedInput: { id }, ctx: { Authorization, user } }) => {
     try {
       const { data: category } = await getCategoryById(id);
 
@@ -27,7 +27,7 @@ export const toggleCategoryStatusAction = authActionClient
         },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization,
           },
         },
       );

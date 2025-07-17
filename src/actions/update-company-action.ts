@@ -23,7 +23,7 @@ export const updateCompanyAction = authActionClient
         phoneNumber,
         businessTypeDescription,
       },
-      ctx: { accessToken, user },
+      ctx: { Authorization, user },
     }) => {
       try {
         const res = await api.put<ApiResponse<Company>>(
@@ -37,7 +37,7 @@ export const updateCompanyAction = authActionClient
           },
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization,
             },
           },
         );

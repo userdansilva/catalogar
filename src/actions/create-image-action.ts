@@ -15,7 +15,7 @@ export const createImageAction = authActionClient
   .metadata({
     actionName: "create-image",
   })
-  .action(async ({ parsedInput: { image }, ctx: { accessToken } }) => {
+  .action(async ({ parsedInput: { image }, ctx: { Authorization } }) => {
     try {
       const arrayBuffer = await image.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
@@ -27,7 +27,7 @@ export const createImageAction = authActionClient
         },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization,
           },
         },
       );

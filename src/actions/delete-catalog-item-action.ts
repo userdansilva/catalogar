@@ -11,11 +11,11 @@ export const deleteCatalogItemAction = authActionClient
   .metadata({
     actionName: "delete-catalog-item",
   })
-  .action(async ({ parsedInput: { id }, ctx: { accessToken, user } }) => {
+  .action(async ({ parsedInput: { id }, ctx: { Authorization, user } }) => {
     try {
       await api.delete<void>(`/v1/catalog-items/${id}`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization,
         },
       });
 

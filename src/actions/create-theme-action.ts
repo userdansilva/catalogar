@@ -17,7 +17,7 @@ export const createThemeAction = authActionClient
   .action(
     async ({
       parsedInput: { primaryColor, secondaryColor, logo },
-      ctx: { accessToken },
+      ctx: { Authorization },
     }) => {
       try {
         const res = await api.post<ApiResponse<Theme>>(
@@ -29,7 +29,7 @@ export const createThemeAction = authActionClient
           },
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization,
             },
           },
         );

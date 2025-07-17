@@ -15,7 +15,7 @@ export const toggleProductTypeStatusAction = authActionClient
   .metadata({
     actionName: "switch-product-type-enable",
   })
-  .action(async ({ parsedInput: { id }, ctx: { accessToken, user } }) => {
+  .action(async ({ parsedInput: { id }, ctx: { Authorization, user } }) => {
     try {
       const { data: productType } = await getProductTypeById(id);
 
@@ -27,7 +27,7 @@ export const toggleProductTypeStatusAction = authActionClient
         },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization,
           },
         },
       );
