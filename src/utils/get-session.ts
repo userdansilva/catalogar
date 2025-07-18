@@ -6,9 +6,7 @@ export async function getSession() {
   const session = await auth0.getSession();
   if (!session) redirect(routes.auth.sub.login.url);
 
-  const { idToken } = session.tokenSet;
+  const { token } = await auth0.getAccessToken();
 
-  if (!idToken) throw new Error("Token not found");
-
-  return { Authorization: `Bearer ${idToken}` };
+  return { Authorization: `Bearer ${token}` };
 }
