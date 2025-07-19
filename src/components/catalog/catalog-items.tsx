@@ -1,6 +1,7 @@
 import { PrivateCatalogItem } from "./private-catalog-item";
 import { CatalogPagination } from "./catalog-pagination";
 import { PublicCatalogItem } from "./public-catalog-item";
+import { CatalogNoResults } from "./catalog-no-results";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
 import { CatalogItem } from "@/types/api-types";
@@ -26,6 +27,7 @@ export function CatalogItems({
   unoptimized?: boolean;
   searchParamNames: {
     page: string;
+    query: string;
   };
 }) {
   const filteredCatalogItems = filterCatalogItems(
@@ -46,6 +48,12 @@ export function CatalogItems({
     currentPage,
     perPage,
   });
+
+  if (paginatedCatalogItems.length === 0) {
+    return (
+      <CatalogNoResults query={query} searchParamNames={searchParamNames} />
+    );
+  }
 
   return (
     <div className="space-y-6">
