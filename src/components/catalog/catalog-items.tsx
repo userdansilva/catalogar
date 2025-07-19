@@ -1,6 +1,6 @@
+import { PrivateCatalogItem } from "./private-catalog-item";
 import { CatalogPagination } from "./catalog-pagination";
 import { PublicCatalogItem } from "./public-catalog-item";
-import { PrivateCatalogItem } from "./private-catalog-item";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
 import { CatalogItem } from "@/types/api-types";

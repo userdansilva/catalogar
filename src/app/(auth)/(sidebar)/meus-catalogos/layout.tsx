@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { routes } from "@/routes";
-import { PrevButton } from "@/components/prev-button";
+import { PrevButton } from "@/components/inputs/prev-button";
 
 export default function MyCatalogsLayout({ children }: PropsWithChildren) {
   return (

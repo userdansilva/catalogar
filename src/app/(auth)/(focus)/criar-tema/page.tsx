@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { CreateThemeForm } from "@/components/forms/create-theme-form";
-import { PrevButton } from "@/components/prev-button";
+import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
 import { UserWithCatalog } from "@/types/api-types";

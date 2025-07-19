@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { PrevButton } from "@/components/prev-button";
+import { PrevButton } from "@/components/inputs/prev-button";
 import { PublishRequirements } from "@/components/publish-requirements";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";

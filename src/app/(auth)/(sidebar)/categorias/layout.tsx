@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import { routes } from "@/routes";
 import { PageHeader } from "@/components/layout/page-header";
-import { PrevButton } from "@/components/prev-button";
+import { PrevButton } from "@/components/inputs/prev-button";
 
 export default function CategoriesLayout({ children }: PropsWithChildren) {
   return (

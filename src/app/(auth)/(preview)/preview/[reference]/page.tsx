@@ -1,5 +1,5 @@
-import { PrevButton } from "@/components/prev-button";
-import { PublicCatalogItemDetail } from "@/components/public-catalog-item-detail";
+import { PrevButton } from "@/components/inputs/prev-button";
+import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getUser } from "@/services/get-user";

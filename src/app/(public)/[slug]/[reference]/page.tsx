@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { PrevButton } from "@/components/prev-button";
-import { PublicCatalogItemDetail } from "@/components/public-catalog-item-detail";
+import { PrevButton } from "@/components/inputs/prev-button";
+import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
 import { routes } from "@/routes";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";

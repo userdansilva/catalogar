@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { ExternalLink, Forward, Menu } from "lucide-react";
-import { Button } from "./inputs/button";
-import { ShareButton } from "./share-button";
+import { Button } from "../inputs/button";
+import { ShareButton } from "../inputs/share-button";
 import { Company, Theme } from "@/types/api-types";
 import {
   Drawer,

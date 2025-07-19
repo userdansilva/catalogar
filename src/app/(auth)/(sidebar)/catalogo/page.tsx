@@ -2,7 +2,7 @@ import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { CatalogItems } from "@/components/catalog-items";
+import { CatalogItems } from "@/components/catalog/catalog-items";
 import { CategoriesFilter } from "@/components/filters/categories-filter";
 import { Button } from "@/components/inputs/button";
 import { ProductTypesFilter } from "@/components/filters/product-types-filter";

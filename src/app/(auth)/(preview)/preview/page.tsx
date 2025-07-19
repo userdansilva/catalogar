@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { CatalogItems } from "@/components/catalog-items";
+import { CatalogItems } from "@/components/catalog/catalog-items";
 import { CategoriesFilter } from "@/components/filters/categories-filter";
 import { ProductTypesFilter } from "@/components/filters/product-types-filter";
 import { QueryFilter } from "@/components/filters/query-filter";

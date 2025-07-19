@@ -1,7 +1,7 @@
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
-import { CatalogLayout } from "@/components/catalog-layout";
+import { CatalogLayout } from "@/components/catalog/catalog-layout";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
 import { Button } from "@/shadcn/components/ui/button";

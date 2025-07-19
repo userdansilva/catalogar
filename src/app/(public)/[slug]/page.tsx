@@ -3,7 +3,7 @@ import { CategoriesFilter } from "@/components/filters/categories-filter";
 import { ProductTypesFilter } from "@/components/filters/product-types-filter";
 import { QueryFilter } from "@/components/filters/query-filter";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
-import { CatalogItems } from "@/components/catalog-items";
+import { CatalogItems } from "@/components/catalog/catalog-items";
 import { SearchParams } from "@/types/system";
 
 const ASCIIforAt = "%40"; // @

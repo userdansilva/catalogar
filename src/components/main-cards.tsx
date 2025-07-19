@@ -11,7 +11,7 @@ import {
   View,
 } from "lucide-react";
 import Link from "next/link";
-import { CopyButton } from "./copy-button";
+import { CopyButton } from "./inputs/copy-button";
 import { routes } from "@/routes";
 import { Button } from "@/shadcn/components/ui/button";
 import {

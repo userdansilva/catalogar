@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { PropsWithChildren } from "react";
-import { CatalogLayout } from "@/components/catalog-layout";
+import { CatalogLayout } from "@/components/catalog/catalog-layout";
 import { routes } from "@/routes";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 

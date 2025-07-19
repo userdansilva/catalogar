@@ -1,12 +1,12 @@
 import { Forward } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ShareButton } from "./share-button";
-import { CopyButton } from "./copy-button";
+import { ShareButton } from "../inputs/share-button";
+import { CopyButton } from "../inputs/copy-button";
 import { CatalogItem, Company } from "@/types/api-types";
 import { ScrollArea, ScrollBar } from "@/shadcn/components/ui/scroll-area";
 import { Badge } from "@/shadcn/components/ui/badge";
-import { CarouselImages } from "@/components/carousel-images";
+import { CarouselImages } from "@/components/catalog/carousel-images";
 
 export function PublicCatalogItemDetail({
   baseUrl,
