@@ -63,7 +63,7 @@ export function CreateCatalogForm() {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome</FormLabel>
+              <FormLabel>Nome do catálogo</FormLabel>
 
               <FormControl>
                 <Input
