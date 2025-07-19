@@ -1,6 +1,7 @@
 import { Plus } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { CatalogItems } from "@/components/catalog-items";
 import { CategoriesFilter } from "@/components/categories-filter";
 import { Button } from "@/components/inputs/button";
@@ -30,9 +31,14 @@ export default async function Page({
 }: {
   searchParams: SearchParams<typeof SEARCH_PARAM_NAMES>;
 }) {
+  const { data: catalogItems } = await getCatalogItems();
+
+  if (catalogItems.length === 0) {
+    redirect(routes.catalogItems.sub.createFirst.url);
+  }
+
   const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
-  const { data: catalogItems } = await getCatalogItems();
 
   const { categoria, p, produto, busca } = await searchParams;
 

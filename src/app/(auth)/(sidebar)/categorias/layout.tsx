@@ -1,26 +1,17 @@
 import { PropsWithChildren } from "react";
-import { redirect } from "next/navigation";
 import { routes } from "@/routes";
-import { getCategories } from "@/services/get-categories";
 import { PageHeader } from "@/components/layout/page-header";
 import { PrevButton } from "@/components/prev-button";
 
-export default async function CategoriesLayout({
-  children,
-}: PropsWithChildren) {
-  const { data: categories } = await getCategories();
-
-  if (categories.length === 0) {
-    redirect(routes.categories.sub.createFirst.url);
-  }
-
+export default function CategoriesLayout({ children }: PropsWithChildren) {
   return (
     <div className="space-y-6">
       <PrevButton fallbackUrl={routes.dashboard.url} />
 
       <PageHeader
         title={routes.categories.title}
-        description="Estas são as categorias cadastradas neste catálogo. Adicione, edite, desative ou exclua conforme precisar."
+        description="Estas são as categorias cadastradas neste catálogo. Adicione, 
+        edite, desative ou exclua conforme precisar."
       />
 
       {children}

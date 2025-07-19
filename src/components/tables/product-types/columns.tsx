@@ -56,14 +56,16 @@ import { Input } from "@/shadcn/components/ui/input";
 
 export const columns: ColumnDef<ProductType>[] = [
   {
+    id: "name",
     header: "Nome",
     accessorKey: "name",
   },
   {
+    id: "status",
     accessorKey: "isDisabled",
     header: "Ativo",
     cell: ({ row }) => {
-      const isDisabled = row.getValue("isDisabled");
+      const { isDisabled } = row.original;
 
       return !isDisabled ? (
         <Check className="size-4" />
@@ -73,20 +75,24 @@ export const columns: ColumnDef<ProductType>[] = [
     },
   },
   {
+    id: "createdAt",
     accessorKey: "createdAt",
     header: "Criado em",
     cell: ({ row }) => {
-      const createdAt = new Date(row.getValue("createdAt"));
+      const createdAt = new Date(row.original.createdAt);
+
       return format(createdAt, "dd/MM/yyyy", {
         locale: ptBR,
       });
     },
   },
   {
+    id: "updatedAt",
     accessorKey: "updatedAt",
     header: "Atualizado em",
     cell: ({ row }) => {
-      const updatedAt = new Date(row.getValue("updatedAt"));
+      const updatedAt = new Date(row.original.updatedAt);
+
       return format(updatedAt, "dd/MM/yyyy", {
         locale: ptBR,
       });
@@ -95,8 +101,7 @@ export const columns: ColumnDef<ProductType>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { id } = row.original;
-      const isDisabled = row.getValue("isDisabled");
+      const { id, isDisabled } = row.original;
 
       const schema = z.object({
         confirm: z
