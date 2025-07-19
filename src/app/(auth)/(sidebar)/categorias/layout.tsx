@@ -20,7 +20,7 @@ export default async function CategoriesLayout({
 
       <PageHeader
         title={routes.categories.title}
-        description={routes.categories.description}
+        description="Aqui você pode ver a lista de categorias já cadastradas, adicionar, editar, desativar ou excluir."
       />
 
       {children}

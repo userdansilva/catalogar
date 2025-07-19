@@ -16,8 +16,6 @@ export const routes = {
   },
   catalog: {
     title: "Catálogo",
-    description:
-      "The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.",
     icon: Book,
     url: "/meus-catalogos",
     sub: {
@@ -58,15 +56,12 @@ export const routes = {
     url: "/preview",
     sub: {
       catalogItemDetail: {
-        title: "Detalhe item de catálogo",
         url: (reference: number) => `/preview/${reference}`,
       },
     },
   },
   catalogItems: {
     title: "Catálogo",
-    description:
-      "Estes são os itens já cadastrados neste catálogo. Você pode adicionar, editar, ocultar ou excluir um item.",
     icon: Book,
     url: "/catalogo",
     sub: {
@@ -94,8 +89,6 @@ export const routes = {
   },
   categories: {
     title: "Categorias",
-    description:
-      "Aqui você pode ver a lista de categorias já cadastradas, adicionar, editar, desativar ou excluir.",
     icon: Filter,
     url: "/categorias",
     sub: {
@@ -115,8 +108,6 @@ export const routes = {
   },
   productTypes: {
     title: "Tipos de Produto",
-    description:
-      "Aqui você pode ver a lista de tipos produtos já cadastrados, adicionar, editar, desativar ou excluir.",
     icon: List,
     url: "/tipos-de-produto",
     sub: {
@@ -136,7 +127,6 @@ export const routes = {
   },
   company: {
     title: "Empresa",
-    description: "Aqui você pode atualizar as informações da sua empresa",
     icon: Building2,
     url: "/empresa",
     sub: {
@@ -148,7 +138,6 @@ export const routes = {
   },
   theme: {
     title: "Tema",
-    description: "Aqui você pode atualizar o tema do seu catálogo",
     icon: Palette,
     url: "/tema",
     sub: {
@@ -160,7 +149,6 @@ export const routes = {
   },
   config: {
     title: "Configuração",
-    description: "Aqui você pode atualizar as configurações do seu catálogo",
     icon: Settings,
     url: "/configuracao",
   },
