@@ -141,7 +141,7 @@ export default function NavMain({
                     </SidebarMenuButton>
                   </TooltipTrigger>
 
-                  <TooltipContent side="right" className="ml-2 max-w-80">
+                  <TooltipContent side="right" className="max-w-80">
                     {item.lockReason}
                   </TooltipContent>
                 </Tooltip>
