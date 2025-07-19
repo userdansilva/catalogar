@@ -18,7 +18,7 @@ export default async function Layout({ children }: PropsWithChildren) {
 
       <PageHeader
         title={routes.productTypes.title}
-        description="Aqui você pode ver a lista de tipos produtos já cadastrados, adicionar, editar, desativar ou excluir."
+        description="Estes são os tipos de produto cadastrados. Adicione, edite, desative ou exclua conforme precisar."
       />
 
       {children}

@@ -10,7 +10,7 @@ export default function ConfigLayout({ children }: PropsWithChildren) {
 
       <PageHeader
         title={routes.config.title}
-        description="Aqui você pode atualizar as configurações do seu catálogo"
+        description="Estas são as configurações do seu catálogo. Você pode atualizá-las a qualquer momento."
       />
 
       {children}

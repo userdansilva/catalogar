@@ -10,7 +10,7 @@ export default function CompanyLayout({ children }: PropsWithChildren) {
 
       <PageHeader
         title={routes.company.title}
-        description="Aqui você pode atualizar as informações da sua empresa"
+        description="Estas são as informações da sua empresa. Mantenha sempre atualizadas."
       />
 
       {children}

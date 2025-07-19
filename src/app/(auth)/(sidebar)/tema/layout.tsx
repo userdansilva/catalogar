@@ -10,7 +10,7 @@ export default function CompanyLayout({ children }: PropsWithChildren) {
 
       <PageHeader
         title={routes.theme.title}
-        description="Aqui você pode atualizar o tema do seu catálogo"
+        description="Personalize o tema do seu catálogo."
       />
 
       {children}

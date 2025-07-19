@@ -18,7 +18,7 @@ export default async function Layout({ children }: PropsWithChildren) {
 
       <PageHeader
         title={routes.catalogItems.title}
-        description="Estes são os itens já cadastrados neste catálogo. Você pode adicionar, editar, ocultar ou excluir um item."
+        description="Gerencie os itens deste catálogo: adicione novos, edite os existentes ou remova o que não precisar mais."
       />
 
       {children}
