@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { CatalogItems } from "@/components/catalog-items";
-import { CategoriesFilter } from "@/components/categories-filter";
-import { ProductTypesFilter } from "@/components/product-types-filter";
-import { QueryFilter } from "@/components/query-filter";
+import { CategoriesFilter } from "@/components/filters/categories-filter";
+import { ProductTypesFilter } from "@/components/filters/product-types-filter";
+import { QueryFilter } from "@/components/filters/query-filter";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";

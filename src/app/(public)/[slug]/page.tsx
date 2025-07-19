@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import { CategoriesFilter } from "@/components/categories-filter";
-import { ProductTypesFilter } from "@/components/product-types-filter";
-import { QueryFilter } from "@/components/query-filter";
+import { CategoriesFilter } from "@/components/filters/categories-filter";
+import { ProductTypesFilter } from "@/components/filters/product-types-filter";
+import { QueryFilter } from "@/components/filters/query-filter";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 import { CatalogItems } from "@/components/catalog-items";
 import { SearchParams } from "@/types/system";
