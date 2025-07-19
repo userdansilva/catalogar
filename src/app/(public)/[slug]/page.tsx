@@ -5,23 +5,24 @@ import { QueryFilter } from "@/components/filters/query-filter";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 import { CatalogItems } from "@/components/catalog/catalog-items";
 import { SearchParams } from "@/types/system";
+import { defineSearchParamNames } from "@/utils/define-search-param-names";
 
 const ASCIIforAt = "%40"; // @
 const ITEMS_PER_PAGE = 16;
 
-const SEARCH_PARAM_NAMES = {
+const SEARCH_PARAM_NAMES = defineSearchParamNames({
   page: "p",
   query: "busca",
   categorySlug: "categoria",
   productSlug: "produto",
-};
+});
 
 export default async function Page({
   params,
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: SearchParams<typeof SEARCH_PARAM_NAMES>;
+  searchParams: Promise<SearchParams<typeof SEARCH_PARAM_NAMES>>;
 }) {
   const { slug: slugWithAt } = await params;
 
@@ -33,9 +34,9 @@ export default async function Page({
 
   const { data: catalog } = await getPublicCatalogBySlug(slug);
 
-  const { q, p, categoria, produto } = await searchParams;
+  const { busca, categoria, p, produto } = await searchParams;
 
-  const query = q || "";
+  const query = busca || "";
   const productTypeSlug = produto || "";
   const categorySlug = categoria || "";
   const currentPage = Number(p) || 1;

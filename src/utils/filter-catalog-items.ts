@@ -18,6 +18,7 @@ export function filterCatalogItems(
     const fuse = new Fuse(catalogItems, {
       keys: ["title", "caption", "productType.name", "category.name"],
       ignoreDiacritics: true,
+      // threshold: 0.6, // default
     });
 
     result = fuse.search(filters.query).map((_) => _.item);

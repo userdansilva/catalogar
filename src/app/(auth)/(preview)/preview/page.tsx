@@ -9,6 +9,7 @@ import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
 import { getUser } from "@/services/get-user";
 import { SearchParams } from "@/types/system";
+import { defineSearchParamNames } from "@/utils/define-search-param-names";
 
 export const metadata: Metadata = {
   title: routes.preview.title,
@@ -16,26 +17,26 @@ export const metadata: Metadata = {
 
 const ITEMS_PER_PAGE = 16;
 
-const SEARCH_PARAM_NAMES = {
+const SEARCH_PARAM_NAMES = defineSearchParamNames({
   page: "p",
   query: "busca",
   categorySlug: "categoria",
   productSlug: "produto",
-};
+});
 
 export default async function Preview({
   searchParams,
 }: {
-  searchParams: SearchParams<typeof SEARCH_PARAM_NAMES>;
+  searchParams: Promise<SearchParams<typeof SEARCH_PARAM_NAMES>>;
 }) {
   const { data: user } = await getUser();
   const { data: catalogItems } = await getCatalogItems();
   const { data: productTypes } = await getProductTypes();
   const { data: categories } = await getCategories();
 
-  const { q, p, categoria, produto } = await searchParams;
+  const { busca, p, categoria, produto } = await searchParams;
 
-  const query = q || "";
+  const query = busca || "";
   const productTypeSlug = produto || "";
   const categorySlug = categoria || "";
   const currentPage = Number(p) || 1;
