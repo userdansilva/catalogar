@@ -96,49 +96,57 @@ export function QueryFilter({
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="relative">
-        <Search className="text-muted-foreground absolute top-1/2 left-4 size-5 -translate-y-1/2" />
+    <div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="relative">
+          <Search className="text-muted-foreground absolute top-1/2 left-4 size-5 -translate-y-1/2" />
 
-        <FormField
-          name="query"
-          control={form.control}
-          render={({ field }) => (
-            <Input
-              placeholder="O que você está procurando?"
-              className="bg-background ring-input focus-visible:ring-ring h-14 w-full rounded-full border-0 px-12 text-sm shadow-xs ring-1 ring-inset focus-visible:ring-2 sm:text-base"
-              autoCorrect="off"
-              spellCheck="false"
-              disabled={form.formState.isSubmitting}
-              {...field}
-            />
+          <FormField
+            name="query"
+            control={form.control}
+            render={({ field }) => (
+              <Input
+                placeholder="O que você está procurando?"
+                className="bg-background ring-input focus-visible:ring-ring h-14 w-full rounded-full border-0 pr-28 pl-12 text-sm shadow-xs ring-1 ring-inset focus-visible:ring-2 sm:text-base"
+                autoCorrect="off"
+                spellCheck="false"
+                disabled={form.formState.isSubmitting}
+                {...field}
+              />
+            )}
+          />
+
+          {currentQuery && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={handleClear}
+              className="text-muted-foreground hover:text-foreground absolute top-1/2 right-20 -translate-y-1/2"
+            >
+              <X className="size-5" />
+              <span className="sr-only">Limpar busca</span>
+            </Button>
           )}
-        />
-
-        {currentQuery && (
           <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={handleClear}
-            className="text-muted-foreground hover:text-foreground absolute top-1/2 right-20 size-5 -translate-y-1/2"
+            type="submit"
+            size="sm"
+            className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full shadow-none"
+            style={{
+              background: secondaryColor,
+              color: primaryColor,
+            }}
           >
-            <X className="size-5" />
-            <span className="sr-only">Limpar busca</span>
+            Buscar
           </Button>
-        )}
-        <Button
-          type="submit"
-          size="sm"
-          className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full shadow-none"
-          style={{
-            background: secondaryColor,
-            color: primaryColor,
-          }}
-        >
-          Buscar
-        </Button>
-      </form>
-    </Form>
+        </form>
+      </Form>
+
+      {currentQuery && (
+        <h2 className="mt-4 text-center text-3xl font-bold tracking-tight">
+          {currentQuery}
+        </h2>
+      )}
+    </div>
   );
 }
