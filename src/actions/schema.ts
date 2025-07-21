@@ -74,7 +74,7 @@ export const themeSchema = z.object({
  * Category
  */
 export const categorySchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.uuid({ version: "v4" }).optional(),
   name: z.string().min(1, "Campo obrigatório"),
   textColor: z.string().min(1, "Campo obrigatório"),
   backgroundColor: z.string().min(1, "Campo obrigatório"),
@@ -82,27 +82,27 @@ export const categorySchema = z.object({
 });
 
 export const categoryStatusToggleSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid({ version: "v4" }),
 });
 
 /**
  * Product Type
  */
 export const productTypeSchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.uuid({ version: "v4" }).optional(),
   name: z.string().min(1, "Campo obrigatório"),
   isDisabled: z.boolean(),
 });
 
 export const productTypeStatusToggleSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid({ version: "v4" }),
 });
 
 /**
  * Catalog Item
  */
 export const catalogItemSchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.uuid({ version: "v4" }).optional(),
   title: z.string().min(1, "Campo obrigatório"),
   caption: z.string().optional(),
   productTypeId: z.string().min(1, "Campo obrigatório").uuid(),
@@ -116,12 +116,12 @@ export const catalogItemSchema = z.object({
     )
     .min(1, "É necessário adicionar, no mínimo, uma imagem"),
   price: z.string().optional(),
-  categoryIds: z.array(z.string().uuid()).optional(),
+  categoryIds: z.array(z.uuid({ version: "v4" })).optional(),
   isDisabled: z.boolean(),
 });
 
 export const catalogItemStatusToggleSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid({ version: "v4" }),
 });
 
 /**
@@ -142,5 +142,5 @@ export const queryFilterSchema = z.object({
  * Common
  */
 export const deleteSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid({ version: "v4" }),
 });
