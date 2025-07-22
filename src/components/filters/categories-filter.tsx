@@ -145,20 +145,23 @@ export function CategoriesFilter({
       {categories
         .filter((category) => !category.isDisabled)
         .sort((a, b) => a.name.localeCompare(b.name))
-        .map((category) => (
-          <Button
-            key={category.id}
-            variant="ghost"
-            className={cn(
-              currentCategorySlug === category.slug &&
-                "underline underline-offset-2",
-            )}
-            asChild
-            size="sm"
-          >
-            <Link href={getSearchUrl(category.slug)}>{category.name}</Link>
-          </Button>
-        ))}
+        .map((category) => {
+          const isSelected = currentCategorySlug === category.slug;
+
+          return (
+            <Button
+              key={category.id}
+              variant="ghost"
+              className={cn(isSelected && "underline underline-offset-2")}
+              asChild
+              size="sm"
+            >
+              <Link href={getSearchUrl(isSelected ? "" : category.slug)}>
+                {category.name}
+              </Link>
+            </Button>
+          );
+        })}
     </div>
   );
 }

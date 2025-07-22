@@ -160,7 +160,7 @@ export function ProductTypesFilter({
                 size="sm"
                 asChild
               >
-                <Link href={searchUrl(productType.slug)}>
+                <Link href={searchUrl(isSelected ? "" : productType.slug)}>
                   {productType.name}
                 </Link>
               </Button>
