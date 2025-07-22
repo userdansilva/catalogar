@@ -27,14 +27,14 @@ jobs:
 
       - name: Sync Environment Variables to Vercel (Preview)
         run: |
-          echo "$NEXT_PUBLIC_BASE_URL" | vercel env add NEXT_PUBLIC_BASE_URL preview --token=$VERCEL_TOKEN --yes
-          echo "API_URL added"              | vercel env add API_URL preview --token=$VERCEL_TOKEN --yes
-          echo "AUTH0_SECRET added"         | vercel env add AUTH0_SECRET preview --token=$VERCEL_TOKEN --yes
-          echo "APP_BASE_URL added"         | vercel env add APP_BASE_URL preview --token=$VERCEL_TOKEN --yes
-          echo "AUTH0_DOMAIN added"         | vercel env add AUTH0_DOMAIN preview --token=$VERCEL_TOKEN --yes
-          echo "AUTH0_CLIENT_ID added"      | vercel env add AUTH0_CLIENT_ID preview --token=$VERCEL_TOKEN --yes
-          echo "AUTH0_CLIENT_SECRET added"  | vercel env add AUTH0_CLIENT_SECRET preview --token=$VERCEL_TOKEN --yes
-          echo "AUTH0_AUDIENCE added"       | vercel env add AUTH0_AUDIENCE preview --token=$VERCEL_TOKEN --yes
+          echo "$NEXT_PUBLIC_BASE_URL" | vercel env add NEXT_PUBLIC_BASE_URL preview --token=${{ secrets.VERCEL_TOKEN }} --yes
+          echo "API_URL added"              | vercel env add API_URL preview --token=${{ secrets.VERCEL_TOKEN }} --yes
+          echo "AUTH0_SECRET added"         | vercel env add AUTH0_SECRET preview --token=${{ secrets.VERCEL_TOKEN }} --yes
+          echo "APP_BASE_URL added"         | vercel env add APP_BASE_URL preview --token=${{ secrets.VERCEL_TOKEN }} --yes
+          echo "AUTH0_DOMAIN added"         | vercel env add AUTH0_DOMAIN preview --token=${{ secrets.VERCEL_TOKEN }} --yes
+          echo "AUTH0_CLIENT_ID added"      | vercel env add AUTH0_CLIENT_ID preview --token=${{ secrets.VERCEL_TOKEN }} --yes
+          echo "AUTH0_CLIENT_SECRET added"  | vercel env add AUTH0_CLIENT_SECRET preview --token=${{ secrets.VERCEL_TOKEN }} --yes
+          echo "AUTH0_AUDIENCE added"       | vercel env add AUTH0_AUDIENCE preview --token=${{ secrets.VERCEL_TOKEN }} --yes
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
