@@ -1,27 +1,33 @@
-import { categorySchema } from "@/actions/schema";
-import { Badge } from "@/shadcn/components/ui/badge";
-import {
-  Card, CardContent, CardDescription, CardHeader, CardTitle,
-} from "@/shadcn/components/ui/card";
-import {
-  Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
-} from "@/shadcn/components/ui/form";
-import { Input } from "@/shadcn/components/ui/input";
 import { FormEventHandler } from "react";
 import { Control, UseFormReturn, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../inputs/button";
+import { categorySchema } from "@/actions/schema";
+import { Badge } from "@/shadcn/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/shadcn/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/shadcn/components/ui/form";
+import { Input } from "@/shadcn/components/ui/input";
 
-export type CategoryFormValues = z.infer<typeof categorySchema>
+export type CategoryFormValues = z.infer<typeof categorySchema>;
 
 function CategoryBadgePreview({
   control,
 }: {
-  control: Control<CategoryFormValues>
+  control: Control<CategoryFormValues>;
 }) {
-  const {
-    name, textColor, backgroundColor,
-  } = useWatch({ control });
+  const { name, textColor, backgroundColor } = useWatch({ control });
 
   return (
     <Badge style={{ color: textColor, background: backgroundColor }}>
@@ -35,9 +41,9 @@ export function CategoryForm({
   onSubmit,
   submitButtonLabel,
 }: {
-  form: UseFormReturn<CategoryFormValues>
-  onSubmit: FormEventHandler<HTMLFormElement>
-  submitButtonLabel: string
+  form: UseFormReturn<CategoryFormValues>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  submitButtonLabel: string;
 }) {
   return (
     <Form {...form}>
@@ -45,17 +51,17 @@ export function CategoryForm({
         <FormField
           name="name"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nome</FormLabel>
 
               <FormControl>
                 <Input
-                  placeholder="Ex.: Diversas"
+                  placeholder="Ex.: Dia dos namorados"
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -67,11 +73,7 @@ export function CategoryForm({
 
         <Card>
           <CardHeader>
-            <CardTitle>Pré visualização</CardTitle>
-            <CardDescription>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Fusce et ligula sit amet est blandit molestie et in purus.
-            </CardDescription>
+            <CardTitle>Pré-visualização</CardTitle>
           </CardHeader>
 
           <CardContent>
@@ -83,7 +85,6 @@ export function CategoryForm({
           <FormField
             name="backgroundColor"
             control={form.control}
-            disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cor de fundo</FormLabel>
@@ -91,7 +92,8 @@ export function CategoryForm({
                 <FormControl>
                   <Input
                     type="color"
-                    className="w-1/2"
+                    className="w-full max-w-48"
+                    disabled={form.formState.isSubmitting}
                     {...field}
                   />
                 </FormControl>
@@ -104,7 +106,6 @@ export function CategoryForm({
           <FormField
             name="textColor"
             control={form.control}
-            disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cor do texto</FormLabel>
@@ -112,7 +113,8 @@ export function CategoryForm({
                 <FormControl>
                   <Input
                     type="color"
-                    className="w-1/2"
+                    className="w-full max-w-48"
+                    disabled={form.formState.isSubmitting}
                     {...field}
                   />
                 </FormControl>

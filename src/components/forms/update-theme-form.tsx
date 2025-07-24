@@ -3,21 +3,24 @@
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { ThemeForm } from "./theme-form";
 import { Company, Theme } from "@/types/api-types";
 import { updateThemeAction } from "@/actions/update-theme-action";
 import { themeSchema } from "@/actions/schema";
 import { routes } from "@/routes";
-import { ThemeForm } from "./theme-form";
 
 export function UpdateThemeForm({
   theme,
   company,
   callbackUrl,
 }: {
-  theme: Theme
-  company?: Company
-  callbackUrl?: string
+  theme: Theme;
+  company?: Company;
+  callbackUrl?: string;
 }) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     updateThemeAction,
     zodResolver(themeSchema),
@@ -27,21 +30,26 @@ export function UpdateThemeForm({
         defaultValues: {
           primaryColor: theme.primaryColor,
           secondaryColor: theme.secondaryColor,
-          logo: theme.logo ? {
-            fileName: theme.logo.url.split("/").pop(),
-            originalFileName: theme.logo.name,
-            height: theme.logo.height,
-            width: theme.logo.width,
-            accessUrl: theme.logo.url,
-          } : null,
-          redirectTo: callbackUrl || routes.theme.url,
+          logo: theme.logo
+            ? {
+                fileName: theme.logo.url.split("/").pop(),
+                originalFileName: theme.logo.name,
+                height: theme.logo.height,
+                width: theme.logo.width,
+                accessUrl: theme.logo.url,
+              }
+            : null,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso!", {
-            description: res.data?.message,
-          });
+          toast.success(
+            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
+            {
+              description: res.data?.message,
+            },
+          );
+          router.push(callbackUrl || routes.theme.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

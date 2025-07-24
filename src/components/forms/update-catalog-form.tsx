@@ -1,44 +1,68 @@
 "use client";
 
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { updateCatalogAction } from "@/actions/update-catalog-action";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updateCatalogSchema } from "@/actions/schema";
 import { toast } from "sonner";
+import { z } from "zod";
+import { useRouter } from "next/navigation";
+import { Button } from "../inputs/button";
+import { updateCatalogAction } from "@/actions/update-catalog-action";
+import { updateCatalogSchema } from "@/actions/schema";
 import { Catalog } from "@/types/api-types";
 import {
-  Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/shadcn/components/ui/form";
-import { z } from "zod";
 import { Input } from "@/shadcn/components/ui/input";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/shadcn/components/ui/select";
-import { Button } from "../inputs/button";
+import { routes } from "@/routes";
 
-export type CatalogFormValues = z.infer<typeof updateCatalogSchema>
+export type CatalogFormValues = z.infer<typeof updateCatalogSchema>;
 
 export function UpdateCatalogForm({
   catalog,
+  callbackUrl,
 }: {
-  catalog: Catalog
+  catalog: Catalog;
+  callbackUrl?: string;
 }) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     updateCatalogAction,
     zodResolver(updateCatalogSchema),
     {
       formProps: {
         mode: "onChange",
-        defaultValues: {
+        // defaultValues: {
+        //   name: catalog.name,
+        //   isPublished: catalog.isPublished,
+        // },
+        values: {
           name: catalog.name,
           isPublished: catalog.isPublished,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso!", {
-            description: res.data?.message,
-          });
+          toast.success(
+            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
+            {
+              description: res.data?.message,
+            },
+          );
+          router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
           const { serverError } = e.error;
@@ -59,7 +83,6 @@ export function UpdateCatalogForm({
         <FormField
           name="name"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nome</FormLabel>
@@ -70,6 +93,7 @@ export function UpdateCatalogForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -86,7 +110,6 @@ export function UpdateCatalogForm({
         <FormField
           name="isPublished"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Visibilidade</FormLabel>
@@ -95,22 +118,25 @@ export function UpdateCatalogForm({
                   field.onChange(e === "PUBLIC");
                 }}
                 defaultValue={field.value ? "PUBLIC" : "PRIVATE"}
+                disabled={form.formState.isSubmitting}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Selecione uma opção" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="PUBLIC">
-                    Público
-                    {" "}
-                    <span className="text-muted-foreground">(Todos podem visualizar)</span>
+                    Público{" "}
+                    <span className="text-muted-foreground">
+                      (Todos podem visualizar)
+                    </span>
                   </SelectItem>
                   <SelectItem value="PRIVATE">
-                    Privado
-                    {" "}
-                    <span className="text-muted-foreground">(Apenas você pode visualizar)</span>
+                    Privado{" "}
+                    <span className="text-muted-foreground">
+                      (Apenas você pode visualizar)
+                    </span>
                   </SelectItem>
                 </SelectContent>
               </Select>
@@ -131,7 +157,7 @@ export function UpdateCatalogForm({
           disabled={form.formState.isSubmitting}
           loading={form.formState.isSubmitting}
         >
-          Salvar Alterações
+          Salvar alterações
         </Button>
       </form>
     </Form>

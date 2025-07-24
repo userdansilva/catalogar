@@ -3,19 +3,28 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { createCatalogAction } from "@/actions/create-catalog-action";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Button } from "../inputs/button";
+import { createCatalogAction } from "@/actions/create-catalog-action";
 import { routes } from "@/routes";
 import { createCatalogSchema } from "@/actions/schema";
 import {
-  Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
-import { Button } from "../inputs/button";
 
-export type CatalogFormValues = z.infer<typeof createCatalogSchema>
+export type CatalogFormValues = z.infer<typeof createCatalogSchema>;
 
 export function CreateCatalogForm() {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     createCatalogAction,
     zodResolver(createCatalogSchema),
@@ -24,7 +33,6 @@ export function CreateCatalogForm() {
         mode: "onChange",
         defaultValues: {
           name: "",
-          redirectTo: routes.dashboard.url,
         },
       },
       actionProps: {
@@ -32,6 +40,7 @@ export function CreateCatalogForm() {
           toast.success("Sucesso! Redirecionando para tela inicial...", {
             description: res.data?.message,
           });
+          router.push(routes.dashboard.url);
         },
         onError: (e) => {
           const { serverError } = e.error;
@@ -52,10 +61,9 @@ export function CreateCatalogForm() {
         <FormField
           name="name"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome</FormLabel>
+              <FormLabel>Nome do catálogo</FormLabel>
 
               <FormControl>
                 <Input
@@ -63,6 +71,7 @@ export function CreateCatalogForm() {
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>

@@ -1,20 +1,16 @@
-import { auth } from "@/auth";
-import { routes } from "@/routes";
 import { tags } from "@/tags";
 import { ApiResponse } from "@/types/api-response";
 import { CatalogItem } from "@/types/api-types";
-import { redirect } from "next/navigation";
+import { getSession } from "@/utils/get-session";
 
 export async function getCatalogItemById(id: string) {
-  const session = await auth();
-  if (!session) redirect(routes.auth.sub.login.url);
+  const { Authorization } = await getSession();
 
   const res = await fetch(`${process.env.API_URL}/api/v1/catalog-items/${id}`, {
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
+    headers: { Authorization },
+    next: {
+      tags: [tags.catalogItems.getById(id), tags.catalogItems.getByIdAny],
     },
-    next: { tags: [tags.catalogItems.getById(id), tags.catalogItems.getByIdAny] },
-    cache: "force-cache",
   });
 
   const data = await res.json();

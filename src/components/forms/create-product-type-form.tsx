@@ -2,17 +2,20 @@
 
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { productTypeSchema } from "@/actions/schema";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { ProductTypeForm } from "./product-type-form";
+import { productTypeSchema } from "@/actions/schema";
 import { routes } from "@/routes";
 import { createProductTypeAction } from "@/actions/create-product-type-action";
-import { ProductTypeForm } from "./product-type-form";
 
 export function CreateProductTypeForm({
   callbackUrl,
 }: {
-  callbackUrl?: string
+  callbackUrl?: string;
 }) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     createProductTypeAction,
     zodResolver(productTypeSchema),
@@ -22,14 +25,17 @@ export function CreateProductTypeForm({
         defaultValues: {
           name: "",
           isDisabled: false,
-          redirectTo: callbackUrl || routes.productTypes.url,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(`Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`, {
-            description: res.data?.message,
-          });
+          toast.success(
+            `Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`,
+            {
+              description: res.data?.message,
+            },
+          );
+          router.push(callbackUrl || routes.productTypes.url);
         },
         onError: (e) => {
           console.error(e);

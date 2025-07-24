@@ -6,26 +6,29 @@ import { validator } from "./validator";
  * Catalog
  */
 const catalogSchema = z.object({
-  name: z.string().min(1, "Campo obrigatório"),
-  slug: z.string().min(1, "Campo obrigatório").and(validator.slugValidator),
+  name: z
+    .string()
+    .min(1, "Campo obrigatório")
+    .max(35, "Máximo de 35 caracteres"),
+  slug: z
+    .string()
+    .min(1, "Campo obrigatório")
+    .max(30, "Máximo de 30 caracteres")
+    .and(validator.slugValidator),
   isPublished: z.boolean(),
-  redirectTo: z.string().optional(),
 });
 
 export const createCatalogSchema = z.object({
   name: catalogSchema.shape.name,
-  redirectTo: catalogSchema.shape.redirectTo,
 });
 
 export const updateCatalogSchema = z.object({
   name: catalogSchema.shape.name,
   isPublished: z.boolean(),
-  redirectTo: catalogSchema.shape.redirectTo,
 });
 
 export const publishCatalogSchema = z.object({
   slug: catalogSchema.shape.slug,
-  redirectTo: catalogSchema.shape.redirectTo,
 });
 
 /**
@@ -35,14 +38,18 @@ export const companySchema = z.object({
   name: z.string().min(1, "Campo obrigatório"),
   description: z.string().optional(),
   mainSiteUrl: z.union([
-    z.string()
+    z
+      .string()
       .url({ message: "Link inválido" })
-      .startsWith("https://", { message: "O link precisa começar com: 'https://'. Ex.: https://catalogar.com.br/" }).optional(),
+      .startsWith("https://", {
+        message:
+          "O link precisa começar com: 'https://'. Ex.: https://catalogar.com.br/",
+      })
+      .optional(),
     z.literal(""),
   ]),
   phoneNumber: z.string().optional(),
   businessTypeDescription: z.string().optional(),
-  redirectTo: z.string().optional(),
 });
 
 /**
@@ -61,63 +68,60 @@ export const themeSchema = z.object({
     }),
     z.null(),
   ]),
-  redirectTo: z.string().optional(),
 });
 
 /**
  * Category
  */
 export const categorySchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.uuid({ version: "v4" }).optional(),
   name: z.string().min(1, "Campo obrigatório"),
   textColor: z.string().min(1, "Campo obrigatório"),
   backgroundColor: z.string().min(1, "Campo obrigatório"),
   isDisabled: z.boolean(),
-  redirectTo: z.string().optional(),
 });
 
 export const categoryStatusToggleSchema = z.object({
-  id: z.string().uuid(),
-  redirectTo: z.string().optional(),
+  id: z.uuid({ version: "v4" }),
 });
 
 /**
  * Product Type
  */
 export const productTypeSchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.uuid({ version: "v4" }).optional(),
   name: z.string().min(1, "Campo obrigatório"),
   isDisabled: z.boolean(),
-  redirectTo: z.string().optional(),
 });
 
 export const productTypeStatusToggleSchema = z.object({
-  id: z.string().uuid(),
-  redirectTo: z.string().optional(),
+  id: z.uuid({ version: "v4" }),
 });
 
 /**
  * Catalog Item
  */
 export const catalogItemSchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.uuid({ version: "v4" }).optional(),
   title: z.string().min(1, "Campo obrigatório"),
   caption: z.string().optional(),
   productTypeId: z.string().min(1, "Campo obrigatório").uuid(),
-  images: z.array(z.object({
-    fileName: z.string(),
-    position: z.number(),
-    accessUrl: z.string(),
-  })).min(1, "É necessário adicionar, no mínimo, uma imagem"),
+  images: z
+    .array(
+      z.object({
+        fileName: z.string(),
+        position: z.number(),
+        accessUrl: z.string(),
+      }),
+    )
+    .min(1, "É necessário adicionar, no mínimo, uma imagem"),
   price: z.string().optional(),
-  categoryIds: z.array(z.string().uuid()).optional(),
+  categoryIds: z.array(z.uuid({ version: "v4" })).optional(),
   isDisabled: z.boolean(),
-  redirectTo: z.string().optional(),
 });
 
 export const catalogItemStatusToggleSchema = z.object({
-  id: z.string().uuid(),
-  redirectTo: z.string().optional(),
+  id: z.uuid({ version: "v4" }),
 });
 
 /**
@@ -138,6 +142,5 @@ export const queryFilterSchema = z.object({
  * Common
  */
 export const deleteSchema = z.object({
-  id: z.string().uuid(),
-  redirectTo: z.string().optional(),
+  id: z.uuid({ version: "v4" }),
 });

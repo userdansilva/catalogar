@@ -1,52 +1,53 @@
 "use client";
 
-import {
-  Card, CardDescription, CardFooter, CardHeader, CardTitle,
-} from "@/shadcn/components/ui/card";
-import { Catalog } from "@/types/api-types";
-import {
-  Box, Check, Plus, Settings,
-} from "lucide-react";
+import { Box, Check, Plus, Settings } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import { toast } from "sonner";
 import Link from "next/link";
-import { routes } from "@/routes";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/shadcn/components/ui/tooltip";
 import { Button } from "./inputs/button";
+import { routes } from "@/routes";
+import { switchCatalogAction } from "@/actions/switch-catalog-action";
+import { Catalog } from "@/types/api-types";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/shadcn/components/ui/card";
 
 type MyCatalogsProps = {
-  catalogs: Catalog[]
-  currentCatalog: Catalog
-}
+  catalogs: Catalog[];
+  currentCatalog: Catalog;
+};
 
-export function MyCatalogs({
-  catalogs, currentCatalog,
-}: MyCatalogsProps) {
+export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
   const switchCatalog = useAction(switchCatalogAction);
 
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-4">
-        <h2 className="scroll-m-20 text-2xl font-bold tracking-tight first:mt-0">
+        <h2 className="flex-1 scroll-m-20 text-2xl font-bold tracking-tight first:mt-0 sm:flex-none">
           Meus catálogos
         </h2>
 
         <Button asChild variant="outline" size="sm">
-          <Link href={routes.catalog.sub.create.url}>
-            <Plus className="size-2" />
+          <Link href={routes.catalog.sub.new.url}>
+            <Plus />
             Adicionar
           </Link>
         </Button>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {catalogs
-          .sort((a, b) => {
+          .toSorted((a, b) => {
             if (a.id === currentCatalog.id) return -1;
             if (b.id === currentCatalog.id) return 1;
 
-            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+            return (
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
           })
           .map((catalog) => {
             const isCurrentCatalog = catalog.id === currentCatalog.id;
@@ -58,52 +59,57 @@ export function MyCatalogs({
                     {catalog.isPublished ? "Público" : "Privado"}
                   </CardDescription>
 
-                  <CardTitle className="text-2xl">
-                    {catalog.name}
-                  </CardTitle>
+                  <CardTitle className="text-2xl">{catalog.name}</CardTitle>
 
-                  <div className="absolute right-4 top-4">
-                    <Box className="size-4 text-muted-foreground" />
+                  <div className="absolute top-4 right-4">
+                    <Box className="text-muted-foreground size-4" />
                   </div>
                 </CardHeader>
 
-                <CardFooter className="space-x-2">
-                  <Button
-                    size="sm"
-                    className="w-full"
-                    disabled={isCurrentCatalog}
-                    variant="outline"
-                    onClick={() => {
-                      if (isCurrentCatalog) return;
-
-                      toast.promise(switchCatalog.executeAsync({ id: catalog.id }), {
-                        loading: "Trocando de catálogo...",
-                        success: () => "Catálogo atual alterado!",
-                      });
-                    }}
-                  >
-                    {isCurrentCatalog ? "Selecionado (Atual)" : "Selecionar"}
-                    {isCurrentCatalog && <Check className="size-3" />}
-                  </Button>
-
+                <CardFooter className="flex flex-row space-x-2">
                   {isCurrentCatalog ? (
-                    <Button size="sm" variant="outline" asChild>
-                      <Link href={routes.config.url}>
-                        <Settings className="size-3" />
-                      </Link>
+                    <Button
+                      size="sm"
+                      className="flex-1"
+                      disabled
+                      variant="outline"
+                    >
+                      Selecionado (atual)
+                      <Check />
                     </Button>
                   ) : (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Button size="sm" variant="outline" disabled>
-                          <Settings className="size-3" />
-                        </Button>
-                      </TooltipTrigger>
+                    <Button
+                      size="sm"
+                      className="flex-1 cursor-pointer"
+                      variant="outline"
+                      onClick={() => {
+                        if (isCurrentCatalog) return;
 
-                      <TooltipContent side="top">
-                        Selecione o catálogo (Selecionar) para acessar configuração
-                      </TooltipContent>
-                    </Tooltip>
+                        toast.promise(
+                          switchCatalog.executeAsync({ id: catalog.id }),
+                          {
+                            loading: "Trocando de catálogo...",
+                            success: () => {
+                              setTimeout(() => {
+                                window.location.reload();
+                              }, 1_000);
+
+                              return "Catálogo atual alterado!";
+                            },
+                          },
+                        );
+                      }}
+                    >
+                      Selecionar
+                    </Button>
+                  )}
+
+                  {isCurrentCatalog && (
+                    <Button size="sm" asChild>
+                      <Link href={routes.config.url}>
+                        <Settings />
+                      </Link>
+                    </Button>
                   )}
                 </CardFooter>
               </Card>

@@ -1,24 +1,21 @@
-import { auth } from "@/auth";
-import { routes } from "@/routes";
+import { formatParamsFrom } from "./format-params-from";
 import { tags } from "@/tags";
 import { ApiResponseWithPagination } from "@/types/api-response";
 import { Category, CategoryFilters } from "@/types/api-types";
-import { redirect } from "next/navigation";
-import { formatParamsFrom } from "./format-params-from";
+import { getSession } from "@/utils/get-session";
 
 export async function getCategories(filters: CategoryFilters = {}) {
-  const session = await auth();
-  if (!session) redirect(routes.auth.sub.login.url);
+  const { Authorization } = await getSession();
 
   const params = formatParamsFrom(filters);
 
-  const res = await fetch(`${process.env.API_URL}/api/v1/categories?${params}`, {
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
+  const res = await fetch(
+    `${process.env.API_URL}/api/v1/categories?${params}`,
+    {
+      headers: { Authorization },
+      next: { tags: [tags.categories.getAll] },
     },
-    next: { tags: [tags.categories.getAll] },
-    cache: "force-cache",
-  });
+  );
 
   const data = await res.json();
 

@@ -1,15 +1,21 @@
 "use client";
 
-import { companySchema } from "@/actions/schema";
-import {
-  Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
-} from "@/shadcn/components/ui/form";
-import { Input } from "@/shadcn/components/ui/input";
-import { Textarea } from "@/shadcn/components/ui/textarea";
 import { FormEventHandler } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../inputs/button";
+import { companySchema } from "@/actions/schema";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/shadcn/components/ui/form";
+import { Input } from "@/shadcn/components/ui/input";
+import { Textarea } from "@/shadcn/components/ui/textarea";
 
 export type CompanyFormValues = z.infer<typeof companySchema>;
 
@@ -18,9 +24,9 @@ export function CompanyForm({
   onSubmit,
   submitButtonLabel = "Salvar alterações",
 }: {
-  form: UseFormReturn<CompanyFormValues>
-  onSubmit: FormEventHandler<HTMLFormElement>
-  submitButtonLabel: string
+  form: UseFormReturn<CompanyFormValues>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  submitButtonLabel: string;
 }) {
   return (
     <Form {...form}>
@@ -28,24 +34,23 @@ export function CompanyForm({
         <FormField
           name="name"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nome da empresa</FormLabel>
 
               <FormControl>
                 <Input
-                  // placeholder="Ex.: Catalogar"
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
 
               <FormDescription>
-                Qual o nome da sua empresa? Você também pode colocar seu
-                slogan (Ex.: Catalogar - O Melhor Sistema de Catálogos!).
+                Você também pode colocar seu slogan (Ex.: Catalogar - O Melhor
+                Sistema de Catálogos).
               </FormDescription>
 
               <FormMessage />
@@ -56,7 +61,6 @@ export function CompanyForm({
         <FormField
           name="description"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Descrição (Opcional)</FormLabel>
@@ -65,13 +69,14 @@ export function CompanyForm({
                 <Textarea
                   className="resize-none"
                   rows={4}
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
 
               <FormDescription>
-                Fale brevemente sobre sua empresa. Isso ajuda seus clientes
-                a entenderem melhor o que você vende.
+                Fale brevemente sobre sua empresa. Isso ajuda seus clientes a
+                entenderem melhor o que você vende.
               </FormDescription>
 
               <FormMessage />
@@ -82,10 +87,9 @@ export function CompanyForm({
         <FormField
           name="mainSiteUrl"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Site oficial (Opcional)</FormLabel>
+              <FormLabel>Link para contato (Opcional)</FormLabel>
 
               <FormControl>
                 <Input
@@ -93,14 +97,15 @@ export function CompanyForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
 
               <FormDescription>
-                Qual o link do seu site? Caso ainda não tenha um site, você pode usar o link
-                do Instagram, Linktree, WhatsApp ou qualquer outro link que ajude seus clientes a
-                entrar em contato.
+                Qual o link do seu site? Caso ainda não tenha um site, você pode
+                usar o link do Instagram, Linktree ou qualquer outro link que
+                ajude seus clientes a entrar em contato.
               </FormDescription>
 
               <FormMessage />

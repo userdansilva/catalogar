@@ -1,23 +1,33 @@
 "use client";
 
-import { catalogItemSchema } from "@/actions/schema";
-import { Checkbox } from "@/shadcn/components/ui/checkbox";
-import {
-  Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,
-} from "@/shadcn/components/ui/form";
-import { Input } from "@/shadcn/components/ui/input";
-import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/shadcn/components/ui/select";
-import { Textarea } from "@/shadcn/components/ui/textarea";
-import { Category, ProductType } from "@/types/api-types";
 import { FormEventHandler } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../inputs/button";
 import { InputImages } from "../inputs/input-images";
+import { catalogItemSchema } from "@/actions/schema";
+import { Checkbox } from "@/shadcn/components/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/shadcn/components/ui/form";
+import { Input } from "@/shadcn/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shadcn/components/ui/select";
+import { Textarea } from "@/shadcn/components/ui/textarea";
+import { Category, ProductType } from "@/types/api-types";
 
-export type CatalogItemFormValues = z.infer<typeof catalogItemSchema>
+export type CatalogItemFormValues = z.infer<typeof catalogItemSchema>;
 
 export function CatalogItemForm({
   form,
@@ -38,8 +48,7 @@ export function CatalogItemForm({
         <FormField
           name="images"
           control={form.control}
-          disabled={form.formState.isSubmitting}
-          render={({ field: { onChange, value, disabled } }) => (
+          render={({ field: { onChange, value } }) => (
             <FormItem>
               <FormLabel>Imagens</FormLabel>
 
@@ -47,31 +56,37 @@ export function CatalogItemForm({
                 <InputImages
                   onChange={onChange}
                   value={value}
-                  disabled={disabled}
+                  disabled={form.formState.isSubmitting}
                 />
               </FormControl>
 
-              <FormDescription>
-                <ul>
-                  <li>As imagens serão exibidas na ordem em que forem adicionadas.</li>
-                  <li>
-                    Formatos: JPG (recomendado), PNG ou WEBP.
-                    (Dica: Use
-                    {" "}
-                    <a href="https://convertio.co/pt/" target="_blank" className="underline underline-offset-2">Convertio.co</a>
-                    {" "}
-                    para alterar o formato).
-                  </li>
-                  <li>
-                    Tamanho máximo: 1MB.
-                    (Dica: Use
-                    {" "}
-                    <a href="https://tinyjpg.com/" target="_blank" className="underline underline-offset-2">TinyJPG</a>
-                    {" "}
-                    para otimizar imagem).
-                  </li>
-                </ul>
-              </FormDescription>
+              <ul className="text-muted-foreground text-sm">
+                <li>
+                  As imagens serão exibidas na ordem em que forem adicionadas.
+                </li>
+                <li>
+                  Formatos: JPG (recomendado), PNG ou WEBP. (Dica: Use{" "}
+                  <a
+                    href="https://convertio.co/pt/"
+                    target="_blank"
+                    className="underline underline-offset-2"
+                  >
+                    Convertio.co
+                  </a>{" "}
+                  para alterar o formato).
+                </li>
+                <li>
+                  Tamanho máximo: 1MB. (Dica: Use{" "}
+                  <a
+                    href="https://tinyjpg.com/"
+                    target="_blank"
+                    className="underline underline-offset-2"
+                  >
+                    TinyJPG
+                  </a>{" "}
+                  para otimizar imagem).
+                </li>
+              </ul>
 
               <FormMessage />
             </FormItem>
@@ -81,7 +96,6 @@ export function CatalogItemForm({
         <FormField
           name="title"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Título</FormLabel>
@@ -91,6 +105,7 @@ export function CatalogItemForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
@@ -103,7 +118,6 @@ export function CatalogItemForm({
         <FormField
           name="caption"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Legenda (Opcional)</FormLabel>
@@ -112,13 +126,14 @@ export function CatalogItemForm({
                 <Textarea
                   placeholder="Descreva o item..."
                   className="resize-none"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>
 
               <FormDescription>
-                Aproveite para incluir palavras-chave que ajudem
-                seus clientes a encontrar esse item mais facilmente na busca.
+                Aproveite para incluir palavras-chave que ajude seus clientes a
+                encontrarem esse item mais facilmente.
               </FormDescription>
 
               <FormMessage />
@@ -129,14 +144,17 @@ export function CatalogItemForm({
         <FormField
           name="productTypeId"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tipo de Produto</FormLabel>
 
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={form.formState.isSubmitting}
+              >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Selecione o tipo de produto" />
                   </SelectTrigger>
                 </FormControl>
@@ -160,15 +178,14 @@ export function CatalogItemForm({
         <FormField
           name="categoryIds"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={() => (
             <FormItem>
               <div className="mb-4">
                 <FormLabel>Categorias (Opcional)</FormLabel>
 
                 <FormDescription>
-                  As categorias ajudam seus clientes a encontrar esse
-                  item mais facilmente filtrando por categoria.
+                  As categorias ajudam seus clientes a encontrar esse item mais
+                  facilmente pelos filtros.
                 </FormDescription>
               </div>
 
@@ -184,18 +201,24 @@ export function CatalogItemForm({
                         render={({ field }) => (
                           <FormItem
                             key={category.id}
-                            className="flex flex-row items-start space-x-2 space-y-0 rounded-md border px-3 py-2"
+                            className="flex flex-row items-start space-y-0 space-x-2 rounded-md border px-3 py-2"
                           >
                             <FormControl>
                               <Checkbox
+                                disabled={form.formState.isSubmitting}
                                 checked={field.value?.includes(category.id)}
-                                onCheckedChange={(checked) => (checked
-                                  ? field.onChange([...(field.value || []), category.id])
-                                  : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== category.id,
-                                    ),
-                                  ))}
+                                onCheckedChange={(checked) =>
+                                  checked
+                                    ? field.onChange([
+                                        ...(field.value || []),
+                                        category.id,
+                                      ])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== category.id,
+                                        ),
+                                      )
+                                }
                               />
                             </FormControl>
 
@@ -208,9 +231,7 @@ export function CatalogItemForm({
                     ))}
                 </div>
               ) : (
-                <div className="text-sm">
-                  Nenhuma categoria adicionada
-                </div>
+                <div className="text-sm">Nenhuma categoria adicionada</div>
               )}
 
               <FormMessage />

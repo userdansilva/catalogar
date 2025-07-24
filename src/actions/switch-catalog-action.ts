@@ -1,7 +1,6 @@
 "use server";
 
 import { z } from "zod";
-import { revalidateTag } from "next/cache";
 import { authActionClient } from "./safe-action";
 
 export const switchCatalogAction = authActionClient
@@ -9,18 +8,14 @@ export const switchCatalogAction = authActionClient
   .metadata({
     actionName: "switch-catalog-action",
   })
-  .action(async ({
-    parsedInput: { id },
-    ctx: { accessToken },
-  }) => {
-    const res = await fetch(`${process.env.API_URL}/api/v1/users/me/current-catalog/${id}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+  .action(async ({ parsedInput: { id }, ctx: { Authorization } }) => {
+    await fetch(
+      `${process.env.API_URL}/api/v1/users/me/current-catalog/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization,
+        },
       },
-    });
-
-    if (!res.ok) return;
-
-    revalidateTag("user");
+    );
   });

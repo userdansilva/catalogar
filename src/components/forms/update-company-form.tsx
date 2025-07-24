@@ -3,20 +3,24 @@
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { CompanyForm } from "./company-form";
 import { Company } from "@/types/api-types";
 import { updateCompanyAction } from "@/actions/update-company-action";
 import { companySchema } from "@/actions/schema";
 import { routes } from "@/routes";
-import { CompanyForm } from "./company-form";
 
 type UpdateCompanyFormProps = {
-  company: Company
-  callbackUrl?: string
-}
+  company: Company;
+  callbackUrl?: string;
+};
 
 export function UpdateCompanyForm({
-  company, callbackUrl,
+  company,
+  callbackUrl,
 }: UpdateCompanyFormProps) {
+  const router = useRouter();
+
   const { form, handleSubmitWithAction } = useHookFormAction(
     updateCompanyAction,
     zodResolver(companySchema),
@@ -29,14 +33,17 @@ export function UpdateCompanyForm({
           mainSiteUrl: company.mainSiteUrl,
           businessTypeDescription: company.businessTypeDescription,
           phoneNumber: company.phoneNumber,
-          redirectTo: callbackUrl || routes.company.url,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso!", {
-            description: res.data?.message,
-          });
+          toast.success(
+            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
+            {
+              description: res.data?.message,
+            },
+          );
+          router.push(callbackUrl || routes.company.url);
         },
         onError: (e) => {
           const { serverError } = e.error;

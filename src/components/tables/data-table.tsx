@@ -1,25 +1,40 @@
 "use client";
 
 import {
-  Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious,
-} from "@/shadcn/components/ui/pagination";
-import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from "@/shadcn/components/ui/table";
-import { Pagination as TPagination } from "@/types/api-response";
-import {
-  ColumnDef, flexRender, getCoreRowModel, useReactTable,
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
 import { usePathname, useSearchParams } from "next/navigation";
+import clsx from "clsx";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/shadcn/components/ui/pagination";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/shadcn/components/ui/table";
+import { Pagination as TPagination } from "@/types/api-response";
 
 type DataTableProps<TData, TValues> = {
-  columns: ColumnDef<TData, TValues>[]
-  data: TData[]
-  pagination: TPagination
-}
+  columns: ColumnDef<TData, TValues>[];
+  data: TData[];
+  pagination: TPagination;
+};
 
 export function DataTable<TData, TValues>({
-  columns, data, pagination,
+  columns,
+  data,
+  pagination,
 }: DataTableProps<TData, TValues>) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -58,13 +73,18 @@ export function DataTable<TData, TValues>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    className={clsx(
+                      header.id === "actions" && "bg-background sticky right-0",
+                    )}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 ))}
               </TableRow>
@@ -79,15 +99,27 @@ export function DataTable<TData, TValues>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    <TableCell
+                      key={cell.id}
+                      className={clsx(
+                        cell.column.id === "actions" &&
+                          "bg-background sticky right-0",
+                      )}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   Sem resutado
                 </TableCell>
               </TableRow>

@@ -1,5 +1,10 @@
 "use client";
 
+import { Box, ChevronsUpDown, Plus } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import { routes } from "@/routes";
 import { Badge } from "@/shadcn/components/ui/badge";
@@ -12,22 +17,21 @@ import {
   DropdownMenuTrigger,
 } from "@/shadcn/components/ui/dropdown-menu";
 import {
-  SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
 } from "@/shadcn/components/ui/sidebar";
 import { Catalog } from "@/types/api-types";
-import { Box, ChevronsUpDown, Plus } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import Link from "next/link";
-import { toast } from "sonner";
-
-type CatalogSwitcheProps = {
-  catalogs: Array<Catalog>
-  currentCatalog: Catalog
-}
 
 export function CatalogSwitcher({
-  catalogs, currentCatalog,
-}: CatalogSwitcheProps) {
+  catalogs,
+  currentCatalog,
+}: {
+  catalogs: Array<Catalog>;
+  currentCatalog: Catalog;
+}) {
+  const router = useRouter();
   const switchCatalog = useAction(switchCatalogAction);
   const { isMobile } = useSidebar();
 
@@ -40,7 +44,7 @@ export function CatalogSwitcher({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                 <Box className="size-4" />
               </div>
 
@@ -58,12 +62,12 @@ export function CatalogSwitcher({
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             align="start"
             side={isMobile ? "bottom" : "right"}
             sideOffset={4}
           >
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
+            <DropdownMenuLabel className="text-muted-foreground text-xs">
               Catálogos
             </DropdownMenuLabel>
 
@@ -76,10 +80,17 @@ export function CatalogSwitcher({
                   onClick={() => {
                     if (isCurrentCatalog) return;
 
-                    toast.promise(switchCatalog.executeAsync({ id: catalog.id }), {
-                      loading: "Trocando de catálogo...",
-                      success: () => "Catálogo atual alterado!",
-                    });
+                    toast.promise(
+                      switchCatalog.executeAsync({ id: catalog.id }),
+                      {
+                        loading: "Trocando de catálogo...",
+                        success: () => {
+                          router.refresh();
+
+                          return "Catálogo atual alterado! Atualizando...";
+                        },
+                      },
+                    );
                   }}
                   className="cursor-pointer gap-2 p-2"
                 >
@@ -87,13 +98,9 @@ export function CatalogSwitcher({
                     <Box className="size-4 shrink-0" />
                   </div>
 
-                  <span className="flex-1 truncate">
-                    {catalog.name}
-                  </span>
+                  <span className="flex-1 truncate">{catalog.name}</span>
 
-                  {isCurrentCatalog && (
-                    <Badge>Atual</Badge>
-                  )}
+                  {isCurrentCatalog && <Badge>Atual</Badge>}
                 </DropdownMenuItem>
               );
             })}
@@ -101,11 +108,13 @@ export function CatalogSwitcher({
             <DropdownMenuSeparator />
 
             <DropdownMenuItem className="cursor-pointer gap-2 p-2" asChild>
-              <Link href={routes.catalog.sub.create.url}>
-                <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+              <Link href={routes.catalog.sub.new.url}>
+                <div className="bg-background flex size-6 items-center justify-center rounded-md border">
                   <Plus className="size-4" />
                 </div>
-                <div className="font-medium text-muted-foreground">Add Catálogo</div>
+                <div className="text-muted-foreground font-medium">
+                  Add Catálogo
+                </div>
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>

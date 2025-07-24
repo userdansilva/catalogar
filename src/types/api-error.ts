@@ -6,12 +6,12 @@
  * ```
  */
 export type ApiError<T = string> = {
-  path: string
-  message: string
-  statusCode: number
-  timestamp: string
+  path: string;
+  message: string;
+  statusCode: number;
+  timestamp: string;
   errors: Array<{
-    field: T
-    message: string
-  }>
-}
+    field: T;
+    message: string;
+  }>;
+};

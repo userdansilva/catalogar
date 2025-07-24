@@ -1,39 +1,36 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { ApiResponse } from "@/types/api-response";
-import { Category } from "@/types/api-types";
-import { redirect } from "next/navigation";
-import { tags } from "@/tags";
-import { getCategoryById } from "@/services/get-category-by-id";
 import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { api } from "./api";
 import { authActionClient } from "./safe-action";
 import { categoryStatusToggleSchema } from "./schema";
+import { ApiResponse } from "@/types/api-response";
+import { Category } from "@/types/api-types";
+import { tags } from "@/tags";
+import { getCategoryById } from "@/services/get-category-by-id";
 
 export const toggleCategoryStatusAction = authActionClient
   .schema(categoryStatusToggleSchema)
   .metadata({
     actionName: "toggle-status-category",
   })
-  .action(async ({
-    parsedInput: {
-      id, redirectTo,
-    },
-    ctx: { accessToken, user },
-  }) => {
+  .action(async ({ parsedInput: { id }, ctx: { Authorization, user } }) => {
     try {
       const { data: category } = await getCategoryById(id);
 
-      const res = await api.put<ApiResponse<Category>>(`/v1/categories/${id}`, {
-        ...category,
-        isDisabled: !category.isDisabled,
-        redirectTo,
-      }, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const res = await api.put<ApiResponse<Category>>(
+        `/v1/categories/${id}`,
+        {
+          ...category,
+          isDisabled: !category.isDisabled,
         },
-      });
+        {
+          headers: {
+            Authorization,
+          },
+        },
+      );
 
       revalidateTag(tags.categories.getAll);
       if (id) {
@@ -42,10 +39,6 @@ export const toggleCategoryStatusAction = authActionClient
 
       if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
         revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      if (redirectTo) {
-        redirect(redirectTo);
       }
 
       return { category: res.data.data, message: res.data.meta?.message };

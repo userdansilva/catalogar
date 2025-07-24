@@ -1,24 +1,28 @@
-import { CategoriesFilter } from "@/components/categories-filter";
-import { ProductTypesFilter } from "@/components/product-types-filter";
-import { QueryFilter } from "@/components/query-filter";
-import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 import { notFound } from "next/navigation";
-import { CatalogItems } from "@/components/catalog-items";
+import { CategoriesFilter } from "@/components/filters/categories-filter";
+import { ProductTypesFilter } from "@/components/filters/product-types-filter";
+import { QueryFilter } from "@/components/filters/query-filter";
+import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
+import { CatalogItems } from "@/components/catalog/catalog-items";
+import { SearchParams } from "@/types/system";
+import { defineSearchParamNames } from "@/utils/define-search-param-names";
 
 const ASCIIforAt = "%40"; // @
 const ITEMS_PER_PAGE = 16;
+
+const SEARCH_PARAM_NAMES = defineSearchParamNames({
+  page: "p",
+  query: "busca",
+  categorySlug: "categoria",
+  productSlug: "produto",
+});
 
 export default async function Page({
   params,
   searchParams,
 }: {
-  params: Promise<{ slug: string }>
-  searchParams: Promise<{
-    categoria?: string
-    produto?: string
-    q?: string
-    p?: string
-  }>
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<SearchParams<typeof SEARCH_PARAM_NAMES>>;
 }) {
   const { slug: slugWithAt } = await params;
 
@@ -30,11 +34,9 @@ export default async function Page({
 
   const { data: catalog } = await getPublicCatalogBySlug(slug);
 
-  const {
-    q, p, categoria, produto,
-  } = await searchParams;
+  const { busca, categoria, p, produto } = await searchParams;
 
-  const query = q || "";
+  const query = busca || "";
   const productTypeSlug = produto || "";
   const categorySlug = categoria || "";
   const currentPage = Number(p) || 1;
@@ -48,6 +50,7 @@ export default async function Page({
             currentQuery={query}
             primaryColor={catalog.theme.primaryColor}
             secondaryColor={catalog.theme.secondaryColor}
+            searchParamNames={SEARCH_PARAM_NAMES}
           />
         </div>
 
@@ -56,6 +59,7 @@ export default async function Page({
             mode="preview"
             productTypes={catalog.productTypes}
             currentProductTypeSlug={productTypeSlug}
+            searchParamNames={SEARCH_PARAM_NAMES}
           />
         )}
 
@@ -64,6 +68,7 @@ export default async function Page({
             mode="preview"
             categories={catalog.categories}
             currentCategorySlug={categorySlug}
+            searchParamNames={SEARCH_PARAM_NAMES}
           />
         )}
       </div>
@@ -76,6 +81,7 @@ export default async function Page({
         currentPage={currentPage}
         perPage={ITEMS_PER_PAGE}
         isPublic
+        searchParamNames={SEARCH_PARAM_NAMES}
       />
     </div>
   );

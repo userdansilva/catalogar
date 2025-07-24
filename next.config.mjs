@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  env: {
-    PUBLIC_BASE_URL: process.env.NEXTAUTH_URL,
-  },
   images: {
     remotePatterns: [
       {
@@ -17,6 +14,10 @@ const nextConfig = {
       },
     ],
   },
+  transpilePackages: [
+    "next-safe-action",
+    "@next-safe-action/adapter-react-hook-form",
+  ],
 };
 
 export default nextConfig;

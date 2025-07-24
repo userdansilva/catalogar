@@ -1,5 +1,7 @@
 "use client";
 
+import { Lock } from "lucide-react";
+import Link from "next/link";
 import { routes } from "@/routes";
 import {
   SidebarGroup,
@@ -8,25 +10,35 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/shadcn/components/ui/sidebar";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/shadcn/components/ui/tooltip";
 import {
-  CatalogItem, Category, ProductType,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shadcn/components/ui/tooltip";
+import {
+  CatalogItem,
+  Category,
+  ProductType,
   UserWithCatalog,
 } from "@/types/api-types";
-import { Lock } from "lucide-react";
-import Link from "next/link";
 
 type NavMainProps = {
   productTypes: ProductType[];
   categories: Category[];
   catalogItems: CatalogItem[];
   user: UserWithCatalog;
-}
+};
 
 export default function NavMain({
-  user, productTypes, categories, catalogItems,
+  user,
+  productTypes,
+  categories,
+  catalogItems,
 }: NavMainProps) {
+  const { setOpenMobile } = useSidebar();
+
   const groups = [
     {
       name: "Menus",
@@ -39,27 +51,30 @@ export default function NavMain({
         },
         {
           ...routes.productTypes,
-          url: productTypes.length === 0
-            ? routes.productTypes.sub.createFirst.url
-            : routes.productTypes.url,
+          url:
+            productTypes.length === 0
+              ? routes.productTypes.sub.createFirst.url
+              : routes.productTypes.url,
           isLocked: false,
           lockReason: "",
           isActive: false,
         },
         {
           ...routes.categories,
-          url: categories.length === 0
-            ? routes.categories.sub.createFirst.url
-            : routes.categories.url,
+          url:
+            categories.length === 0
+              ? routes.categories.sub.createFirst.url
+              : routes.categories.url,
           isLocked: false,
           lockReason: "",
           isActive: false,
         },
         {
           ...routes.catalogItems,
-          url: catalogItems.length === 0
-            ? routes.catalogItems.sub.createFirst.url
-            : routes.catalogItems.url,
+          url:
+            catalogItems.length === 0
+              ? routes.catalogItems.sub.createFirst.url
+              : routes.catalogItems.url,
           isLocked: productTypes.length === 0,
           lockReason: "Adicione um tipo de produto para desbloquear o Catálogo",
           isActive: false,
@@ -126,17 +141,13 @@ export default function NavMain({
                     </SidebarMenuButton>
                   </TooltipTrigger>
 
-                  <TooltipContent side="right" className="ml-2 max-w-80">
+                  <TooltipContent side="right" className="max-w-80">
                     {item.lockReason}
                   </TooltipContent>
-
                 </Tooltip>
               ) : (
-                <SidebarMenuButton
-                  asChild
-                  tooltip={item.title}
-                >
-                  <Link href={item.url}>
+                <SidebarMenuButton asChild tooltip={item.title}>
+                  <Link href={item.url} onClick={() => setOpenMobile(false)}>
                     <item.icon />
                     <span>{item.title}</span>
                   </Link>

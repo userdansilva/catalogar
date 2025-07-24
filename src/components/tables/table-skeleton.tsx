@@ -1,16 +1,18 @@
-"use client";
-
-/* eslint-disable react/no-array-index-key */
-
+import { ColumnDef } from "@tanstack/react-table";
+import { v4 as uuidv4 } from "uuid";
 import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/shadcn/components/ui/table";
 import { Skeleton } from "@/shadcn/components/ui/skeleton";
-import { ColumnDef } from "@tanstack/react-table";
 
 type TableSkeletonProps<TData, TValues> = {
-  columns: ColumnDef<TData, TValues>[]
-}
+  columns: ColumnDef<TData, TValues>[];
+};
 
 export function TableSkeleton<TData, TValues>({
   columns,
@@ -21,19 +23,14 @@ export function TableSkeleton<TData, TValues>({
         <TableHeader>
           <TableRow>
             {columns.map((column) => (
-              <TableHead key={column.id}>
-                {column.header?.toString()}
-              </TableHead>
+              <TableHead key={column.id}>{column.header?.toString()}</TableHead>
             ))}
           </TableRow>
         </TableHeader>
 
         <TableBody>
-          {[...Array(10)].map((_, index) => (
-            <TableRow
-              key={index.toString()}
-              className="h-[49px] hover:bg-transparent"
-            >
+          {Array.from({ length: 10 }, () => uuidv4()).map((id) => (
+            <TableRow key={id} className="h-[49px] hover:bg-transparent">
               {columns.map((column) => (
                 <TableCell key={column.id}>
                   <Skeleton className="h-3 w-2/3" />

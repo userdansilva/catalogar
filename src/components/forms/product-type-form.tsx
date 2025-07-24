@@ -1,23 +1,28 @@
 import { FormEventHandler } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
+import { Button } from "../inputs/button";
 import {
-  Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/shadcn/components/ui/form";
 import { Input } from "@/shadcn/components/ui/input";
 import { productTypeSchema } from "@/actions/schema";
-import { Button } from "../inputs/button";
 
-export type ProductTypeFormValues = z.infer<typeof productTypeSchema>
+export type ProductTypeFormValues = z.infer<typeof productTypeSchema>;
 
 export function ProductTypeForm({
   form,
   onSubmit,
   submitButtonLabel,
 }: {
-  form: UseFormReturn<ProductTypeFormValues>
-  onSubmit: FormEventHandler<HTMLFormElement>
-  submitButtonLabel: string
+  form: UseFormReturn<ProductTypeFormValues>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  submitButtonLabel: string;
 }) {
   return (
     <Form {...form}>
@@ -25,7 +30,6 @@ export function ProductTypeForm({
         <FormField
           name="name"
           control={form.control}
-          disabled={form.formState.isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Nome</FormLabel>
@@ -36,6 +40,7 @@ export function ProductTypeForm({
                   autoComplete="off"
                   autoCorrect="off"
                   spellCheck="false"
+                  disabled={form.formState.isSubmitting}
                   {...field}
                 />
               </FormControl>

@@ -1,10 +1,12 @@
-import { getProductTypes } from "@/services/get-product-types";
-import { columns } from "./columns";
+import { redirect } from "next/navigation";
 import { DataTable } from "../data-table";
+import { columns } from "./columns";
+import { getProductTypes } from "@/services/get-product-types";
+import { routes } from "@/routes";
 
 type ProductTypesTableProps = {
   currentPage: number;
-}
+};
 
 export async function ProductTypesTable({
   currentPage,
@@ -15,6 +17,10 @@ export async function ProductTypesTable({
     perPage: 10,
     sort: "desc",
   });
+
+  if (productTypes.length === 0) {
+    redirect(routes.productTypes.sub.createFirst.url);
+  }
 
   return (
     <DataTable

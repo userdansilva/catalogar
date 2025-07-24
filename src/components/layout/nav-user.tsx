@@ -1,6 +1,7 @@
 "use client";
 
-import { signOutUrl } from "@/auth";
+import { Book, ChevronsUpDown, LogOut } from "lucide-react";
+import Link from "next/link";
 import { routes } from "@/routes";
 import { Avatar, AvatarFallback } from "@/shadcn/components/ui/avatar";
 import {
@@ -13,27 +14,24 @@ import {
   DropdownMenuTrigger,
 } from "@/shadcn/components/ui/dropdown-menu";
 import {
-  SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
 } from "@/shadcn/components/ui/sidebar";
-import {
-  Book, ChevronsUpDown, LogOut,
-} from "lucide-react";
-import { signOut } from "next-auth/react";
-import Link from "next/link";
 
 type NavUserProps = {
   user: {
-    name: string
-    email: string
-  }
-}
+    name: string;
+    email: string;
+  };
+};
 
-export function NavUser({
-  user,
-}: NavUserProps) {
+export function NavUser({ user }: NavUserProps) {
   const { isMobile } = useSidebar();
 
-  const initials = user.name.split(" ")
+  const initials = user.name
+    .split(" ")
     .map((word) => word[0].toUpperCase())
     .join("");
 
@@ -47,7 +45,9 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="size-8 rounded-lg">
-                <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
+                <AvatarFallback className="rounded-lg">
+                  {initials}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user.name}</span>
@@ -58,7 +58,7 @@ export function NavUser({
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
@@ -66,7 +66,9 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="size-8 rounded-lg">
-                  <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {initials}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{user.name}</span>
@@ -79,7 +81,7 @@ export function NavUser({
 
             <DropdownMenuGroup>
               <DropdownMenuItem asChild className="cursor-pointer">
-                <Link href={routes.catalog.sub.myCatalogs.url}>
+                <Link href={routes.catalog.url}>
                   <Book />
                   Meus Catálogos
                 </Link>
@@ -89,14 +91,11 @@ export function NavUser({
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem
-                onClick={() => signOut({
-                  callbackUrl: signOutUrl,
-                })}
-                className="cursor-pointer"
-              >
-                <LogOut />
-                Sair
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link href="/auth/logout">
+                  <LogOut />
+                  Sair
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
