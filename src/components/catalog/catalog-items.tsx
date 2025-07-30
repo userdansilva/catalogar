@@ -51,7 +51,11 @@ export function CatalogItems({
 
   if (paginatedCatalogItems.length === 0) {
     return (
-      <CatalogNoResults query={query} searchParamNames={searchParamNames} />
+      <CatalogNoResults
+        query={query}
+        searchParamNames={searchParamNames}
+        page={currentPage}
+      />
     );
   }
 

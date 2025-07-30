@@ -1,6 +1,6 @@
 {
   "name": "catalogar",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4.8.0",
