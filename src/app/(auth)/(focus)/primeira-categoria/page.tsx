@@ -18,7 +18,7 @@ export default async function CreateFirstCategory({
   const { data: categories } = await getCategories();
 
   if (categories.length >= 1) {
-    return redirect(routes.productTypes.url);
+    return redirect(routes.categories.url);
   }
 
   return (
