@@ -20,7 +20,7 @@ export default async function CreateFirstCatalogItem({
   const { data: catalogItems } = await getCatalogItems();
 
   if (catalogItems.length >= 1) {
-    return redirect(routes.productTypes.url);
+    return redirect(routes.catalogItems.url);
   }
 
   const { data: productTypes } = await getProductTypes();

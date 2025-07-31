@@ -60,7 +60,7 @@ export function PrivateCatalogItem({
     );
 
   return (
-    <div className="space-y-2">
+    <div className="flex flex-col space-y-2">
       <div className={cn(catalogItem.isDisabled && "opacity-60")}>
         <CarouselImages images={catalogItem.images} unoptimized />
       </div>
@@ -82,7 +82,7 @@ export function PrivateCatalogItem({
           ))}
       </div>
 
-      <div>
+      <div className="flex-1">
         <div
           className={cn(
             "text-base font-semibold",

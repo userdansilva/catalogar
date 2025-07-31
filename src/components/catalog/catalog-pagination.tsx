@@ -35,60 +35,50 @@ export function CatalogPagination({
       params.delete(searchParamNames.page);
     }
 
-    return `${pathname}?${params.toString()}`;
+    return params.size >= 1 ? `${pathname}?${params.toString()}` : pathname;
   };
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1).filter(
+    (page) => Math.abs(page - currentPage) <= 2,
+  );
 
   return (
     <Pagination>
       <PaginationContent>
         {currentPage > 1 && (
-          <>
-            <PaginationItem>
-              <PaginationPrevious href={getSearchUrl(currentPage - 1)} />
-            </PaginationItem>
-
-            {currentPage === totalPages && totalPages > 2 && (
-              <PaginationItem>
-                <PaginationLink href={getSearchUrl(currentPage - 2)}>
-                  {currentPage - 2}
-                </PaginationLink>
-              </PaginationItem>
-            )}
-
-            <PaginationItem>
-              <PaginationLink href={getSearchUrl(currentPage - 1)}>
-                {currentPage - 1}
-              </PaginationLink>
-            </PaginationItem>
-          </>
+          <PaginationItem>
+            <PaginationPrevious
+              href={getSearchUrl(currentPage - 1)}
+              data-testid="page-link-prev"
+            />
+          </PaginationItem>
         )}
 
-        <PaginationItem>
-          <PaginationLink href={getSearchUrl(currentPage)} isActive>
-            {currentPage}
-          </PaginationLink>
-        </PaginationItem>
+        {pages.map((page) => {
+          const isCurrent = page === currentPage;
 
-        {currentPage < totalPages && (
-          <>
-            <PaginationItem>
-              <PaginationLink href={getSearchUrl(currentPage + 1)}>
-                {currentPage + 1}
+          return (
+            <PaginationItem key={page}>
+              <PaginationLink
+                href={getSearchUrl(page)}
+                isActive={isCurrent}
+                data-testid={isCurrent ? "page-link-current" : "page-link"}
+              >
+                {page}
               </PaginationLink>
             </PaginationItem>
+          );
+        })}
 
-            {currentPage === 1 && totalPages > 2 && (
-              <PaginationItem>
-                <PaginationLink href={getSearchUrl(3)}>3</PaginationLink>
-              </PaginationItem>
-            )}
-
-            <PaginationItem>
-              <PaginationNext href={getSearchUrl(currentPage + 1)} />
-            </PaginationItem>
-          </>
+        {currentPage < totalPages && (
+          <PaginationItem>
+            <PaginationNext
+              href={getSearchUrl(currentPage + 1)}
+              data-testid="page-link-next"
+            />
+          </PaginationItem>
         )}
       </PaginationContent>
     </Pagination>

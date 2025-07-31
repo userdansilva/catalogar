@@ -9,8 +9,13 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "media.catalogar.com.br",
+        hostname: "media-dev.catalogar.com.br",
         pathname: "/catalogar-dev/**",
+      },
+      {
+        protocol: "https",
+        hostname: "media.catalogar.com.br",
+        pathname: "/catalogar/**",
       },
     ],
   },

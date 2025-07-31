@@ -37,6 +37,7 @@ export const updateCatalogItemAction = authActionClient
             productTypeId,
             images: images.map((image) => ({
               fileName: image.fileName,
+              fileUrl: image.accessUrl,
               position: image.position,
             })),
             price,
