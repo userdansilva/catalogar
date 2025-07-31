@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://app-dev.catalogar.com.br";
 const CATALOG_SLUG = "@catalogar";
 
 /**
