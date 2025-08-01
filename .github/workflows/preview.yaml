@@ -11,6 +11,7 @@ jobs:
   deploy:
     name: Deploy to Vercel (Preview)
     runs-on: ubuntu-latest
+    environment: Preview
     steps:
       - uses: actions/checkout@v2
 
