@@ -12,7 +12,7 @@ export async function getProductTypes(filters: ProductTypeFilters = {}) {
   const res = await fetch(
     `${process.env.API_URL}/api/v1/product-types?${params}`,
     {
-      headers: { Authorization },
+    headers: { Authorization },
       next: { tags: [tags.productTypes.getAll] },
     },
   );
