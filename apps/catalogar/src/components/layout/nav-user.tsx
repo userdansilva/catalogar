@@ -32,7 +32,7 @@ export function NavUser({ user }: NavUserProps) {
 
   const initials = user.name
     .split(" ")
-    .map((word) => word[0].toUpperCase())
+    .map((word) => word[0]?.toUpperCase())
     .join("");
 
   return (

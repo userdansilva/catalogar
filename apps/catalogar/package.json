@@ -73,9 +73,10 @@
     "zod-form-data": "^3.0.0"
   },
   "devDependencies": {
+    "@catalogar/eslint-config": "workspace:^",
+    "@catalogar/typescript-config": "workspace:^",
     "@changesets/cli": "^2.29.5",
     "@playwright/test": "^1.54.1",
-    "@catalogar/eslint-config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",

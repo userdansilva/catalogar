@@ -25,7 +25,7 @@ export function PublicCatalogItem({
     >
       <div className="relative">
         <Image
-          src={catalogItem.images[0].url}
+          src={catalogItem.images[0]?.url || ""}
           alt="Mockup"
           width={600}
           height={600}
@@ -62,7 +62,7 @@ export function PublicCatalogItem({
         <div
           className={cn(
             "text-base font-semibold",
-            catalogItem.isDisabled && "line-through",
+            catalogItem.isDisabled && "line-through"
           )}
         >
           {catalogItem.title}

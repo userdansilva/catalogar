@@ -102,7 +102,7 @@ export function PublicCatalogItemDetail({
                   className="size-40"
                 >
                   <Image
-                    src={relatedCatalogItem.images[0].url}
+                    src={relatedCatalogItem.images[0]?.url || ""}
                     width={160}
                     height={160}
                     alt="Mockup"

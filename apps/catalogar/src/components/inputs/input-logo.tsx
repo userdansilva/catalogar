@@ -37,41 +37,40 @@ export function InputLogo({
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
+    const file = files?.[0];
 
-    if (files) {
-      const file = files[0];
+    if (!file) return;
 
-      if (file.size > 1.1 * 1024 * 1024) {
-        toast.warning("Ops! Imagem muito pesada", {
-          description: "Tamanho máximo é de 1MB",
-        });
+    if (file.size > 1.1 * 1024 * 1024) {
+      toast.warning("Ops! Imagem muito pesada", {
+        description: "Tamanho máximo é de 1MB",
+      });
 
-        // Reset input
-        if (inputFileRef.current) {
-          inputFileRef.current.value = "";
-        }
-
-        return;
+      // Reset input
+      if (inputFileRef.current) {
+        inputFileRef.current.value = "";
       }
 
-      const formData = new FormData();
-      formData.append("image", file);
+      return;
+    }
 
-      const res = await executeAsync(formData);
+    const formData = new FormData();
+    formData.append("image", file);
 
-      if (res?.data) {
-        onChange({
-          fileName: res.data.fileName,
-          originalFileName: res.data.originalFileName,
-          width: res.data.width,
-          height: res.data.height,
-          accessUrl: res.data.accessUrl,
-        });
+    const res = await executeAsync(formData);
 
-        // Reset input
-        if (inputFileRef.current) {
-          inputFileRef.current.value = "";
-        }
+    if (res?.data) {
+      onChange({
+        fileName: res.data.fileName,
+        originalFileName: res.data.originalFileName,
+        width: res.data.width,
+        height: res.data.height,
+        accessUrl: res.data.accessUrl,
+      });
+
+      // Reset input
+      if (inputFileRef.current) {
+        inputFileRef.current.value = "";
       }
     }
   };
