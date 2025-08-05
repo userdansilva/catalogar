@@ -1,6 +1,6 @@
 import { Loader2 } from "lucide-react";
 import { ComponentProps, forwardRef } from "react";
-import { Button as ButtonUI } from "@/shadcn/components/ui/button";
+import { Button as ButtonUI } from "@catalogar/ui/components/button";
 
 type ButtonProps = ComponentProps<typeof ButtonUI> & {
   loading?: boolean;
@@ -18,5 +18,5 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         children
       )}
     </ButtonUI>
-  ),
+  )
 );

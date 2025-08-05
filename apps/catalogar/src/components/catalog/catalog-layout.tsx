@@ -13,7 +13,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/shadcn/components/ui/drawer";
+} from "@catalogar/ui/components/drawer";
 
 export function CatalogLayout({
   children,

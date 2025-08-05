@@ -14,7 +14,7 @@ import {
   PaginationItem,
   PaginationNext,
   PaginationPrevious,
-} from "@/shadcn/components/ui/pagination";
+} from "@catalogar/ui/components/pagination";
 import {
   Table,
   TableBody,
@@ -22,7 +22,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/shadcn/components/ui/table";
+} from "@catalogar/ui/components/table";
 import { Pagination as TPagination } from "@/types/api-response";
 
 type DataTableProps<TData, TValues> = {
@@ -76,14 +76,14 @@ export function DataTable<TData, TValues>({
                   <TableHead
                     key={header.id}
                     className={clsx(
-                      header.id === "actions" && "bg-background sticky right-0",
+                      header.id === "actions" && "bg-background sticky right-0"
                     )}
                   >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )}
                   </TableHead>
                 ))}
@@ -103,12 +103,12 @@ export function DataTable<TData, TValues>({
                       key={cell.id}
                       className={clsx(
                         cell.column.id === "actions" &&
-                          "bg-background sticky right-0",
+                          "bg-background sticky right-0"
                       )}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}

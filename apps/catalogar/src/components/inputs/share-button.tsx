@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentProps, forwardRef } from "react";
-import { Button } from "@/shadcn/components/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 
 type ShareButtonProps = Omit<ComponentProps<typeof Button>, "onClick"> & {
   shareData?: {
@@ -17,7 +17,7 @@ export const ShareButton = forwardRef<HTMLButtonElement, ShareButtonProps>(
       await navigator.share(
         shareData ?? {
           url: window.location.href,
-        },
+        }
       );
     };
 
@@ -26,5 +26,5 @@ export const ShareButton = forwardRef<HTMLButtonElement, ShareButtonProps>(
         {children}
       </Button>
     );
-  },
+  }
 );

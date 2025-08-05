@@ -3,15 +3,15 @@
 import { AlertCircle, RefreshCw, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/shadcn/components/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/shadcn/components/ui/card";
-import { Alert, AlertDescription } from "@/shadcn/components/ui/alert";
+} from "@catalogar/ui/components/card";
+import { Alert, AlertDescription } from "@catalogar/ui/components/alert";
 import Loader from "@/components/loader";
 
 export default function AuthError({

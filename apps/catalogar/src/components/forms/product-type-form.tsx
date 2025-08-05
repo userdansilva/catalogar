@@ -9,8 +9,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shadcn/components/ui/form";
-import { Input } from "@/shadcn/components/ui/input";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
 import { productTypeSchema } from "@/actions/schema";
 
 export type ProductTypeFormValues = z.infer<typeof productTypeSchema>;

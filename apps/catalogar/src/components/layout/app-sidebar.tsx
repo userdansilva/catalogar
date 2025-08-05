@@ -7,7 +7,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/shadcn/components/ui/sidebar";
+} from "@catalogar/ui/components/sidebar";
 import { getUser } from "@/services/get-user";
 import { getProductTypes } from "@/services/get-product-types";
 import { getCatalogItems } from "@/services/get-catalog-items";

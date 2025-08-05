@@ -1,9 +1,9 @@
 import { Circle, CircleCheck, Lock } from "lucide-react";
 import Link from "next/link";
 import { routes } from "@/routes";
-import { Badge } from "@/shadcn/components/ui/badge";
-import { Button } from "@/shadcn/components/ui/button";
-import { cn } from "@/shadcn/lib/utils";
+import { Badge } from "@catalogar/ui/components/badge";
+import { Button } from "@catalogar/ui/components/button";
+import { cn } from "@catalogar/ui/lib/utils";
 
 export function Mission({
   title,
@@ -26,7 +26,7 @@ export function Mission({
     <div
       className={cn(
         "space-y-6 rounded-md border px-4 py-2",
-        isComplete && "border-green-200 bg-green-50",
+        isComplete && "border-green-200 bg-green-50"
       )}
     >
       <div className="space-y-4">
@@ -38,7 +38,7 @@ export function Mission({
           <h3
             className={cn(
               "flex-1 text-sm font-medium",
-              isPending && "text-muted-foreground",
+              isPending && "text-muted-foreground"
             )}
           >
             {title}
@@ -46,7 +46,7 @@ export function Mission({
 
           <Badge
             className={cn(
-              isComplete && "bg-green-100 text-green-500 shadow-none",
+              isComplete && "bg-green-100 text-green-500 shadow-none"
             )}
             variant={isPending ? "outline" : "default"}
           >

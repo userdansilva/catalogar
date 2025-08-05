@@ -5,9 +5,9 @@ import { Search, X } from "lucide-react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Input } from "@/shadcn/components/ui/input";
-import { Form, FormField } from "@/shadcn/components/ui/form";
-import { Button } from "@/shadcn/components/ui/button";
+import { Input } from "@catalogar/ui/components/input";
+import { Form, FormField } from "@catalogar/ui/components/form";
+import { Button } from "@catalogar/ui/components/button";
 import { queryFilterSchema } from "@/actions/schema";
 
 type FormValues = z.infer<typeof queryFilterSchema>;

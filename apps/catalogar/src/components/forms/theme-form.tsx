@@ -8,8 +8,8 @@ import Image from "next/image";
 import { Button } from "../inputs/button";
 import { InputLogo } from "../inputs/input-logo";
 import { Company } from "@/types/api-types";
-import { Card, CardContent } from "@/shadcn/components/ui/card";
-import { Input } from "@/shadcn/components/ui/input";
+import { Card, CardContent } from "@catalogar/ui/components/card";
+import { Input } from "@catalogar/ui/components/input";
 import {
   Form,
   FormControl,
@@ -18,7 +18,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shadcn/components/ui/form";
+} from "@catalogar/ui/components/form";
 import { themeSchema } from "@/actions/schema";
 
 export type ThemeFormValues = z.infer<typeof themeSchema>;

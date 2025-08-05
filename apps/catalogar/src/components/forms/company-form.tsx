@@ -13,9 +13,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shadcn/components/ui/form";
-import { Input } from "@/shadcn/components/ui/input";
-import { Textarea } from "@/shadcn/components/ui/textarea";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
+import { Textarea } from "@catalogar/ui/components/textarea";
 
 export type CompanyFormValues = z.infer<typeof companySchema>;
 

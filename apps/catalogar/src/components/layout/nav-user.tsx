@@ -3,7 +3,7 @@
 import { Book, ChevronsUpDown, LogOut } from "lucide-react";
 import Link from "next/link";
 import { routes } from "@/routes";
-import { Avatar, AvatarFallback } from "@/shadcn/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@catalogar/ui/components/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,13 +12,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/shadcn/components/ui/dropdown-menu";
+} from "@catalogar/ui/components/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/shadcn/components/ui/sidebar";
+} from "@catalogar/ui/components/sidebar";
 
 type NavUserProps = {
   user: {

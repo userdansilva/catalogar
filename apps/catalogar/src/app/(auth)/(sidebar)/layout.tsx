@@ -5,14 +5,14 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/shadcn/components/ui/sidebar";
-import { Separator } from "@/shadcn/components/ui/separator";
+} from "@catalogar/ui/components/sidebar";
+import { Separator } from "@catalogar/ui/components/separator";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-} from "@/shadcn/components/ui/breadcrumb";
+} from "@catalogar/ui/components/breadcrumb";
 import { getUser } from "@/services/get-user";
 import { User } from "@/types/api-types";
 import { routes } from "@/routes";

@@ -14,7 +14,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/shadcn/components/ui/card";
+} from "@catalogar/ui/components/card";
 
 type MyCatalogsProps = {
   catalogs: Catalog[];
@@ -96,7 +96,7 @@ export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
 
                               return "Catálogo atual alterado!";
                             },
-                          },
+                          }
                         );
                       }}
                     >

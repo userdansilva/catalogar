@@ -11,12 +11,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/shadcn/components/ui/sidebar";
+} from "@catalogar/ui/components/sidebar";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/shadcn/components/ui/tooltip";
+} from "@catalogar/ui/components/tooltip";
 import {
   CatalogItem,
   Category,

@@ -17,15 +17,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shadcn/components/ui/form";
-import { Input } from "@/shadcn/components/ui/input";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shadcn/components/ui/select";
+} from "@catalogar/ui/components/select";
 import { routes } from "@/routes";
 
 export type CatalogFormValues = z.infer<typeof updateCatalogSchema>;
@@ -57,10 +57,14 @@ export function UpdateCatalogForm({
       actionProps: {
         onSuccess: (res) => {
           toast.success(
-            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
+            `Sucesso! ${
+              !callbackUrl
+                ? "Voltando para Página Inicial..."
+                : "Redirecionando..."
+            }`,
             {
               description: res.data?.message,
-            },
+            }
           );
           router.push(callbackUrl || routes.dashboard.url);
         },
@@ -74,7 +78,7 @@ export function UpdateCatalogForm({
           }
         },
       },
-    },
+    }
   );
 
   return (

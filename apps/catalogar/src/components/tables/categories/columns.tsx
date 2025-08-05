@@ -34,9 +34,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/shadcn/components/ui/alert-dialog";
-import { Badge } from "@/shadcn/components/ui/badge";
-import { Button } from "@/shadcn/components/ui/button";
+} from "@catalogar/ui/components/alert-dialog";
+import { Badge } from "@catalogar/ui/components/badge";
+import { Button } from "@catalogar/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -44,7 +44,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/shadcn/components/ui/dropdown-menu";
+} from "@catalogar/ui/components/dropdown-menu";
 import { Category } from "@/types/api-types";
 import {
   Form,
@@ -52,8 +52,8 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "@/shadcn/components/ui/form";
-import { Input } from "@/shadcn/components/ui/input";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
 
 export const columns: ColumnDef<Category>[] = [
   {
@@ -137,7 +137,7 @@ export const columns: ColumnDef<Category>[] = [
       });
 
       const { executeAsync: executeToggleStatusAsync } = useAction(
-        toggleCategoryStatusAction,
+        toggleCategoryStatusAction
       );
 
       const { executeAsync: executeDeleteAsync } =
@@ -151,7 +151,7 @@ export const columns: ColumnDef<Category>[] = [
           {
             loading: "Alterando status...",
             success: "Status atualizado!",
-          },
+          }
         );
 
       const handleRemove = () =>
@@ -162,7 +162,7 @@ export const columns: ColumnDef<Category>[] = [
           {
             loading: "Deletando categoria...",
             success: "Categoria deletada com sucesso!",
-          },
+          }
         );
 
       return (

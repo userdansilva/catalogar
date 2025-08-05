@@ -9,8 +9,8 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/shadcn/components/ui/carousel";
-import { cn } from "@/shadcn/lib/utils";
+} from "@catalogar/ui/components/carousel";
+import { cn } from "@catalogar/ui/lib/utils";
 import { CatalogItemImage } from "@/types/api-types";
 
 export function CarouselImages({
@@ -69,7 +69,7 @@ export function CarouselImages({
                   key={i}
                   className={cn(
                     "bg-background block size-2 rounded-full",
-                    current === i + 1 && "bg-primary",
+                    current === i + 1 && "bg-primary"
                   )}
                 />
               ))}

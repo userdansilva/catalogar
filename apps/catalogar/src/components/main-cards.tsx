@@ -13,14 +13,14 @@ import {
 import Link from "next/link";
 import { CopyButton } from "./inputs/copy-button";
 import { routes } from "@/routes";
-import { Button } from "@/shadcn/components/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/shadcn/components/ui/card";
+} from "@catalogar/ui/components/card";
 import {
   CatalogItem,
   Category,

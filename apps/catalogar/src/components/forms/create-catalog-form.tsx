@@ -17,8 +17,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shadcn/components/ui/form";
-import { Input } from "@/shadcn/components/ui/input";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
 
 export type CatalogFormValues = z.infer<typeof createCatalogSchema>;
 
@@ -52,7 +52,7 @@ export function CreateCatalogForm() {
           }
         },
       },
-    },
+    }
   );
 
   return (

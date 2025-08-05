@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Button } from "../inputs/button";
 import { InputImages } from "../inputs/input-images";
 import { catalogItemSchema } from "@/actions/schema";
-import { Checkbox } from "@/shadcn/components/ui/checkbox";
+import { Checkbox } from "@catalogar/ui/components/checkbox";
 import {
   Form,
   FormControl,
@@ -15,16 +15,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shadcn/components/ui/form";
-import { Input } from "@/shadcn/components/ui/input";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shadcn/components/ui/select";
-import { Textarea } from "@/shadcn/components/ui/textarea";
+} from "@catalogar/ui/components/select";
+import { Textarea } from "@catalogar/ui/components/textarea";
 import { Category, ProductType } from "@/types/api-types";
 
 export type CatalogItemFormValues = z.infer<typeof catalogItemSchema>;
@@ -215,8 +215,8 @@ export function CatalogItemForm({
                                       ])
                                     : field.onChange(
                                         field.value?.filter(
-                                          (value) => value !== category.id,
-                                        ),
+                                          (value) => value !== category.id
+                                        )
                                       )
                                 }
                               />

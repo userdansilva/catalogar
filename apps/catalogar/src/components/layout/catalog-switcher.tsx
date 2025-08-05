@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import { routes } from "@/routes";
-import { Badge } from "@/shadcn/components/ui/badge";
+import { Badge } from "@catalogar/ui/components/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,13 +15,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/shadcn/components/ui/dropdown-menu";
+} from "@catalogar/ui/components/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/shadcn/components/ui/sidebar";
+} from "@catalogar/ui/components/sidebar";
 import { Catalog } from "@/types/api-types";
 
 export function CatalogSwitcher({
@@ -89,7 +89,7 @@ export function CatalogSwitcher({
 
                           return "Catálogo atual alterado! Atualizando...";
                         },
-                      },
+                      }
                     );
                   }}
                   className="cursor-pointer gap-2 p-2"

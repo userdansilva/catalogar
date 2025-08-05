@@ -12,7 +12,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/shadcn/components/ui/alert-dialog";
+} from "@catalogar/ui/components/alert-dialog";
 import { createLogoAction } from "@/actions/create-logo-action";
 
 type Logo = {

@@ -18,10 +18,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/shadcn/components/ui/alert-dialog";
-import { Badge } from "@/shadcn/components/ui/badge";
-import { Button } from "@/shadcn/components/ui/button";
-import { cn } from "@/shadcn/lib/utils";
+} from "@catalogar/ui/components/alert-dialog";
+import { Badge } from "@catalogar/ui/components/badge";
+import { Button } from "@catalogar/ui/components/button";
+import { cn } from "@catalogar/ui/lib/utils";
 import { CatalogItem as CatalogItemType } from "@/types/api-types";
 
 export function PrivateCatalogItem({
@@ -30,11 +30,11 @@ export function PrivateCatalogItem({
   catalogItem: CatalogItemType;
 }) {
   const { executeAsync: executeToggleStatusAsync } = useAction(
-    toggleCatalogItemStatusAction,
+    toggleCatalogItemStatusAction
   );
 
   const { executeAsync: executeDeleteAsync } = useAction(
-    deleteCatalogItemAction,
+    deleteCatalogItemAction
   );
 
   const handleToggleStatus = () =>
@@ -43,9 +43,13 @@ export function PrivateCatalogItem({
         await executeToggleStatusAsync({ id: catalogItem.id });
       },
       {
-        loading: `${catalogItem.isDisabled ? "Ativando" : "Ocultando"}  item de catálogo...`,
-        success: `Item de catálogo ${catalogItem.isDisabled ? "ativado" : "ocultado"} com sucesso!`,
-      },
+        loading: `${
+          catalogItem.isDisabled ? "Ativando" : "Ocultando"
+        }  item de catálogo...`,
+        success: `Item de catálogo ${
+          catalogItem.isDisabled ? "ativado" : "ocultado"
+        } com sucesso!`,
+      }
     );
 
   const handleRemove = () =>
@@ -56,7 +60,7 @@ export function PrivateCatalogItem({
       {
         loading: "Removendo item de catálogo...",
         success: "Item de catálogo removido com sucesso!",
-      },
+      }
     );
 
   return (
@@ -86,7 +90,7 @@ export function PrivateCatalogItem({
         <div
           className={cn(
             "text-base font-semibold",
-            catalogItem.isDisabled && "line-through",
+            catalogItem.isDisabled && "line-through"
           )}
         >
           {catalogItem.title}

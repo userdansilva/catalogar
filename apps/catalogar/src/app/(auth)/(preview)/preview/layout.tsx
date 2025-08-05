@@ -4,7 +4,7 @@ import { PropsWithChildren } from "react";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
-import { Button } from "@/shadcn/components/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 
 export default async function PreviewLayout({ children }: PropsWithChildren) {
   const { data: user } = await getUser();

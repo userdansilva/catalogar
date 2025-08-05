@@ -3,13 +3,13 @@ import { Control, UseFormReturn, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../inputs/button";
 import { categorySchema } from "@/actions/schema";
-import { Badge } from "@/shadcn/components/ui/badge";
+import { Badge } from "@catalogar/ui/components/badge";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/shadcn/components/ui/card";
+} from "@catalogar/ui/components/card";
 import {
   Form,
   FormControl,
@@ -17,8 +17,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shadcn/components/ui/form";
-import { Input } from "@/shadcn/components/ui/input";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
 
 export type CategoryFormValues = z.infer<typeof categorySchema>;
 

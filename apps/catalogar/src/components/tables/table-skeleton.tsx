@@ -7,8 +7,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/shadcn/components/ui/table";
-import { Skeleton } from "@/shadcn/components/ui/skeleton";
+} from "@catalogar/ui/components/table";
+import { Skeleton } from "@catalogar/ui/components/skeleton";
 
 type TableSkeletonProps<TData, TValues> = {
   columns: ColumnDef<TData, TValues>[];

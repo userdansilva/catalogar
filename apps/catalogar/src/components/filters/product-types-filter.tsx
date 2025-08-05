@@ -3,7 +3,7 @@
 import { Check, ChevronsUpDown, List } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Button } from "@/shadcn/components/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 import {
   Command,
   CommandEmpty,
@@ -11,13 +11,13 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/shadcn/components/ui/command";
+} from "@catalogar/ui/components/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/shadcn/components/ui/popover";
-import { cn } from "@/shadcn/lib/utils";
+} from "@catalogar/ui/components/popover";
+import { cn } from "@catalogar/ui/lib/utils";
 import { ProductType } from "@/types/api-types";
 
 export function ProductTypesFilter({
@@ -65,7 +65,7 @@ export function ProductTypesFilter({
           >
             {currentProductTypeSlug ? (
               productTypes.find(
-                (productType) => productType.slug === currentProductTypeSlug,
+                (productType) => productType.slug === currentProductTypeSlug
               )?.name
             ) : (
               <span className="flex items-center gap-3">
@@ -91,7 +91,7 @@ export function ProductTypesFilter({
                     <Check
                       className={cn(
                         "ml-auto",
-                        !currentProductTypeSlug ? "opacity-100" : "opacity-0",
+                        !currentProductTypeSlug ? "opacity-100" : "opacity-0"
                       )}
                     />
                   </Link>
@@ -116,7 +116,7 @@ export function ProductTypesFilter({
                             "ml-auto",
                             currentProductTypeSlug === productType.slug
                               ? "opacity-100"
-                              : "opacity-0",
+                              : "opacity-0"
                           )}
                         />
                       </Link>

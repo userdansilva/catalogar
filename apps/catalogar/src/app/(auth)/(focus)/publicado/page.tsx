@@ -10,7 +10,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/shadcn/components/ui/card";
+} from "@catalogar/ui/components/card";
 
 export default async function Page() {
   const { data: user } = await getUser();

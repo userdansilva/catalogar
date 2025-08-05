@@ -16,14 +16,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shadcn/components/ui/form";
-import { Input } from "@/shadcn/components/ui/input";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/shadcn/components/ui/card";
+} from "@catalogar/ui/components/card";
 import { publishCatalogAction } from "@/actions/publish-catalog-action";
 import { Catalog } from "@/types/api-types";
 
@@ -61,7 +61,7 @@ export function PublishCatalogForm({
           }
         },
       },
-    },
+    }
   );
 
   return (

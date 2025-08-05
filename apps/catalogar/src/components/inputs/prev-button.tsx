@@ -3,7 +3,7 @@
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ComponentProps, forwardRef } from "react";
-import { Button } from "@/shadcn/components/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 
 type PrevButtonProps = Omit<
   ComponentProps<typeof Button>,
@@ -36,5 +36,5 @@ export const PrevButton = forwardRef<HTMLButtonElement, PrevButtonProps>(
         Voltar
       </Button>
     );
-  },
+  }
 );

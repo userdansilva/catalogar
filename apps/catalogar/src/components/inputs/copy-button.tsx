@@ -2,7 +2,7 @@
 
 import { Check, Copy } from "lucide-react";
 import { ComponentProps, forwardRef, useState } from "react";
-import { Button } from "@/shadcn/components/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 
 type CopyButtonProps = Omit<
   ComponentProps<typeof Button>,
@@ -39,5 +39,5 @@ export const CopyButton = forwardRef<HTMLButtonElement, CopyButtonProps>(
         )}
       </Button>
     );
-  },
+  }
 );

@@ -8,7 +8,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/shadcn/components/ui/pagination";
+} from "@catalogar/ui/components/pagination";
 
 export function CatalogPagination({
   totalItems,
@@ -41,7 +41,7 @@ export function CatalogPagination({
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1).filter(
-    (page) => Math.abs(page - currentPage) <= 2,
+    (page) => Math.abs(page - currentPage) <= 2
   );
 
   return (

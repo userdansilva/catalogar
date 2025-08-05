@@ -13,14 +13,14 @@ import { z } from "zod";
 import { Button } from "./inputs/button";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import { routes } from "@/routes";
-import { Badge } from "@/shadcn/components/ui/badge";
+import { Badge } from "@catalogar/ui/components/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/shadcn/components/ui/card";
+} from "@catalogar/ui/components/card";
 import {
   Dialog,
   DialogClose,
@@ -28,7 +28,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTrigger,
-} from "@/shadcn/components/ui/dialog";
+} from "@catalogar/ui/components/dialog";
 import {
   Form,
   FormControl,
@@ -36,10 +36,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shadcn/components/ui/form";
-import { Label } from "@/shadcn/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/shadcn/components/ui/radio-group";
-import { ScrollArea } from "@/shadcn/components/ui/scroll-area";
+} from "@catalogar/ui/components/form";
+import { Label } from "@catalogar/ui/components/label";
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@catalogar/ui/components/radio-group";
+import { ScrollArea } from "@catalogar/ui/components/scroll-area";
 import { Catalog } from "@/types/api-types";
 import {
   Drawer,
@@ -48,8 +51,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/shadcn/components/ui/drawer";
-import { useIsMobile } from "@/shadcn/hooks/use-mobile";
+} from "@catalogar/ui/components/drawer";
+import { useIsMobile } from "@catalogar/ui/hooks/use-mobile";
 
 function CatalogSwitcherCard({
   currentCatalog,
@@ -217,7 +220,7 @@ export function CatalogSwitcherDrawerDialog({
           }
         },
       },
-    },
+    }
   );
 
   if (isMobile) {

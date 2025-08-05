@@ -4,8 +4,8 @@ import Link from "next/link";
 import { ShareButton } from "../inputs/share-button";
 import { CopyButton } from "../inputs/copy-button";
 import { CatalogItem, Company } from "@/types/api-types";
-import { ScrollArea, ScrollBar } from "@/shadcn/components/ui/scroll-area";
-import { Badge } from "@/shadcn/components/ui/badge";
+import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
+import { Badge } from "@catalogar/ui/components/badge";
 import { CarouselImages } from "@/components/catalog/carousel-images";
 
 export function PublicCatalogItemDetail({
