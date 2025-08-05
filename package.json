@@ -3,7 +3,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "build:catalogar": "turbo run build --filter=catalogar"
   },
   "devDependencies": {
     "@catalogar/eslint-config": "workspace:^",
