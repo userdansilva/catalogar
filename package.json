@@ -7,6 +7,7 @@
   },
   "devDependencies": {
     "@catalogar/eslint-config": "workspace:^",
+    "@changesets/cli": "^2.29.5",
     "turbo": "^2.5.5"
   },
   "packageManager": "pnpm@10.0.0"

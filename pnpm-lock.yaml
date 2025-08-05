@@ -11,6 +11,9 @@ importers:
       '@catalogar/eslint-config':
         specifier: workspace:^
         version: link:packages/eslint-config
+      '@changesets/cli':
+        specifier: ^2.29.5
+        version: 2.29.5
       turbo:
         specifier: ^2.5.5
         version: 2.5.5
