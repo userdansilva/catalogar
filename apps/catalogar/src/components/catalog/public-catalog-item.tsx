@@ -4,9 +4,9 @@ import { Images } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CatalogItem as CatalogItemType } from "@/types/api-types";
 import { cn } from "@catalogar/ui/lib/utils";
 import { Badge } from "@catalogar/ui/components/badge";
+import { CatalogItem as CatalogItemType } from "@/types/api-types";
 
 export function PublicCatalogItem({
   catalogItem,

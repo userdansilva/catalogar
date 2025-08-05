@@ -1,8 +1,6 @@
 import { FormEventHandler } from "react";
 import { Control, UseFormReturn, useWatch } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "../inputs/button";
-import { categorySchema } from "@/actions/schema";
 import { Badge } from "@catalogar/ui/components/badge";
 import {
   Card,
@@ -19,6 +17,8 @@ import {
   FormMessage,
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
+import { Button } from "../inputs/button";
+import { categorySchema } from "@/actions/schema";
 
 export type CategoryFormValues = z.infer<typeof categorySchema>;
 

@@ -1,10 +1,10 @@
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
+import { Button } from "@catalogar/ui/components/button";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
-import { Button } from "@catalogar/ui/components/button";
 
 export default async function PreviewLayout({ children }: PropsWithChildren) {
   const { data: user } = await getUser();

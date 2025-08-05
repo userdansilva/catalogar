@@ -1,16 +1,16 @@
 import { CircleCheckBig } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { CopyButton } from "@/components/inputs/copy-button";
-import { Button } from "@/components/inputs/button";
-import { routes } from "@/routes";
-import { getUser } from "@/services/get-user";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
+import { CopyButton } from "@/components/inputs/copy-button";
+import { Button } from "@/components/inputs/button";
+import { routes } from "@/routes";
+import { getUser } from "@/services/get-user";
 
 export default async function Page() {
   const { data: user } = await getUser();

@@ -4,10 +4,6 @@ import { CloudUpload, EyeOff, Pencil, Trash } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { toast } from "sonner";
-import { CarouselImages } from "./carousel-images";
-import { deleteCatalogItemAction } from "@/actions/delete-catalog-item-action";
-import { toggleCatalogItemStatusAction } from "@/actions/toggle-catalog-item-status-action";
-import { routes } from "@/routes";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,6 +18,10 @@ import {
 import { Badge } from "@catalogar/ui/components/badge";
 import { Button } from "@catalogar/ui/components/button";
 import { cn } from "@catalogar/ui/lib/utils";
+import { CarouselImages } from "./carousel-images";
+import { deleteCatalogItemAction } from "@/actions/delete-catalog-item-action";
+import { toggleCatalogItemStatusAction } from "@/actions/toggle-catalog-item-status-action";
+import { routes } from "@/routes";
 import { CatalogItem as CatalogItemType } from "@/types/api-types";
 
 export function PrivateCatalogItem({

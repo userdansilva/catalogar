@@ -10,9 +10,6 @@ import { FormEventHandler, PropsWithChildren, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Button } from "./inputs/button";
-import { switchCatalogAction } from "@/actions/switch-catalog-action";
-import { routes } from "@/routes";
 import { Badge } from "@catalogar/ui/components/badge";
 import {
   Card,
@@ -43,7 +40,6 @@ import {
   RadioGroupItem,
 } from "@catalogar/ui/components/radio-group";
 import { ScrollArea } from "@catalogar/ui/components/scroll-area";
-import { Catalog } from "@/types/api-types";
 import {
   Drawer,
   DrawerClose,
@@ -53,6 +49,10 @@ import {
   DrawerTrigger,
 } from "@catalogar/ui/components/drawer";
 import { useIsMobile } from "@catalogar/ui/hooks/use-mobile";
+import { Button } from "./inputs/button";
+import { Catalog } from "@/types/api-types";
+import { routes } from "@/routes";
+import { switchCatalogAction } from "@/actions/switch-catalog-action";
 
 function CatalogSwitcherCard({
   currentCatalog,

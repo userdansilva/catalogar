@@ -1,6 +1,3 @@
-import { CatalogSwitcher } from "./catalog-switcher";
-import NavMain from "./nav-main";
-import { NavUser } from "./nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -8,6 +5,9 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@catalogar/ui/components/sidebar";
+import { CatalogSwitcher } from "./catalog-switcher";
+import NavMain from "./nav-main";
+import { NavUser } from "./nav-user";
 import { getUser } from "@/services/get-user";
 import { getProductTypes } from "@/services/get-product-types";
 import { getCatalogItems } from "@/services/get-catalog-items";

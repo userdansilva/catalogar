@@ -4,10 +4,6 @@ import { Box, Check, Plus, Settings } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import Link from "next/link";
-import { Button } from "./inputs/button";
-import { routes } from "@/routes";
-import { switchCatalogAction } from "@/actions/switch-catalog-action";
-import { Catalog } from "@/types/api-types";
 import {
   Card,
   CardDescription,
@@ -15,6 +11,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
+import { Button } from "./inputs/button";
+import { routes } from "@/routes";
+import { switchCatalogAction } from "@/actions/switch-catalog-action";
+import { Catalog } from "@/types/api-types";
 
 type MyCatalogsProps = {
   catalogs: Catalog[];

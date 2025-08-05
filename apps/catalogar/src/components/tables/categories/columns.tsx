@@ -21,9 +21,6 @@ import { useState } from "react";
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { deleteCategoryAction } from "@/actions/delete-category-action";
-import { toggleCategoryStatusAction } from "@/actions/toggle-status-category-action";
-import { routes } from "@/routes";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,7 +42,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@catalogar/ui/components/dropdown-menu";
-import { Category } from "@/types/api-types";
 import {
   Form,
   FormControl,
@@ -54,6 +50,10 @@ import {
   FormMessage,
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
+import { Category } from "@/types/api-types";
+import { routes } from "@/routes";
+import { toggleCategoryStatusAction } from "@/actions/toggle-status-category-action";
+import { deleteCategoryAction } from "@/actions/delete-category-action";
 
 export const columns: ColumnDef<Category>[] = [
   {

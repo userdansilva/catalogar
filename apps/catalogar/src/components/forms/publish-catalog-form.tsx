@@ -5,9 +5,6 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { toast } from "sonner";
 import { Rocket } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Button } from "../inputs/button";
-import { publishCatalogSchema } from "@/actions/schema";
-import { routes } from "@/routes";
 import {
   Form,
   FormControl,
@@ -24,6 +21,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
+import { Button } from "../inputs/button";
+import { publishCatalogSchema } from "@/actions/schema";
+import { routes } from "@/routes";
 import { publishCatalogAction } from "@/actions/publish-catalog-action";
 import { Catalog } from "@/types/api-types";
 

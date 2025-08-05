@@ -5,8 +5,6 @@ import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { switchCatalogAction } from "@/actions/switch-catalog-action";
-import { routes } from "@/routes";
 import { Badge } from "@catalogar/ui/components/badge";
 import {
   DropdownMenu,
@@ -22,6 +20,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@catalogar/ui/components/sidebar";
+import { routes } from "@/routes";
+import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import { Catalog } from "@/types/api-types";
 
 export function CatalogSwitcher({

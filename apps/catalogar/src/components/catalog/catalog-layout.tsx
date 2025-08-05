@@ -2,9 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { ExternalLink, Forward, Menu } from "lucide-react";
-import { Button } from "../inputs/button";
-import { ShareButton } from "../inputs/share-button";
-import { Company, Theme } from "@/types/api-types";
 import {
   Drawer,
   DrawerContent,
@@ -14,6 +11,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@catalogar/ui/components/drawer";
+import { Button } from "../inputs/button";
+import { ShareButton } from "../inputs/share-button";
+import { Company, Theme } from "@/types/api-types";
 
 export function CatalogLayout({
   children,

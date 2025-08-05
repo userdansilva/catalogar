@@ -3,8 +3,6 @@ import { ChangeEvent, useRef } from "react";
 import { useAction } from "next-safe-action/hooks";
 import NextImage from "next/image";
 import { toast } from "sonner";
-import { Button } from "./button";
-import { createImageAction } from "@/actions/create-image-action";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,6 +14,8 @@ import {
   AlertDialogTrigger,
 } from "@catalogar/ui/components/alert-dialog";
 import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
+import { Button } from "./button";
+import { createImageAction } from "@/actions/create-image-action";
 
 type Image = {
   fileName: string;

@@ -11,8 +11,6 @@ import {
   View,
 } from "lucide-react";
 import Link from "next/link";
-import { CopyButton } from "./inputs/copy-button";
-import { routes } from "@/routes";
 import { Button } from "@catalogar/ui/components/button";
 import {
   Card,
@@ -21,6 +19,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
+import { CopyButton } from "./inputs/copy-button";
+import { routes } from "@/routes";
 import {
   CatalogItem,
   Category,

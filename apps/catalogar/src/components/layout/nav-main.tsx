@@ -2,7 +2,6 @@
 
 import { Lock } from "lucide-react";
 import Link from "next/link";
-import { routes } from "@/routes";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -17,6 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@catalogar/ui/components/tooltip";
+import { routes } from "@/routes";
 import {
   CatalogItem,
   Category,

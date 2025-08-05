@@ -2,7 +2,6 @@ import { ImageUp, Trash } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { ChangeEvent, useRef } from "react";
 import { toast } from "sonner";
-import { Button } from "./button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,6 +12,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@catalogar/ui/components/alert-dialog";
+import { Button } from "./button";
 import { createLogoAction } from "@/actions/create-logo-action";
 
 type Logo = {

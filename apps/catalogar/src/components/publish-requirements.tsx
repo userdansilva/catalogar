@@ -1,10 +1,10 @@
 import { AlertCircle, Check, CircleCheckBigIcon, Lock, X } from "lucide-react";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
-import { PublishCatalogForm } from "./forms/publish-catalog-form";
-import { routes } from "@/routes";
 import { Alert, AlertTitle } from "@catalogar/ui/components/alert";
 import { Button } from "@catalogar/ui/components/button";
+import { PublishCatalogForm } from "./forms/publish-catalog-form";
+import { routes } from "@/routes";
 import { CatalogItem, ProductType, UserWithCatalog } from "@/types/api-types";
 
 function RequireItem({

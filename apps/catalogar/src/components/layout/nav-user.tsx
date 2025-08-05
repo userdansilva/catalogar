@@ -2,7 +2,6 @@
 
 import { Book, ChevronsUpDown, LogOut } from "lucide-react";
 import Link from "next/link";
-import { routes } from "@/routes";
 import { Avatar, AvatarFallback } from "@catalogar/ui/components/avatar";
 import {
   DropdownMenu,
@@ -19,6 +18,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@catalogar/ui/components/sidebar";
+import { routes } from "@/routes";
 
 type NavUserProps = {
   user: {

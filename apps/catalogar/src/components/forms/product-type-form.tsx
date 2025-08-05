@@ -1,7 +1,6 @@
 import { FormEventHandler } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "../inputs/button";
 import {
   Form,
   FormControl,
@@ -11,6 +10,7 @@ import {
   FormMessage,
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
+import { Button } from "../inputs/button";
 import { productTypeSchema } from "@/actions/schema";
 
 export type ProductTypeFormValues = z.infer<typeof productTypeSchema>;

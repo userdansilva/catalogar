@@ -3,9 +3,6 @@
 import { FormEventHandler } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "../inputs/button";
-import { InputImages } from "../inputs/input-images";
-import { catalogItemSchema } from "@/actions/schema";
 import { Checkbox } from "@catalogar/ui/components/checkbox";
 import {
   Form,
@@ -25,6 +22,9 @@ import {
   SelectValue,
 } from "@catalogar/ui/components/select";
 import { Textarea } from "@catalogar/ui/components/textarea";
+import { InputImages } from "../inputs/input-images";
+import { Button } from "../inputs/button";
+import { catalogItemSchema } from "@/actions/schema";
 import { Category, ProductType } from "@/types/api-types";
 
 export type CatalogItemFormValues = z.infer<typeof catalogItemSchema>;
