@@ -7,7 +7,7 @@ import { getSession } from "@/utils/get-session";
 export async function getCatalogItems(
   filters: CatalogItemFilters = {
     perPage: 10_000,
-  },
+  }
 ) {
   const { Authorization } = await getSession();
 
@@ -18,7 +18,7 @@ export async function getCatalogItems(
     {
       headers: { Authorization },
       next: { tags: [tags.catalogItems.getAll] },
-    },
+    }
   );
 
   const data = await res.json();

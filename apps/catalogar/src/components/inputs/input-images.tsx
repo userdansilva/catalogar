@@ -19,8 +19,12 @@ import { createImageAction } from "@/actions/create-image-action";
 
 type Image = {
   fileName: string;
+  url: string;
+  sizeInBytes: number;
+  width: number;
+  height: number;
+  altText: string;
   position: number;
-  accessUrl: string;
 };
 
 type InputFilesProps = {
@@ -63,8 +67,12 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
         ...value,
         {
           fileName: res.data.fileName,
+          url: res.data.url,
+          sizeInBytes: res.data.sizeInBytes,
+          width: res.data.width,
+          height: res.data.height,
+          altText: "",
           position: value.length + 1,
-          accessUrl: res.data.accessUrl,
         },
       ]);
 
@@ -88,7 +96,7 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
   const handleRemove = (url: string) => {
     onChange(
       value
-        .filter((image) => image.accessUrl !== url)
+        .filter((image) => image.url !== url)
         .map((image, i) => ({ ...image, position: i + 1 }))
     );
   };
@@ -98,7 +106,7 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
       <ScrollArea className="border-input w-full max-w-[calc(100vw-40px)] rounded-md border bg-transparent text-base shadow-xs md:text-sm">
         <div className="flex w-max gap-x-4 p-3">
           {value.map((image) => (
-            <div className="relative size-52 rounded-md" key={image.accessUrl}>
+            <div className="relative size-52 rounded-md" key={image.url}>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button
@@ -117,9 +125,7 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() => handleRemove(image.accessUrl)}
-                    >
+                    <AlertDialogAction onClick={() => handleRemove(image.url)}>
                       Sim! Quero remover
                     </AlertDialogAction>
                   </AlertDialogFooter>
@@ -127,7 +133,7 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
               </AlertDialog>
 
               <NextImage
-                src={image.accessUrl}
+                src={image.url}
                 alt=""
                 width={208}
                 height={208}

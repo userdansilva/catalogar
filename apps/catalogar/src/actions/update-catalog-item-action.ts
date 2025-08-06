@@ -37,7 +37,11 @@ export const updateCatalogItemAction = authActionClient
             productTypeId,
             images: images.map((image) => ({
               fileName: image.fileName,
-              fileUrl: image.accessUrl,
+              url: image.url,
+              sizeInBytes: image.sizeInBytes,
+              width: image.width,
+              height: image.height,
+              altText: image.altText,
               position: image.position,
             })),
             price,
@@ -48,7 +52,7 @@ export const updateCatalogItemAction = authActionClient
             headers: {
               Authorization,
             },
-          },
+          }
         );
 
         revalidateTag(tags.catalogItems.getAll);
@@ -66,5 +70,5 @@ export const updateCatalogItemAction = authActionClient
         returnValidationErrorsIfExists(e, catalogItemSchema);
         throw e;
       }
-    },
+    }
   );

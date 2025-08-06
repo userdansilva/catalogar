@@ -29,7 +29,7 @@ export const createImageAction = authActionClient
           headers: {
             Authorization,
           },
-        },
+        }
       );
 
       const {
@@ -52,11 +52,17 @@ export const createImageAction = authActionClient
       const blockBlobClient = new BlockBlobClient(uploadUrl);
       await blockBlobClient.uploadData(optimizedImage);
 
-      return { fileName, accessUrl };
+      return {
+        fileName,
+        url: accessUrl,
+        sizeInBytes: optimizedImage.length,
+        width: 600,
+        height: 600,
+      };
     } catch (e) {
       returnValidationErrorsIfExists(
         e,
-        imageSchema as unknown as ZodObject<ZodRawShape>,
+        imageSchema as unknown as ZodObject<ZodRawShape>
       );
       throw e;
     }

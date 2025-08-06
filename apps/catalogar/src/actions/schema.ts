@@ -110,9 +110,13 @@ export const catalogItemSchema = z.object({
     .array(
       z.object({
         fileName: z.string(),
+        url: z.string(),
+        sizeInBytes: z.number(),
+        width: z.number(),
+        height: z.number(),
+        altText: z.string(),
         position: z.number(),
-        accessUrl: z.string(),
-      }),
+      })
     )
     .min(1, "É necessário adicionar, no mínimo, uma imagem"),
   price: z.string().optional(),

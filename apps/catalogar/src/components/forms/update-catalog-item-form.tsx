@@ -33,8 +33,12 @@ export function UpdateCatalogItemForm({
           ...catalogItem,
           images: catalogItem.images.map((image) => ({
             fileName: image.fileName,
+            url: image.url,
+            sizeInBytes: image.sizeInBytes,
+            width: image.width,
+            height: image.height,
+            altText: image.altText,
             position: image.position,
-            accessUrl: image.url,
           })),
           productTypeId: catalogItem.productType.id,
           categoryIds: catalogItem.categories.map((category) => category.id),
@@ -58,7 +62,7 @@ export function UpdateCatalogItemForm({
           }
         },
       },
-    },
+    }
   );
 
   return (

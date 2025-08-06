@@ -91,6 +91,10 @@ export type CatalogItemImage = {
   id: string;
   fileName: string;
   url: string;
+  sizeInBytes: number;
+  width: number;
+  height: number;
+  altText?: string;
   position: number;
   createdAt: string;
 };
