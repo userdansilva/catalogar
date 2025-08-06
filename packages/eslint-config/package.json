@@ -7,7 +7,7 @@
     "./next-js": "./next.js",
     "./prettier": "./prettier.js"
   },
-  "devDependencies": {
+  "dependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@next/eslint-plugin-next": "^15.4.5",
     "eslint": "^9.32.0",
@@ -15,6 +15,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-sonarjs": "^3.0.4",
+    "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14"
   }
 }
