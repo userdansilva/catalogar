@@ -1,9 +1,12 @@
-name: Vercel Preview Deployment
+name: Preview Deployment - Catalogar
 
 on:
   push:
     branches:
       - dev
+    paths:
+      - apps/catalogar/**
+      - packages/**
 
 jobs:
   deploy:

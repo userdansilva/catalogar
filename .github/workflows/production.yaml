@@ -1,9 +1,12 @@
-name: Vercel Production Deployment
+name: Production Deployment - Catalogar
 
 on:
   push:
     branches:
       - main
+    paths:
+      - apps/catalogar/**
+      - packages/**
 
 jobs:
   deploy:
