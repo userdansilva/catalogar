@@ -38,15 +38,10 @@ function ThemePreview({
       className="flex items-center gap-4 rounded-sm p-4"
     >
       <Menu className="size-4" />
-      {logo &&
-      logo.fileName &&
-      logo.originalFileName &&
-      logo.width &&
-      logo.height &&
-      logo.accessUrl ? (
+      {logo && logo.width && logo.height && logo.url ? (
         <CardContent className="h-7 flex-1">
           <Image
-            src={logo.accessUrl}
+            src={logo.url}
             width={logo.width / 3}
             height={logo.height / 3}
             alt="Logo"

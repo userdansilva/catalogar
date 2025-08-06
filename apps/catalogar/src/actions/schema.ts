@@ -61,10 +61,11 @@ export const themeSchema = z.object({
   logo: z.union([
     z.object({
       fileName: z.string(),
-      originalFileName: z.string(),
-      width: z.number().positive(),
-      height: z.number().positive(),
-      accessUrl: z.string(),
+      url: z.string(),
+      sizeInBytes: z.number(),
+      width: z.number(),
+      height: z.number(),
+      altText: z.string(),
     }),
     z.null(),
   ]),

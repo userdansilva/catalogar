@@ -25,13 +25,23 @@ export const createThemeAction = authActionClient
           {
             primaryColor,
             secondaryColor,
-            logo,
+            logo:
+              logo && logo.fileName
+                ? {
+                    fileName: logo.fileName,
+                    url: logo.url,
+                    sizeInBytes: logo.sizeInBytes,
+                    width: logo.width,
+                    height: logo.height,
+                    altText: logo.altText,
+                  }
+                : undefined,
           },
           {
             headers: {
               Authorization,
             },
-          },
+          }
         );
 
         revalidateTag(tags.users.me);
@@ -42,5 +52,5 @@ export const createThemeAction = authActionClient
         returnValidationErrorsIfExists(e, themeSchema);
         throw e;
       }
-    },
+    }
   );

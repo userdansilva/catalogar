@@ -37,10 +37,14 @@ export function CreateThemeForm({
       actionProps: {
         onSuccess: (res) => {
           toast.success(
-            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
+            `Sucesso! ${
+              !callbackUrl
+                ? "Voltando para Página Inicial..."
+                : "Redirecionando..."
+            }`,
             {
               description: res.data?.message,
-            },
+            }
           );
           router.push(callbackUrl || routes.dashboard.url);
         },
@@ -54,7 +58,7 @@ export function CreateThemeForm({
           }
         },
       },
-    },
+    }
   );
 
   return (

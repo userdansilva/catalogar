@@ -34,11 +34,11 @@ export const createLogoAction = authActionClient
           headers: {
             Authorization,
           },
-        },
+        }
       );
 
       const {
-        data: { fileName, uploadUrl, accessUrl },
+        data: { uploadUrl, accessUrl },
       } = data;
 
       const resizedImage = await sharp(buffer)
@@ -53,16 +53,16 @@ export const createLogoAction = authActionClient
       await blockBlobClient.uploadData(resizedImage);
 
       return {
-        fileName,
-        originalFileName,
-        accessUrl,
+        fileName: originalFileName,
+        url: accessUrl,
+        sizeInBytes: resizedImage.length,
         width: metadata.width || 0,
         height: metadata.height || 0,
       };
     } catch (e) {
       returnValidationErrorsIfExists(
         e,
-        imageSchema as unknown as ZodObject<ZodRawShape>,
+        imageSchema as unknown as ZodObject<ZodRawShape>
       );
       throw e;
     }

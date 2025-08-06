@@ -13,10 +13,13 @@ export type Company = PropsWithTimestamps<{
 
 export type Logo = PropsWithTimestamps<{
   id: string;
-  name: string;
+  fileName: string;
   url: string;
+  sizeInBytes: number;
   width: number;
   height: number;
+  altText?: string;
+  createdAt: string;
 }>;
 
 export type Theme = PropsWithTimestamps<{

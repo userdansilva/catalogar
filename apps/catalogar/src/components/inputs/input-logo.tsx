@@ -17,10 +17,11 @@ import { createLogoAction } from "@/actions/create-logo-action";
 
 type Logo = {
   fileName: string;
-  originalFileName: string;
+  url: string;
+  sizeInBytes: number;
   width: number;
   height: number;
-  accessUrl: string;
+  altText?: string;
 };
 
 export function InputLogo({
@@ -62,10 +63,11 @@ export function InputLogo({
     if (res?.data) {
       onChange({
         fileName: res.data.fileName,
-        originalFileName: res.data.originalFileName,
+        url: res.data.url,
+        sizeInBytes: res.data.sizeInBytes,
         width: res.data.width,
         height: res.data.height,
-        accessUrl: res.data.accessUrl,
+        altText: "",
       });
 
       // Reset input
@@ -78,25 +80,19 @@ export function InputLogo({
   const handleRemove = () =>
     onChange({
       fileName: "",
-      originalFileName: "",
+      url: "",
+      sizeInBytes: 0,
       width: 0,
       height: 0,
-      accessUrl: "",
+      altText: "",
     });
 
   return (
     <>
       <div>
-        {value &&
-        value.fileName &&
-        value.originalFileName &&
-        value.width > 0 &&
-        value.height > 0 &&
-        value.accessUrl ? (
+        {value && value.fileName ? (
           <div className="flex items-center space-x-4 rounded-md border p-4">
-            <div className="mr-3 flex-1 truncate text-sm">
-              {value.originalFileName}
-            </div>
+            <div className="mr-3 flex-1 truncate text-sm">{value.fileName}</div>
 
             <AlertDialog>
               <AlertDialogTrigger asChild>

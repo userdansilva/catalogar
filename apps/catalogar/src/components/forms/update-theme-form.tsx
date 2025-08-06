@@ -32,11 +32,10 @@ export function UpdateThemeForm({
           secondaryColor: theme.secondaryColor,
           logo: theme.logo
             ? {
-                fileName: theme.logo.url.split("/").pop(),
-                originalFileName: theme.logo.name,
+                fileName: theme.logo.fileName,
                 height: theme.logo.height,
                 width: theme.logo.width,
-                accessUrl: theme.logo.url,
+                url: theme.logo.url,
               }
             : null,
         },
@@ -44,10 +43,14 @@ export function UpdateThemeForm({
       actionProps: {
         onSuccess: (res) => {
           toast.success(
-            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
+            `Sucesso! ${
+              !callbackUrl
+                ? "Voltando para Página Inicial..."
+                : "Redirecionando..."
+            }`,
             {
               description: res.data?.message,
-            },
+            }
           );
           router.push(callbackUrl || routes.theme.url);
         },
@@ -61,7 +64,7 @@ export function UpdateThemeForm({
           }
         },
       },
-    },
+    }
   );
 
   return (
