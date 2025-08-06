@@ -4,6 +4,6 @@ export const prettierConfig = {
   singleQuote: false,
   tabWidth: 2,
   trailingComma: "all",
-  plugins: ["prettier-plugin-tailwindcss"],
+  plugins: [import("prettier-plugin-tailwindcss")],
   tailwindFunctions: ["clsx"],
 };
