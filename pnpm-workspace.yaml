@@ -1,0 +1,7 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+catalog:
+  react: "^19"
+  react-dom: "^19"
