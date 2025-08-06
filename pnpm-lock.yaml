@@ -7,10 +7,10 @@ settings:
 catalogs:
   default:
     react:
-      specifier: ^19.0.0
+      specifier: ^19
       version: 19.1.1
     react-dom:
-      specifier: ^19.0.0
+      specifier: ^19
       version: 19.1.1
 
 importers:
