@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { CreateCatalogForm } from "@/components/forms/create-catalog-form";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
@@ -13,7 +13,7 @@ export default async function FirstCatalog() {
   const { data: user } = await getUser<User>();
 
   if (user.currentCatalog) {
-    return redirect(routes.dashboard.url);
+    return redirect(routes.dashboard.url, RedirectType.replace);
   }
 
   return (

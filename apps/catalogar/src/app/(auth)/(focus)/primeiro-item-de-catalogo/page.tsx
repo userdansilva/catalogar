@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { CreateCatalogItemForm } from "@/components/forms/create-catalog-item-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
@@ -19,8 +19,8 @@ export default async function CreateFirstCatalogItem({
   const { callbackUrl } = await searchParams;
   const { data: catalogItems } = await getCatalogItems();
 
-  if (catalogItems.length >= 1) {
-    return redirect(routes.catalogItems.url);
+  if (catalogItems.length >= 1 && !callbackUrl) {
+    return redirect(routes.catalogItems.url, RedirectType.replace);
   }
 
   const { data: productTypes } = await getProductTypes();

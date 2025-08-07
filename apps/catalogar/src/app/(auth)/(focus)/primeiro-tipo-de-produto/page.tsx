@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { CreateProductTypeForm } from "@/components/forms/create-product-type-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
@@ -17,8 +17,8 @@ export default async function CreateFirstProductType({
   const { callbackUrl } = await searchParams;
   const { data: productTypes } = await getProductTypes();
 
-  if (productTypes.length >= 1) {
-    return redirect(routes.productTypes.url);
+  if (productTypes.length >= 1 && !callbackUrl) {
+    return redirect(routes.productTypes.url, RedirectType.replace);
   }
 
   return (
