@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { DataTable } from "../data-table";
 import { columns } from "./columns";
 import { getCategories } from "@/services/get-categories";
@@ -17,7 +17,7 @@ export async function CategoriesTable({ currentPage }: CategoriesTableProps) {
   });
 
   if (categories.length === 0) {
-    redirect(routes.categories.sub.createFirst.url);
+    redirect(routes.categories.sub.createFirst.url, RedirectType.replace);
   }
 
   return (

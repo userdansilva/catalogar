@@ -20,8 +20,11 @@ export function FirstSteps({
   const catalogItemAmount = catalogItems.length;
 
   const productTypeMissionStatus = (() => {
-    if (productTypeAmount > 0) return "COMPLETE";
-    if (categoryAmount === 0) return "CURRENT";
+    if (productTypeAmount > 0) {
+      return "COMPLETE";
+    }
+
+    if (productTypeAmount === 0) return "CURRENT";
 
     return "PENDING";
   })();

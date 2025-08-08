@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { UpdateCompanyForm } from "@/components/forms/update-company-form";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
@@ -19,7 +19,7 @@ export default async function Company({
   const { data: user } = await getUser();
 
   if (!user.currentCatalog.company) {
-    return redirect(routes.company.sub.new.url);
+    return redirect(routes.company.sub.new.url, RedirectType.replace);
   }
 
   return (
