@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { CreateCategoryForm } from "@/components/forms/create-category-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
@@ -17,8 +17,8 @@ export default async function CreateFirstCategory({
   const { callbackUrl } = await searchParams;
   const { data: categories } = await getCategories();
 
-  if (categories.length >= 1) {
-    return redirect(routes.categories.url);
+  if (categories.length >= 1 && !callbackUrl) {
+    return redirect(routes.categories.url, RedirectType.replace);
   }
 
   return (

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { UpdateThemeForm } from "@/components/forms/update-theme-form";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
@@ -19,7 +19,7 @@ export default async function Theme({
   const { data: user } = await getUser();
 
   if (!user.currentCatalog.theme) {
-    return redirect(routes.theme.sub.new.url);
+    return redirect(routes.theme.sub.new.url, RedirectType.replace);
   }
 
   return (

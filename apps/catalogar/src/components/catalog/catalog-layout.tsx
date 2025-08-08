@@ -22,8 +22,8 @@ export function CatalogLayout({
   theme,
 }: PropsWithChildren<{
   baseUrl: string;
-  company: Company;
-  theme: Theme;
+  company: Pick<Company, "name" | "mainSiteUrl" | "description">;
+  theme: Pick<Theme, "primaryColor" | "secondaryColor" | "logo">;
 }>) {
   return (
     <div>

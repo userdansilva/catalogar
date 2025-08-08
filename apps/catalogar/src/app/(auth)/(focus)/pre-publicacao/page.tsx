@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PublishRequirements } from "@/components/publish-requirements";
 import { routes } from "@/routes";
@@ -10,7 +10,7 @@ export default async function Page() {
   const { data: user } = await getUser();
 
   if (!user.currentCatalog) {
-    return redirect(routes.catalog.sub.createFirst.url);
+    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
   }
 
   const { data: productTypes } = await getProductTypes();

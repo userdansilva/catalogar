@@ -1,5 +1,14 @@
 # catalogar
 
+## 2.1.1
+
+### Patch Changes
+
+- c9373dd: Auto selecionar tipo de produto quando só existir um Closes #30
+- d64a01e: Correção na página de preview. Closes #28
+- ffc0233: Melhoria no redirecionamento em páginas de uso único
+- 7add2cd: Ajuste de missões do tutorial Closes #22. E ajuste nos redirecionamentos
+
 ## 2.1.0
 
 ### Minor Changes

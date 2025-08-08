@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { CreateCompanyForm } from "@/components/forms/create-company-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
@@ -18,8 +18,8 @@ export default async function RegisterCompany({
   const { callbackUrl } = await searchParams;
   const { data: user } = await getUser<User>();
 
-  if (user.currentCatalog?.company) {
-    return redirect(routes.dashboard.url);
+  if (user.currentCatalog?.company && !callbackUrl) {
+    return redirect(routes.dashboard.url, RedirectType.replace);
   }
 
   return (

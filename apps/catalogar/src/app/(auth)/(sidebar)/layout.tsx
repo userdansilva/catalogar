@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import {
   SidebarInset,
   SidebarProvider,
@@ -22,7 +22,7 @@ export default async function DashboardLayout({ children }: PropsWithChildren) {
   const { data: user } = await getUser<User>();
 
   if (!user.currentCatalog) {
-    return redirect(routes.catalog.sub.createFirst.url);
+    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
   }
 
   return (

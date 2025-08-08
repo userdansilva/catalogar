@@ -1,6 +1,6 @@
 import { CircleCheckBig } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -16,7 +16,7 @@ export default async function Page() {
   const { data: user } = await getUser();
 
   if (!user.currentCatalog.slug) {
-    redirect(routes.dashboard.url);
+    redirect(routes.dashboard.url, RedirectType.replace);
   }
 
   const publicLink = `${process.env.NEXT_PUBLIC_BASE_URL}/@${user.currentCatalog.slug}`;

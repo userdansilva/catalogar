@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { CreateThemeForm } from "@/components/forms/create-theme-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
@@ -18,8 +18,8 @@ export default async function RegisterCompany({
   const { callbackUrl } = await searchParams;
   const { data: user } = await getUser<UserWithCatalog>();
 
-  if (user.currentCatalog.theme) {
-    return redirect(routes.dashboard.url);
+  if (user.currentCatalog.theme && !callbackUrl) {
+    return redirect(routes.dashboard.url, RedirectType.replace);
   }
 
   return (

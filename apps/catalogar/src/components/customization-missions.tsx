@@ -4,17 +4,25 @@ import { routes } from "@/routes";
 
 export function CustomizationMissions({ user }: { user: UserWithCatalog }) {
   const companyMissionStatus = (() => {
-    if (user.currentCatalog.company) return "COMPLETE";
+    if (user.currentCatalog.company) {
+      return "COMPLETE";
+    }
 
-    if (!user.currentCatalog.theme) return "CURRENT";
+    if (!user.currentCatalog.company) {
+      return "CURRENT";
+    }
 
     return "PENDING";
   })();
 
   const themeMissionStatus = (() => {
-    if (user.currentCatalog.theme) return "COMPLETE";
+    if (user.currentCatalog.theme) {
+      return "COMPLETE";
+    }
 
-    if (companyMissionStatus === "COMPLETE") return "CURRENT";
+    if (!user.currentCatalog.theme && user.currentCatalog.company) {
+      return "CURRENT";
+    }
 
     return "PENDING";
   })();

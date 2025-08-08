@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { Metadata } from "next";
 import { CustomizationMissions } from "@/components/customization-missions";
 import { FirstSteps } from "@/components/first-steps";
@@ -23,7 +23,7 @@ export default async function Home({
   const { data: user } = await getUser();
 
   if (!user.currentCatalog) {
-    return redirect(routes.catalog.sub.createFirst.url);
+    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
   }
 
   const { pular } = await searchParams;

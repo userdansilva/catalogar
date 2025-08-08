@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { DataTable } from "../data-table";
 import { columns } from "./columns";
 import { getProductTypes } from "@/services/get-product-types";
@@ -19,7 +19,7 @@ export async function ProductTypesTable({
   });
 
   if (productTypes.length === 0) {
-    redirect(routes.productTypes.sub.createFirst.url);
+    redirect(routes.productTypes.sub.createFirst.url, RedirectType.replace);
   }
 
   return (
