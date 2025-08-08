@@ -32,7 +32,10 @@ export function CreateCatalogItemForm({
         defaultValues: {
           title: "",
           caption: "",
-          productTypeId: "",
+          productTypeId:
+            productTypes.length === 1 && productTypes[0]?.id
+              ? productTypes[0].id
+              : "",
           images: [],
           price: "",
           categoryIds: [],
@@ -45,7 +48,7 @@ export function CreateCatalogItemForm({
             `Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`,
             {
               description: res.data?.message,
-            },
+            }
           );
           router.push(callbackUrl || routes.catalogItems.url);
         },
@@ -59,7 +62,7 @@ export function CreateCatalogItemForm({
           }
         },
       },
-    },
+    }
   );
 
   return (
