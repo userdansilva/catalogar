@@ -11,11 +11,9 @@ export default async function PreviewLayout({ children }: PropsWithChildren) {
 
   const { company, theme } = user.currentCatalog;
 
-  if (!theme || !company) return null;
-
   return (
     <div>
-      <div className="bg-primary container">
+      <div className="bg-foreground container border-b-[.5px] border-accent-foreground">
         <Button variant="link" className="dark pl-0" size="sm" asChild>
           <Link href={routes.dashboard.url}>
             <ChevronLeft />
@@ -26,8 +24,19 @@ export default async function PreviewLayout({ children }: PropsWithChildren) {
 
       <CatalogLayout
         baseUrl={routes.preview.url}
-        company={company}
-        theme={theme}
+        company={
+          company ?? {
+            name: "Empresa",
+            mainSiteUrl: "",
+            description: "",
+          }
+        }
+        theme={
+          theme ?? {
+            primaryColor: "var(--foreground)",
+            secondaryColor: "var(--background)",
+          }
+        }
       >
         {children}
       </CatalogLayout>
