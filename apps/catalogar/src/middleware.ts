@@ -5,19 +5,26 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const authRes = await auth0.middleware(request);
-  const session = await auth0.getSession(request);
 
-  if (pathname.startsWith("/auth")) {
-    return authRes;
-  }
+  try {
+    const session = await auth0.getSession(request);
 
-  if (session) {
-    await auth0.getAccessToken(request, authRes);
-  }
+    if (pathname.startsWith("/auth")) {
+      return authRes;
+    }
 
-  if (!session) {
+    if (session) {
+      await auth0.getAccessToken(request, authRes);
+    }
+
+    if (!session) {
+      return NextResponse.redirect(
+        new URL("/auth/login", request.nextUrl.origin)
+      );
+    }
+  } catch {
     return NextResponse.redirect(
-      new URL("/auth/login", request.nextUrl.origin)
+      new URL("/auth/logout", request.nextUrl.origin)
     );
   }
 
@@ -35,6 +42,6 @@ export const config = {
      * - entrar
      * - @
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|entrar|@).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|logo.png|entrar|@).*)",
   ],
 };
