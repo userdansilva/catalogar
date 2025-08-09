@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { createMiddleware, createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
+import * as Sentry from "@sentry/nextjs";
 import { getUser } from "@/services/get-user";
 import { ApiError } from "@/types/api-error";
 import { UserWithCatalog } from "@/types/api-types";
@@ -14,7 +15,7 @@ const authMiddleware = createMiddleware<{
     ctx: {
       Authorization: ctx.Authorization,
     },
-  }),
+  })
 );
 
 export const authActionClient = createSafeActionClient({
@@ -23,6 +24,8 @@ export const authActionClient = createSafeActionClient({
       actionName: z.string(),
     }),
   handleServerError(e) {
+    Sentry.captureException(e);
+
     if (e instanceof AxiosError) {
       return (e as AxiosError<ApiError>).response?.data;
     }

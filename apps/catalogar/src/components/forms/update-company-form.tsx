@@ -8,7 +8,6 @@ import { CompanyForm } from "./company-form";
 import { Company } from "@/types/api-types";
 import { updateCompanyAction } from "@/actions/update-company-action";
 import { companySchema } from "@/actions/schema";
-import { routes } from "@/routes";
 
 type UpdateCompanyFormProps = {
   company: Company;
@@ -27,23 +26,16 @@ export function UpdateCompanyForm({
     {
       formProps: {
         mode: "onChange",
-        defaultValues: {
-          name: company.name,
-          description: company.description,
-          mainSiteUrl: company.mainSiteUrl,
-          businessTypeDescription: company.businessTypeDescription,
-          phoneNumber: company.phoneNumber,
-        },
+        defaultValues: company,
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success(
-            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
-            {
-              description: res.data?.message,
-            },
-          );
-          router.push(callbackUrl || routes.company.url);
+        onSuccess: () => {
+          if (callbackUrl) {
+            toast.success("Alterações salvas! Redirecionando...");
+            router.push(callbackUrl);
+          }
+
+          toast.success("Alterações salvas!");
         },
         onError: (e) => {
           const { serverError } = e.error;
@@ -55,7 +47,7 @@ export function UpdateCompanyForm({
           }
         },
       },
-    },
+    }
   );
 
   return (
