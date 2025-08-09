@@ -6,27 +6,19 @@ export async function middleware(request: NextRequest) {
 
   const authRes = await auth0.middleware(request);
 
-  try {
-    const session = await auth0.getSession(request);
+  if (pathname.startsWith("/auth")) {
+    return authRes;
+  }
 
-    if (pathname.startsWith("/auth")) {
-      return authRes;
-    }
+  const session = await auth0.getSession(request);
 
-    if (session) {
-      await auth0.getAccessToken(request, authRes);
-    }
-
-    if (!session) {
-      return NextResponse.redirect(
-        new URL("/auth/login", request.nextUrl.origin)
-      );
-    }
-  } catch {
+  if (!session) {
     return NextResponse.redirect(
-      new URL("/auth/logout", request.nextUrl.origin)
+      new URL("/auth/login", request.nextUrl.origin)
     );
   }
+
+  await auth0.getAccessToken(request, authRes);
 
   return authRes;
 }
