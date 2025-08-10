@@ -25,7 +25,7 @@ export const createCatalogAction = authActionClient
           headers: {
             Authorization,
           },
-        },
+        }
       );
 
       revalidateTag(tags.users.me);
