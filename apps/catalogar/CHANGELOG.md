@@ -1,5 +1,13 @@
 # catalogar
 
+## 2.1.2
+
+### Patch Changes
+
+- 94c1cfe: Configuração do Sentry Closes #13
+- 5984c80: Correção de configuração de eslint
+- 4c08e60: Correção de falha ao atualizar tema #37
+
 ## 2.1.1
 
 ### Patch Changes
