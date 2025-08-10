@@ -1,14 +1,14 @@
 "use client";
 
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { ThemeForm } from "./theme-form";
 import { Company, Theme } from "@/types/api-types";
 import { updateThemeAction } from "@/actions/update-theme-action";
 import { themeSchema } from "@/actions/schema";
-import { routes } from "@/routes";
+
 
 export function UpdateThemeForm({
   theme,
@@ -27,32 +27,16 @@ export function UpdateThemeForm({
     {
       formProps: {
         mode: "onChange",
-        defaultValues: {
-          primaryColor: theme.primaryColor,
-          secondaryColor: theme.secondaryColor,
-          logo: theme.logo
-            ? {
-                fileName: theme.logo.fileName,
-                height: theme.logo.height,
-                width: theme.logo.width,
-                url: theme.logo.url,
-              }
-            : null,
-        },
+        defaultValues: theme,
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success(
-            `Sucesso! ${
-              !callbackUrl
-                ? "Voltando para Página Inicial..."
-                : "Redirecionando..."
-            }`,
-            {
-              description: res.data?.message,
-            }
-          );
-          router.push(callbackUrl || routes.theme.url);
+        onSuccess: () => {
+          if (callbackUrl) {
+            toast.success("Alterações salvas! Redirecionando...");
+            router.push(callbackUrl);
+          }
+
+          toast.success("Alterações salvas!");
         },
         onError: (e) => {
           const { serverError } = e.error;

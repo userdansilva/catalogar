@@ -1,0 +1,3 @@
+{
+  "extends": "@catalogar/typescript-config/base.json"
+}

@@ -35,17 +35,16 @@ function ThemePreview({
   return (
     <Card
       style={{ color: secondaryColor, background: primaryColor }}
-      className="flex items-center gap-4 rounded-sm p-4"
+      className="flex flex-row items-center gap-4 rounded-sm p-4"
     >
-      <Menu className="size-4" />
       {logo && logo.width && logo.height && logo.url ? (
         <CardContent className="h-7 flex-1">
           <Image
             src={logo.url}
-            width={logo.width / 3}
-            height={logo.height / 3}
-            alt="Logo"
-            style={{ objectFit: "contain" }}
+            alt="logo"
+            height={logo.height}
+            width={logo.width}
+            style={{ height: 28, width: "auto" }}
             unoptimized
           />
         </CardContent>
@@ -55,7 +54,10 @@ function ThemePreview({
         </span>
       )}
 
-      <span className="text-sm">Menu</span>
+      <Button variant="ghost">
+        <Menu className="size-4" />
+        Menu
+      </Button>
     </Card>
   );
 }
@@ -90,31 +92,29 @@ export function ThemeForm({
               </FormControl>
 
               <FormDescription>
-                <ul>
-                  <li>
-                    Formatos: SVG (melhor qualidade), PNG sem fundo ou JPG.
-                    (Dica: Use{" "}
-                    <a
-                      href="https://convertio.co/pt/"
-                      target="_blank"
-                      className="underline underline-offset-2"
-                    >
-                      Convertio.co
-                    </a>{" "}
-                    para alterar o formato).
-                  </li>
-                  <li>
-                    Tamanho máximo: 1MB. (Dica: Use{" "}
-                    <a
-                      href="https://tinypng.com/"
-                      target="_blank"
-                      className="underline underline-offset-2"
-                    >
-                      TinyPNG
-                    </a>{" "}
-                    para otimizar imagem).
-                  </li>
-                </ul>
+                <span className="block">
+                  Formatos: SVG (melhor qualidade), PNG sem fundo ou JPG. (Dica:
+                  Use{" "}
+                  <a
+                    href="https://convertio.co/pt/"
+                    target="_blank"
+                    className="underline underline-offset-2"
+                  >
+                    Convertio.co
+                  </a>{" "}
+                  para alterar o formato).
+                </span>
+                <span className="block">
+                  Tamanho máximo: 1MB. (Dica: Use{" "}
+                  <a
+                    href="https://tinypng.com/"
+                    target="_blank"
+                    className="underline underline-offset-2"
+                  >
+                    TinyPNG
+                  </a>{" "}
+                  para otimizar imagem).
+                </span>
               </FormDescription>
 
               <FormMessage />

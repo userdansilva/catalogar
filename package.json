@@ -10,8 +10,12 @@
   },
   "devDependencies": {
     "@catalogar/eslint-config": "workspace:^",
+    "@catalogar/typescript-config": "workspace:^",
     "@changesets/cli": "^2.29.5",
-    "turbo": "^2.5.5"
-  },
-  "packageManager": "pnpm@10.0.0"
+    "eslint": "^9.33.0",
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.5",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.0"
+  }
 }
