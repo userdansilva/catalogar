@@ -23,12 +23,18 @@ export const authActionClient = createSafeActionClient({
     z.object({
       actionName: z.string(),
     }),
-  handleServerError(e) {
-    Sentry.captureException(e);
-
+  handleServerError(e, { metadata }) {
     if (e instanceof AxiosError) {
-      return (e as AxiosError<ApiError>).response?.data;
+      const error = e as AxiosError<ApiError>;
+
+      for (const message of error.response?.data.errors || []) {
+        Sentry.captureMessage(`${metadata.actionName}: ${message}`, "warning");
+      }
+
+      return error.response?.data;
     }
+
+    Sentry.captureException(e);
 
     return {
       message: "Ops! Algo deu errado. Por favor, tente novamente",
