@@ -1,0 +1,3 @@
+{
+  "extends": ["@catalogar/eslint-config/prettier"]
+}
