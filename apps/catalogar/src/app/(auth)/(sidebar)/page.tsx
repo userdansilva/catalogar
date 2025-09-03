@@ -29,7 +29,7 @@ export default async function Home({
   const { pular } = await searchParams;
 
   const { data: productTypes } = await getProductTypes();
-  const { data: categories } = await getCategories();
+  const [err, data] = await getCategories();
   const { data: catalogItems } = await getCatalogItems();
 
   const shouldDisplayMainMissions =
@@ -37,6 +37,10 @@ export default async function Home({
 
   const shouldDisplayCustomizationMissions =
     !user.currentCatalog.company || !user.currentCatalog.theme;
+
+  if (err) {
+    return;
+  }
 
   return (
     <div className="space-y-10">
@@ -58,7 +62,7 @@ export default async function Home({
       {shouldDisplayMainMissions ? (
         <FirstSteps
           productTypes={productTypes}
-          categories={categories}
+          categories={data.data}
           catalogItems={catalogItems}
           skipCategory={pular === "categoria"}
         />
@@ -77,7 +81,7 @@ export default async function Home({
 
           <MainCards
             productTypes={productTypes}
-            categories={categories}
+            categories={data.data}
             catalogItems={catalogItems}
             user={user}
           />

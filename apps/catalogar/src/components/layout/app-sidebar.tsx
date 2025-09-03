@@ -16,8 +16,10 @@ import { getCategories } from "@/services/get-categories";
 export async function AppSidebar() {
   const { data: user } = await getUser();
   const { data: productTypes } = await getProductTypes();
-  const { data: categories } = await getCategories();
+  const [err, data] = await getCategories();
   const { data: catalogItems } = await getCatalogItems();
+
+  if (err) return;
 
   return (
     <Sidebar className="font-medium" collapsible="icon">
@@ -32,7 +34,7 @@ export async function AppSidebar() {
         <NavMain
           user={user}
           productTypes={productTypes}
-          categories={categories}
+          categories={data.data}
           catalogItems={catalogItems}
         />
       </SidebarContent>

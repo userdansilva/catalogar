@@ -15,9 +15,13 @@ export default async function CreateFirstCategory({
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
   const { callbackUrl } = await searchParams;
-  const { data: categories } = await getCategories();
+  const [err, data] = await getCategories();
 
-  if (categories.length >= 1 && !callbackUrl) {
+  if (err) {
+    return; // handling error
+  }
+
+  if (data.data.length >= 1 && !callbackUrl) {
     return redirect(routes.categories.url, RedirectType.replace);
   }
 
