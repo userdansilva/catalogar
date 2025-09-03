@@ -1,23 +1,42 @@
-import { formatParamsFrom } from "./format-params-from";
+import { serverFetch } from "./server-fetch";
+import { getAuthHeaders } from "./get-auth-headers";
 import { tags } from "@/tags";
 import { ApiResponseWithPagination } from "@/types/api-response";
-import { Category, CategoryFilters } from "@/types/api-types";
-import { getSession } from "@/utils/get-session";
+import { DefaultApiError } from "@/types/default-api-error";
 
-export async function getCategories(filters: CategoryFilters = {}) {
-  const { Authorization } = await getSession();
+export type GetCategoriesError = DefaultApiError;
+export type GetCategoriesResponse = ApiResponseWithPagination<
+  {
+    id: string;
+    name: string;
+    slug: string;
+    textColor: string;
+    backgroundColor: string;
+    isDisabled: boolean;
+    disabledAt?: string;
+    createdAt: string;
+    updatedAt: string;
+  }[]
+>;
+export type GetCategoriesParams = {
+  field?: "name" | "createdAt";
+  sort?: "asc" | "desc";
+  page?: number;
+  perPage?: number;
+};
 
-  const params = formatParamsFrom(filters);
+export async function getCategories(params: GetCategoriesParams = {}) {
+  const headers = await getAuthHeaders();
 
-  const res = await fetch(
-    `${process.env.API_URL}/api/v1/categories?${params}`,
-    {
-      headers: { Authorization },
-      next: { tags: [tags.categories.getAll] },
+  const result = await serverFetch<GetCategoriesError, GetCategoriesResponse>({
+    baseUrl: process.env.API_URL as string,
+    url: "/api/v1/categories",
+    params,
+    headers,
+    next: {
+      tags: [tags.createCategory, tags.updateCategory, tags.deleteCategory],
     },
-  );
+  });
 
-  const data = await res.json();
-
-  return data as ApiResponseWithPagination<Category[]>;
+  return result;
 }
