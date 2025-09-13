@@ -1,8 +1,8 @@
 import { ProductType } from "./get-product-type-by-id";
 import { Category } from "./get-category-by-id";
 import { CatalogItemImage } from "./get-images-generate-sas-token";
-import { getAuthHeaders } from "./get-auth-headers";
-import { serverFetch } from "./server-fetch";
+import { serverFetch } from "@/utils/server-fetch";
+import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { tags } from "@/tags";
 import { ApiResponse, DefaultApiError } from "@/types/api-response";
 

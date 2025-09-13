@@ -1,6 +1,6 @@
-import { getAuthHeaders } from "./get-auth-headers";
 import { ProductType } from "./get-product-type-by-id";
-import { serverFetch } from "./server-fetch";
+import { getAuthHeaders } from "@/utils/get-auth-headers";
+import { serverFetch } from "@/utils/server-fetch";
 import { tags } from "@/tags";
 import {
   ApiResponseWithPagination,
