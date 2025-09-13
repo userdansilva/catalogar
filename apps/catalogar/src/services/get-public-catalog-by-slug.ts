@@ -1,17 +1,34 @@
+import { Catalog } from "./get-user";
+import { Category } from "./get-category-by-id";
+import { ProductType } from "./get-product-type-by-id";
+import { CatalogItem } from "./get-catalog-item-by-id";
+import { getAuthHeaders } from "./get-auth-headers";
+import { serverFetch } from "./server-fetch";
+import { ApiResponse, DefaultApiError } from "@/types/api-response";
 import { tags } from "@/tags";
-import { ApiResponse } from "@/types/api-response";
-import { PublishedCatalog } from "@/types/api-types";
+
+export type PublishedCatalog = Required<Catalog> & {
+  categories: Category[];
+  productTypes: ProductType[];
+  catalogItems: CatalogItem[];
+};
+
+export type GetPublicCatalogBySlugError = DefaultApiError;
+export type GetPublicCatalogBySlugResponse = ApiResponse<PublishedCatalog>;
 
 export async function getPublicCatalogBySlug(slug: string) {
-  const res = await fetch(
-    `${process.env.API_URL}/api/v1/public/catalogs/${slug}`,
-    {
-      next: { tags: [tags.publicCatalog.getBySlug(slug)] },
-      cache: "force-cache",
+  const headers = await getAuthHeaders();
+
+  return await serverFetch<
+    GetPublicCatalogBySlugError,
+    GetPublicCatalogBySlugResponse
+  >({
+    baseUrl: process.env.API_URL as string,
+    url: `/v1/public/catalogs/${slug}`,
+    headers,
+    next: {
+      tags: [tags.publicCatalog.getBySlug(slug)],
     },
-  );
-
-  const data = await res.json();
-
-  return data as ApiResponse<PublishedCatalog>;
+    cache: "force-cache",
+  });
 }

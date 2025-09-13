@@ -10,11 +10,13 @@ export async function serverFetch<TError, TData>(config: {
   params?: object;
   headers?: HeadersInit;
   next?: NextFetchRequestConfig;
+  cache?: RequestCache;
 }): FetchResult<TError, TData> {
-  const response = await fetch(`${config.baseUrl}${config.url}`, {
+  const response = await fetch(`${config.baseUrl}/api${config.url}`, {
     method: "GET",
     headers: config.headers,
     next: config.next,
+    cache: config.cache,
   });
 
   const data = await response.json();

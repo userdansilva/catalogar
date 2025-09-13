@@ -18,7 +18,4 @@ export const tags = {
   publicCatalog: {
     getBySlug: (slug: string) => `public-catalog-${slug}`,
   },
-  createCategory: "createCategory",
-  updateCategory: "updateCategory",
-  deleteCategory: "deleteCategory",
 };

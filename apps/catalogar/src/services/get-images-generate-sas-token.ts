@@ -1,0 +1,31 @@
+import { getAuthHeaders } from "./get-auth-headers";
+import { serverFetch } from "./server-fetch";
+import { ApiResponse, DefaultApiError } from "@/types/api-response";
+
+export type CatalogItemImage = {
+  id: string;
+  fileName: string;
+  url: string;
+  sizeInBytes: number;
+  width: number;
+  height: number;
+  altText?: string;
+  position: number;
+  createdAt: string;
+};
+
+export type GetImageGenerateSasTokenError = DefaultApiError;
+export type GetImageGenerateSasTokenResponse = ApiResponse<CatalogItemImage>;
+
+export async function getImageGenerateSasToken(fileName: string) {
+  const headers = await getAuthHeaders();
+
+  return await serverFetch<
+    GetImageGenerateSasTokenError,
+    GetImageGenerateSasTokenResponse
+  >({
+    baseUrl: process.env.API_URL as string,
+    url: `/v1/images/generate-sas-token?fileName=${fileName}`,
+    headers,
+  });
+}
