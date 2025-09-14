@@ -10,6 +10,7 @@ import { MyCatalogs } from "@/components/my-catalogs";
 import { CatalogSwitcherDrawerDialog } from "@/components/catalog-switcher-drawer-dialog";
 import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export const metadata: Metadata = {
   title: routes.dashboard.title,
@@ -20,27 +21,38 @@ export default async function Home({
 }: {
   searchParams: Promise<{ pular?: string }>;
 }) {
-  const { data: user } = await getUser();
+  const [userError, userData] = await getUser();
+  if (userError) {
+    return <ExpectedError error={userError} />;
+  }
 
-  if (!user.currentCatalog) {
+  if (!userData.data.currentCatalog) {
     return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
   }
 
   const { pular } = await searchParams;
 
-  const { data: productTypes } = await getProductTypes();
-  const [err, data] = await getCategories();
-  const { data: catalogItems } = await getCatalogItems();
+  const [productTypesError, productTypesData] = await getProductTypes();
+  if (productTypesError) {
+    return <ExpectedError error={productTypesError} />;
+  }
+
+  const [categoriesError, categoriesData] = await getCategories();
+  if (categoriesError) {
+    return <ExpectedError error={categoriesError} />;
+  }
+
+  const [catalogItemsError, catalogItemsData] = await getCatalogItems();
+  if (catalogItemsError) {
+    return <ExpectedError error={catalogItemsError} />;
+  }
 
   const shouldDisplayMainMissions =
-    productTypes.length === 0 || catalogItems.length === 0;
+    productTypesData.data.length === 0 || catalogItemsData.data.length === 0;
 
   const shouldDisplayCustomizationMissions =
-    !user.currentCatalog.company || !user.currentCatalog.theme;
-
-  if (err) {
-    return;
-  }
+    !userData.data.currentCatalog.company ||
+    !userData.data.currentCatalog.theme;
 
   return (
     <div className="space-y-10">
@@ -61,9 +73,9 @@ export default async function Home({
 
       {shouldDisplayMainMissions ? (
         <FirstSteps
-          productTypes={productTypes}
-          categories={data.data}
-          catalogItems={catalogItems}
+          productTypes={productTypesData.data}
+          categories={categoriesData.data}
+          catalogItems={catalogItemsData.data}
           skipCategory={pular === "categoria"}
         />
       ) : (
@@ -74,28 +86,28 @@ export default async function Home({
             </p>
 
             <CatalogSwitcherDrawerDialog
-              catalogs={user.catalogs}
-              currentCatalog={user.currentCatalog}
+              catalogs={userData.data.catalogs}
+              currentCatalog={userData.data.currentCatalog}
             />
           </div>
 
           <MainCards
-            productTypes={productTypes}
-            categories={data.data}
-            catalogItems={catalogItems}
-            user={user}
+            productTypes={productTypesData.data}
+            categories={categoriesData.data}
+            catalogItems={catalogItemsData.data}
+            user={userData.data}
           />
         </div>
       )}
 
       {shouldDisplayCustomizationMissions && (
-        <CustomizationMissions user={user} />
+        <CustomizationMissions user={userData.data} />
       )}
 
-      {(!shouldDisplayMainMissions || user.catalogs.length > 1) && (
+      {(!shouldDisplayMainMissions || userData.data.catalogs.length > 1) && (
         <MyCatalogs
-          catalogs={user.catalogs}
-          currentCatalog={user.currentCatalog}
+          catalogs={userData.data.catalogs}
+          currentCatalog={userData.data.currentCatalog}
         />
       )}
     </div>

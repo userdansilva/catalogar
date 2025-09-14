@@ -37,14 +37,6 @@ export const routes = {
       },
     },
   },
-  auth: {
-    sub: {
-      login: {
-        title: "Entrar",
-        url: "/entrar",
-      },
-    },
-  },
   dashboard: {
     title: "Página Inicial",
     icon: House,

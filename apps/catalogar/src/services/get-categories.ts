@@ -19,8 +19,8 @@ export type GetCategoriesParams = {
 export async function getCategories({
   params,
 }: {
-  params: GetCategoriesParams;
-}) {
+  params?: GetCategoriesParams;
+} = {}) {
   const headers = await getAuthHeaders();
 
   return await serverFetch<GetCategoriesError, GetCategoriesResponse>({

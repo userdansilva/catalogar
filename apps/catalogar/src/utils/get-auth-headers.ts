@@ -1,13 +1,7 @@
-import { auth0 } from "@/lib/auth0";
-import { getSession } from "@/utils/get-session";
+import { getAccessToken } from "./get-access-token";
 
 export async function getAuthHeaders() {
-  // it will redirect if no session found
-  await getSession();
+  const accessToken = await getAccessToken();
 
-  const { token } = await auth0.getAccessToken();
-
-  return {
-    Authorization: `Bearer ${token}`,
-  };
+  return { Authorization: `Bearer ${accessToken}` };
 }

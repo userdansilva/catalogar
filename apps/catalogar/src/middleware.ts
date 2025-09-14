@@ -14,13 +14,18 @@ export async function middleware(request: NextRequest) {
 
   if (!session) {
     return NextResponse.redirect(
-      new URL("/auth/login", request.nextUrl.origin)
+      new URL("/auth/login", request.nextUrl.origin),
     );
   }
 
-  await auth0.getAccessToken(request, authRes);
-
-  return authRes;
+  try {
+    await auth0.getAccessToken(request, authRes);
+    return authRes;
+  } catch {
+    return NextResponse.redirect(
+      new URL("/auth/logout", request.nextUrl.origin),
+    );
+  }
 }
 
 export const config = {

@@ -17,8 +17,8 @@ export type GetProductTypesParams = {
 export async function getProductTypes({
   params,
 }: {
-  params: GetProductTypesParams;
-}) {
+  params?: GetProductTypesParams;
+} = {}) {
   const headers = await getAuthHeaders();
 
   return await serverFetch<GetProductTypesError, GetProductTypesResponse>({

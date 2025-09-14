@@ -14,8 +14,8 @@ export type GetCatalogItemsParams = {
 export async function getCatalogItems({
   params,
 }: {
-  params: GetCatalogItemsParams;
-}) {
+  params?: GetCatalogItemsParams;
+} = {}) {
   const headers = await getAuthHeaders();
 
   return await serverFetch<GetCatalogItemsError, GetCatalogItemsResponse>({

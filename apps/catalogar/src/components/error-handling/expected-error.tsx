@@ -8,9 +8,9 @@ import {
 import { AlertCircle, Lock } from "lucide-react";
 import { useEffect } from "react";
 import * as Sentry from "@sentry/nextjs";
-import { ApiError } from "@/types/api-error";
+import { DefaultApiError } from "@/types/api-response";
 
-export function ExpectedError({ error }: { error: ApiError }) {
+export function ExpectedError({ error }: { error: DefaultApiError }) {
   useEffect(() => {
     Sentry.captureException(error);
   }, [error]);
