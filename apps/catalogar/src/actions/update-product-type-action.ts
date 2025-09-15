@@ -3,52 +3,47 @@
 import { revalidateTag } from "next/cache";
 import slugify from "slugify";
 import { authActionClient } from "./safe-action";
-import { api } from "./api";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { productTypeSchema } from "./schema";
-import { ProductType } from "@/types/api-types";
 import { tags } from "@/tags";
-import { ApiResponse } from "@/types/api-response";
+import { putProductType } from "@/services/put-product-type";
+import { ExpectedError } from "@/classes/ExpectedError";
+import { getUser } from "@/services/get-user";
 
 export const updateProductTypeAction = authActionClient
   .schema(productTypeSchema)
   .metadata({
     actionName: "update-product-type",
   })
-  .action(
-    async ({
-      parsedInput: { id, name, isDisabled },
-      ctx: { Authorization, user },
-    }) => {
-      try {
-        const res = await api.put<ApiResponse<ProductType>>(
-          `/v1/product-types/${id}`,
-          {
-            name,
-            slug: slugify(name, { lower: true }),
-            isDisabled,
-          },
-          {
-            headers: {
-              Authorization,
-            },
-          },
-        );
+  .action(async ({ parsedInput: { id, name, isDisabled } }) => {
+    if (!id) throw new Error("Id não encontrado");
 
-        revalidateTag(tags.productTypes.getAll);
+    const [productTypeError, productTypeData] = await putProductType(id, {
+      name,
+      slug: slugify(name, { lower: true }),
+      isDisabled,
+    });
 
-        if (id) {
-          revalidateTag(tags.productTypes.getById(id));
-        }
+    if (productTypeError) {
+      throw new ExpectedError(productTypeError);
+    }
 
-        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-        }
+    const [userError, userData] = await getUser();
 
-        return { productType: res.data.data, message: res.data.meta?.message };
-      } catch (e) {
-        returnValidationErrorsIfExists(e, productTypeSchema);
-        throw e;
-      }
-    },
-  );
+    if (userError) {
+      throw new ExpectedError(userError);
+    }
+
+    revalidateTag(tags.productTypes.getAll);
+    revalidateTag(tags.productTypes.getById(id));
+
+    const { currentCatalog } = userData.data;
+
+    if (currentCatalog?.isPublished && currentCatalog.slug) {
+      revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+    }
+
+    return {
+      productType: productTypeData.data,
+      message: productTypeData.meta.message,
+    };
+  });

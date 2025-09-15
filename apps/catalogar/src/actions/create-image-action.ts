@@ -1,69 +1,54 @@
 "use server";
 
-import { ZodObject, ZodRawShape } from "zod";
 import { BlockBlobClient } from "@azure/storage-blob";
 import sharp from "sharp";
-import { api } from "./api";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { authActionClient } from "./safe-action";
 import { imageSchema } from "./schema";
-import { StorageSasToken } from "@/types/api-types";
-import { ApiResponse } from "@/types/api-response";
+import { postStorageGenerateSasToken } from "@/services/post-storage-generate-sas-token";
+import { ExpectedError } from "@/classes/ExpectedError";
 
 export const createImageAction = authActionClient
-  .schema(imageSchema)
+  .inputSchema(imageSchema)
   .metadata({
     actionName: "create-image",
   })
-  .action(async ({ parsedInput: { image }, ctx: { Authorization } }) => {
-    try {
-      const arrayBuffer = await image.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
+  .action(async ({ parsedInput: { image } }) => {
+    const arrayBuffer = await image.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
-      const { data } = await api.post<ApiResponse<StorageSasToken>>(
-        "/v1/storage/generate-sas-token",
-        {
-          fileType: "WEBP",
-        },
-        {
-          headers: {
-            Authorization,
-          },
-        }
-      );
+    const [error, data] = await postStorageGenerateSasToken({
+      body: {
+        fileType: "WEBP",
+      },
+    });
 
-      const {
-        data: { fileName, uploadUrl, accessUrl },
-      } = data;
-
-      const optimizedImage = await sharp(buffer)
-        .resize(600, 600, {
-          background: {
-            r: 255,
-            g: 255,
-            b: 255,
-            alpha: 1,
-          },
-          fit: "contain",
-        })
-        .webp({ quality: 100 })
-        .toBuffer();
-
-      const blockBlobClient = new BlockBlobClient(uploadUrl);
-      await blockBlobClient.uploadData(optimizedImage);
-
-      return {
-        fileName,
-        url: accessUrl,
-        sizeInBytes: optimizedImage.length,
-        width: 600,
-        height: 600,
-      };
-    } catch (e) {
-      returnValidationErrorsIfExists(
-        e,
-        imageSchema as unknown as ZodObject<ZodRawShape>
-      );
-      throw e;
+    if (error) {
+      throw new ExpectedError(error);
     }
+
+    const { fileName, uploadUrl, accessUrl } = data.data;
+
+    const optimizedImage = await sharp(buffer)
+      .resize(600, 600, {
+        background: {
+          r: 255,
+          g: 255,
+          b: 255,
+          alpha: 1,
+        },
+        fit: "contain",
+      })
+      .webp({ quality: 100 })
+      .toBuffer();
+
+    const blockBlobClient = new BlockBlobClient(uploadUrl);
+    await blockBlobClient.uploadData(optimizedImage);
+
+    return {
+      fileName,
+      url: accessUrl,
+      sizeInBytes: optimizedImage.length,
+      width: 600,
+      height: 600,
+    };
   });

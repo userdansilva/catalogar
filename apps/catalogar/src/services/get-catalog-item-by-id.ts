@@ -29,7 +29,6 @@ export async function getCatalogItemById(id: string) {
 
   return await serverFetch<GetCatalogItemByIdError, GetCatalogItemByIdResponse>(
     {
-      baseUrl: process.env.API_URL as string,
       url: `/v1/catalog-items/${id}`,
       headers,
       next: {

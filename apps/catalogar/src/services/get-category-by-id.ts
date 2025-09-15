@@ -22,7 +22,6 @@ export async function getCategoryById(id: string) {
   const headers = await getAuthHeaders();
 
   return await serverFetch<GetCategoryByIdError, GetCategoryByIdResponse>({
-    baseUrl: process.env.API_URL as string,
     url: `/v1/categories/${id}`,
     headers,
     next: {

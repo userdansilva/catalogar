@@ -24,7 +24,6 @@ export async function getCategories({
   const headers = await getAuthHeaders();
 
   return await serverFetch<GetCategoriesError, GetCategoriesResponse>({
-    baseUrl: process.env.API_URL as string,
     url: "/v1/categories",
     params,
     headers,

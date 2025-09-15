@@ -4,20 +4,17 @@ export type FetchResult<TError, TData> = Promise<
   [TError, null] | [null, TData]
 >;
 
-export async function serverFetch<TError, TData>(config: {
-  baseUrl: string;
+export async function serverFetch<TError, TData>({
+  url,
+  ...config
+}: RequestInit & {
   url: string;
-  params?: object;
-  headers?: HeadersInit;
   next?: NextFetchRequestConfig;
   cache?: RequestCache;
+  params?: object;
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 }): FetchResult<TError, TData> {
-  const response = await fetch(`${config.baseUrl}/api${config.url}`, {
-    method: "GET",
-    headers: config.headers,
-    next: config.next,
-    cache: config.cache,
-  });
+  const response = await fetch(`${process.env.API_URL}/api${url}`, config);
 
   const data = await response.json();
 

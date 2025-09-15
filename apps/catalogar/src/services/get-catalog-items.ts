@@ -19,7 +19,6 @@ export async function getCatalogItems({
   const headers = await getAuthHeaders();
 
   return await serverFetch<GetCatalogItemsError, GetCatalogItemsResponse>({
-    baseUrl: process.env.API_URL as string,
     url: "/v1/catalog-items",
     params,
     headers,

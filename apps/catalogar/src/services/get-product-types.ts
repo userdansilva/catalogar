@@ -22,7 +22,6 @@ export async function getProductTypes({
   const headers = await getAuthHeaders();
 
   return await serverFetch<GetProductTypesError, GetProductTypesResponse>({
-    baseUrl: process.env.API_URL as string,
     url: "/v1/product-types",
     params,
     headers,

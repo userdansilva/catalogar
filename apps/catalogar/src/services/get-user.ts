@@ -63,7 +63,6 @@ export async function getUser() {
   const headers = await getAuthHeaders();
 
   return await serverFetch<GetUserError, GetUserResponse>({
-    baseUrl: process.env.API_URL as string,
     url: "/v1/users/me",
     headers,
     next: {

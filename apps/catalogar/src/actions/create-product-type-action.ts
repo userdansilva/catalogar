@@ -3,50 +3,44 @@
 import { revalidateTag } from "next/cache";
 import slugify from "slugify";
 import { authActionClient } from "./safe-action";
-import { api } from "./api";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { productTypeSchema } from "./schema";
 import { tags } from "@/tags";
-import { ProductType } from "@/types/api-types";
-import { ApiResponse } from "@/types/api-response";
+import { postProductType } from "@/services/post-product-type";
+import { ExpectedError } from "@/classes/ExpectedError";
+import { getUser } from "@/services/get-user";
 
 export const createProductTypeAction = authActionClient
-  .schema(productTypeSchema)
+  .inputSchema(productTypeSchema)
   .metadata({
     actionName: "create-product-type",
   })
-  .action(
-    async ({
-      parsedInput: { name, isDisabled },
-      ctx: { Authorization, user },
-    }) => {
-      try {
-        const res = await api.post<ApiResponse<ProductType>>(
-          "/v1/product-types",
-          {
-            name,
-            slug: slugify(name, { lower: true }),
-            isDisabled,
-          },
-          {
-            headers: {
-              Authorization,
-            },
-          },
-        );
+  .action(async ({ parsedInput: { name, isDisabled } }) => {
+    const [productTypeError, productTypeData] = await postProductType({
+      name,
+      slug: slugify(name, { lower: true }),
+      isDisabled,
+    });
 
-        revalidateTag(tags.productTypes.getAll);
+    if (productTypeError) {
+      throw new ExpectedError(productTypeError);
+    }
 
-        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-        }
+    const [userError, userData] = await getUser();
 
-        return { productType: res.data.data, message: res.data.meta?.message };
-      } catch (e) {
-        console.error(e);
+    if (userError) {
+      throw new ExpectedError(userError);
+    }
 
-        returnValidationErrorsIfExists(e, productTypeSchema);
-        throw e;
-      }
-    },
-  );
+    revalidateTag(tags.productTypes.getAll);
+
+    const { currentCatalog } = userData.data;
+
+    if (currentCatalog?.isPublished && currentCatalog.slug) {
+      revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+    }
+
+    return {
+      productType: productTypeData.data,
+      message: productTypeData.meta.message,
+    };
+  });

@@ -21,7 +21,6 @@ export async function getProductTypeById(id: string) {
 
   return await serverFetch<GetProductTypeByIdError, GetProductTypeByIdResponse>(
     {
-      baseUrl: process.env.API_URL as string,
       url: `/v1/product-types/${id}`,
       headers,
       next: {

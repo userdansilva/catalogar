@@ -23,7 +23,6 @@ export async function getPublicCatalogBySlug(slug: string) {
     GetPublicCatalogBySlugError,
     GetPublicCatalogBySlugResponse
   >({
-    baseUrl: process.env.API_URL as string,
     url: `/v1/public/catalogs/${slug}`,
     headers,
     next: {

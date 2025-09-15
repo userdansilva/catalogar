@@ -24,7 +24,6 @@ export async function getImageGenerateSasToken(fileName: string) {
     GetImageGenerateSasTokenError,
     GetImageGenerateSasTokenResponse
   >({
-    baseUrl: process.env.API_URL as string,
     url: `/v1/images/generate-sas-token?fileName=${fileName}`,
     headers,
   });

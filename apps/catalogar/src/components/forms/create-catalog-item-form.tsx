@@ -8,7 +8,8 @@ import { CatalogItemForm } from "./catalog-item-form";
 import { routes } from "@/routes";
 import { createCatalogItemAction } from "@/actions/create-catalog-item-action";
 import { catalogItemSchema } from "@/actions/schema";
-import { Category, ProductType } from "@/types/api-types";
+import { Category } from "@/services/get-category-by-id";
+import { ProductType } from "@/services/get-product-type-by-id";
 
 type CreateCatalogItemFormProps = {
   categories: Category[];
@@ -48,7 +49,7 @@ export function CreateCatalogItemForm({
             `Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`,
             {
               description: res.data?.message,
-            }
+            },
           );
           router.push(callbackUrl || routes.catalogItems.url);
         },
@@ -62,7 +63,7 @@ export function CreateCatalogItemForm({
           }
         },
       },
-    }
+    },
   );
 
   return (
