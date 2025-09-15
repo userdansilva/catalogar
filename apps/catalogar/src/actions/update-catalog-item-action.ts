@@ -2,15 +2,14 @@
 
 import { revalidateTag } from "next/cache";
 import { authActionClient } from "./safe-action";
-import { api } from "./api";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { catalogItemSchema } from "./schema";
-import { CatalogItem } from "@/types/api-types";
 import { tags } from "@/tags";
-import { ApiResponse } from "@/types/api-response";
+import { putCatalogItem } from "@/services/put-catalog-item";
+import { ExpectedError } from "@/classes/ExpectedError";
+import { getUser } from "@/services/get-user";
 
 export const updateCatalogItemAction = authActionClient
-  .schema(catalogItemSchema)
+  .inputSchema(catalogItemSchema)
   .metadata({
     actionName: "update-catalog-item",
   })
@@ -26,49 +25,49 @@ export const updateCatalogItemAction = authActionClient
         categoryIds,
         isDisabled,
       },
-      ctx: { Authorization, user },
     }) => {
-      try {
-        const res = await api.put<ApiResponse<CatalogItem>>(
-          `/v1/catalog-items/${id}`,
-          {
-            title,
-            caption,
-            productTypeId,
-            images: images.map((image) => ({
-              fileName: image.fileName,
-              url: image.url,
-              sizeInBytes: image.sizeInBytes,
-              width: image.width,
-              height: image.height,
-              altText: image.altText,
-              position: image.position,
-            })),
-            price,
-            categoryIds,
-            isDisabled,
-          },
-          {
-            headers: {
-              Authorization,
-            },
-          }
-        );
+      if (!id) throw new Error("Id não encontrado");
 
-        revalidateTag(tags.catalogItems.getAll);
+      const [catalogItemError, catalogItemData] = await putCatalogItem(id, {
+        title,
+        caption,
+        productTypeId,
+        images: images.map((image) => ({
+          fileName: image.fileName,
+          url: image.url,
+          sizeInBytes: image.sizeInBytes,
+          width: image.width,
+          height: image.height,
+          altText: image.altText,
+          position: image.position,
+        })),
+        price,
+        categoryIds,
+        isDisabled,
+      });
 
-        if (id) {
-          revalidateTag(tags.catalogItems.getById(id));
-        }
-
-        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-        }
-
-        return { catalogItem: res.data.data, message: res.data.meta?.message };
-      } catch (e) {
-        returnValidationErrorsIfExists(e, catalogItemSchema);
-        throw e;
+      if (catalogItemError) {
+        throw new ExpectedError(catalogItemError);
       }
-    }
+
+      const [userError, userData] = await getUser();
+
+      if (userError) {
+        throw new ExpectedError(userError);
+      }
+
+      revalidateTag(tags.catalogItems.getAll);
+      revalidateTag(tags.catalogItems.getById(id));
+
+      const { currentCatalog } = userData.data;
+
+      if (currentCatalog?.isPublished && currentCatalog.slug) {
+        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+      }
+
+      return {
+        catalogItem: catalogItemData.data,
+        message: catalogItemData.meta.message,
+      };
+    },
   );
