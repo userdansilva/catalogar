@@ -1,3 +1,4 @@
+import { notFound, redirect, RedirectType } from "next/navigation";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
 import { routes } from "@/routes";
@@ -5,22 +6,42 @@ import { getCatalogItems } from "@/services/get-catalog-items";
 import { getUser } from "@/services/get-user";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ reference: string }>;
 }) {
-  const { data: user } = await getUser();
+  const [userError, userData] = await getUser();
+
+  if (userError) {
+    return <ExpectedError error={userError} />;
+  }
+
+  const user = userData.data;
+
+  if (!user.currentCatalog) {
+    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
+  }
+
+  const [catalogItemsError, catalogItemsData] = await getCatalogItems();
+
+  if (catalogItemsError) {
+    return <ExpectedError error={catalogItemsError} />;
+  }
+
+  const catalogItems = catalogItemsData.data;
 
   const { reference } = await params;
-  const { data: catalogItems } = await getCatalogItems();
 
   const catalogItem = catalogItems.find(
     (item) => item.reference === Number(reference),
   );
 
-  if (!catalogItem) return null;
+  if (!catalogItem) {
+    notFound();
+  }
 
   const relatedCatalogItems = filterCatalogItems(
     catalogItems,
@@ -37,8 +58,12 @@ export default async function Page({
     currentPage: 1,
   });
 
-  if (!user.currentCatalog.theme || !user.currentCatalog.company) {
-    return null;
+  if (!user.currentCatalog.theme) {
+    redirect(routes.theme.sub.new.url, RedirectType.replace);
+  }
+
+  if (!user.currentCatalog.company) {
+    redirect(routes.company.sub.new.url, RedirectType.replace);
   }
 
   return (

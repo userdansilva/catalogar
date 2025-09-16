@@ -2,12 +2,24 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { Button } from "@catalogar/ui/components/button";
+import { redirect, RedirectType } from "next/navigation";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export default async function PreviewLayout({ children }: PropsWithChildren) {
-  const { data: user } = await getUser();
+  const [error, data] = await getUser();
+
+  if (error) {
+    return <ExpectedError error={error} />;
+  }
+
+  const user = data.data;
+
+  if (!user.currentCatalog) {
+    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
+  }
 
   const { company, theme } = user.currentCatalog;
 

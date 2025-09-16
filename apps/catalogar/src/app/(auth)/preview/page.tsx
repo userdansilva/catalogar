@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { redirect, RedirectType } from "next/navigation";
 import { CatalogItems } from "@/components/catalog/catalog-items";
 import { CategoriesFilter } from "@/components/filters/categories-filter";
 import { ProductTypesFilter } from "@/components/filters/product-types-filter";
@@ -10,6 +11,7 @@ import { getProductTypes } from "@/services/get-product-types";
 import { getUser } from "@/services/get-user";
 import { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export const metadata: Metadata = {
   title: routes.preview.title,
@@ -29,10 +31,43 @@ export default async function Preview({
 }: {
   searchParams: Promise<SearchParams<typeof SEARCH_PARAM_NAMES>>;
 }) {
-  const { data: user } = await getUser();
-  const { data: catalogItems } = await getCatalogItems();
-  const { data: productTypes } = await getProductTypes();
-  const { data: categories } = await getCategories();
+  const [userError, userData] = await getUser();
+
+  if (userError) {
+    return <ExpectedError error={userError} />;
+  }
+
+  const user = userData.data;
+
+  if (!user.currentCatalog) {
+    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
+  }
+
+  const [
+    [productTypesError, productTypesData],
+    [categoriesError, categoriesData],
+    [catalogItemsError, catalogItemsData],
+  ] = await Promise.all([
+    getProductTypes(),
+    getCategories(),
+    getCatalogItems(),
+  ]);
+
+  if (productTypesError) {
+    return <ExpectedError error={productTypesError} />;
+  }
+
+  if (categoriesError) {
+    return <ExpectedError error={categoriesError} />;
+  }
+
+  if (catalogItemsError) {
+    return <ExpectedError error={catalogItemsError} />;
+  }
+
+  const productTypes = productTypesData.data;
+  const categories = categoriesData.data;
+  const catalogItems = catalogItemsData.data;
 
   const { busca, p, categoria, produto } = await searchParams;
 
