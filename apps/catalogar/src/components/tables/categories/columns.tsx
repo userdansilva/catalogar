@@ -50,10 +50,10 @@ import {
   FormMessage,
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
-import { Category } from "@/types/api-types";
 import { routes } from "@/routes";
 import { toggleCategoryStatusAction } from "@/actions/toggle-status-category-action";
 import { deleteCategoryAction } from "@/actions/delete-category-action";
+import { Category } from "@/services/get-category-by-id";
 
 export const columns: ColumnDef<Category>[] = [
   {
@@ -137,7 +137,7 @@ export const columns: ColumnDef<Category>[] = [
       });
 
       const { executeAsync: executeToggleStatusAsync } = useAction(
-        toggleCategoryStatusAction
+        toggleCategoryStatusAction,
       );
 
       const { executeAsync: executeDeleteAsync } =
@@ -151,7 +151,7 @@ export const columns: ColumnDef<Category>[] = [
           {
             loading: "Alterando status...",
             success: "Status atualizado!",
-          }
+          },
         );
 
       const handleRemove = () =>
@@ -162,7 +162,7 @@ export const columns: ColumnDef<Category>[] = [
           {
             loading: "Deletando categoria...",
             success: "Categoria deletada com sucesso!",
-          }
+          },
         );
 
       return (

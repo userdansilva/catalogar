@@ -4,7 +4,7 @@ import { PublicCatalogItem } from "./public-catalog-item";
 import { CatalogNoResults } from "./catalog-no-results";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
-import { CatalogItem } from "@/types/api-types";
+import { CatalogItem } from "@/services/get-catalog-item-by-id";
 
 export function CatalogItems({
   query,

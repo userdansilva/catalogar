@@ -18,7 +18,7 @@ import {
   PopoverTrigger,
 } from "@catalogar/ui/components/popover";
 import { cn } from "@catalogar/ui/lib/utils";
-import { Category } from "@/types/api-types";
+import { Category } from "@/services/get-category-by-id";
 
 export function CategoriesFilter({
   categories,
@@ -65,7 +65,7 @@ export function CategoriesFilter({
           >
             {currentCategorySlug ? (
               categories.find(
-                (category) => category.slug === currentCategorySlug
+                (category) => category.slug === currentCategorySlug,
               )?.name
             ) : (
               <span className="flex items-center gap-3">
@@ -88,7 +88,7 @@ export function CategoriesFilter({
                     <Check
                       className={cn(
                         "ml-auto",
-                        !currentCategorySlug ? "opacity-100" : "opacity-0"
+                        !currentCategorySlug ? "opacity-100" : "opacity-0",
                       )}
                     />
                   </Link>
@@ -113,7 +113,7 @@ export function CategoriesFilter({
                             "ml-auto",
                             currentCategorySlug === category.slug
                               ? "opacity-100"
-                              : "opacity-0"
+                              : "opacity-0",
                           )}
                         />
                       </Link>

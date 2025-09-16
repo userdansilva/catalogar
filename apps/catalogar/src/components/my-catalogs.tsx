@@ -14,7 +14,7 @@ import {
 import { Button } from "./inputs/button";
 import { routes } from "@/routes";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
-import { Catalog } from "@/types/api-types";
+import { Catalog } from "@/services/get-user";
 
 type MyCatalogsProps = {
   catalogs: Catalog[];
@@ -96,7 +96,7 @@ export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
 
                               return "Catálogo atual alterado!";
                             },
-                          }
+                          },
                         );
                       }}
                     >

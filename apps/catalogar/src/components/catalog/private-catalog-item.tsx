@@ -22,19 +22,19 @@ import { CarouselImages } from "./carousel-images";
 import { deleteCatalogItemAction } from "@/actions/delete-catalog-item-action";
 import { toggleCatalogItemStatusAction } from "@/actions/toggle-catalog-item-status-action";
 import { routes } from "@/routes";
-import { CatalogItem as CatalogItemType } from "@/types/api-types";
+import { CatalogItem } from "@/services/get-catalog-item-by-id";
 
 export function PrivateCatalogItem({
   catalogItem,
 }: {
-  catalogItem: CatalogItemType;
+  catalogItem: CatalogItem;
 }) {
   const { executeAsync: executeToggleStatusAsync } = useAction(
-    toggleCatalogItemStatusAction
+    toggleCatalogItemStatusAction,
   );
 
   const { executeAsync: executeDeleteAsync } = useAction(
-    deleteCatalogItemAction
+    deleteCatalogItemAction,
   );
 
   const handleToggleStatus = () =>
@@ -49,7 +49,7 @@ export function PrivateCatalogItem({
         success: `Item de catálogo ${
           catalogItem.isDisabled ? "ativado" : "ocultado"
         } com sucesso!`,
-      }
+      },
     );
 
   const handleRemove = () =>
@@ -60,7 +60,7 @@ export function PrivateCatalogItem({
       {
         loading: "Removendo item de catálogo...",
         success: "Item de catálogo removido com sucesso!",
-      }
+      },
     );
 
   return (
@@ -90,7 +90,7 @@ export function PrivateCatalogItem({
         <div
           className={cn(
             "text-base font-semibold",
-            catalogItem.isDisabled && "line-through"
+            catalogItem.isDisabled && "line-through",
           )}
         >
           {catalogItem.title}

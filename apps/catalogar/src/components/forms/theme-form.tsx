@@ -18,8 +18,8 @@ import {
 } from "@catalogar/ui/components/form";
 import { Button } from "../inputs/button";
 import { InputLogo } from "../inputs/input-logo";
-import { Company } from "@/types/api-types";
 import { themeSchema } from "@/actions/schema";
+import { Company } from "@/services/get-user";
 
 export type ThemeFormValues = z.infer<typeof themeSchema>;
 

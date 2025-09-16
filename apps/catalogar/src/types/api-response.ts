@@ -1,6 +1,8 @@
-export type Meta = {
-  message?: string;
-};
+export type Meta =
+  | {
+      message?: string;
+    }
+  | undefined;
 
 export type Pagination = {
   currentPage: number;
@@ -9,7 +11,7 @@ export type Pagination = {
   totalItems: number;
 };
 
-export type MetaWithPagination = Meta & {
+export type MetaWithPagination = Required<Meta> & {
   pagination: Pagination;
 };
 
@@ -18,7 +20,7 @@ export type ApiResponse<
   M extends Meta | MetaWithPagination = Meta,
 > = {
   data: T;
-  meta?: M;
+  meta: M;
 };
 
 export type ApiResponseWithPagination<T extends object[]> = ApiResponse<

@@ -19,14 +19,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
+import { redirect, RedirectType } from "next/navigation";
 import { CopyButton } from "./inputs/copy-button";
 import { routes } from "@/routes";
-import {
-  CatalogItem,
-  Category,
-  ProductType,
-  UserWithCatalog,
-} from "@/types/api-types";
+import { ProductType } from "@/services/get-product-type-by-id";
+import { Category } from "@/services/get-category-by-id";
+import { CatalogItem } from "@/services/get-catalog-item-by-id";
+import { User } from "@/services/get-user";
 
 export function MainCards({
   productTypes,
@@ -37,8 +36,12 @@ export function MainCards({
   productTypes: ProductType[];
   categories: Category[];
   catalogItems: CatalogItem[];
-  user: UserWithCatalog;
+  user: User;
 }) {
+  if (!user.currentCatalog) {
+    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
+  }
+
   const publicLink = `${process.env.NEXT_PUBLIC_BASE_URL}/@${user.currentCatalog.slug}`;
 
   return (

@@ -3,9 +3,12 @@ import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { Alert, AlertTitle } from "@catalogar/ui/components/alert";
 import { Button } from "@catalogar/ui/components/button";
+import { redirect, RedirectType } from "next/navigation";
 import { PublishCatalogForm } from "./forms/publish-catalog-form";
 import { routes } from "@/routes";
-import { CatalogItem, ProductType, UserWithCatalog } from "@/types/api-types";
+import { User } from "@/services/get-user";
+import { ProductType } from "@/services/get-product-type-by-id";
+import { CatalogItem } from "@/services/get-catalog-item-by-id";
 
 function RequireItem({
   done,
@@ -44,7 +47,7 @@ function RequireItem({
 }
 
 type PublishRequirementsProps = {
-  user: UserWithCatalog;
+  user: User;
   productTypes: ProductType[];
   catalogItems: CatalogItem[];
 };
@@ -54,6 +57,10 @@ export function PublishRequirements({
   productTypes,
   catalogItems,
 }: PublishRequirementsProps) {
+  if (!user.currentCatalog) {
+    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
+  }
+
   const isRequerimentsDone =
     productTypes.length >= 1 &&
     catalogItems.length >= 1 &&

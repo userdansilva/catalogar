@@ -5,8 +5,9 @@ import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
 import { Badge } from "@catalogar/ui/components/badge";
 import { ShareButton } from "../inputs/share-button";
 import { CopyButton } from "../inputs/copy-button";
-import { CatalogItem, Company } from "@/types/api-types";
 import { CarouselImages } from "@/components/catalog/carousel-images";
+import { CatalogItem } from "@/services/get-catalog-item-by-id";
+import { Company } from "@/services/get-user";
 
 export function PublicCatalogItemDetail({
   baseUrl,
