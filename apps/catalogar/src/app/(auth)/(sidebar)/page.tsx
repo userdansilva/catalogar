@@ -22,6 +22,7 @@ export default async function Home({
   searchParams: Promise<{ pular?: string }>;
 }) {
   const [userError, userData] = await getUser();
+
   if (userError) {
     return <ExpectedError error={userError} />;
   }
@@ -30,19 +31,24 @@ export default async function Home({
     return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
   }
 
-  const { pular } = await searchParams;
+  const [
+    [productTypesError, productTypesData],
+    [categoriesError, categoriesData],
+    [catalogItemsError, catalogItemsData],
+  ] = await Promise.all([
+    getProductTypes(),
+    getCategories(),
+    getCatalogItems(),
+  ]);
 
-  const [productTypesError, productTypesData] = await getProductTypes();
   if (productTypesError) {
     return <ExpectedError error={productTypesError} />;
   }
 
-  const [categoriesError, categoriesData] = await getCategories();
   if (categoriesError) {
     return <ExpectedError error={categoriesError} />;
   }
 
-  const [catalogItemsError, catalogItemsData] = await getCatalogItems();
   if (catalogItemsError) {
     return <ExpectedError error={catalogItemsError} />;
   }
@@ -53,6 +59,8 @@ export default async function Home({
   const shouldDisplayCustomizationMissions =
     !userData.data.currentCatalog.company ||
     !userData.data.currentCatalog.theme;
+
+  const { pular } = await searchParams;
 
   return (
     <div className="space-y-10">
