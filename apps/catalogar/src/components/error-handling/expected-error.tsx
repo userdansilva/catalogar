@@ -5,7 +5,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@catalogar/ui/components/alert";
-import { AlertCircle, Lock } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { useEffect } from "react";
 import * as Sentry from "@sentry/nextjs";
 import { DefaultApiError } from "@/types/api-response";
@@ -29,19 +29,6 @@ export function ExpectedError({ error }: { error: DefaultApiError }) {
               ))}
             </ul>
           )}
-        </AlertDescription>
-      </Alert>
-    );
-  }
-
-  if (error.statusCode === 401) {
-    return (
-      <Alert>
-        <Lock />
-        <AlertTitle>Não autorizado</AlertTitle>
-        <AlertDescription>
-          Seu usuário não possui as permissões necessárias para acessar estes
-          dados.
         </AlertDescription>
       </Alert>
     );
