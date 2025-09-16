@@ -4,7 +4,7 @@ import { CreateCompanyForm } from "@/components/forms/create-company-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
-import { User } from "@/types/api-types";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export const metadata: Metadata = {
   title: routes.company.sub.new.title,
@@ -15,10 +15,21 @@ export default async function RegisterCompany({
 }: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
-  const { callbackUrl } = await searchParams;
-  const { data: user } = await getUser<User>();
+  const [error, data] = await getUser();
 
-  if (user.currentCatalog?.company && !callbackUrl) {
+  if (error) {
+    return <ExpectedError error={error} />;
+  }
+
+  const user = data.data;
+
+  if (!user.currentCatalog) {
+    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
+  }
+
+  const { callbackUrl } = await searchParams;
+
+  if (user.currentCatalog.company && !callbackUrl) {
     return redirect(routes.dashboard.url, RedirectType.replace);
   }
 

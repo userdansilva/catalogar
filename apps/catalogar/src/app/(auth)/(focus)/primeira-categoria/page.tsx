@@ -4,6 +4,7 @@ import { CreateCategoryForm } from "@/components/forms/create-category-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
 import { getCategories } from "@/services/get-categories";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export const metadata: Metadata = {
   title: routes.categories.sub.createFirst.title,
@@ -15,13 +16,15 @@ export default async function CreateFirstCategory({
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
   const { callbackUrl } = await searchParams;
-  const [err, data] = await getCategories();
+  const [error, data] = await getCategories();
 
-  if (err) {
-    return; // handling error
+  if (error) {
+    return <ExpectedError error={error} />;
   }
 
-  if (data.data.length >= 1 && !callbackUrl) {
+  const categories = data.data;
+
+  if (categories.length >= 1 && !callbackUrl) {
     return redirect(routes.categories.url, RedirectType.replace);
   }
 

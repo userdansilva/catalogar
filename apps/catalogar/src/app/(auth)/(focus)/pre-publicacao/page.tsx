@@ -5,16 +5,36 @@ import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getProductTypes } from "@/services/get-product-types";
 import { getUser } from "@/services/get-user";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export default async function Page() {
-  const { data: user } = await getUser();
+  const [userError, userData] = await getUser();
+
+  if (userError) {
+    return <ExpectedError error={userError} />;
+  }
+
+  const user = userData.data;
 
   if (!user.currentCatalog) {
     return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
   }
 
-  const { data: productTypes } = await getProductTypes();
-  const { data: catalogItems } = await getCatalogItems();
+  const [
+    [productTypesError, productTypesData],
+    [catalogItemsError, catalogItemsData],
+  ] = await Promise.all([getProductTypes(), getCatalogItems()]);
+
+  if (productTypesError) {
+    return <ExpectedError error={productTypesError} />;
+  }
+
+  if (catalogItemsError) {
+    return <ExpectedError error={catalogItemsError} />;
+  }
+
+  const productTypes = productTypesData.data;
+  const catalogItems = catalogItemsData.data;
 
   return (
     <div className="max-w-xl space-y-8">
