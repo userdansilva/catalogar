@@ -36,6 +36,6 @@ export const createCompanyAction = authActionClient
 
       revalidateTag(tags.users.me);
 
-      return { company: data.data, message: data.meta.message };
+      return { company: data.data, message: data.meta?.message };
     },
   );

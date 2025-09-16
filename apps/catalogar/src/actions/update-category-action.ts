@@ -49,7 +49,7 @@ export const updateCategoryAction = authActionClient
 
       return {
         category: categoryData.data,
-        message: categoryData.meta.message,
+        message: categoryData.meta?.message,
       };
     },
   );

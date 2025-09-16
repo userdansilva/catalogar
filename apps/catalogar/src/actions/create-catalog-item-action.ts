@@ -63,7 +63,7 @@ export const createCatalogItemAction = authActionClient
 
       return {
         category: catalogItemData.data,
-        message: catalogItemData.meta.message,
+        message: catalogItemData.meta?.message,
       };
     },
   );

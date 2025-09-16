@@ -44,6 +44,6 @@ export const updateProductTypeAction = authActionClient
 
     return {
       productType: productTypeData.data,
-      message: productTypeData.meta.message,
+      message: productTypeData.meta?.message,
     };
   });

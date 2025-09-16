@@ -46,7 +46,7 @@ export const createCategoryAction = authActionClient
 
       return {
         category: categoryData.data,
-        message: categoryData.meta.message,
+        message: categoryData.meta?.message,
       };
     },
   );

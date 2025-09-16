@@ -23,5 +23,5 @@ export const createCatalogAction = authActionClient
 
     revalidateTag(tags.users.me);
 
-    return { catalog: data.data, message: data.meta.message };
+    return { catalog: data.data, message: data.meta?.message };
   });

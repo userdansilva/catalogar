@@ -9,7 +9,8 @@ import { ThemeForm } from "./theme-form";
 import { routes } from "@/routes";
 import { themeSchema } from "@/actions/schema";
 import { createThemeAction } from "@/actions/create-theme-action";
-import { Company } from "@/types/api-types";
+import { toastServerError } from "@/utils/toast-server-error";
+import { Company } from "@/services/get-user";
 
 export type ThemeFormValues = z.infer<typeof themeSchema>;
 
@@ -44,7 +45,7 @@ export function CreateThemeForm({
             }`,
             {
               description: res.data?.message,
-            }
+            },
           );
           router.push(callbackUrl || routes.dashboard.url);
         },
@@ -52,13 +53,11 @@ export function CreateThemeForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
-    }
+    },
   );
 
   return (

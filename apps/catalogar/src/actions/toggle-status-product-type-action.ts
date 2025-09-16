@@ -58,6 +58,6 @@ export const toggleProductTypeStatusAction = authActionClient
 
     return {
       productType: putProductTypeData.data,
-      message: putProductTypeData.meta.message,
+      message: putProductTypeData.meta?.message,
     };
   });

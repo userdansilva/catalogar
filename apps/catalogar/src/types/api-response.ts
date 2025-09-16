@@ -18,7 +18,7 @@ export type ApiResponse<
   M extends Meta | MetaWithPagination = Meta,
 > = {
   data: T;
-  meta: M;
+  meta?: M;
 };
 
 export type ApiResponseWithPagination<T extends object[]> = ApiResponse<

@@ -59,6 +59,6 @@ export const toggleCategoryStatusAction = authActionClient
 
     return {
       category: putCategoryData.data,
-      message: putCategoryData.meta.message,
+      message: putCategoryData.meta?.message,
     };
   });

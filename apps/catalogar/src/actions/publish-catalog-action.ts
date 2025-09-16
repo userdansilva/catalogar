@@ -42,5 +42,5 @@ export const publishCatalogAction = authActionClient
       revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
     }
 
-    return { catalog: catalogData.data, message: catalogData.meta.message };
+    return { catalog: catalogData.data, message: catalogData.meta?.message };
   });

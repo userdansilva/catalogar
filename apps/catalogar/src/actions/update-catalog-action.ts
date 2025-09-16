@@ -61,6 +61,6 @@ export const updateCatalogAction = authActionClient
 
     return {
       catalog: putCatalogData.data,
-      message: putCatalogData.meta.message,
+      message: putCatalogData.meta?.message,
     };
   });

@@ -8,7 +8,8 @@ import { CategoryForm } from "./category-form";
 import { updateCategoryAction } from "@/actions/update-category-action";
 import { categorySchema } from "@/actions/schema";
 import { routes } from "@/routes";
-import { Category } from "@/types/api-types";
+import { Category } from "@/services/get-category-by-id";
+import { toastServerError } from "@/utils/toast-server-error";
 
 type UpdateCategoryFormProps = {
   category: Category;
@@ -38,9 +39,7 @@ export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },

@@ -19,6 +19,7 @@ import { Button } from "../inputs/button";
 import { createCatalogAction } from "@/actions/create-catalog-action";
 import { routes } from "@/routes";
 import { createCatalogSchema } from "@/actions/schema";
+import { toastServerError } from "@/utils/toast-server-error";
 
 export type CatalogFormValues = z.infer<typeof createCatalogSchema>;
 
@@ -46,13 +47,11 @@ export function CreateCatalogForm() {
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
-    }
+    },
   );
 
   return (

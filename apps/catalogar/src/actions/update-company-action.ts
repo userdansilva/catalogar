@@ -51,7 +51,7 @@ export const updateCompanyAction = authActionClient
 
       return {
         company: putCompanyData.data,
-        message: putCompanyData.meta.message,
+        message: putCompanyData.meta?.message,
       };
     },
   );

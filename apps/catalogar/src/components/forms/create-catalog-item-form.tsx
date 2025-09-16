@@ -10,6 +10,7 @@ import { createCatalogItemAction } from "@/actions/create-catalog-item-action";
 import { catalogItemSchema } from "@/actions/schema";
 import { Category } from "@/services/get-category-by-id";
 import { ProductType } from "@/services/get-product-type-by-id";
+import { toastServerError } from "@/utils/toast-server-error";
 
 type CreateCatalogItemFormProps = {
   categories: Category[];
@@ -57,9 +58,7 @@ export function CreateCatalogItemForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },

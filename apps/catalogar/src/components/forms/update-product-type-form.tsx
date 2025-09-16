@@ -6,9 +6,10 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { ProductTypeForm } from "./product-type-form";
 import { routes } from "@/routes";
-import { ProductType } from "@/types/api-types";
 import { updateProductTypeAction } from "@/actions/update-product-type-action";
 import { productTypeSchema } from "@/actions/schema";
+import { ProductType } from "@/services/get-product-type-by-id";
+import { toastServerError } from "@/utils/toast-server-error";
 
 type UpdateProductTypeFormProps = {
   productType: ProductType;
@@ -40,9 +41,7 @@ export function UpdateProductTypeForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },

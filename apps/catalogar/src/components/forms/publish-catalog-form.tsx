@@ -25,7 +25,8 @@ import { Button } from "../inputs/button";
 import { publishCatalogSchema } from "@/actions/schema";
 import { routes } from "@/routes";
 import { publishCatalogAction } from "@/actions/publish-catalog-action";
-import { Catalog } from "@/types/api-types";
+import { toastServerError } from "@/utils/toast-server-error";
+import { Catalog } from "@/services/get-user";
 
 export function PublishCatalogForm({
   currentCatalog,
@@ -55,13 +56,11 @@ export function PublishCatalogForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
-    }
+    },
   );
 
   return (

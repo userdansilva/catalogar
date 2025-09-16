@@ -32,7 +32,7 @@ export const toggleCatalogItemStatusAction = authActionClient
         fileName: image.fileName,
         position: image.position,
       })),
-      price: catalogItem.price,
+      price: catalogItem.price?.toString(),
       categoryIds: catalogItem.categories.map((category) => category.id),
       isDisabled: !catalogItem.isDisabled,
     });
@@ -65,6 +65,6 @@ export const toggleCatalogItemStatusAction = authActionClient
 
     return {
       catalogItem: putCatalogItemData.data,
-      message: putCatalogItemData.meta.message,
+      message: putCatalogItemData.meta?.message,
     };
   });

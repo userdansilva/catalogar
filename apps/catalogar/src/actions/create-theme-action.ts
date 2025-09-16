@@ -34,5 +34,5 @@ export const createThemeAction = authActionClient
 
     revalidateTag(tags.users.me);
 
-    return { theme: data.data, message: data.meta.message };
+    return { theme: data.data, message: data.meta?.message };
   });

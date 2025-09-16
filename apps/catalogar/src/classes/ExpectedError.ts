@@ -1,10 +1,15 @@
 import { DefaultApiError } from "@/types/api-response";
 
 /**
- * Quando usado dentro de uma action do _next-safe-ation_,
- * será capturado pelo o _handleServerError_ do _safe-action.ts_
+ * **Não use em componentes**
  *
- * O erro será retornado no e.server
+ * Quando usado dentro de uma action do _next-safe-ation_,
+ * será capturado pelo o _handleServerError_ do _safe-action.ts_.
+ *
+ * O erro será retornado no _e.error.serverError_ do _onError_
+ * do _actionProps_ do _useHookFormAction_.
+ *
+ * Use o _toastServerError_ para exibir a mensagem de erro do backend
  */
 export class ExpectedError extends Error {
   public path: string;

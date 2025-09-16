@@ -48,5 +48,5 @@ export const updateThemeAction = authActionClient
       revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
     }
 
-    return { theme: putThemeData.data, message: putThemeData.meta.message };
+    return { theme: putThemeData.data, message: putThemeData.meta?.message };
   });

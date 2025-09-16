@@ -9,6 +9,7 @@ import { CompanyForm } from "./company-form";
 import { routes } from "@/routes";
 import { companySchema } from "@/actions/schema";
 import { createCompanyAction } from "@/actions/create-company-action";
+import { toastServerError } from "@/utils/toast-server-error";
 
 export type CompanyFormValues = z.infer<typeof companySchema>;
 
@@ -43,9 +44,7 @@ export function CreateCompanyForm({ callbackUrl }: { callbackUrl?: string }) {
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },

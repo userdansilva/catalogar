@@ -5,10 +5,10 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { ThemeForm } from "./theme-form";
-import { Company, Theme } from "@/types/api-types";
 import { updateThemeAction } from "@/actions/update-theme-action";
 import { themeSchema } from "@/actions/schema";
-
+import { toastServerError } from "@/utils/toast-server-error";
+import { Company, Theme } from "@/services/get-user";
 
 export function UpdateThemeForm({
   theme,
@@ -42,13 +42,11 @@ export function UpdateThemeForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
-    }
+    },
   );
 
   return (

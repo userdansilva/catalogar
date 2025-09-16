@@ -8,6 +8,7 @@ import { ProductTypeForm } from "./product-type-form";
 import { productTypeSchema } from "@/actions/schema";
 import { routes } from "@/routes";
 import { createProductTypeAction } from "@/actions/create-product-type-action";
+import { toastServerError } from "@/utils/toast-server-error";
 
 export function CreateProductTypeForm({
   callbackUrl,
@@ -38,14 +39,10 @@ export function CreateProductTypeForm({
           router.push(callbackUrl || routes.productTypes.url);
         },
         onError: (e) => {
-          console.error(e);
-
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },

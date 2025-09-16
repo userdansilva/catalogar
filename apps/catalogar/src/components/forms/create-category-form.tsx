@@ -8,6 +8,7 @@ import { CategoryForm } from "./category-form";
 import { routes } from "@/routes";
 import { categorySchema } from "@/actions/schema";
 import { createCategoryAction } from "@/actions/create-category-action";
+import { toastServerError } from "@/utils/toast-server-error";
 
 export function CreateCategoryForm({ callbackUrl }: { callbackUrl?: string }) {
   const router = useRouter();
@@ -39,9 +40,7 @@ export function CreateCategoryForm({ callbackUrl }: { callbackUrl?: string }) {
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
