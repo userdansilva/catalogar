@@ -10,7 +10,7 @@ import { ExpectedError } from "@/classes/ExpectedError";
 import { getUser } from "@/services/get-user";
 
 export const updateProductTypeAction = authActionClient
-  .schema(productTypeSchema)
+  .inputSchema(productTypeSchema)
   .metadata({
     actionName: "update-product-type",
   })

@@ -11,14 +11,12 @@ export type StorageSasToken = {
 export type PostStorageGenerateSasTokenError = DefaultApiError;
 export type PostStorageGenerateSasTokenResponse = ApiResponse<StorageSasToken>;
 export type PostStorageGenerateSasTokenBody = {
-  fileType: "WEBP";
+  fileType: "PNG" | "JPG" | "SVG" | "WEBP";
 };
 
-export async function postStorageGenerateSasToken({
-  body,
-}: {
-  body: PostStorageGenerateSasTokenBody;
-}) {
+export async function postStorageGenerateSasToken(
+  body: PostStorageGenerateSasTokenBody,
+) {
   const headers = await getAuthHeaders();
 
   return await serverFetch<

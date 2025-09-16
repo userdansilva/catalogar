@@ -3,6 +3,8 @@ import { DefaultApiError } from "@/types/api-response";
 /**
  * Quando usado dentro de uma action do _next-safe-ation_,
  * será capturado pelo o _handleServerError_ do _safe-action.ts_
+ *
+ * O erro será retornado no e.server
  */
 export class ExpectedError extends Error {
   public path: string;

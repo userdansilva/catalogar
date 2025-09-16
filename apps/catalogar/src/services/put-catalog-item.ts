@@ -11,12 +11,12 @@ export type PutCatalogItemBody = {
   productTypeId: string;
   images: {
     fileName: string;
-    url: string;
-    sizeInBytes: number;
-    width: number;
-    height: number;
-    altText: string;
     position: number;
+    url?: string;
+    sizeInBytes?: number;
+    width?: number;
+    height?: number;
+    altText?: string;
   }[];
   price?: string;
   categoryIds?: string[];

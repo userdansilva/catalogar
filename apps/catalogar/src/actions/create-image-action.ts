@@ -17,9 +17,7 @@ export const createImageAction = authActionClient
     const buffer = Buffer.from(arrayBuffer);
 
     const [error, data] = await postStorageGenerateSasToken({
-      body: {
-        fileType: "WEBP",
-      },
+      fileType: "WEBP",
     });
 
     if (error) {
