@@ -12,10 +12,10 @@ type CategoriesTableProps = {
 export async function CategoriesTable({ currentPage }: CategoriesTableProps) {
   const [error, data] = await getCategories({
     params: {
-      field: "createdAt",
+      field: "name",
       sort: "desc",
-      page: currentPage,
-      perPage: 10,
+      page: currentPage.toString(),
+      perPage: "10",
     },
   });
 

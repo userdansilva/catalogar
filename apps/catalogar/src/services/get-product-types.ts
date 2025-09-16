@@ -12,8 +12,8 @@ export type GetProductTypesResponse = ApiResponseWithPagination<ProductType[]>;
 export type GetProductTypesParams = {
   field?: "name" | "createdAt";
   sort?: "asc" | "desc";
-  page?: number;
-  perPage?: number;
+  page?: string;
+  perPage?: string;
 };
 
 export async function getProductTypes({

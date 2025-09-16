@@ -6,15 +6,21 @@ export type FetchResult<TError, TData> = Promise<
 
 export async function serverFetch<TError, TData>({
   url,
+  params,
   ...config
 }: RequestInit & {
   url: string;
   next?: NextFetchRequestConfig;
   cache?: RequestCache;
-  params?: object;
+  params?: Record<string, string>;
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 }): FetchResult<TError, TData> {
-  const response = await fetch(`${process.env.API_URL}/api${url}`, config);
+  const searchParams = new URLSearchParams(params);
+
+  const response = await fetch(
+    `${process.env.API_URL}/api${url}?${searchParams}`,
+    config,
+  );
 
   const data = await response.json();
 

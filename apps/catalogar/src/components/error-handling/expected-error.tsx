@@ -1,14 +1,37 @@
 "use client";
 
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@catalogar/ui/components/alert";
-import { AlertCircle } from "lucide-react";
-import { useEffect } from "react";
+import { startTransition, useEffect, useState } from "react";
 import * as Sentry from "@sentry/nextjs";
+import { Button } from "@catalogar/ui/components/button";
+import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@catalogar/ui/components/card";
 import { DefaultApiError } from "@/types/api-response";
+
+function RetryButton() {
+  const router = useRouter();
+  const [isResetting, setIsResetting] = useState(false);
+
+  const retry = () => {
+    setIsResetting(true);
+
+    startTransition(() => {
+      router.refresh();
+      setIsResetting(false);
+    });
+  };
+
+  return (
+    <Button onClick={retry} size="sm" disabled={isResetting}>
+      {isResetting ? "Recarregando..." : "Tentar novamente"}
+    </Button>
+  );
+}
 
 export function ExpectedError({ error }: { error: DefaultApiError }) {
   useEffect(() => {
@@ -17,31 +40,39 @@ export function ExpectedError({ error }: { error: DefaultApiError }) {
 
   if (error.statusCode === 400) {
     return (
-      <Alert>
-        <AlertCircle />
-        <AlertTitle>Não foi possível obter dados</AlertTitle>
-        <AlertDescription>
-          <p>{error.message}</p>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">{error.message}</CardTitle>
           {error.errors.length >= 1 && (
-            <ul className="list-inside list-disc text-sm">
-              {error.errors.map((err) => (
-                <li key={err.field + err.message}>{err.message}</li>
-              ))}
-            </ul>
+            <CardDescription className="text-xs">
+              <ul className="list-inside list-disc">
+                {error.errors.map((err) => (
+                  <li key={err.field + err.message}>{err.message}</li>
+                ))}
+              </ul>
+            </CardDescription>
           )}
-        </AlertDescription>
-      </Alert>
+          <CardAction>
+            <RetryButton />
+          </CardAction>
+        </CardHeader>
+      </Card>
     );
   }
 
   // Other errors, like 500
   return (
-    <Alert variant="destructive">
-      <AlertCircle />
-      <AlertTitle>Ops! Algo deu errado ao obter dados</AlertTitle>
-      <AlertDescription>
-        Nosssa equipe já foi acionada e estamos trabalhando para resolver.
-      </AlertDescription>
-    </Alert>
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-sm">Ocorreu um erro inesperado!</CardTitle>
+        <CardDescription className="text-xs">
+          Por favor, tente novamente. Se o erro persistir, tente novamente mais
+          tarde.
+        </CardDescription>
+        <CardAction>
+          <RetryButton />
+        </CardAction>
+      </CardHeader>
+    </Card>
   );
 }

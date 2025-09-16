@@ -15,8 +15,8 @@ export async function ProductTypesTable({
   const [error, data] = await getProductTypes({
     params: {
       field: "createdAt",
-      page: currentPage,
-      perPage: 10,
+      page: currentPage.toString(),
+      perPage: "10",
       sort: "desc",
     },
   });

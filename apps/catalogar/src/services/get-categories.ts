@@ -12,8 +12,8 @@ export type GetCategoriesResponse = ApiResponseWithPagination<Category[]>;
 export type GetCategoriesParams = {
   field?: "name" | "createdAt";
   sort?: "asc" | "desc";
-  page?: number;
-  perPage?: number;
+  page?: string;
+  perPage?: string;
 };
 
 export async function getCategories({
