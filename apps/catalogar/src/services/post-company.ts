@@ -16,13 +16,12 @@ export type PostCompanyBody = {
 export async function postCompany(body: PostCompanyBody) {
   const headers = await getAuthHeaders();
 
+  headers.append("Content-Type", "application/json");
+
   return await serverFetch<PostCompanyError, PostCompanyResponse>({
     url: "/v1/companies",
     method: "POST",
     body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json",
-      ...headers,
-    },
+    headers,
   });
 }

@@ -19,6 +19,8 @@ export async function postStorageGenerateSasToken(
 ) {
   const headers = await getAuthHeaders();
 
+  headers.append("Content-Type", "application/json");
+
   return await serverFetch<
     PostStorageGenerateSasTokenError,
     PostStorageGenerateSasTokenResponse
@@ -26,9 +28,6 @@ export async function postStorageGenerateSasToken(
     url: "/v1/storage/generate-sas-token",
     method: "POST",
     body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json",
-      ...headers,
-    },
+    headers,
   });
 }

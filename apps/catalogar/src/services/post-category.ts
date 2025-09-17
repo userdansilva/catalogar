@@ -16,13 +16,12 @@ export type PostCategoryBody = {
 export async function postCategory(body: PostCategoryBody) {
   const headers = await getAuthHeaders();
 
+  headers.append("Content-Type", "application/json");
+
   return await serverFetch<PostCategoryError, PostCategoryResponse>({
     url: "/v1/categories",
     method: "POST",
     body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json",
-      ...headers,
-    },
+    headers,
   });
 }

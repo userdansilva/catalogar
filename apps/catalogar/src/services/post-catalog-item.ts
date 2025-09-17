@@ -26,13 +26,12 @@ export type PostCatalogItemBody = {
 export async function postCatalogItem(body: PostCatalogItemBody) {
   const headers = await getAuthHeaders();
 
+  headers.append("Content-Type", "application/json");
+
   return await serverFetch<PostCatalogItemError, PostCatalogItemResponse>({
     url: "/v1/catalog-items",
     method: "POST",
     body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json",
-      ...headers,
-    },
+    headers,
   });
 }

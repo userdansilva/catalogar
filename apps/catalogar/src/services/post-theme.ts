@@ -21,13 +21,12 @@ export type PostThemeBody = {
 export async function postTheme(body: PostThemeBody) {
   const headers = await getAuthHeaders();
 
+  headers.append("Content-Type", "application/json");
+
   return await serverFetch<PostThemeError, PostThemeResponse>({
     url: "/v1/themes",
     method: "POST",
     body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json",
-      ...headers,
-    },
+    headers,
   });
 }

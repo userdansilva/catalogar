@@ -21,13 +21,12 @@ export type PutThemeBody = {
 export async function putTheme(body: PutThemeBody) {
   const headers = await getAuthHeaders();
 
+  headers.append("Content-Type", "application/json");
+
   return await serverFetch<PutThemeError, PutThemeResponse>({
     url: "/v1/themes",
     method: "PUT",
     body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json",
-      ...headers,
-    },
+    headers,
   });
 }

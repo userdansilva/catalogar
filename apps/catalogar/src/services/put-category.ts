@@ -16,13 +16,12 @@ export type PutCategoryBody = {
 export async function putCategory(id: string, body: PutCategoryBody) {
   const headers = await getAuthHeaders();
 
+  headers.append("Content-Type", "application/json");
+
   return await serverFetch<PutCategoryError, PutCategoryResponse>({
     url: `/v1/categories/${id}`,
     method: "PUT",
     body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json",
-      ...headers,
-    },
+    headers,
   });
 }
