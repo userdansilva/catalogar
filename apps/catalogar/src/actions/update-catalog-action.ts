@@ -4,71 +4,63 @@ import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { authActionClient } from "./safe-action";
 import { updateCatalogSchema } from "./schema";
-import { api } from "./api";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { routes } from "@/routes";
 import { tags } from "@/tags";
-import { Catalog } from "@/types/api-types";
-import { ApiResponse } from "@/types/api-response";
+import { getUser } from "@/services/get-user";
+import { ExpectedError } from "@/classes/ExpectedError";
+import { putCatalog } from "@/services/put-catalog";
 
 export const updateCatalogAction = authActionClient
-  .schema(updateCatalogSchema)
+  .inputSchema(updateCatalogSchema)
   .metadata({
     actionName: "update-catalog",
   })
-  .action(
-    async ({
-      parsedInput: { name, isPublished },
-      ctx: { Authorization, user },
-    }) => {
-      try {
-        // Publicar pela a primeira vez
-        if (isPublished && !user.currentCatalog.slug) {
-          await api.put<ApiResponse<Catalog>>(
-            "/v1/catalogs",
-            {
-              name,
-            },
-            {
-              headers: {
-                Authorization,
-              },
-            },
-          );
+  .action(async ({ parsedInput: { name, isPublished } }) => {
+    const [userError, userData] = await getUser();
 
-          revalidateTag(tags.users.me);
+    if (userError) {
+      throw new ExpectedError(userError);
+    }
 
-          redirect(routes.catalog.sub.prePublish.url);
-        }
+    const user = userData.data;
 
-        // Alterar normalmente (caso já tenha publicado antes)
-        const res = await api.put<ApiResponse<Catalog>>(
-          "/v1/catalogs",
-          {
-            name,
-            isPublished,
-            slug: user.currentCatalog.slug,
-          },
-          {
-            headers: {
-              Authorization,
-            },
-          },
-        );
+    if (!user.currentCatalog) {
+      throw new Error("Catálogo atual não definido");
+    }
 
-        revalidateTag(tags.users.me);
+    // Publicar pela a primeira vez
+    if (isPublished && !user.currentCatalog?.slug) {
+      const [putCatalogError] = await putCatalog({
+        name,
+      });
 
-        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-        }
-
-        return {
-          catalog: res.data.data,
-          message: res.data.meta?.message,
-        };
-      } catch (e) {
-        returnValidationErrorsIfExists(e, updateCatalogSchema);
-        throw e;
+      if (putCatalogError) {
+        throw new ExpectedError(putCatalogError);
       }
-    },
-  );
+
+      revalidateTag(tags.users.me);
+      redirect(routes.catalog.sub.prePublish.url);
+    }
+
+    // Alterar normalmente (caso já tenha publicado antes)
+    const [putCatalogError, putCatalogData] = await putCatalog({
+      name,
+      isPublished,
+      slug: user.currentCatalog.slug,
+    });
+
+    if (putCatalogError) {
+      throw new ExpectedError(putCatalogError);
+    }
+
+    revalidateTag(tags.users.me);
+
+    if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
+      revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
+    }
+
+    return {
+      catalog: putCatalogData.data,
+      message: putCatalogData.meta?.message,
+    };
+  });

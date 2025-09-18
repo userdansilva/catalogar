@@ -6,6 +6,7 @@ import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export const metadata: Metadata = {
   title: routes.catalogItems.sub.createFirst.title,
@@ -16,19 +17,34 @@ export default async function CreateFirstCatalogItem({
 }: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
-  const { callbackUrl } = await searchParams;
-  const { data: catalogItems } = await getCatalogItems();
+  const [errorCatalogItems, dataCatalogItems] = await getCatalogItems();
 
-  if (catalogItems.length >= 1 && !callbackUrl) {
+  if (errorCatalogItems) {
+    return <ExpectedError error={errorCatalogItems} />;
+  }
+
+  const { callbackUrl } = await searchParams;
+
+  if (dataCatalogItems.data.length >= 1 && !callbackUrl) {
     return redirect(routes.catalogItems.url, RedirectType.replace);
   }
 
-  const { data: productTypes } = await getProductTypes();
-  const { data: categories } = await getCategories();
+  const [
+    [errorProductTypes, dataProductTypes],
+    [errorCategories, dataCategories],
+  ] = await Promise.all([getProductTypes(), getCategories()]);
+
+  if (errorProductTypes) {
+    return <ExpectedError error={errorProductTypes} />;
+  }
+
+  if (errorCategories) {
+    return <ExpectedError error={errorCategories} />;
+  }
 
   return (
     <div className="max-w-2xl space-y-8">
-      <PrevButton fallbackUrl={routes.dashboard.url} />
+      <PrevButton url={routes.dashboard.url} />
 
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
@@ -43,8 +59,8 @@ export default async function CreateFirstCatalogItem({
       </div>
 
       <CreateCatalogItemForm
-        productTypes={productTypes}
-        categories={categories}
+        productTypes={dataProductTypes.data}
+        categories={dataCategories.data}
         callbackUrl={callbackUrl}
       />
     </div>

@@ -1,23 +1,34 @@
-import { formatParamsFrom } from "./format-params-from";
+import { Category } from "./get-category-by-id";
+import { serverFetch } from "@/utils/server-fetch";
+import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { tags } from "@/tags";
-import { ApiResponseWithPagination } from "@/types/api-response";
-import { Category, CategoryFilters } from "@/types/api-types";
-import { getSession } from "@/utils/get-session";
+import {
+  ApiResponseWithPagination,
+  DefaultApiError,
+} from "@/types/api-response";
 
-export async function getCategories(filters: CategoryFilters = {}) {
-  const { Authorization } = await getSession();
+export type GetCategoriesError = DefaultApiError;
+export type GetCategoriesResponse = ApiResponseWithPagination<Category[]>;
+export type GetCategoriesParams = {
+  field?: "name" | "createdAt";
+  sort?: "asc" | "desc";
+  page?: string;
+  perPage?: string;
+};
 
-  const params = formatParamsFrom(filters);
+export async function getCategories({
+  params,
+}: {
+  params?: GetCategoriesParams;
+} = {}) {
+  const headers = await getAuthHeaders();
 
-  const res = await fetch(
-    `${process.env.API_URL}/api/v1/categories?${params}`,
-    {
-      headers: { Authorization },
-      next: { tags: [tags.categories.getAll] },
+  return await serverFetch<GetCategoriesError, GetCategoriesResponse>({
+    url: "/v1/categories",
+    params,
+    headers,
+    next: {
+      tags: [tags.categories.getAll],
     },
-  );
-
-  const data = await res.json();
-
-  return data as ApiResponseWithPagination<Category[]>;
+  });
 }

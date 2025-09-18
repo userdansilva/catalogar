@@ -1,5 +1,17 @@
 # catalogar
 
+## 2.1.3
+
+### Patch Changes
+
+- b017a4f: Fluxo de loading do layout usando skeletons isolados
+- f8a38cf: Melhoria nos services e actions do catalogItem para usar o serverFetch
+- 62b44e8: Remoção do baseURL de services, criação de services de ação para categorias e tipos de produto ajustando os actions
+- 4e4ecde: Modificação de services para uso da tupla priorizando tratativa de erros
+- a6e41d0: Melhorias nos textos e navegação
+- Updated dependencies [566ea51]
+  - @catalogar/ui@1.0.1
+
 ## 2.1.2
 
 ### Patch Changes

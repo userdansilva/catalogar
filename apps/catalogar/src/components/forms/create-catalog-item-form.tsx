@@ -8,7 +8,9 @@ import { CatalogItemForm } from "./catalog-item-form";
 import { routes } from "@/routes";
 import { createCatalogItemAction } from "@/actions/create-catalog-item-action";
 import { catalogItemSchema } from "@/actions/schema";
-import { Category, ProductType } from "@/types/api-types";
+import { Category } from "@/services/get-category-by-id";
+import { ProductType } from "@/services/get-product-type-by-id";
+import { toastServerError } from "@/utils/toast-server-error";
 
 type CreateCatalogItemFormProps = {
   categories: Category[];
@@ -44,32 +46,27 @@ export function CreateCatalogItemForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(
-            `Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`,
-            {
-              description: res.data?.message,
-            }
-          );
+          toast.success("Item de catálogo adicionado!", {
+            description: res.data.message,
+          });
           router.push(callbackUrl || routes.catalogItems.url);
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
-    }
+    },
   );
 
   return (
     <CatalogItemForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Criar Item de Catálogo"
+      submitButtonLabel="Adicionar"
       categories={categories}
       productTypes={productTypes}
     />

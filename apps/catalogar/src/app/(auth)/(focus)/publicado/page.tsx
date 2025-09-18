@@ -11,9 +11,20 @@ import { CopyButton } from "@/components/inputs/copy-button";
 import { Button } from "@/components/inputs/button";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export default async function Page() {
-  const { data: user } = await getUser();
+  const [error, data] = await getUser();
+
+  if (error) {
+    return <ExpectedError error={error} />;
+  }
+
+  const user = data.data;
+
+  if (!user.currentCatalog) {
+    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
+  }
 
   if (!user.currentCatalog.slug) {
     redirect(routes.dashboard.url, RedirectType.replace);

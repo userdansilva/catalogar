@@ -8,6 +8,7 @@ import { CategoryForm } from "./category-form";
 import { routes } from "@/routes";
 import { categorySchema } from "@/actions/schema";
 import { createCategoryAction } from "@/actions/create-category-action";
+import { toastServerError } from "@/utils/toast-server-error";
 
 export function CreateCategoryForm({ callbackUrl }: { callbackUrl?: string }) {
   const router = useRouter();
@@ -27,21 +28,16 @@ export function CreateCategoryForm({ callbackUrl }: { callbackUrl?: string }) {
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(
-            `Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`,
-            {
-              description: res.data?.message,
-            },
-          );
+          toast.success("Categoria adicionada!", {
+            description: res.data.message,
+          });
           router.push(callbackUrl || routes.categories.url);
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
@@ -52,7 +48,7 @@ export function CreateCategoryForm({ callbackUrl }: { callbackUrl?: string }) {
     <CategoryForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Criar Categoria"
+      submitButtonLabel="Adicionar"
     />
   );
 }

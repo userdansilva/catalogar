@@ -25,7 +25,8 @@ import { Textarea } from "@catalogar/ui/components/textarea";
 import { InputImages } from "../inputs/input-images";
 import { Button } from "../inputs/button";
 import { catalogItemSchema } from "@/actions/schema";
-import { Category, ProductType } from "@/types/api-types";
+import { Category } from "@/services/get-category-by-id";
+import { ProductType } from "@/services/get-product-type-by-id";
 
 export type CatalogItemFormValues = z.infer<typeof catalogItemSchema>;
 
@@ -215,8 +216,8 @@ export function CatalogItemForm({
                                       ])
                                     : field.onChange(
                                         field.value?.filter(
-                                          (value) => value !== category.id
-                                        )
+                                          (value) => value !== category.id,
+                                        ),
                                       )
                                 }
                               />

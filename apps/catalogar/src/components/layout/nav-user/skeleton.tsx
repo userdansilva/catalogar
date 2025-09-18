@@ -1,39 +1,26 @@
 "use client";
 
-import { Book, ChevronsUpDown, LogOut } from "lucide-react";
-import Link from "next/link";
-import { Avatar, AvatarFallback } from "@catalogar/ui/components/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@catalogar/ui/components/dropdown-menu";
 import {
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuButton,
   useSidebar,
 } from "@catalogar/ui/components/sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+} from "@catalogar/ui/components/dropdown-menu";
+import { Book, ChevronsUpDown, LogOut } from "lucide-react";
+import Link from "next/link";
 import { routes } from "@/routes";
 
-type NavUserProps = {
-  user: {
-    name: string;
-    email: string;
-  };
-};
-
-export function NavUser({ user }: NavUserProps) {
+export function NavUserSkeleton() {
   const { isMobile } = useSidebar();
-
-  const initials = user.name
-    .split(" ")
-    .map((word) => word[0]?.toUpperCase())
-    .join("");
 
   return (
     <SidebarMenu>
@@ -44,15 +31,15 @@ export function NavUser({ user }: NavUserProps) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="size-8 rounded-lg">
-                <AvatarFallback className="rounded-lg">
-                  {initials}
-                </AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+              {/* Avatar placeholder */}
+              <div className="size-8 rounded-lg bg-muted-foreground animate-pulse" />
+
+              {/* Name & email placeholders */}
+              <div className="grid flex-1 text-left text-sm leading-tight ml-2">
+                <span className="h-4 w-24 bg-muted-foreground rounded animate-pulse" />
+                <span className="h-3 w-32 bg-muted-foreground rounded animate-pulse mt-1" />
               </div>
+
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
@@ -65,14 +52,12 @@ export function NavUser({ user }: NavUserProps) {
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="size-8 rounded-lg">
-                  <AvatarFallback className="rounded-lg">
-                    {initials}
-                  </AvatarFallback>
-                </Avatar>
+                {/* Avatar placeholder */}
+                <div className="size-8 rounded-lg bg-muted animate-pulse" />
+                {/* Name/email placeholders */}
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="h-4 w-24 bg-muted rounded animate-pulse" />
+                  <span className="h-3 w-32 bg-muted rounded animate-pulse mt-1" />
                 </div>
               </div>
             </DropdownMenuLabel>

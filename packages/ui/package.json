@@ -1,6 +1,6 @@
 {
   "name": "@catalogar/ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "exports": {
     "./globals.css": "./src/styles/globals.css",
     "./postcss.config": "./postcss.config.mjs",

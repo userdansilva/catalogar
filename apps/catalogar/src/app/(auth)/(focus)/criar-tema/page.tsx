@@ -4,10 +4,10 @@ import { CreateThemeForm } from "@/components/forms/create-theme-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
-import { UserWithCatalog } from "@/types/api-types";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export const metadata: Metadata = {
-  title: routes.catalog.sub.createFirst.title,
+  title: routes.theme.sub.new.title,
 };
 
 export default async function RegisterCompany({
@@ -15,8 +15,19 @@ export default async function RegisterCompany({
 }: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
+  const [error, data] = await getUser();
+
+  if (error) {
+    return <ExpectedError error={error} />;
+  }
+
+  const user = data.data;
+
+  if (!user.currentCatalog) {
+    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
+  }
+
   const { callbackUrl } = await searchParams;
-  const { data: user } = await getUser<UserWithCatalog>();
 
   if (user.currentCatalog.theme && !callbackUrl) {
     return redirect(routes.dashboard.url, RedirectType.replace);
@@ -24,7 +35,7 @@ export default async function RegisterCompany({
 
   return (
     <div className="max-w-lg space-y-8">
-      <PrevButton fallbackUrl={routes.dashboard.url} />
+      <PrevButton url={routes.dashboard.url} />
 
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">

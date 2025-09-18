@@ -1,49 +1,64 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
-import { api } from "./api";
 import { authActionClient } from "./safe-action";
 import { categoryStatusToggleSchema } from "./schema";
-import { ApiResponse } from "@/types/api-response";
-import { Category } from "@/types/api-types";
 import { tags } from "@/tags";
 import { getCategoryById } from "@/services/get-category-by-id";
+import { ExpectedError } from "@/classes/ExpectedError";
+import { putCategory } from "@/services/put-category";
+import { getUser } from "@/services/get-user";
 
 export const toggleCategoryStatusAction = authActionClient
-  .schema(categoryStatusToggleSchema)
+  .inputSchema(categoryStatusToggleSchema)
   .metadata({
     actionName: "toggle-status-category",
   })
-  .action(async ({ parsedInput: { id }, ctx: { Authorization, user } }) => {
-    try {
-      const { data: category } = await getCategoryById(id);
+  .action(async ({ parsedInput: { id } }) => {
+    const [getCategoryError, getCategoryData] = await getCategoryById(id);
 
-      const res = await api.put<ApiResponse<Category>>(
-        `/v1/categories/${id}`,
-        {
-          ...category,
-          isDisabled: !category.isDisabled,
-        },
-        {
-          headers: {
-            Authorization,
-          },
-        },
-      );
-
-      revalidateTag(tags.categories.getAll);
-      if (id) {
-        revalidateTag(tags.categories.getById(id));
-      }
-
-      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      return { category: res.data.data, message: res.data.meta?.message };
-    } catch (e) {
-      returnValidationErrorsIfExists(e, categoryStatusToggleSchema);
-      throw e;
+    if (getCategoryError) {
+      throw new ExpectedError(getCategoryError);
     }
+
+    const category = getCategoryData.data;
+
+    const [putCategoryError, putCategoryData] = await putCategory(id, {
+      name: category.name,
+      slug: category.slug,
+      textColor: category.textColor,
+      backgroundColor: category.backgroundColor,
+      isDisabled: !category.isDisabled,
+    });
+
+    if (putCategoryError) {
+      throw new ExpectedError(putCategoryError);
+    }
+
+    revalidateTag(tags.categories.getAll);
+    revalidateTag(tags.categories.getById(id));
+
+    const [userError, userData] = await getUser();
+
+    if (userError) {
+      throw new ExpectedError(userError);
+    }
+
+    if (!userData.data.currentCatalog) {
+      throw new Error("Catálogo atual não definido");
+    }
+
+    if (
+      userData.data.currentCatalog.isPublished &&
+      userData.data.currentCatalog.slug
+    ) {
+      revalidateTag(
+        tags.publicCatalog.getBySlug(userData.data.currentCatalog.slug),
+      );
+    }
+
+    return {
+      category: putCategoryData.data,
+      message: putCategoryData.meta?.message,
+    };
   });

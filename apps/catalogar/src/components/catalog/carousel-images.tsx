@@ -11,7 +11,7 @@ import {
   CarouselPrevious,
 } from "@catalogar/ui/components/carousel";
 import { cn } from "@catalogar/ui/lib/utils";
-import { CatalogItemImage } from "@/types/api-types";
+import { CatalogItemImage } from "@/services/get-images-generate-sas-token";
 
 export function CarouselImages({
   images,
@@ -69,7 +69,7 @@ export function CarouselImages({
                   key={i}
                   className={cn(
                     "bg-background block size-2 rounded-full",
-                    current === i + 1 && "bg-primary"
+                    current === i + 1 && "bg-primary",
                   )}
                 />
               ))}

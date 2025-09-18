@@ -9,6 +9,7 @@ import { CompanyForm } from "./company-form";
 import { routes } from "@/routes";
 import { companySchema } from "@/actions/schema";
 import { createCompanyAction } from "@/actions/create-company-action";
+import { toastServerError } from "@/utils/toast-server-error";
 
 export type CompanyFormValues = z.infer<typeof companySchema>;
 
@@ -31,21 +32,16 @@ export function CreateCompanyForm({ callbackUrl }: { callbackUrl?: string }) {
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(
-            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
-            {
-              description: res.data?.message,
-            },
-          );
+          toast.success("Informações salvas!", {
+            description: res.data.message,
+          });
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
@@ -56,7 +52,7 @@ export function CreateCompanyForm({ callbackUrl }: { callbackUrl?: string }) {
     <CompanyForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Cadastrar Empresa"
+      submitButtonLabel="Salvar informações"
     />
   );
 }

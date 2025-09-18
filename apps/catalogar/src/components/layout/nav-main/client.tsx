@@ -16,28 +16,33 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@catalogar/ui/components/tooltip";
+import { useRouter } from "next/navigation";
 import { routes } from "@/routes";
-import {
-  CatalogItem,
-  Category,
-  ProductType,
-  UserWithCatalog,
-} from "@/types/api-types";
+import { ProductType } from "@/services/get-product-type-by-id";
+import { Category } from "@/services/get-category-by-id";
+import { CatalogItem } from "@/services/get-catalog-item-by-id";
+import { User } from "@/services/get-user";
 
 type NavMainProps = {
   productTypes: ProductType[];
   categories: Category[];
   catalogItems: CatalogItem[];
-  user: UserWithCatalog;
+  user: User;
 };
 
-export default function NavMain({
+export function NavMainClient({
   user,
   productTypes,
   categories,
   catalogItems,
 }: NavMainProps) {
   const { setOpenMobile } = useSidebar();
+  const router = useRouter();
+
+  if (!user.currentCatalog) {
+    router.push(routes.catalog.sub.createFirst.url);
+    return;
+  }
 
   const groups = [
     {

@@ -2,15 +2,14 @@
 
 import { revalidateTag } from "next/cache";
 import { authActionClient } from "./safe-action";
-import { api } from "./api";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { catalogItemSchema } from "./schema";
-import { CatalogItem } from "@/types/api-types";
 import { tags } from "@/tags";
-import { ApiResponse } from "@/types/api-response";
+import { postCatalogItem } from "@/services/post-catalog-item";
+import { ExpectedError } from "@/classes/ExpectedError";
+import { getUser } from "@/services/get-user";
 
 export const createCatalogItemAction = authActionClient
-  .schema(catalogItemSchema)
+  .inputSchema(catalogItemSchema)
   .metadata({
     actionName: "create-catalog-item",
   })
@@ -25,46 +24,46 @@ export const createCatalogItemAction = authActionClient
         categoryIds,
         isDisabled,
       },
-      ctx: { Authorization, user },
     }) => {
-      try {
-        const res = await api.post<ApiResponse<CatalogItem>>(
-          "/v1/catalog-items",
-          {
-            title,
-            caption,
-            productTypeId,
-            images: images.map((image) => ({
-              fileName: image.fileName,
-              url: image.url,
-              sizeInBytes: image.sizeInBytes,
-              width: image.width,
-              height: image.height,
-              altText: image.altText,
-              position: image.position,
-            })),
-            price,
-            categoryIds,
-            isDisabled,
-          },
-          {
-            headers: {
-              Authorization,
-            },
-          }
-        );
+      const [catalogItemError, catalogItemData] = await postCatalogItem({
+        title,
+        caption,
+        productTypeId,
+        images: images.map((image) => ({
+          fileName: image.fileName,
+          url: image.url,
+          sizeInBytes: image.sizeInBytes,
+          width: image.width,
+          height: image.height,
+          altText: image.altText,
+          position: image.position,
+        })),
+        price,
+        categoryIds,
+        isDisabled,
+      });
 
-        revalidateTag(tags.catalogItems.getAll);
-
-        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-        }
-
-        return { catalogItem: res.data.data, message: res.data.meta?.message };
-      } catch (e) {
-        console.error(e);
-        returnValidationErrorsIfExists(e, catalogItemSchema);
-        throw e;
+      if (catalogItemError) {
+        throw new ExpectedError(catalogItemError);
       }
-    }
+
+      const [userError, userData] = await getUser();
+
+      if (userError) {
+        throw new ExpectedError(userError);
+      }
+
+      revalidateTag(tags.catalogItems.getAll);
+
+      const { currentCatalog } = userData.data;
+
+      if (currentCatalog?.isPublished && currentCatalog.slug) {
+        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+      }
+
+      return {
+        category: catalogItemData.data,
+        message: catalogItemData.meta?.message,
+      };
+    },
   );

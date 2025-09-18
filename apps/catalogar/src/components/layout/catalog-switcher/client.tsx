@@ -22,9 +22,9 @@ import {
 } from "@catalogar/ui/components/sidebar";
 import { routes } from "@/routes";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
-import { Catalog } from "@/types/api-types";
+import { Catalog } from "@/services/get-user";
 
-export function CatalogSwitcher({
+export function CatalogSwitcherClient({
   catalogs,
   currentCatalog,
 }: {
@@ -85,11 +85,11 @@ export function CatalogSwitcher({
                       {
                         loading: "Trocando de catálogo...",
                         success: () => {
-                          router.refresh();
+                          router.push(routes.dashboard.url);
 
-                          return "Catálogo atual alterado! Atualizando...";
+                          return "Catálogo atual alterado!";
                         },
-                      }
+                      },
                     );
                   }}
                   className="cursor-pointer gap-2 p-2"

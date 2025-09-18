@@ -4,6 +4,7 @@ import { CreateProductTypeForm } from "@/components/forms/create-product-type-fo
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
 import { getProductTypes } from "@/services/get-product-types";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export const metadata: Metadata = {
   title: routes.productTypes.sub.createFirst.title,
@@ -14,8 +15,15 @@ export default async function CreateFirstProductType({
 }: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
+  const [error, data] = await getProductTypes();
+
+  if (error) {
+    return <ExpectedError error={error} />;
+  }
+
+  const productTypes = data.data;
+
   const { callbackUrl } = await searchParams;
-  const { data: productTypes } = await getProductTypes();
 
   if (productTypes.length >= 1 && !callbackUrl) {
     return redirect(routes.productTypes.url, RedirectType.replace);
@@ -23,7 +31,7 @@ export default async function CreateFirstProductType({
 
   return (
     <div className="max-w-lg space-y-8">
-      <PrevButton fallbackUrl={routes.dashboard.url} />
+      <PrevButton url={routes.dashboard.url} />
 
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">

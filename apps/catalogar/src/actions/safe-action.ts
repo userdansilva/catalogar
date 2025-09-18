@@ -1,51 +1,45 @@
-import { AxiosError } from "axios";
-import { createMiddleware, createSafeActionClient } from "next-safe-action";
+import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
-import { getUser } from "@/services/get-user";
-import { ApiError } from "@/types/api-error";
-import { UserWithCatalog } from "@/types/api-types";
-import { getSession } from "@/utils/get-session";
-
-const authMiddleware = createMiddleware<{
-  ctx: { Authorization: string; user: UserWithCatalog };
-  metada: { actionName: string };
-}>().define(async ({ ctx, next }) =>
-  next({
-    ctx: {
-      Authorization: ctx.Authorization,
-    },
-  })
-);
+import { ExpectedError } from "@/classes/ExpectedError";
 
 export const authActionClient = createSafeActionClient({
   defineMetadataSchema: () =>
     z.object({
       actionName: z.string(),
     }),
-  handleServerError(e, { metadata }) {
-    if (e instanceof AxiosError) {
-      const error = e as AxiosError<ApiError>;
+  handleServerError(error, { metadata }) {
+    if (error instanceof ExpectedError) {
+      // Loga erros nos sentry
+      for (const message of error.errors) {
+        console.error(
+          `ExpectedError: ${metadata.actionName}: ${message}`,
+          "warning",
+        );
 
-      for (const message of error.response?.data.errors || []) {
-        Sentry.captureMessage(`${metadata.actionName}: ${message}`, "warning");
+        Sentry.captureMessage(
+          `ExpectedError: ${metadata.actionName}: ${message}`,
+          "warning",
+        );
       }
 
-      return error.response?.data;
+      // Mensagem da api + mensagens relacionadas a cada campo
+      return {
+        message: error.message,
+        errors: error.errors.map((e) => ({
+          field: e.field,
+          message: e.message,
+        })),
+      };
     }
 
-    Sentry.captureException(e);
+    // Caso for um erro inesperado
+    console.error(error);
+    Sentry.captureException(error);
 
     return {
       message: "Ops! Algo deu errado. Por favor, tente novamente",
       errors: [],
     };
   },
-})
-  .use(async ({ next }) => {
-    const { Authorization } = await getSession();
-    const { data: user } = await getUser();
-
-    return next({ ctx: { Authorization, user } });
-  })
-  .use(authMiddleware);
+});

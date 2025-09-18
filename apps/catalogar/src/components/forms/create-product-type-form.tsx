@@ -8,6 +8,7 @@ import { ProductTypeForm } from "./product-type-form";
 import { productTypeSchema } from "@/actions/schema";
 import { routes } from "@/routes";
 import { createProductTypeAction } from "@/actions/create-product-type-action";
+import { toastServerError } from "@/utils/toast-server-error";
 
 export function CreateProductTypeForm({
   callbackUrl,
@@ -29,23 +30,16 @@ export function CreateProductTypeForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(
-            `Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`,
-            {
-              description: res.data?.message,
-            },
-          );
+          toast.success("Tipo de produto adicionado!", {
+            description: res.data.message,
+          });
           router.push(callbackUrl || routes.productTypes.url);
         },
         onError: (e) => {
-          console.error(e);
-
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
@@ -56,7 +50,7 @@ export function CreateProductTypeForm({
     <ProductTypeForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Criar Tipo de Produto"
+      submitButtonLabel="Adicionar"
     />
   );
 }

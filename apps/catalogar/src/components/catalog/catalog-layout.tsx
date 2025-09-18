@@ -13,7 +13,7 @@ import {
 } from "@catalogar/ui/components/drawer";
 import { Button } from "../inputs/button";
 import { ShareButton } from "../inputs/share-button";
-import { Company, Theme } from "@/types/api-types";
+import { Company, Theme } from "@/services/get-user";
 
 export function CatalogLayout({
   children,

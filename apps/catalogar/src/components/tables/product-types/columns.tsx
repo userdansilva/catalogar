@@ -50,9 +50,9 @@ import {
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
 import { routes } from "@/routes";
-import { ProductType } from "@/types/api-types";
 import { toggleProductTypeStatusAction } from "@/actions/toggle-status-product-type-action";
 import { deleteProductTypeAction } from "@/actions/delete-product-type-action";
+import { ProductType } from "@/services/get-product-type-by-id";
 
 export const columns: ColumnDef<ProductType>[] = [
   {
@@ -123,11 +123,11 @@ export const columns: ColumnDef<ProductType>[] = [
       });
 
       const { executeAsync: executeToggleStatusAsync } = useAction(
-        toggleProductTypeStatusAction
+        toggleProductTypeStatusAction,
       );
 
       const { executeAsync: executeDeleteAsync } = useAction(
-        deleteProductTypeAction
+        deleteProductTypeAction,
       );
 
       const handleToggleStatus = () =>
@@ -138,7 +138,7 @@ export const columns: ColumnDef<ProductType>[] = [
           {
             loading: "Alterando status...",
             success: "Status atualizado!",
-          }
+          },
         );
 
       const handleRemove = () =>
@@ -149,7 +149,7 @@ export const columns: ColumnDef<ProductType>[] = [
           {
             loading: "Deletando tipo de produto...",
             success: "Tipo de produto deletado com sucesso!",
-          }
+          },
         );
 
       return (

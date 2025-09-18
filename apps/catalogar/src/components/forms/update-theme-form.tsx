@@ -5,10 +5,11 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { ThemeForm } from "./theme-form";
-import { Company, Theme } from "@/types/api-types";
 import { updateThemeAction } from "@/actions/update-theme-action";
 import { themeSchema } from "@/actions/schema";
-
+import { toastServerError } from "@/utils/toast-server-error";
+import { Company, Theme } from "@/services/get-user";
+import { routes } from "@/routes";
 
 export function UpdateThemeForm({
   theme,
@@ -30,25 +31,21 @@ export function UpdateThemeForm({
         defaultValues: theme,
       },
       actionProps: {
-        onSuccess: () => {
-          if (callbackUrl) {
-            toast.success("Alterações salvas! Redirecionando...");
-            router.push(callbackUrl);
-          }
-
-          toast.success("Alterações salvas!");
+        onSuccess: (res) => {
+          toast.success("Alterações salvas!", {
+            description: res.data.message,
+          });
+          router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
-    }
+    },
   );
 
   return (

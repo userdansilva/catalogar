@@ -37,14 +37,6 @@ export const routes = {
       },
     },
   },
-  auth: {
-    sub: {
-      login: {
-        title: "Entrar",
-        url: "/entrar",
-      },
-    },
-  },
   dashboard: {
     title: "Página Inicial",
     icon: House,
@@ -70,19 +62,19 @@ export const routes = {
         url: "/primeiro-item-de-catalogo",
       },
       new: {
-        title: "Novo item",
+        title: "Novo Item de Catálogo",
         url: "/catalogo/novo",
       },
       edit: {
-        title: "Editar item",
+        title: "Editar Item de Catálogo",
         url: (id: string) => `/catalogo/${id}/editar`,
       },
       disable: {
-        title: "Desativar item",
+        title: "Desativar Item de Catálogo",
         url: (id: string) => `/catalogo/${id}/desativar`,
       },
       delete: {
-        title: "Desativar item",
+        title: "Deletar Item de Catálogo",
         url: (id: string) => `/catalogo/${id}/deletar`,
       },
     },
@@ -97,11 +89,11 @@ export const routes = {
         url: "/primeira-categoria",
       },
       new: {
-        title: "Nova categoria",
+        title: "Nova Categoria",
         url: "/categorias/nova",
       },
       edit: {
-        title: "Editar categoria",
+        title: "Editar Categoria",
         url: (id: string) => `/categorias/${id}/editar`,
       },
     },
@@ -116,11 +108,11 @@ export const routes = {
         url: "/primeiro-tipo-de-produto",
       },
       new: {
-        title: "Novo tipo de produto",
+        title: "Novo Tipo de Produto",
         url: "/tipos-de-produto/novo",
       },
       edit: {
-        title: "Editar tipo de produto",
+        title: "Editar Tipo de Produto",
         url: (id: string) => `/tipos-de-produto/${id}/editar`,
       },
     },

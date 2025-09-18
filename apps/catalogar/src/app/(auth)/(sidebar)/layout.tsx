@@ -1,6 +1,5 @@
 import { PropsWithChildren } from "react";
 import Link from "next/link";
-import { redirect, RedirectType } from "next/navigation";
 import {
   SidebarInset,
   SidebarProvider,
@@ -13,18 +12,10 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
 } from "@catalogar/ui/components/breadcrumb";
-import { getUser } from "@/services/get-user";
-import { User } from "@/types/api-types";
 import { routes } from "@/routes";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 
-export default async function DashboardLayout({ children }: PropsWithChildren) {
-  const { data: user } = await getUser<User>();
-
-  if (!user.currentCatalog) {
-    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
-
+export default function DashboardLayout({ children }: PropsWithChildren) {
   return (
     <SidebarProvider>
       <AppSidebar />

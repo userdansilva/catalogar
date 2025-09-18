@@ -2,15 +2,13 @@
 
 import { revalidateTag } from "next/cache";
 import { authActionClient } from "./safe-action";
-import { api } from "./api";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { companySchema } from "./schema";
-import { Company } from "@/types/api-types";
 import { tags } from "@/tags";
-import { ApiResponse } from "@/types/api-response";
+import { postCompany } from "@/services/post-company";
+import { ExpectedError } from "@/classes/ExpectedError";
 
 export const createCompanyAction = authActionClient
-  .schema(companySchema)
+  .inputSchema(companySchema)
   .metadata({
     actionName: "create-company",
   })
@@ -23,31 +21,21 @@ export const createCompanyAction = authActionClient
         phoneNumber,
         businessTypeDescription,
       },
-      ctx: { Authorization },
     }) => {
-      try {
-        const res = await api.post<ApiResponse<Company>>(
-          "/v1/companies",
-          {
-            name,
-            description,
-            mainSiteUrl,
-            phoneNumber,
-            businessTypeDescription,
-          },
-          {
-            headers: {
-              Authorization,
-            },
-          },
-        );
+      const [error, data] = await postCompany({
+        name,
+        description,
+        mainSiteUrl,
+        phoneNumber,
+        businessTypeDescription,
+      });
 
-        revalidateTag(tags.users.me);
-
-        return { company: res.data.data, message: res.data.meta?.message };
-      } catch (e) {
-        returnValidationErrorsIfExists(e, companySchema);
-        throw e;
+      if (error) {
+        throw new ExpectedError(error);
       }
+
+      revalidateTag(tags.users.me);
+
+      return { company: data.data, message: data.meta?.message };
     },
   );

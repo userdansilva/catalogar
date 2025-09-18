@@ -1,6 +1,8 @@
-export type Meta = {
-  message?: string;
-};
+export type Meta =
+  | {
+      message?: string;
+    }
+  | undefined;
 
 export type Pagination = {
   currentPage: number;
@@ -9,13 +11,30 @@ export type Pagination = {
   totalItems: number;
 };
 
-export type MetaWithPagination = Meta & {
+export type MetaWithPagination = Required<Meta> & {
   pagination: Pagination;
 };
 
-export type ApiResponse<T, M extends Meta | MetaWithPagination = Meta> = {
+export type ApiResponse<
+  T extends object | object[],
+  M extends Meta | MetaWithPagination = Meta,
+> = {
   data: T;
   meta: M;
 };
 
-export type ApiResponseWithPagination<T> = ApiResponse<T, MetaWithPagination>;
+export type ApiResponseWithPagination<T extends object[]> = ApiResponse<
+  T,
+  MetaWithPagination
+>;
+
+export type DefaultApiError<T = string> = {
+  path: string;
+  message: string;
+  statusCode: number;
+  timestamp: string;
+  errors: Array<{
+    field: T;
+    message: string;
+  }>;
+};

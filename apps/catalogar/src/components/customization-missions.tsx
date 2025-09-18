@@ -1,8 +1,13 @@
+import { redirect, RedirectType } from "next/navigation";
 import { Mission } from "./mission";
-import { UserWithCatalog } from "@/types/api-types";
+import { User } from "@/services/get-user";
 import { routes } from "@/routes";
 
-export function CustomizationMissions({ user }: { user: UserWithCatalog }) {
+export function CustomizationMissions({ user }: { user: User }) {
+  if (!user.currentCatalog) {
+    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
+  }
+
   const companyMissionStatus = (() => {
     if (user.currentCatalog.company) {
       return "COMPLETE";

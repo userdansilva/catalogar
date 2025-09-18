@@ -14,6 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@catalogar/ui/components/alert-dialog";
 import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
+import * as Sentry from "@sentry/nextjs";
 import { Button } from "./button";
 import { createImageAction } from "@/actions/create-image-action";
 
@@ -39,47 +40,52 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
   const { executeAsync, isExecuting } = useAction(createImageAction);
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    const file = files?.[0];
+    try {
+      const file = e.target.files?.[0];
 
-    if (!file) return;
+      if (!file) throw new Error();
 
-    if (file.size > 1.1 * 1024 * 1024) {
-      toast.warning("Ops! Imagem muito pesada", {
-        description: "Tamanho máximo é de 1MB",
-      });
+      if ((file.size || 0) > 1.1 * 1024 * 1024) {
+        toast.warning("Imagem muito pesada", {
+          description: "Tamanho máximo é de 1MB",
+        });
 
-      // Reset input
-      if (inputFileRef.current) {
-        inputFileRef.current.value = "";
+        return;
       }
 
-      return;
-    }
+      const formData = new FormData();
+      formData.append("image", file);
 
-    const formData = new FormData();
-    formData.append("image", file);
+      const { data, serverError } = await executeAsync(formData);
 
-    const res = await executeAsync(formData);
+      if (serverError) {
+        toast.error(serverError.message, {
+          description: () => (
+            <ul>
+              {serverError.errors.map((error) => (
+                <li key={error.field + error.message}>{error.message}</li>
+              ))}
+            </ul>
+          ),
+        });
 
-    if (res?.data) {
+        return;
+      }
+
+      if (!data) throw new Error();
+
       onChange([
         ...value,
         {
-          fileName: res.data.fileName,
-          url: res.data.url,
-          sizeInBytes: res.data.sizeInBytes,
-          width: res.data.width,
-          height: res.data.height,
+          fileName: data.fileName,
+          url: data.url,
+          sizeInBytes: data.sizeInBytes,
+          width: data.width,
+          height: data.height,
           altText: "",
           position: value.length + 1,
         },
       ]);
-
-      // Reset input
-      if (inputFileRef.current) {
-        inputFileRef.current.value = "";
-      }
 
       // scroll right
       if (buttonContainerRef.current) {
@@ -90,6 +96,16 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
           });
         }, 1_500);
       }
+    } catch (error) {
+      Sentry.captureException(error);
+      toast.error(
+        "Falha inesperada ao carregar imagem, por favor tente novamente",
+      );
+    } finally {
+      // reset input
+      if (inputFileRef.current) {
+        inputFileRef.current.value = "";
+      }
     }
   };
 
@@ -97,7 +113,7 @@ export function InputImages({ onChange, value, disabled }: InputFilesProps) {
     onChange(
       value
         .filter((image) => image.url !== url)
-        .map((image, i) => ({ ...image, position: i + 1 }))
+        .map((image, i) => ({ ...image, position: i + 1 })),
     );
   };
 

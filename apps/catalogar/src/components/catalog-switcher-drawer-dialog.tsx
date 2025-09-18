@@ -50,9 +50,10 @@ import {
 } from "@catalogar/ui/components/drawer";
 import { useIsMobile } from "@catalogar/ui/hooks/use-mobile";
 import { Button } from "./inputs/button";
-import { Catalog } from "@/types/api-types";
 import { routes } from "@/routes";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
+import { Catalog } from "@/services/get-user";
+import { toastServerError } from "@/utils/toast-server-error";
 
 function CatalogSwitcherCard({
   currentCatalog,
@@ -206,21 +207,19 @@ export function CatalogSwitcherDrawerDialog({
       },
       actionProps: {
         onSuccess: () => {
-          toast.success("Catálogo atual alterado! Atualizando...");
+          toast.success("Catálogo atual alterado!");
           setOpen(false);
-          router.refresh();
+          router.push(routes.dashboard.url);
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
-    }
+    },
   );
 
   if (isMobile) {

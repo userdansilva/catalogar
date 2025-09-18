@@ -3,6 +3,7 @@ import { PropsWithChildren } from "react";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
 import { routes } from "@/routes";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 const ASCIIforAt = "%40"; // @
 
@@ -20,9 +21,13 @@ export default async function Layout({
 
   const slug = fullSlug.replace(ASCIIforAt, "");
 
-  const { data: catalog } = await getPublicCatalogBySlug(slug);
+  const [error, data] = await getPublicCatalogBySlug(slug);
 
-  if (!catalog.theme) return null;
+  if (error) {
+    return <ExpectedError error={error} />;
+  }
+
+  const catalog = data.data;
 
   return (
     <CatalogLayout

@@ -5,6 +5,7 @@ import { routes } from "@/routes";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 const ASCIIforAt = "%40"; // @
 
@@ -24,7 +25,13 @@ export default async function Page({
 
   const slug = slugWithAt.replace(ASCIIforAt, "");
 
-  const { data: catalog } = await getPublicCatalogBySlug(slug);
+  const [error, data] = await getPublicCatalogBySlug(slug);
+
+  if (error) {
+    return <ExpectedError error={error} />;
+  }
+
+  const catalog = data.data;
 
   const catalogItem = catalog.catalogItems.find(
     (item) => item.reference === Number(reference),
@@ -51,7 +58,7 @@ export default async function Page({
 
   return (
     <div className="max-w-7xl space-y-6 md:container">
-      <PrevButton fallbackUrl={routes.public.url(slug)} />
+      <PrevButton url={routes.public.url(slug)} />
 
       <PublicCatalogItemDetail
         baseUrl={routes.public.url(slug)}

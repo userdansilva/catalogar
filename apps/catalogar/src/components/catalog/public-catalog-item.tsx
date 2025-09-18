@@ -6,13 +6,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@catalogar/ui/lib/utils";
 import { Badge } from "@catalogar/ui/components/badge";
-import { CatalogItem as CatalogItemType } from "@/types/api-types";
+import { CatalogItem } from "@/services/get-catalog-item-by-id";
 
 export function PublicCatalogItem({
   catalogItem,
   unoptimized,
 }: {
-  catalogItem: CatalogItemType;
+  catalogItem: CatalogItem;
   unoptimized?: boolean;
 }) {
   const pathname = usePathname();
@@ -62,7 +62,7 @@ export function PublicCatalogItem({
         <div
           className={cn(
             "text-base font-semibold",
-            catalogItem.isDisabled && "line-through"
+            catalogItem.isDisabled && "line-through",
           )}
         >
           {catalogItem.title}

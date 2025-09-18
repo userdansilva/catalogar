@@ -25,8 +25,9 @@ import {
 import { Button } from "../inputs/button";
 import { updateCatalogAction } from "@/actions/update-catalog-action";
 import { updateCatalogSchema } from "@/actions/schema";
-import { Catalog } from "@/types/api-types";
 import { routes } from "@/routes";
+import { toastServerError } from "@/utils/toast-server-error";
+import { Catalog } from "@/services/get-user";
 
 export type CatalogFormValues = z.infer<typeof updateCatalogSchema>;
 
@@ -45,40 +46,27 @@ export function UpdateCatalogForm({
     {
       formProps: {
         mode: "onChange",
-        // defaultValues: {
-        //   name: catalog.name,
-        //   isPublished: catalog.isPublished,
-        // },
-        values: {
+        defaultValues: {
           name: catalog.name,
           isPublished: catalog.isPublished,
         },
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(
-            `Sucesso! ${
-              !callbackUrl
-                ? "Voltando para Página Inicial..."
-                : "Redirecionando..."
-            }`,
-            {
-              description: res.data?.message,
-            }
-          );
+          toast.success("Alterações salvas!", {
+            description: res.data.message,
+          });
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
-    }
+    },
   );
 
   return (

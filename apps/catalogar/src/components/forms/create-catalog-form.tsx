@@ -19,6 +19,7 @@ import { Button } from "../inputs/button";
 import { createCatalogAction } from "@/actions/create-catalog-action";
 import { routes } from "@/routes";
 import { createCatalogSchema } from "@/actions/schema";
+import { toastServerError } from "@/utils/toast-server-error";
 
 export type CatalogFormValues = z.infer<typeof createCatalogSchema>;
 
@@ -37,8 +38,8 @@ export function CreateCatalogForm() {
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso! Redirecionando para tela inicial...", {
-            description: res.data?.message,
+          toast.success("Catálogo criado!", {
+            description: res.data.message,
           });
           router.push(routes.dashboard.url);
         },
@@ -46,13 +47,11 @@ export function CreateCatalogForm() {
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
-    }
+    },
   );
 
   return (

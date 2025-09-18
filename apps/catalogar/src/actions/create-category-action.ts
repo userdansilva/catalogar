@@ -4,49 +4,49 @@ import { revalidateTag } from "next/cache";
 import slugify from "slugify";
 import { authActionClient } from "./safe-action";
 import { categorySchema } from "./schema";
-import { api } from "./api";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { tags } from "@/tags";
-import { Category } from "@/types/api-types";
-import { ApiResponse } from "@/types/api-response";
+import { postCategory } from "@/services/post-category";
+import { ExpectedError } from "@/classes/ExpectedError";
+import { getUser } from "@/services/get-user";
 
 export const createCategoryAction = authActionClient
-  .schema(categorySchema)
+  .inputSchema(categorySchema)
   .metadata({
     actionName: "create-category",
   })
   .action(
     async ({
       parsedInput: { name, textColor, backgroundColor, isDisabled },
-      ctx: { Authorization, user },
     }) => {
-      try {
-        const res = await api.post<ApiResponse<Category>>(
-          "/v1/categories",
-          {
-            name,
-            slug: slugify(name, { lower: true }),
-            textColor,
-            backgroundColor,
-            isDisabled,
-          },
-          {
-            headers: {
-              Authorization,
-            },
-          },
-        );
+      const [categoryError, categoryData] = await postCategory({
+        name,
+        slug: slugify(name, { lower: true }),
+        textColor,
+        backgroundColor,
+        isDisabled,
+      });
 
-        revalidateTag(tags.categories.getAll);
-
-        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-        }
-
-        return { category: res.data.data, message: res.data.meta?.message };
-      } catch (e) {
-        returnValidationErrorsIfExists(e, categorySchema);
-        throw e;
+      if (categoryError) {
+        throw new ExpectedError(categoryError);
       }
+
+      const [userError, userData] = await getUser();
+
+      if (userError) {
+        throw new ExpectedError(userError);
+      }
+
+      revalidateTag(tags.categories.getAll);
+
+      const { currentCatalog } = userData.data;
+
+      if (currentCatalog?.isPublished && currentCatalog.slug) {
+        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+      }
+
+      return {
+        category: categoryData.data,
+        message: categoryData.meta?.message,
+      };
     },
   );

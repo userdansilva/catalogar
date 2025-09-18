@@ -6,9 +6,12 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { CatalogItemForm } from "./catalog-item-form";
 import { routes } from "@/routes";
-import { CatalogItem, Category, ProductType } from "@/types/api-types";
 import { updateCatalogItemAction } from "@/actions/update-catalog-item-action";
 import { catalogItemSchema } from "@/actions/schema";
+import { CatalogItem } from "@/services/get-catalog-item-by-id";
+import { Category } from "@/services/get-category-by-id";
+import { ProductType } from "@/services/get-product-type-by-id";
+import { toastServerError } from "@/utils/toast-server-error";
 
 type UpdateCatalogItemFormProps = {
   catalogItem: CatalogItem;
@@ -47,8 +50,8 @@ export function UpdateCatalogItemForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso! Voltando para a lista...", {
-            description: res.data?.message,
+          toast.success("Alterações salvas!", {
+            description: res.data.message,
           });
           router.push(routes.catalogItems.url);
         },
@@ -56,13 +59,11 @@ export function UpdateCatalogItemForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toast.error("Ops! Algo deu errado", {
-              description: serverError.message,
-            });
+            toastServerError(serverError);
           }
         },
       },
-    }
+    },
   );
 
   return (

@@ -2,31 +2,36 @@
 
 import { revalidateTag } from "next/cache";
 import { authActionClient } from "./safe-action";
-import { api } from "./api";
 import { deleteSchema } from "./schema";
 import { tags } from "@/tags";
+import { deleteCatalogItem } from "@/services/delete-catalog-item";
+import { ExpectedError } from "@/classes/ExpectedError";
+import { getUser } from "@/services/get-user";
 
 export const deleteCatalogItemAction = authActionClient
-  .schema(deleteSchema)
+  .inputSchema(deleteSchema)
   .metadata({
     actionName: "delete-catalog-item",
   })
-  .action(async ({ parsedInput: { id }, ctx: { Authorization, user } }) => {
-    try {
-      await api.delete<void>(`/v1/catalog-items/${id}`, {
-        headers: {
-          Authorization,
-        },
-      });
+  .action(async ({ parsedInput: { id } }) => {
+    const [catalogItemError] = await deleteCatalogItem(id);
 
-      revalidateTag(tags.catalogItems.getAll);
-      revalidateTag(tags.catalogItems.getById(id));
+    if (catalogItemError) {
+      throw new ExpectedError(catalogItemError);
+    }
 
-      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-    } catch (e) {
-      console.error(e);
-      throw e;
+    const [userError, userData] = await getUser();
+
+    if (userError) {
+      throw new ExpectedError(userError);
+    }
+
+    revalidateTag(tags.catalogItems.getAll);
+    revalidateTag(tags.catalogItems.getByIdAny);
+
+    const { currentCatalog } = userData.data;
+
+    if (currentCatalog?.isPublished && currentCatalog.slug) {
+      revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
     }
   });

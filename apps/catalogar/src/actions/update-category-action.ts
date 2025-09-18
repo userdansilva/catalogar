@@ -4,53 +4,52 @@ import { revalidateTag } from "next/cache";
 import slugify from "slugify";
 import { authActionClient } from "./safe-action";
 import { categorySchema } from "./schema";
-import { api } from "./api";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { tags } from "@/tags";
-import { Category } from "@/types/api-types";
-import { ApiResponse } from "@/types/api-response";
+import { putCategory } from "@/services/put-category";
+import { ExpectedError } from "@/classes/ExpectedError";
+import { getUser } from "@/services/get-user";
 
 export const updateCategoryAction = authActionClient
-  .schema(categorySchema)
+  .inputSchema(categorySchema)
   .metadata({
     actionName: "update-category",
   })
   .action(
     async ({
       parsedInput: { id, name, textColor, backgroundColor, isDisabled },
-      ctx: { Authorization, user },
     }) => {
-      try {
-        const res = await api.put<ApiResponse<Category>>(
-          `/v1/categories/${id}`,
-          {
-            name,
-            slug: slugify(name, { lower: true }),
-            textColor,
-            backgroundColor,
-            isDisabled,
-          },
-          {
-            headers: {
-              Authorization,
-            },
-          },
-        );
+      if (!id) throw new Error("Id não encontrado");
 
-        revalidateTag(tags.categories.getAll);
+      const [categoryError, categoryData] = await putCategory(id, {
+        name,
+        slug: slugify(name, { lower: true }),
+        textColor,
+        backgroundColor,
+        isDisabled,
+      });
 
-        if (id) {
-          revalidateTag(tags.categories.getById(id));
-        }
-
-        if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-          revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-        }
-
-        return { category: res.data.data, message: res.data.meta?.message };
-      } catch (e) {
-        returnValidationErrorsIfExists(e, categorySchema);
-        throw e;
+      if (categoryError) {
+        throw new ExpectedError(categoryError);
       }
+
+      const [userError, userData] = await getUser();
+
+      if (userError) {
+        throw new ExpectedError(userError);
+      }
+
+      revalidateTag(tags.categories.getAll);
+      revalidateTag(tags.categories.getById(id));
+
+      const { currentCatalog } = userData.data;
+
+      if (currentCatalog?.isPublished && currentCatalog.slug) {
+        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+      }
+
+      return {
+        category: categoryData.data,
+        message: categoryData.meta?.message,
+      };
     },
   );

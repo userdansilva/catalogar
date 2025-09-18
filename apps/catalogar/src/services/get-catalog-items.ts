@@ -1,27 +1,29 @@
-import { formatParamsFrom } from "./format-params-from";
+import { CatalogItem } from "./get-catalog-item-by-id";
+import { getAuthHeaders } from "@/utils/get-auth-headers";
+import { serverFetch } from "@/utils/server-fetch";
 import { tags } from "@/tags";
-import { ApiResponseWithPagination } from "@/types/api-response";
-import { CatalogItem, CatalogItemFilters } from "@/types/api-types";
-import { getSession } from "@/utils/get-session";
+import { ApiResponse, DefaultApiError } from "@/types/api-response";
 
-export async function getCatalogItems(
-  filters: CatalogItemFilters = {
-    perPage: 10_000,
-  }
-) {
-  const { Authorization } = await getSession();
+export type GetCatalogItemsError = DefaultApiError;
+export type GetCatalogItemsResponse = ApiResponse<CatalogItem[]>;
+export type GetCatalogItemsParams = {
+  field?: "name" | "createdAt";
+  sort?: "asc" | "desc";
+};
 
-  const params = formatParamsFrom(filters);
+export async function getCatalogItems({
+  params,
+}: {
+  params?: GetCatalogItemsParams;
+} = {}) {
+  const headers = await getAuthHeaders();
 
-  const res = await fetch(
-    `${process.env.API_URL}/api/v1/catalog-items?${params}`,
-    {
-      headers: { Authorization },
-      next: { tags: [tags.catalogItems.getAll] },
-    }
-  );
-
-  const data = await res.json();
-
-  return data as ApiResponseWithPagination<CatalogItem[]>;
+  return await serverFetch<GetCatalogItemsError, GetCatalogItemsResponse>({
+    url: "/v1/catalog-items",
+    params,
+    headers,
+    next: {
+      tags: [tags.catalogItems.getAll],
+    },
+  });
 }

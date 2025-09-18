@@ -13,6 +13,9 @@ import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
 import { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
+import { ExpectedError } from "@/components/error-handling/expected-error";
+import { PrevButton } from "@/components/inputs/prev-button";
+import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
   title: routes.catalogItems.title,
@@ -32,14 +35,33 @@ export default async function Page({
 }: {
   searchParams: Promise<SearchParams<typeof SEARCH_PARAM_NAMES>>;
 }) {
-  const { data: catalogItems } = await getCatalogItems();
+  const [catalogItemsError, catalogItemsData] = await getCatalogItems();
+
+  if (catalogItemsError) {
+    return <ExpectedError error={catalogItemsError} />;
+  }
+
+  const catalogItems = catalogItemsData.data;
 
   if (catalogItems.length === 0) {
     redirect(routes.catalogItems.sub.createFirst.url, RedirectType.replace);
   }
 
-  const { data: productTypes } = await getProductTypes();
-  const { data: categories } = await getCategories();
+  const [
+    [productTypesError, productTypesData],
+    [categoriesError, categoriesData],
+  ] = await Promise.all([getProductTypes(), getCategories()]);
+
+  if (productTypesError) {
+    return <ExpectedError error={productTypesError} />;
+  }
+
+  if (categoriesError) {
+    return <ExpectedError error={categoriesError} />;
+  }
+
+  const productTypes = productTypesData.data;
+  const categories = categoriesData.data;
 
   const { categoria, p, produto, busca } = await searchParams;
 
@@ -50,10 +72,17 @@ export default async function Page({
 
   return (
     <div className="space-y-6">
+      <PrevButton url={routes.dashboard.url} />
+
+      <PageHeader
+        title={routes.catalogItems.title}
+        description="Aqui estão os itens do seu catálogo. Adicione, edite, oculte itens temporários ou exclua as que não usa mais."
+      />
+
       <Button asChild size="lg">
         <Link href={routes.catalogItems.sub.new.url}>
           <Plus />
-          Adicionar Item
+          Adicionar
         </Link>
       </Button>
 

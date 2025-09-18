@@ -1,49 +1,63 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
-import { api } from "./api";
 import { authActionClient } from "./safe-action";
 import { productTypeStatusToggleSchema } from "./schema";
-import { ApiResponse } from "@/types/api-response";
 import { tags } from "@/tags";
 import { getProductTypeById } from "@/services/get-product-type-by-id";
-import { ProductType } from "@/types/api-types";
+import { ExpectedError } from "@/classes/ExpectedError";
+import { putProductType } from "@/services/put-product-type";
+import { getUser } from "@/services/get-user";
 
 export const toggleProductTypeStatusAction = authActionClient
-  .schema(productTypeStatusToggleSchema)
+  .inputSchema(productTypeStatusToggleSchema)
   .metadata({
     actionName: "switch-product-type-enable",
   })
-  .action(async ({ parsedInput: { id }, ctx: { Authorization, user } }) => {
-    try {
-      const { data: productType } = await getProductTypeById(id);
+  .action(async ({ parsedInput: { id } }) => {
+    const [getProductTypeError, getProductTypeData] =
+      await getProductTypeById(id);
 
-      const res = await api.put<ApiResponse<ProductType>>(
-        `/v1/product-types/${id}`,
-        {
-          ...productType,
-          isDisabled: !productType.isDisabled,
-        },
-        {
-          headers: {
-            Authorization,
-          },
-        },
-      );
-
-      revalidateTag(tags.productTypes.getAll);
-      if (id) {
-        revalidateTag(tags.productTypes.getById(id));
-      }
-
-      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      return { productType: res.data.data, message: res.data.meta?.message };
-    } catch (e) {
-      returnValidationErrorsIfExists(e, productTypeStatusToggleSchema);
-      throw e;
+    if (getProductTypeError) {
+      throw new ExpectedError(getProductTypeError);
     }
+
+    const productType = getProductTypeData.data;
+
+    const [putProdutTypeError, putProductTypeData] = await putProductType(id, {
+      name: productType.name,
+      slug: productType.slug,
+      isDisabled: !productType.isDisabled,
+    });
+
+    if (putProdutTypeError) {
+      throw new ExpectedError(putProdutTypeError);
+    }
+
+    revalidateTag(tags.productTypes.getAll);
+    revalidateTag(tags.productTypes.getById(id));
+
+    const [userError, userData] = await getUser();
+
+    if (userError) {
+      throw new ExpectedError(userError);
+    }
+
+    if (!userData.data.currentCatalog) {
+      throw new Error("Catálogo atual não definido");
+    }
+
+    if (
+      userData.data.currentCatalog.isPublished &&
+      userData.data.currentCatalog.slug
+    ) {
+      revalidateTag(
+        tags.publicCatalog.getBySlug(userData.data.currentCatalog.slug),
+      );
+    }
+
+    return {
+      productType: putProductTypeData.data,
+      message: putProductTypeData.meta?.message,
+    };
   });

@@ -2,46 +2,45 @@
 
 import { revalidateTag } from "next/cache";
 import { authActionClient } from "./safe-action";
-import { api } from "./api";
-import { returnValidationErrorsIfExists } from "./return-validation-errors-if-exists";
 import { publishCatalogSchema } from "./schema";
-import { ApiResponse } from "@/types/api-response";
-import { Catalog } from "@/types/api-types";
 import { tags } from "@/tags";
 import { getUser } from "@/services/get-user";
+import { ExpectedError } from "@/classes/ExpectedError";
+import { putCatalog } from "@/services/put-catalog";
 
 export const publishCatalogAction = authActionClient
-  .schema(publishCatalogSchema)
+  .inputSchema(publishCatalogSchema)
   .metadata({
     actionName: "publish-catalog",
   })
-  .action(async ({ parsedInput: { slug }, ctx: { Authorization } }) => {
-    const { data: user } = await getUser();
+  .action(async ({ parsedInput: { slug } }) => {
+    const [userError, userData] = await getUser();
 
-    try {
-      const res = await api.put<ApiResponse<Catalog>>(
-        "/v1/catalogs",
-        {
-          name: user.currentCatalog.name,
-          slug,
-          isPublished: true,
-        },
-        {
-          headers: {
-            Authorization,
-          },
-        },
-      );
-
-      revalidateTag(tags.users.me);
-
-      if (user.currentCatalog.isPublished && user.currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(user.currentCatalog.slug));
-      }
-
-      return { catalog: res.data.data, message: res.data.meta?.message };
-    } catch (e) {
-      returnValidationErrorsIfExists(e, publishCatalogSchema);
-      throw e;
+    if (userError) {
+      throw new ExpectedError(userError);
     }
+
+    const { currentCatalog } = userData.data;
+
+    if (!currentCatalog) {
+      throw new Error("Catálogo atual não definido");
+    }
+
+    const [catalogError, catalogData] = await putCatalog({
+      name: currentCatalog.name,
+      slug,
+      isPublished: true,
+    });
+
+    if (catalogError) {
+      throw new ExpectedError(catalogError);
+    }
+
+    revalidateTag(tags.users.me);
+
+    if (currentCatalog?.isPublished && currentCatalog.slug) {
+      revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+    }
+
+    return { catalog: catalogData.data, message: catalogData.meta?.message };
   });

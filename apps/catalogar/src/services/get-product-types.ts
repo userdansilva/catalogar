@@ -1,23 +1,34 @@
-import { formatParamsFrom } from "./format-params-from";
+import { ProductType } from "./get-product-type-by-id";
+import { getAuthHeaders } from "@/utils/get-auth-headers";
+import { serverFetch } from "@/utils/server-fetch";
 import { tags } from "@/tags";
-import { ApiResponseWithPagination } from "@/types/api-response";
-import { ProductType, ProductTypeFilters } from "@/types/api-types";
-import { getSession } from "@/utils/get-session";
+import {
+  ApiResponseWithPagination,
+  DefaultApiError,
+} from "@/types/api-response";
 
-export async function getProductTypes(filters: ProductTypeFilters = {}) {
-  const { Authorization } = await getSession();
+export type GetProductTypesError = DefaultApiError;
+export type GetProductTypesResponse = ApiResponseWithPagination<ProductType[]>;
+export type GetProductTypesParams = {
+  field?: "name" | "createdAt";
+  sort?: "asc" | "desc";
+  page?: string;
+  perPage?: string;
+};
 
-  const params = formatParamsFrom(filters);
+export async function getProductTypes({
+  params,
+}: {
+  params?: GetProductTypesParams;
+} = {}) {
+  const headers = await getAuthHeaders();
 
-  const res = await fetch(
-    `${process.env.API_URL}/api/v1/product-types?${params}`,
-    {
-    headers: { Authorization },
-      next: { tags: [tags.productTypes.getAll] },
+  return await serverFetch<GetProductTypesError, GetProductTypesResponse>({
+    url: "/v1/product-types",
+    params,
+    headers,
+    next: {
+      tags: [tags.productTypes.getAll],
     },
-  );
-
-  const data = await res.json();
-
-  return data as ApiResponseWithPagination<ProductType[]>;
+  });
 }

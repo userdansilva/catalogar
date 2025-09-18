@@ -10,13 +10,11 @@ import {
 } from "@catalogar/ui/components/table";
 import { Skeleton } from "@catalogar/ui/components/skeleton";
 
-type TableSkeletonProps<TData, TValues> = {
-  columns: ColumnDef<TData, TValues>[];
-};
-
 export function TableSkeleton<TData, TValues>({
   columns,
-}: TableSkeletonProps<TData, TValues>) {
+}: {
+  columns: ColumnDef<TData, TValues>[];
+}) {
   return (
     <div className="rounded-md border">
       <Table>

@@ -6,6 +6,7 @@ import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 import { CatalogItems } from "@/components/catalog/catalog-items";
 import { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 
 const ASCIIforAt = "%40"; // @
 const ITEMS_PER_PAGE = 16;
@@ -32,7 +33,13 @@ export default async function Page({
 
   const slug = slugWithAt.replace(ASCIIforAt, "");
 
-  const { data: catalog } = await getPublicCatalogBySlug(slug);
+  const [error, data] = await getPublicCatalogBySlug(slug);
+
+  if (error) {
+    return <ExpectedError error={error} />;
+  }
+
+  const catalog = data.data;
 
   const { busca, categoria, p, produto } = await searchParams;
 
