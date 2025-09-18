@@ -76,8 +76,7 @@ export default async function Page({
 
       <PageHeader
         title={routes.catalogItems.title}
-        description="Gerencie os itens deste catálogo: adicione novos, 
-              edite os existentes ou remova o que não precisar mais."
+        description="Aqui estão os itens do seu catálogo. Adicione, edite, oculte itens temporários ou exclua as que não usa mais."
       />
 
       <Button asChild size="lg">
