@@ -31,7 +31,7 @@ export default async function CreateFirstProductType({
 
   return (
     <div className="max-w-lg space-y-8">
-      <PrevButton fallbackUrl={routes.dashboard.url} />
+      <PrevButton url={routes.dashboard.url} />
 
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">

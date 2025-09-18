@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
+import { useRouter } from "next/navigation";
 import { Button } from "./inputs/button";
 import { routes } from "@/routes";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
@@ -22,6 +23,7 @@ type MyCatalogsProps = {
 };
 
 export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
+  const router = useRouter();
   const switchCatalog = useAction(switchCatalogAction);
 
   return (
@@ -90,9 +92,7 @@ export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
                           {
                             loading: "Trocando de catálogo...",
                             success: () => {
-                              setTimeout(() => {
-                                window.location.reload();
-                              }, 1_000);
+                              router.push(routes.dashboard.url);
 
                               return "Catálogo atual alterado!";
                             },

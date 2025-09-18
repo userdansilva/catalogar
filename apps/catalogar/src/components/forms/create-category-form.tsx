@@ -28,12 +28,9 @@ export function CreateCategoryForm({ callbackUrl }: { callbackUrl?: string }) {
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(
-            `Sucesso! ${!callbackUrl ? "Voltando para a lista..." : "Redirecionando..."}`,
-            {
-              description: res.data?.message,
-            },
-          );
+          toast.success("Categoria adicionada!", {
+            description: res.data.message,
+          });
           router.push(callbackUrl || routes.categories.url);
         },
         onError: (e) => {
@@ -51,7 +48,7 @@ export function CreateCategoryForm({ callbackUrl }: { callbackUrl?: string }) {
     <CategoryForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Criar Categoria"
+      submitButtonLabel="Adicionar"
     />
   );
 }

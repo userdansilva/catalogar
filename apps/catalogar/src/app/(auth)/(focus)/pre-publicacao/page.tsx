@@ -38,7 +38,7 @@ export default async function Page() {
 
   return (
     <div className="max-w-xl space-y-8">
-      <PrevButton fallbackUrl={routes.dashboard.url} />
+      <PrevButton url={routes.dashboard.url} />
 
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">

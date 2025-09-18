@@ -14,6 +14,8 @@ import { getProductTypes } from "@/services/get-product-types";
 import { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
 import { ExpectedError } from "@/components/error-handling/expected-error";
+import { PrevButton } from "@/components/inputs/prev-button";
+import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
   title: routes.catalogItems.title,
@@ -70,10 +72,18 @@ export default async function Page({
 
   return (
     <div className="space-y-6">
+      <PrevButton url={routes.dashboard.url} />
+
+      <PageHeader
+        title={routes.catalogItems.title}
+        description="Gerencie os itens deste catálogo: adicione novos, 
+              edite os existentes ou remova o que não precisar mais."
+      />
+
       <Button asChild size="lg">
         <Link href={routes.catalogItems.sub.new.url}>
           <Plus />
-          Adicionar Item
+          Adicionar
         </Link>
       </Button>
 

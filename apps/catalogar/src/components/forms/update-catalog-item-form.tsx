@@ -50,8 +50,8 @@ export function UpdateCatalogItemForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso! Voltando para a lista...", {
-            description: res.data?.message,
+          toast.success("Alterações salvas!", {
+            description: res.data.message,
           });
           router.push(routes.catalogItems.url);
         },

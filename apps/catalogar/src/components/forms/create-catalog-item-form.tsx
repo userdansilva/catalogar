@@ -46,12 +46,9 @@ export function CreateCatalogItemForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(
-            `Sucesso!${!callbackUrl ? " Voltando para a lista..." : ""}`,
-            {
-              description: res.data?.message,
-            },
-          );
+          toast.success("Item de catálogo adicionado!", {
+            description: res.data.message,
+          });
           router.push(callbackUrl || routes.catalogItems.url);
         },
         onError: (e) => {
@@ -69,7 +66,7 @@ export function CreateCatalogItemForm({
     <CatalogItemForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Criar Item de Catálogo"
+      submitButtonLabel="Adicionar"
       categories={categories}
       productTypes={productTypes}
     />

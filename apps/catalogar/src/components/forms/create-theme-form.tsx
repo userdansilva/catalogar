@@ -37,16 +37,9 @@ export function CreateThemeForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(
-            `Sucesso! ${
-              !callbackUrl
-                ? "Voltando para Página Inicial..."
-                : "Redirecionando..."
-            }`,
-            {
-              description: res.data?.message,
-            },
-          );
+          toast.success("Tema salvo!", {
+            description: res.data.message,
+          });
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
@@ -65,7 +58,7 @@ export function CreateThemeForm({
       form={form}
       company={company}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Cadastrar Tema"
+      submitButtonLabel="Salvar tema"
     />
   );
 }

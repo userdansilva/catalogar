@@ -32,12 +32,9 @@ export function CreateCompanyForm({ callbackUrl }: { callbackUrl?: string }) {
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(
-            `Sucesso! ${!callbackUrl ? "Voltando para Página Inicial..." : "Redirecionando..."}`,
-            {
-              description: res.data?.message,
-            },
-          );
+          toast.success("Informações salvas!", {
+            description: res.data.message,
+          });
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
@@ -55,7 +52,7 @@ export function CreateCompanyForm({ callbackUrl }: { callbackUrl?: string }) {
     <CompanyForm
       form={form}
       onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Cadastrar Empresa"
+      submitButtonLabel="Salvar informações"
     />
   );
 }

@@ -5,14 +5,14 @@ export function PageHeader({
   description,
 }: {
   title: string;
-  description: string;
+  description?: string;
 }) {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
         <h2 className="text-2xl font-bold tracking-tight">{title}</h2>
 
-        <p className="text-muted-foreground">{description}</p>
+        {description && <p className="text-muted-foreground">{description}</p>}
       </div>
 
       <Separator />

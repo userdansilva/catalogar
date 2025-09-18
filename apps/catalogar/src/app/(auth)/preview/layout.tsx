@@ -25,13 +25,15 @@ export default async function PreviewLayout({ children }: PropsWithChildren) {
 
   return (
     <div>
-      <div className="bg-foreground container border-b-[.5px] border-accent-foreground">
-        <Button variant="link" className="dark pl-0" size="sm" asChild>
-          <Link href={routes.dashboard.url}>
-            <ChevronLeft />
-            Voltar para Página Inicial
-          </Link>
-        </Button>
+      <div className="bg-foreground">
+        <div className="container border-b-[.5px] border-accent-foreground">
+          <Button variant="link" className="dark pl-0" size="sm" asChild>
+            <Link href={routes.dashboard.url}>
+              <ChevronLeft />
+              Voltar para Página Inicial
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <CatalogLayout

@@ -47,8 +47,8 @@ export function PublishCatalogForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso! Catálogo publicado", {
-            description: res.data?.message,
+          toast.success("Catálogo Publicado!!", {
+            description: res.data.message,
           });
           router.push(routes.catalog.sub.published.url);
         },

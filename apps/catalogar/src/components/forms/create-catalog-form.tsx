@@ -38,8 +38,8 @@ export function CreateCatalogForm() {
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success("Sucesso! Redirecionando para tela inicial...", {
-            description: res.data?.message,
+          toast.success("Catálogo criado!", {
+            description: res.data.message,
           });
           router.push(routes.dashboard.url);
         },

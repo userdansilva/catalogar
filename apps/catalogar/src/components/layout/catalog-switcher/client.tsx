@@ -85,9 +85,9 @@ export function CatalogSwitcherClient({
                       {
                         loading: "Trocando de catálogo...",
                         success: () => {
-                          router.refresh();
+                          router.push(routes.dashboard.url);
 
-                          return "Catálogo atual alterado! Atualizando...";
+                          return "Catálogo atual alterado!";
                         },
                       },
                     );

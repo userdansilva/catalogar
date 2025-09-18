@@ -53,16 +53,9 @@ export function UpdateCatalogForm({
       },
       actionProps: {
         onSuccess: (res) => {
-          toast.success(
-            `Sucesso! ${
-              !callbackUrl
-                ? "Voltando para Página Inicial..."
-                : "Redirecionando..."
-            }`,
-            {
-              description: res.data?.message,
-            },
-          );
+          toast.success("Alterações salvas!", {
+            description: res.data.message,
+          });
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {

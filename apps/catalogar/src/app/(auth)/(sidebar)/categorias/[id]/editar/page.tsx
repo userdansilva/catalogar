@@ -3,6 +3,8 @@ import { UpdateCategoryForm } from "@/components/forms/update-category-form";
 import { routes } from "@/routes";
 import { getCategoryById } from "@/services/get-category-by-id";
 import { ExpectedError } from "@/components/error-handling/expected-error";
+import { PrevButton } from "@/components/inputs/prev-button";
+import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
   title: routes.categories.sub.edit.title,
@@ -23,5 +25,18 @@ export default async function EditCategory({
     return <ExpectedError error={error} />;
   }
 
-  return <UpdateCategoryForm category={data.data} />;
+  const category = data.data;
+
+  return (
+    <div className="space-y-6">
+      <PrevButton url={routes.categories.url} />
+
+      <PageHeader
+        title={category.name}
+        description="Altere os dados e clique em salvar alterações!"
+      />
+
+      <UpdateCategoryForm category={category} />
+    </div>
+  );
 }

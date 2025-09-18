@@ -3,6 +3,8 @@ import { UpdateProductTypeForm } from "@/components/forms/update-product-type-fo
 import { routes } from "@/routes";
 import { getProductTypeById } from "@/services/get-product-type-by-id";
 import { ExpectedError } from "@/components/error-handling/expected-error";
+import { PrevButton } from "@/components/inputs/prev-button";
+import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
   title: routes.productTypes.sub.edit.title,
@@ -23,5 +25,18 @@ export default async function EditProductType({
     return <ExpectedError error={error} />;
   }
 
-  return <UpdateProductTypeForm productType={data.data} />;
+  const productType = data.data;
+
+  return (
+    <div className="space-y-6">
+      <PrevButton url={routes.productTypes.url} />
+
+      <PageHeader
+        title={productType.name}
+        description="Altere os dados e clique em salvar alterações!"
+      />
+
+      <UpdateProductTypeForm productType={productType} />
+    </div>
+  );
 }

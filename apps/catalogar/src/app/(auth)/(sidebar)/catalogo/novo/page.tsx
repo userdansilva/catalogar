@@ -4,6 +4,8 @@ import { CreateCatalogItemForm } from "@/components/forms/create-catalog-item-fo
 import { getProductTypes } from "@/services/get-product-types";
 import { getCategories } from "@/services/get-categories";
 import { ExpectedError } from "@/components/error-handling/expected-error";
+import { PrevButton } from "@/components/inputs/prev-button";
+import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
   title: routes.catalogItems.sub.new.title,
@@ -33,10 +35,16 @@ export default async function NewCatalogItem({
   const categories = categoriesData.data;
 
   return (
-    <CreateCatalogItemForm
-      productTypes={productTypes}
-      categories={categories}
-      callbackUrl={callbackUrl}
-    />
+    <div className="space-y-6">
+      <PrevButton url={routes.catalogItems.url} />
+
+      <PageHeader title={routes.catalogItems.sub.new.title} />
+
+      <CreateCatalogItemForm
+        productTypes={productTypes}
+        categories={categories}
+        callbackUrl={callbackUrl}
+      />
+    </div>
   );
 }

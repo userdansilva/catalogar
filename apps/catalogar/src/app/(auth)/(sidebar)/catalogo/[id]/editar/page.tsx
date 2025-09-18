@@ -5,6 +5,8 @@ import { getCatalogItemById } from "@/services/get-catalog-item-by-id";
 import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
 import { ExpectedError } from "@/components/error-handling/expected-error";
+import { PrevButton } from "@/components/inputs/prev-button";
+import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
   title: routes.catalogItems.sub.edit.title,
@@ -46,10 +48,19 @@ export default async function EditCatalogItem({
   const categories = categoriesData.data;
 
   return (
-    <UpdateCatalogItemForm
-      catalogItem={catalogItem}
-      productTypes={productTypes}
-      categories={categories}
-    />
+    <div className="space-y-6">
+      <PrevButton url={routes.catalogItems.url} />
+
+      <PageHeader
+        title={catalogItem.title}
+        description="Altere os dados e clique em salvar alterações!"
+      />
+
+      <UpdateCatalogItemForm
+        catalogItem={catalogItem}
+        productTypes={productTypes}
+        categories={categories}
+      />
+    </div>
   );
 }

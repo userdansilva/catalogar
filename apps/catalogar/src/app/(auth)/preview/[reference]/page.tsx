@@ -68,7 +68,7 @@ export default async function Page({
 
   return (
     <div className="max-w-7xl space-y-6 md:container">
-      <PrevButton fallbackUrl={routes.public.url(routes.preview.url)} />
+      <PrevButton url={routes.public.url(routes.preview.url)} />
 
       <PublicCatalogItemDetail
         baseUrl={routes.preview.url}
