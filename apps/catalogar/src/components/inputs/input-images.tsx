@@ -28,13 +28,15 @@ type Image = {
   position: number;
 };
 
-type InputFilesProps = {
+export function InputImages({
+  onChange,
+  value,
+  disabled,
+}: {
   value: Image[];
   onChange: (x: Image[]) => void;
   disabled?: boolean;
-};
-
-export function InputImages({ onChange, value, disabled }: InputFilesProps) {
+}) {
   const buttonContainerRef = useRef<HTMLDivElement>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const { executeAsync, isExecuting } = useAction(createImageAction);

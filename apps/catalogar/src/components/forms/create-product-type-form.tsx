@@ -4,11 +4,20 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { ProductTypeForm } from "./product-type-form";
-import { productTypeSchema } from "@/actions/schema";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
+import { Button } from "../inputs/button";
 import { routes } from "@/routes";
 import { createProductTypeAction } from "@/actions/create-product-type-action";
 import { toastServerError } from "@/utils/toast-server-error";
+import { createProductTypeSchema } from "@/schemas/product-type";
 
 export function CreateProductTypeForm({
   callbackUrl,
@@ -19,7 +28,7 @@ export function CreateProductTypeForm({
 
   const { form, handleSubmitWithAction } = useHookFormAction(
     createProductTypeAction,
-    zodResolver(productTypeSchema),
+    zodResolver(createProductTypeSchema),
     {
       formProps: {
         mode: "onChange",
@@ -47,10 +56,39 @@ export function CreateProductTypeForm({
   );
 
   return (
-    <ProductTypeForm
-      form={form}
-      onSubmit={handleSubmitWithAction}
-      submitButtonLabel="Adicionar"
-    />
+    <Form {...form}>
+      <form onSubmit={handleSubmitWithAction} className="space-y-8">
+        <FormField
+          name="name"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nome</FormLabel>
+
+              <FormControl>
+                <Input
+                  placeholder="Ex.: Camisa"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  disabled={form.formState.isSubmitting}
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button
+          type="submit"
+          disabled={form.formState.isSubmitting}
+          loading={form.formState.isSubmitting}
+        >
+          Adicionar
+        </Button>
+      </form>
+    </Form>
   );
 }

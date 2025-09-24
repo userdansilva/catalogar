@@ -2,10 +2,10 @@
 
 import { z } from "zod";
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "./safe-action";
 import { putUserCurrentCatalog } from "@/services/put-user-current-catalog";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { tags } from "@/tags";
+import { authActionClient } from "@/lib/next-safe-action";
 
 export const switchCatalogAction = authActionClient
   .inputSchema(z.object({ id: z.string() }))

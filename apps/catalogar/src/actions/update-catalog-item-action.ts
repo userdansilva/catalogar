@@ -1,15 +1,15 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "./safe-action";
-import { catalogItemSchema } from "./schema";
 import { tags } from "@/tags";
 import { putCatalogItem } from "@/services/put-catalog-item";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { getUser } from "@/services/get-user";
+import { authActionClient } from "@/lib/next-safe-action";
+import { updateCatalogItemSchema } from "@/schemas/catalog-item";
 
 export const updateCatalogItemAction = authActionClient
-  .inputSchema(catalogItemSchema)
+  .inputSchema(updateCatalogItemSchema)
   .metadata({
     actionName: "update-catalog-item",
   })
@@ -26,8 +26,6 @@ export const updateCatalogItemAction = authActionClient
         isDisabled,
       },
     }) => {
-      if (!id) throw new Error("Id não encontrado");
-
       const [catalogItemError, catalogItemData] = await putCatalogItem(id, {
         title,
         caption,

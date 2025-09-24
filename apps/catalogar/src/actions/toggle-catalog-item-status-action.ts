@@ -1,13 +1,13 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "./safe-action";
-import { catalogItemStatusToggleSchema } from "./schema";
 import { tags } from "@/tags";
 import { getCatalogItemById } from "@/services/get-catalog-item-by-id";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { putCatalogItem } from "@/services/put-catalog-item";
 import { getUser } from "@/services/get-user";
+import { authActionClient } from "@/lib/next-safe-action";
+import { catalogItemStatusToggleSchema } from "@/schemas/catalog-item";
 
 export const toggleCatalogItemStatusAction = authActionClient
   .inputSchema(catalogItemStatusToggleSchema)

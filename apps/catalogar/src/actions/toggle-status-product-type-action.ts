@@ -1,13 +1,13 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "./safe-action";
-import { productTypeStatusToggleSchema } from "./schema";
 import { tags } from "@/tags";
 import { getProductTypeById } from "@/services/get-product-type-by-id";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { putProductType } from "@/services/put-product-type";
 import { getUser } from "@/services/get-user";
+import { authActionClient } from "@/lib/next-safe-action";
+import { productTypeStatusToggleSchema } from "@/schemas/product-type";
 
 export const toggleProductTypeStatusAction = authActionClient
   .inputSchema(productTypeStatusToggleSchema)

@@ -2,15 +2,15 @@
 
 import { revalidateTag } from "next/cache";
 import slugify from "slugify";
-import { authActionClient } from "./safe-action";
-import { categorySchema } from "./schema";
 import { tags } from "@/tags";
 import { postCategory } from "@/services/post-category";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { getUser } from "@/services/get-user";
+import { createCategorySchema } from "@/schemas/category";
+import { authActionClient } from "@/lib/next-safe-action";
 
 export const createCategoryAction = authActionClient
-  .inputSchema(categorySchema)
+  .inputSchema(createCategorySchema)
   .metadata({
     actionName: "create-category",
   })

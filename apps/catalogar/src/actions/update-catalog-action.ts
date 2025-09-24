@@ -2,13 +2,13 @@
 
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
-import { authActionClient } from "./safe-action";
-import { updateCatalogSchema } from "./schema";
 import { routes } from "@/routes";
 import { tags } from "@/tags";
 import { getUser } from "@/services/get-user";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { putCatalog } from "@/services/put-catalog";
+import { authActionClient } from "@/lib/next-safe-action";
+import { updateCatalogSchema } from "@/schemas/catalog";
 
 export const updateCatalogAction = authActionClient
   .inputSchema(updateCatalogSchema)

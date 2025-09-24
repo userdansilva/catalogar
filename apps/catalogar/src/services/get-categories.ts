@@ -1,4 +1,3 @@
-import { Category } from "./get-category-by-id";
 import { serverFetch } from "@/utils/server-fetch";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { tags } from "@/tags";
@@ -7,6 +6,17 @@ import {
   DefaultApiError,
 } from "@/types/api-response";
 
+export type Category = {
+  id: string;
+  name: string;
+  slug: string;
+  textColor: string;
+  backgroundColor: string;
+  isDisabled: boolean;
+  disabledAt?: string;
+  createdAt: string;
+  updatedAt: string;
+};
 export type GetCategoriesError = DefaultApiError;
 export type GetCategoriesResponse = ApiResponseWithPagination<Category[]>;
 export type GetCategoriesParams = {

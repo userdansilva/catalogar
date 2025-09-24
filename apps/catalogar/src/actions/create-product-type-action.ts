@@ -2,15 +2,15 @@
 
 import { revalidateTag } from "next/cache";
 import slugify from "slugify";
-import { authActionClient } from "./safe-action";
-import { productTypeSchema } from "./schema";
 import { tags } from "@/tags";
 import { postProductType } from "@/services/post-product-type";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { getUser } from "@/services/get-user";
+import { createProductTypeSchema } from "@/schemas/product-type";
+import { authActionClient } from "@/lib/next-safe-action";
 
 export const createProductTypeAction = authActionClient
-  .inputSchema(productTypeSchema)
+  .inputSchema(createProductTypeSchema)
   .metadata({
     actionName: "create-product-type",
   })

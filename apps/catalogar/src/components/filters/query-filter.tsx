@@ -8,7 +8,7 @@ import { z } from "zod";
 import { Input } from "@catalogar/ui/components/input";
 import { Form, FormField } from "@catalogar/ui/components/form";
 import { Button } from "@catalogar/ui/components/button";
-import { queryFilterSchema } from "@/actions/schema";
+import { queryFilterSchema } from "@/schemas/others";
 
 type FormValues = z.infer<typeof queryFilterSchema>;
 

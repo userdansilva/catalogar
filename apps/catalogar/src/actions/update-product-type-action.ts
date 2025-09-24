@@ -2,21 +2,19 @@
 
 import { revalidateTag } from "next/cache";
 import slugify from "slugify";
-import { authActionClient } from "./safe-action";
-import { productTypeSchema } from "./schema";
 import { tags } from "@/tags";
 import { putProductType } from "@/services/put-product-type";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { getUser } from "@/services/get-user";
+import { authActionClient } from "@/lib/next-safe-action";
+import { updateProductTypeSchema } from "@/schemas/product-type";
 
 export const updateProductTypeAction = authActionClient
-  .inputSchema(productTypeSchema)
+  .inputSchema(updateProductTypeSchema)
   .metadata({
     actionName: "update-product-type",
   })
   .action(async ({ parsedInput: { id, name, isDisabled } }) => {
-    if (!id) throw new Error("Id não encontrado");
-
     const [productTypeError, productTypeData] = await putProductType(id, {
       name,
       slug: slugify(name, { lower: true }),
