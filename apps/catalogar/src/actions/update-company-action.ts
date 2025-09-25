@@ -1,15 +1,15 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "./safe-action";
-import { companySchema } from "./schema";
 import { tags } from "@/tags";
 import { putCompany } from "@/services/put-company";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { getUser } from "@/services/get-user";
+import { authActionClient } from "@/lib/next-safe-action";
+import { updateCompanySchema } from "@/schemas/company";
 
 export const updateCompanyAction = authActionClient
-  .inputSchema(companySchema)
+  .inputSchema(updateCompanySchema)
   .metadata({
     actionName: "update-company",
   })

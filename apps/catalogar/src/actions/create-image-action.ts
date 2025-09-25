@@ -2,10 +2,10 @@
 
 import { BlockBlobClient } from "@azure/storage-blob";
 import sharp from "sharp";
-import { authActionClient } from "./safe-action";
-import { imageSchema } from "./schema";
 import { postStorageGenerateSasToken } from "@/services/post-storage-generate-sas-token";
 import { ExpectedError } from "@/classes/ExpectedError";
+import { imageSchema } from "@/schemas/others";
+import { authActionClient } from "@/lib/next-safe-action";
 
 export const createImageAction = authActionClient
   .inputSchema(imageSchema)

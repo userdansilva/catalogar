@@ -3,7 +3,6 @@
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { z } from "zod";
 import { useRouter } from "next/navigation";
 import {
   Form,
@@ -24,12 +23,10 @@ import {
 } from "@catalogar/ui/components/select";
 import { Button } from "../inputs/button";
 import { updateCatalogAction } from "@/actions/update-catalog-action";
-import { updateCatalogSchema } from "@/actions/schema";
 import { routes } from "@/routes";
 import { toastServerError } from "@/utils/toast-server-error";
 import { Catalog } from "@/services/get-user";
-
-export type CatalogFormValues = z.infer<typeof updateCatalogSchema>;
+import { updateCatalogSchema } from "@/schemas/catalog";
 
 export function UpdateCatalogForm({
   catalog,

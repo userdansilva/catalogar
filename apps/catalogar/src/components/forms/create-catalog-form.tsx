@@ -1,6 +1,5 @@
 "use client";
 
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { toast } from "sonner";
@@ -18,10 +17,8 @@ import { Input } from "@catalogar/ui/components/input";
 import { Button } from "../inputs/button";
 import { createCatalogAction } from "@/actions/create-catalog-action";
 import { routes } from "@/routes";
-import { createCatalogSchema } from "@/actions/schema";
 import { toastServerError } from "@/utils/toast-server-error";
-
-export type CatalogFormValues = z.infer<typeof createCatalogSchema>;
+import { createCatalogSchema } from "@/schemas/catalog";
 
 export function CreateCatalogForm() {
   const router = useRouter();

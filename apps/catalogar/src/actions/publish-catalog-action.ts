@@ -1,12 +1,12 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "./safe-action";
-import { publishCatalogSchema } from "./schema";
 import { tags } from "@/tags";
 import { getUser } from "@/services/get-user";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { putCatalog } from "@/services/put-catalog";
+import { publishCatalogSchema } from "@/schemas/catalog";
+import { authActionClient } from "@/lib/next-safe-action";
 
 export const publishCatalogAction = authActionClient
   .inputSchema(publishCatalogSchema)

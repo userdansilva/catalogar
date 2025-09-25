@@ -1,12 +1,12 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "./safe-action";
-import { deleteSchema } from "./schema";
 import { tags } from "@/tags";
 import { deleteCatalogItem } from "@/services/delete-catalog-item";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { getUser } from "@/services/get-user";
+import { deleteSchema } from "@/schemas/others";
+import { authActionClient } from "@/lib/next-safe-action";
 
 export const deleteCatalogItemAction = authActionClient
   .inputSchema(deleteSchema)

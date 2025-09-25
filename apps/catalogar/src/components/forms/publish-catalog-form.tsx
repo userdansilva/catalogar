@@ -22,11 +22,11 @@ import {
   CardTitle,
 } from "@catalogar/ui/components/card";
 import { Button } from "../inputs/button";
-import { publishCatalogSchema } from "@/actions/schema";
 import { routes } from "@/routes";
 import { publishCatalogAction } from "@/actions/publish-catalog-action";
 import { toastServerError } from "@/utils/toast-server-error";
 import { Catalog } from "@/services/get-user";
+import { publishCatalogSchema } from "@/schemas/catalog";
 
 export function PublishCatalogForm({
   currentCatalog,

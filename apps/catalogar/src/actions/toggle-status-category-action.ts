@@ -1,13 +1,13 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "./safe-action";
-import { categoryStatusToggleSchema } from "./schema";
 import { tags } from "@/tags";
 import { getCategoryById } from "@/services/get-category-by-id";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { putCategory } from "@/services/put-category";
 import { getUser } from "@/services/get-user";
+import { authActionClient } from "@/lib/next-safe-action";
+import { categoryStatusToggleSchema } from "@/schemas/category";
 
 export const toggleCategoryStatusAction = authActionClient
   .inputSchema(categoryStatusToggleSchema)

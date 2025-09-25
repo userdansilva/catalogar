@@ -1,14 +1,14 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "./safe-action";
-import { themeSchema } from "./schema";
 import { tags } from "@/tags";
 import { postTheme } from "@/services/post-theme";
 import { ExpectedError } from "@/classes/ExpectedError";
+import { createThemeSchema } from "@/schemas/theme";
+import { authActionClient } from "@/lib/next-safe-action";
 
 export const createThemeAction = authActionClient
-  .inputSchema(themeSchema)
+  .inputSchema(createThemeSchema)
   .metadata({
     actionName: "create-theme",
   })

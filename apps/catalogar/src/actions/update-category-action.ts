@@ -2,15 +2,15 @@
 
 import { revalidateTag } from "next/cache";
 import slugify from "slugify";
-import { authActionClient } from "./safe-action";
-import { categorySchema } from "./schema";
 import { tags } from "@/tags";
 import { putCategory } from "@/services/put-category";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { getUser } from "@/services/get-user";
+import { authActionClient } from "@/lib/next-safe-action";
+import { updateCategorySchema } from "@/schemas/category";
 
 export const updateCategoryAction = authActionClient
-  .inputSchema(categorySchema)
+  .inputSchema(updateCategorySchema)
   .metadata({
     actionName: "update-category",
   })
@@ -18,8 +18,6 @@ export const updateCategoryAction = authActionClient
     async ({
       parsedInput: { id, name, textColor, backgroundColor, isDisabled },
     }) => {
-      if (!id) throw new Error("Id não encontrado");
-
       const [categoryError, categoryData] = await putCategory(id, {
         name,
         slug: slugify(name, { lower: true }),
