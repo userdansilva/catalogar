@@ -45,4 +45,4 @@ jobs:
       #   run: pnpm test
 
       - name: Check Changeset
-        run: pnpm changeset status --since=main
+        run: pnpm changeset status
