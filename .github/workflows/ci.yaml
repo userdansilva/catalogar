@@ -39,11 +39,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Check Changeset
+        run: pnpm changeset status --since=origin/main
+
       - name: Build
         run: pnpm build
  
       # - name: Test
       #   run: pnpm test
-
-      - name: Check Changeset
-        run: pnpm changeset status --since=origin/main
