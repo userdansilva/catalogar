@@ -1,5 +1,11 @@
 # catalogar
 
+## 2.1.4
+
+### Patch Changes
+
+- be0db3a: Aplicação de abordagem de schemas separados por contexto
+
 ## 2.1.3
 
 ### Patch Changes
