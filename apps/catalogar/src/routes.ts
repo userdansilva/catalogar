@@ -17,131 +17,131 @@ export const routes = {
   catalog: {
     title: "Catálogo",
     icon: Book,
-    url: "/meus-catalogos",
+    url: "/dashboard/meus-catalogos",
     sub: {
       createFirst: {
         title: "Primeiro catálogo",
-        url: "/primeiro-catalogo",
+        url: "/dashboard/primeiro-catalogo",
       },
       prePublish: {
         title: "Pré-publicação",
-        url: "/pre-publicacao",
+        url: "/dashboard/pre-publicacao",
       },
       published: {
         title: "Publicado",
-        url: "/publicado",
+        url: "/dashboard/publicado",
       },
       new: {
         title: "Criar catálogo",
-        url: "/meus-catalogos/novo",
+        url: "/dashboard/meus-catalogos/novo",
       },
     },
   },
   dashboard: {
     title: "Página Inicial",
     icon: House,
-    url: "/",
+    url: "/dashboard",
   },
   preview: {
     title: "Pré-visualização",
     icon: PanelsTopLeft,
-    url: "/preview",
+    url: "/dashboard/preview",
     sub: {
       catalogItemDetail: {
-        url: (reference: number) => `/preview/${reference}`,
+        url: (reference: number) => `/dashboard/preview/${reference}`,
       },
     },
   },
   catalogItems: {
     title: "Catálogo",
     icon: Book,
-    url: "/catalogo",
+    url: "/dashboard/catalogo",
     sub: {
       createFirst: {
         title: "Primeiro Item de Catálogo",
-        url: "/primeiro-item-de-catalogo",
+        url: "/dashboard/primeiro-item-de-catalogo",
       },
       new: {
         title: "Novo Item de Catálogo",
-        url: "/catalogo/novo",
+        url: "/dashboard/catalogo/novo",
       },
       edit: {
         title: "Editar Item de Catálogo",
-        url: (id: string) => `/catalogo/${id}/editar`,
+        url: (id: string) => `/dashboard/catalogo/${id}/editar`,
       },
       disable: {
         title: "Desativar Item de Catálogo",
-        url: (id: string) => `/catalogo/${id}/desativar`,
+        url: (id: string) => `/dashboard/catalogo/${id}/desativar`,
       },
       delete: {
         title: "Deletar Item de Catálogo",
-        url: (id: string) => `/catalogo/${id}/deletar`,
+        url: (id: string) => `/dashboard/catalogo/${id}/deletar`,
       },
     },
   },
   categories: {
     title: "Categorias",
     icon: Filter,
-    url: "/categorias",
+    url: "/dashboard/categorias",
     sub: {
       createFirst: {
         title: "Primeira Categoria",
-        url: "/primeira-categoria",
+        url: "/dashboard/primeira-categoria",
       },
       new: {
         title: "Nova Categoria",
-        url: "/categorias/nova",
+        url: "/dashboard/categorias/nova",
       },
       edit: {
         title: "Editar Categoria",
-        url: (id: string) => `/categorias/${id}/editar`,
+        url: (id: string) => `/dashboard/categorias/${id}/editar`,
       },
     },
   },
   productTypes: {
     title: "Tipos de Produto",
     icon: List,
-    url: "/tipos-de-produto",
+    url: "/dashboard/tipos-de-produto",
     sub: {
       createFirst: {
         title: "Primeiro Tipo de Produto",
-        url: "/primeiro-tipo-de-produto",
+        url: "/dashboard/primeiro-tipo-de-produto",
       },
       new: {
         title: "Novo Tipo de Produto",
-        url: "/tipos-de-produto/novo",
+        url: "/dashboard/tipos-de-produto/novo",
       },
       edit: {
         title: "Editar Tipo de Produto",
-        url: (id: string) => `/tipos-de-produto/${id}/editar`,
+        url: (id: string) => `/dashboard/tipos-de-produto/${id}/editar`,
       },
     },
   },
   company: {
     title: "Empresa",
     icon: Building2,
-    url: "/empresa",
+    url: "/dashboard/empresa",
     sub: {
       new: {
         title: "Cadastrar empresa",
-        url: "/cadastrar-empresa",
+        url: "/dashboard/cadastrar-empresa",
       },
     },
   },
   theme: {
     title: "Tema",
     icon: Palette,
-    url: "/tema",
+    url: "/dashboard/tema",
     sub: {
       new: {
         title: "Criar tema",
-        url: "/criar-tema",
+        url: "/dashboard/criar-tema",
       },
     },
   },
   config: {
     title: "Configuração",
     icon: Settings,
-    url: "/configuracao",
+    url: "/dashboard/configuracao",
   },
 } as const;
