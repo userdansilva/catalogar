@@ -6,26 +6,34 @@ export async function middleware(request: NextRequest) {
 
   const authRes = await auth0.middleware(request);
 
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/dashboard", request.nextUrl.origin));
+  }
+
   if (pathname.startsWith("/auth")) {
     return authRes;
   }
 
-  const session = await auth0.getSession(request);
+  if (pathname.startsWith("/dashboard")) {
+    const session = await auth0.getSession(request);
 
-  if (!session) {
-    return NextResponse.redirect(
-      new URL("/auth/login", request.nextUrl.origin),
-    );
+    if (!session) {
+      return NextResponse.redirect(
+        new URL("/auth/login", request.nextUrl.origin),
+      );
+    }
+
+    try {
+      await auth0.getAccessToken(request, authRes);
+      return authRes;
+    } catch {
+      return NextResponse.redirect(
+        new URL("/auth/login", request.nextUrl.origin),
+      );
+    }
   }
 
-  try {
-    await auth0.getAccessToken(request, authRes);
-    return authRes;
-  } catch {
-    return NextResponse.redirect(
-      new URL("/auth/logout", request.nextUrl.origin),
-    );
-  }
+  return NextResponse.next();
 }
 
 export const config = {
@@ -39,6 +47,6 @@ export const config = {
      * - entrar
      * - @
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|logo.png|entrar|@).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|logo.png|entrar|@|monitoring).*)",
   ],
 };
