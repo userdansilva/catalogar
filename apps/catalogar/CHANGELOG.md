@@ -1,5 +1,11 @@
 # catalogar
 
+## 2.1.5
+
+### Patch Changes
+
+- e37fe7c: Correção de bug de login em catálogo público, segmentação de dashboard
+
 ## 2.1.4
 
 ### Patch Changes
