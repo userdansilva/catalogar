@@ -1,5 +1,11 @@
 # catalogar
 
+## 2.1.6
+
+### Patch Changes
+
+- 3054fda: Update pipeline release
+
 ## 2.1.5
 
 ### Patch Changes
