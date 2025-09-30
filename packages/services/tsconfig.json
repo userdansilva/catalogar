@@ -1,0 +1,15 @@
+{
+  "extends": "@catalogar/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": ["."],
+  "exclude": ["node_modules"]
+}
