@@ -1,7 +1,7 @@
 packages:
-  - "apps/*"
-  - "packages/*"
+  - apps/*
+  - packages/*
 
 catalog:
-  react: "^19"
-  react-dom: "^19"
+  react: ^19.1.1
+  react-dom: ^19.1.1
