@@ -1,6 +1,6 @@
 {
-  "name": "catalogar",
-  "version": "2.1.6",
+  "name": "@catalogar/categories-mfe",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -15,6 +15,7 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "^4.10.0",
     "@azure/storage-blob": "^12.28.0",
+    "@catalogar/shared": "workspace:*",
     "@catalogar/ui": "workspace:^",
     "@hookform/resolvers": "^5.2.2",
     "@next-safe-action/adapter-react-hook-form": "^2.0.0",

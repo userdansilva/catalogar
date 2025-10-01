@@ -1,8 +1,5 @@
 import { tag } from "@/tag";
-import {
-  ApiResponseWithPagination,
-  DefaultApiError,
-} from "@/types/api-response";
+import { ApiResponseWithPagination, DefaultApiError } from "@/types";
 import { serverFetch } from "@/utils/server-fetch";
 
 export type Category = {

@@ -1,6 +1,6 @@
 import { serverFetch } from "@/utils/server-fetch";
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
 import { tag } from "@/tag";
+import { ApiResponse, DefaultApiError } from "@/types";
 
 export type Company = {
   name: string;

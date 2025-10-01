@@ -1,8 +1,8 @@
 import { serverFetch } from "@/utils/server-fetch";
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
 import { tag } from "@/tag";
 import { ProductType } from "./get-product-types";
 import { Category } from "./get-categories";
+import { ApiResponse, DefaultApiError } from "@/types";
 
 export type CatalogItemImage = {
   id: string;
