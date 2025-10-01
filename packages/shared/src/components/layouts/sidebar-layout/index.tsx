@@ -12,10 +12,10 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
 } from "@catalogar/ui/components/breadcrumb";
-import { routes } from "@/routes";
-import { AppSidebar } from "@/components/layout/app-sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { route } from "@/route";
 
-export default function DashboardLayout({ children }: PropsWithChildren) {
+export function SidebarLayout({ children }: PropsWithChildren) {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
                     <Link
-                      href={routes.dashboard.url}
+                      href={route.dashboard.url}
                       className="underline underline-offset-2"
                     >
                       Página Inicial

@@ -1,9 +1,6 @@
 import { serverFetch } from "@/utils/server-fetch";
-import {
-  ApiResponseWithPagination,
-  DefaultApiError,
-} from "@/types/api-response";
 import { tag } from "@/tag";
+import { ApiResponseWithPagination, DefaultApiError } from "@/types";
 
 export type ProductType = {
   id: string;
