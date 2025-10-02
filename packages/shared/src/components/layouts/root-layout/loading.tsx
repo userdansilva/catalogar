@@ -1,4 +1,4 @@
-import { Loader } from "@/components/loader";
+import { Loader } from "@catalogar/shared/components/loader";
 
 export function RootLayoutLoading() {
   return (

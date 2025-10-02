@@ -20,9 +20,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@catalogar/ui/components/sidebar";
-import { switchCatalogAction } from "@/actions/switch-catalog-action";
-import { Catalog } from "@/services/get-user";
-import { route } from "@/route";
+import { switchCatalogAction } from "@catalogar/shared/actions/switch-catalog-action";
+import { Catalog } from "@catalogar/shared/services/get-user";
+import { route } from "@catalogar/shared/route";
 
 export function CatalogSwitcherClient({
   catalogs,

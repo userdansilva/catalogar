@@ -1,5 +1,5 @@
-import { DefaultApiError } from "@/types";
-import { serverFetch } from "@/utils/server-fetch";
+import { DefaultApiError } from "@catalogar/shared/types";
+import { serverFetch } from "@catalogar/shared/utils/server-fetch";
 
 export type PutUserCurrentCatalogError = DefaultApiError;
 

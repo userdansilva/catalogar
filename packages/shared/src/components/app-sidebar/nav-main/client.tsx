@@ -17,11 +17,11 @@ import {
   TooltipTrigger,
 } from "@catalogar/ui/components/tooltip";
 import { useRouter } from "next/navigation";
-import { User } from "@/services/get-user";
-import { route } from "@/route";
-import { ProductType } from "@/services/get-product-types";
-import { Category } from "@/services/get-categories";
-import { CatalogItem } from "@/services/get-catalog-items";
+import { User } from "@catalogar/shared/services/get-user";
+import { route } from "@catalogar/shared/route";
+import { ProductType } from "@catalogar/shared/services/get-product-types";
+import { Category } from "@catalogar/shared/services/get-categories";
+import { CatalogItem } from "@catalogar/shared/services/get-catalog-items";
 
 type NavMainProps = {
   productTypes: ProductType[];

@@ -1,6 +1,6 @@
-import { serverFetch } from "@/utils/server-fetch";
-import { tag } from "@/tag";
-import { ApiResponse, DefaultApiError } from "@/types";
+import { serverFetch } from "@catalogar/shared/utils/server-fetch";
+import { tag } from "@catalogar/shared/tag";
+import { ApiResponse, DefaultApiError } from "@catalogar/shared/types";
 
 export type Company = {
   name: string;

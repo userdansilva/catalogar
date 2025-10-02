@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
-import { DefaultApiError as DefaultApiErrorType } from "@/types";
+import { DefaultApiError as DefaultApiErrorType } from "@catalogar/shared/types";
 
 function RetryButton() {
   const router = useRouter();

@@ -1,8 +1,8 @@
 import { redirect, RedirectType } from "next/navigation";
 import { CatalogSwitcherClient } from "./client";
-import { DefaultApiError } from "@/components/error-handling/default-api-error";
-import { getAuthHeaders } from "@/utils/get-auth-headers";
-import { getUser } from "@/services/get-user";
+import { DefaultApiError } from "@catalogar/shared/components/error-handling/default-api-error";
+import { getAuthHeaders } from "@catalogar/shared/utils/get-auth-headers";
+import { getUser } from "@catalogar/shared/services/get-user";
 
 export async function CatalogSwitcher() {
   const headers = await getAuthHeaders();

@@ -1,4 +1,4 @@
-import { DefaultApiError as DefaultApiErrorType } from "@/types";
+import { DefaultApiError as DefaultApiErrorType } from "@catalogar/shared/types";
 
 /**
  * **Não use em componentes**

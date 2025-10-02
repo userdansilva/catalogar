@@ -17,7 +17,7 @@ import {
 } from "@catalogar/ui/components/dropdown-menu";
 import { Book, ChevronsUpDown, LogOut } from "lucide-react";
 import Link from "next/link";
-import { route } from "@/route";
+import { route } from "@catalogar/shared/route";
 
 export function NavUserSkeleton() {
   const { isMobile } = useSidebar();

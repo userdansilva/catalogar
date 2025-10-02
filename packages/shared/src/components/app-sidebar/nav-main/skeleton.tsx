@@ -1,4 +1,4 @@
-import { route } from "@/route";
+import { route } from "@catalogar/shared/route";
 import {
   SidebarGroup,
   SidebarGroupContent,

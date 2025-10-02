@@ -1,8 +1,8 @@
-import { serverFetch } from "@/utils/server-fetch";
-import { tag } from "@/tag";
+import { serverFetch } from "@catalogar/shared/utils/server-fetch";
+import { tag } from "@catalogar/shared/tag";
 import { ProductType } from "./get-product-types";
 import { Category } from "./get-categories";
-import { ApiResponse, DefaultApiError } from "@/types";
+import { ApiResponse, DefaultApiError } from "@catalogar/shared/types";
 
 export type CatalogItemImage = {
   id: string;
