@@ -18,7 +18,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@catalogar/ui/components/sidebar";
-import { route } from "@/route";
+import { route } from "@catalogar/shared/route";
 
 export function NavUserClient({
   user,

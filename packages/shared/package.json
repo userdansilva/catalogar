@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "exports": {
     "./actions/*": "./src/actions/*.ts",
-    "./assets/*": "./src/assets/*.svg",
+    "./logo.svg": "./src/assets/logo.svg",
     "./classes/*": "./src/classes/*.ts",
     "./components/*": "./src/components/*.tsx",
+    "./providers/*": "./src/providers/*.tsx",
     "./lib/*": "./src/lib/*.ts",
     "./services/*": "./src/services/*.ts",
     "./utils/*": "./src/utils/*.ts",

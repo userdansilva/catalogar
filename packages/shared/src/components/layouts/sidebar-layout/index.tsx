@@ -12,8 +12,8 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
 } from "@catalogar/ui/components/breadcrumb";
-import { AppSidebar } from "@/components/app-sidebar";
-import { route } from "@/route";
+import { AppSidebar } from "@catalogar/shared/components/app-sidebar/index";
+import { route } from "@catalogar/shared/route";
 
 export function SidebarLayout({ children }: PropsWithChildren) {
   return (

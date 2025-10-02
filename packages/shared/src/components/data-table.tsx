@@ -23,7 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@catalogar/ui/components/table";
-import { Pagination as TPagination } from "@/types";
+import { Pagination as TPagination } from "@catalogar/shared/types";
 
 type DataTableProps<TData, TValues> = {
   columns: ColumnDef<TData, TValues>[];

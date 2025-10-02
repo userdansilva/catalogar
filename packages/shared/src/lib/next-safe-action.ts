@@ -1,4 +1,4 @@
-import { DefaultApiError } from "@/classes/default-api-error";
+import { DefaultApiError } from "@catalogar/shared/classes/default-api-error";
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
 

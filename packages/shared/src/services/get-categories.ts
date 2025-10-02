@@ -1,6 +1,9 @@
-import { tag } from "@/tag";
-import { ApiResponseWithPagination, DefaultApiError } from "@/types";
-import { serverFetch } from "@/utils/server-fetch";
+import { tag } from "@catalogar/shared/tag";
+import {
+  ApiResponseWithPagination,
+  DefaultApiError,
+} from "@catalogar/shared/types";
+import { serverFetch } from "@catalogar/shared/utils/server-fetch";
 
 export type Category = {
   id: string;

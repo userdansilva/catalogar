@@ -1,5 +1,5 @@
 import Image from "next/image";
-import logo from "@/assets/logo.svg";
+import logo from "@catalogar/shared/logo.svg";
 
 export function Loader() {
   return (
