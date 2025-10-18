@@ -1,9 +1,9 @@
-import { tag } from "@catalogar/shared/tag";
+import { tag } from "@catalogar/shared/tags";
 import {
   ApiResponseWithPagination,
   DefaultApiError,
 } from "@catalogar/shared/types";
-import { serverFetch } from "@catalogar/shared/utils/server-fetch";
+import { serverFetch } from "@catalogar/shared/server-fetch";
 
 export type Category = {
   id: string;
@@ -30,9 +30,11 @@ export async function getCategories({
   tags,
   revalidate,
   params,
-}: NextFetchRequestConfig & {
+}: {
   headers: Headers;
   params?: GetCategoriesParams;
+  revalidate?: number | false;
+  tags?: string[];
 }) {
   return await serverFetch<GetCategoriesError, GetCategoriesResponse>({
     url: "/v1/categories",

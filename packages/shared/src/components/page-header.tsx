@@ -1,4 +1,4 @@
-import { Separator } from "@catalogar/ui/components/separator";
+import { Separator } from "@catalogar/ui/separator";
 
 export function PageHeader({
   title,

@@ -5,7 +5,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@catalogar/ui/components/sidebar";
+} from "@catalogar/ui/sidebar";
 import Link from "next/link";
 import { routes } from "@/routes";
 

@@ -12,8 +12,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@catalogar/ui/components/alert-dialog";
-import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
+} from "@catalogar/ui/alert-dialog";
+import { ScrollArea, ScrollBar } from "@catalogar/ui/scroll-area";
 import * as Sentry from "@sentry/nextjs";
 import { Button } from "./button";
 import { createImageAction } from "@/actions/create-image-action";

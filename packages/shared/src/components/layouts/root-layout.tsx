@@ -1,29 +1,20 @@
 import "@catalogar/ui/globals.css";
-import { Geist, Geist_Mono } from "next/font/google";
 import { ReactNode } from "react";
-import { Toaster } from "@catalogar/ui/components/sonner";
-import { ThemeProvider } from "@catalogar/shared/providers/theme-provider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { Toaster } from "@catalogar/ui/sonner";
+import { ThemeProvider } from "@catalogar/shared/theme-provider";
+import clsx from "clsx";
+import { Loader } from "@catalogar/shared/loader";
 
 export function RootLayout({
   children,
+  className,
 }: Readonly<{
   children: ReactNode;
+  className?: string;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={clsx(className, "antialiased")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -34,5 +25,13 @@ export function RootLayout({
         </ThemeProvider>
       </body>
     </html>
+  );
+}
+
+export function RootLayoutLoading() {
+  return (
+    <div className="flex h-screen items-center justify-center">
+      <Loader />
+    </div>
   );
 }

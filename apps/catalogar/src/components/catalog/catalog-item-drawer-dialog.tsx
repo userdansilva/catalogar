@@ -2,10 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { PropsWithChildren, useState } from "react";
-import { Dialog, DialogContent } from "@catalogar/ui/components/dialog";
-import { Drawer, DrawerContent } from "@catalogar/ui/components/drawer";
-import { ScrollArea } from "@catalogar/ui/components/scroll-area";
-import { useIsMobile } from "@catalogar/ui/hooks/use-mobile";
+import { Dialog, DialogContent } from "@catalogar/ui/dialog";
+import { Drawer, DrawerContent } from "@catalogar/ui/drawer";
+import { ScrollArea } from "@catalogar/ui/scroll-area";
+import { useIsMobile } from "@catalogar/ui/use-mobile";
 
 /**
  * Componente não utilizado

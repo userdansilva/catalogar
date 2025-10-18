@@ -3,6 +3,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "start": "turbo run start",
     "lint": "turbo run lint",
     "build:catalogar": "turbo run build --filter=catalogar",
     "dev:catalogar": "turbo run dev --filter=catalogar",

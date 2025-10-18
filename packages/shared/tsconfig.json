@@ -1,12 +1,18 @@
 {
   "extends": "@catalogar/typescript-config/nextjs.json",
   "compilerOptions": {
+    "incremental": false,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@catalogar/shared/*": ["./src/*"]
+    },
     "plugins": [
       {
         "name": "next"
       }
     ]
   },
-  "include": ["."],
-  "exclude": ["node_modules"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }

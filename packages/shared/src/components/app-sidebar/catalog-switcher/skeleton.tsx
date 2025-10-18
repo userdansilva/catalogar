@@ -2,11 +2,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@catalogar/ui/components/sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from "@catalogar/ui/components/dropdown-menu";
+} from "@catalogar/ui/sidebar";
+import { DropdownMenu, DropdownMenuTrigger } from "@catalogar/ui/dropdown-menu";
 
 export function CatalogSwitcherSkeleton() {
   return (

@@ -9,8 +9,8 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@catalogar/ui/components/carousel";
-import { cn } from "@catalogar/ui/lib/utils";
+} from "@catalogar/ui/carousel";
+import { cn } from "@catalogar/ui/utils";
 import { CatalogItemImage } from "@/services/get-images-generate-sas-token";
 
 export function CarouselImages({

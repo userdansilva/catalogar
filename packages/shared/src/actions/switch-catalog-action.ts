@@ -2,11 +2,11 @@
 
 import { z } from "zod";
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "@catalogar/shared/lib/next-safe-action";
-import { getAuthHeaders } from "@catalogar/shared/utils/get-auth-headers";
-import { putUserCurrentCatalog } from "@catalogar/shared/services/put-user-current-catalog";
+import { authActionClient } from "@catalogar/shared/next-safe-action";
+import { getAuthHeaders } from "@catalogar/shared/get-auth-headers";
+import { putUserCurrentCatalog } from "@catalogar/shared/put-user-current-catalog";
 import { DefaultApiError } from "@catalogar/shared/classes/default-api-error";
-import { tag } from "@catalogar/shared/tag";
+import { tag } from "@catalogar/shared/tags";
 
 export const switchCatalogAction = authActionClient
   .inputSchema(z.object({ id: z.string() }))

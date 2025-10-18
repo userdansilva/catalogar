@@ -8,7 +8,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@catalogar/ui/components/pagination";
+} from "@catalogar/ui/pagination";
 
 export function CatalogPagination({
   totalItems,
@@ -41,7 +41,7 @@ export function CatalogPagination({
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1).filter(
-    (page) => Math.abs(page - currentPage) <= 2
+    (page) => Math.abs(page - currentPage) <= 2,
   );
 
   return (

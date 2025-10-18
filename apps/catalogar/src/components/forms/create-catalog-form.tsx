@@ -12,8 +12,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/components/form";
-import { Input } from "@catalogar/ui/components/input";
+} from "@catalogar/ui/form";
+import { Input } from "@catalogar/ui/input";
 import { Button } from "../inputs/button";
 import { createCatalogAction } from "@/actions/create-catalog-action";
 import { routes } from "@/routes";

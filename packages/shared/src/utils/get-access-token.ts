@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getSession } from "./get-session";
-import { auth0 } from "@catalogar/shared/lib/auth0";
+import { auth0 } from "@catalogar/shared/auth0";
 
 export async function getAccessToken() {
   await getSession();

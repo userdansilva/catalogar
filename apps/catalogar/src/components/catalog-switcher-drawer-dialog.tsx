@@ -9,14 +9,14 @@ import { FormEventHandler, PropsWithChildren, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Badge } from "@catalogar/ui/components/badge";
+import { Badge } from "@catalogar/ui/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@catalogar/ui/components/card";
+} from "@catalogar/ui/card";
 import {
   Dialog,
   DialogClose,
@@ -25,7 +25,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@catalogar/ui/components/dialog";
+} from "@catalogar/ui/dialog";
 import {
   Form,
   FormControl,
@@ -33,13 +33,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/components/form";
-import { Label } from "@catalogar/ui/components/label";
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@catalogar/ui/components/radio-group";
-import { ScrollArea } from "@catalogar/ui/components/scroll-area";
+} from "@catalogar/ui/form";
+import { Label } from "@catalogar/ui/label";
+import { RadioGroup, RadioGroupItem } from "@catalogar/ui/radio-group";
+import { ScrollArea } from "@catalogar/ui/scroll-area";
 import {
   Drawer,
   DrawerClose,
@@ -47,8 +44,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@catalogar/ui/components/drawer";
-import { useIsMobile } from "@catalogar/ui/hooks/use-mobile";
+} from "@catalogar/ui/drawer";
+import { useIsMobile } from "@catalogar/ui/use-mobile";
 import { Button } from "./inputs/button";
 import { routes } from "@/routes";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";

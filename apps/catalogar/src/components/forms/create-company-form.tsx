@@ -12,9 +12,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/components/form";
-import { Input } from "@catalogar/ui/components/input";
-import { Textarea } from "@catalogar/ui/components/textarea";
+} from "@catalogar/ui/form";
+import { Input } from "@catalogar/ui/input";
+import { Textarea } from "@catalogar/ui/textarea";
 import { Button } from "../inputs/button";
 import { routes } from "@/routes";
 import { createCompanyAction } from "@/actions/create-company-action";

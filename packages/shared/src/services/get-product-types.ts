@@ -1,5 +1,5 @@
-import { serverFetch } from "@catalogar/shared/utils/server-fetch";
-import { tag } from "@catalogar/shared/tag";
+import { serverFetch } from "@catalogar/shared/server-fetch";
+import { tag } from "@catalogar/shared/tags";
 import {
   ApiResponseWithPagination,
   DefaultApiError,
@@ -28,9 +28,11 @@ export async function getProductTypes({
   tags,
   revalidate,
   params,
-}: NextFetchRequestConfig & {
+}: {
   headers: Headers;
   params?: GetProductTypesParams;
+  revalidate?: number | false;
+  tags?: string[];
 }) {
   return await serverFetch<GetProductTypesError, GetProductTypesResponse>({
     url: "/v1/product-types",

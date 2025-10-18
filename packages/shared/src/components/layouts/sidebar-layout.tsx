@@ -4,16 +4,17 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@catalogar/ui/components/sidebar";
-import { Separator } from "@catalogar/ui/components/separator";
+} from "@catalogar/ui/sidebar";
+import { Separator } from "@catalogar/ui/separator";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-} from "@catalogar/ui/components/breadcrumb";
-import { AppSidebar } from "@catalogar/shared/components/app-sidebar/index";
-import { route } from "@catalogar/shared/route";
+} from "@catalogar/ui/breadcrumb";
+import { AppSidebar } from "@catalogar/shared/app-sidebar";
+import { route } from "../../routes";
+import { Loader } from "@catalogar/shared/loader";
 
 export function SidebarLayout({ children }: PropsWithChildren) {
   return (
@@ -45,5 +46,13 @@ export function SidebarLayout({ children }: PropsWithChildren) {
         <div className="p-4 pt-0">{children}</div>
       </SidebarInset>
     </SidebarProvider>
+  );
+}
+
+export function SidebarLayoutLoading() {
+  return (
+    <div className="flex h-[calc(100vh-(64px+32px))] items-center justify-center">
+      <Loader />
+    </div>
   );
 }
