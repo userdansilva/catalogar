@@ -6,7 +6,7 @@ const nextConfig = {
    * Descomente as rewrites abaixo para habilitar o MFE de categorias
    * em desenvolvimento.
    *
-   * Lembre-se de renomear a pasta `categorias` em `(sidebar)`, para
+   * Lembre-se de renomear a pasta `categorias` em `src/app/dashboard/(auth)/(sidebar)`, para
    * disponibilizar a rota para o MFE.
    */
   // async rewrites() {
