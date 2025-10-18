@@ -2,7 +2,7 @@
 
 import { Book, ChevronsUpDown, LogOut } from "lucide-react";
 import Link from "next/link";
-import { Avatar, AvatarFallback } from "@catalogar/ui/components/avatar";
+import { Avatar, AvatarFallback } from "@catalogar/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,14 +11,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@catalogar/ui/components/dropdown-menu";
+} from "@catalogar/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@catalogar/ui/components/sidebar";
-import { route } from "@catalogar/shared/route";
+} from "@catalogar/ui/sidebar";
+import { route } from "../../../routes";
 
 export function NavUserClient({
   user,

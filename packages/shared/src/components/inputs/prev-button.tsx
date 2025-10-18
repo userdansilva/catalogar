@@ -1,5 +1,5 @@
 import { ChevronLeft } from "lucide-react";
-import { Button } from "@catalogar/ui/components/button";
+import { Button } from "@catalogar/ui/button";
 import Link from "next/link";
 
 export function PrevButton({ url }: { url: string }) {

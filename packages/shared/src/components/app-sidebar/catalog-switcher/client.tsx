@@ -5,7 +5,7 @@ import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Badge } from "@catalogar/ui/components/badge";
+import { Badge } from "@catalogar/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,16 +13,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@catalogar/ui/components/dropdown-menu";
+} from "@catalogar/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@catalogar/ui/components/sidebar";
-import { switchCatalogAction } from "@catalogar/shared/actions/switch-catalog-action";
-import { Catalog } from "@catalogar/shared/services/get-user";
-import { route } from "@catalogar/shared/route";
+} from "@catalogar/ui/sidebar";
+import { switchCatalogAction } from "@catalogar/shared/switch-catalog-action";
+import { Catalog } from "@catalogar/shared/get-user";
+import { route } from "../../../routes";
 
 export function CatalogSwitcherClient({
   catalogs,

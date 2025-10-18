@@ -1,5 +1,5 @@
 import { DefaultApiError } from "@catalogar/shared/types";
-import { serverFetch } from "@catalogar/shared/utils/server-fetch";
+import { serverFetch } from "@catalogar/shared/server-fetch";
 
 export type PutUserCurrentCatalogError = DefaultApiError;
 
@@ -7,8 +7,10 @@ export async function putUserCurrentCatalog(
   catalogId: string,
   {
     headers,
-  }: NextFetchRequestConfig & {
+  }: {
     headers: Headers;
+    revalidate?: number | false;
+    tags?: string[];
   }
 ) {
   headers.append("Content-Type", "application/json");

@@ -1,5 +1,5 @@
-import { serverFetch } from "@catalogar/shared/utils/server-fetch";
-import { tag } from "@catalogar/shared/tag";
+import { serverFetch } from "@catalogar/shared/server-fetch";
+import { tag } from "@catalogar/shared/tags";
 import { ProductType } from "./get-product-types";
 import { Category } from "./get-categories";
 import { ApiResponse, DefaultApiError } from "@catalogar/shared/types";
@@ -41,9 +41,11 @@ export async function getCatalogItems({
   tags,
   revalidate,
   params,
-}: NextFetchRequestConfig & {
+}: {
   headers: Headers;
   params?: GetCatalogItemsParams;
+  revalidate?: number | false;
+  tags?: string[];
 }) {
   return await serverFetch<GetCatalogItemsError, GetCatalogItemsResponse>({
     url: "/v1/catalog-items",

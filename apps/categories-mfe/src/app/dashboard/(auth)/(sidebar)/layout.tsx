@@ -1,3 +1,3 @@
-import { SidebarLayout } from "@catalogar/shared/components/layouts/sidebar-layout/index";
+import { SidebarLayout } from "@catalogar/shared/sidebar-layout";
 
 export default SidebarLayout;

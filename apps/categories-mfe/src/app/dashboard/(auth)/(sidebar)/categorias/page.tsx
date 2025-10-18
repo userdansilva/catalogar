@@ -1,11 +1,11 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { Button } from "@catalogar/ui/components/button";
+import { Button } from "@catalogar/ui/button";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { PrevButton } from "@catalogar/shared/components/inputs/prev-button";
-import { PageHeader } from "@catalogar/shared/components/page-header";
-import { route as sharedRoute } from "@catalogar/shared/route";
+import { PrevButton } from "@catalogar/shared/prev-button";
+import { PageHeader } from "@catalogar/shared/page-header";
+import { route as sharedRoute } from "../../../../../../../../packages/shared/src/routes";
 import { CategoriesTable } from "@/components/tables/categories";
 import { CategoriesSkeleton } from "@/components/tables/categories/skeleton";
 import { route } from "@/route";

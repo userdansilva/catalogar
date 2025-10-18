@@ -7,8 +7,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@catalogar/ui/components/table";
-import { Skeleton } from "@catalogar/ui/components/skeleton";
+} from "@catalogar/ui/table";
+import { Skeleton } from "@catalogar/ui/skeleton";
 
 export function TableSkeleton<TData, TValues>({
   columns,

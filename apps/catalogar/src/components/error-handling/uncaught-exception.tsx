@@ -1,11 +1,7 @@
 "use client";
 
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@catalogar/ui/components/alert";
-import { Button } from "@catalogar/ui/components/button";
+import { Alert, AlertDescription, AlertTitle } from "@catalogar/ui/alert";
+import { Button } from "@catalogar/ui/button";
 import { AlertCircle } from "lucide-react";
 
 export function UncaughtException({ reset }: { reset: () => void }) {

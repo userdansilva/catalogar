@@ -4,8 +4,8 @@ import { Images } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@catalogar/ui/lib/utils";
-import { Badge } from "@catalogar/ui/components/badge";
+import { cn } from "@catalogar/ui/utils";
+import { Badge } from "@catalogar/ui/badge";
 import { CatalogItem } from "@/services/get-catalog-item-by-id";
 
 export function PublicCatalogItem({

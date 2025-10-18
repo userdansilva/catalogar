@@ -1,9 +1,9 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "@catalogar/shared/lib/next-safe-action";
+import { authActionClient } from "@catalogar/shared/next-safe-action";
 import { DefaultApiError } from "@catalogar/shared/classes/default-api-error";
-import { tag as sharedTag } from "@catalogar/shared/tag";
+import { tag as sharedTag } from "@catalogar/shared/tags";
 import { deleteCategorySchema } from "@/schemas";
 import { deleteCategory } from "@/services/delete-category";
 import { tag } from "@/tag";

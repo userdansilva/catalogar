@@ -12,17 +12,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/components/form";
-import { Input } from "@catalogar/ui/components/input";
-import { Textarea } from "@catalogar/ui/components/textarea";
+} from "@catalogar/ui/form";
+import { Input } from "@catalogar/ui/input";
+import { Textarea } from "@catalogar/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@catalogar/ui/components/select";
-import { Checkbox } from "@catalogar/ui/components/checkbox";
+} from "@catalogar/ui/select";
+import { Checkbox } from "@catalogar/ui/checkbox";
 import { InputImages } from "../inputs/input-images";
 import { Button } from "../inputs/button";
 import { routes } from "@/routes";

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { auth0 } from "@catalogar/shared/lib/auth0";
+import { auth0 } from "@catalogar/shared/auth0";
 
 /**
  * Retorna sessão, caso não exista redireciona para login

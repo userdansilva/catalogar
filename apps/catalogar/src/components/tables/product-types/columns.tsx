@@ -28,8 +28,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@catalogar/ui/components/dropdown-menu";
-import { Button } from "@catalogar/ui/components/button";
+} from "@catalogar/ui/dropdown-menu";
+import { Button } from "@catalogar/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -40,15 +40,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@catalogar/ui/components/alert-dialog";
+} from "@catalogar/ui/alert-dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@catalogar/ui/components/form";
-import { Input } from "@catalogar/ui/components/input";
+} from "@catalogar/ui/form";
+import { Input } from "@catalogar/ui/input";
 import { routes } from "@/routes";
 import { toggleProductTypeStatusAction } from "@/actions/toggle-status-product-type-action";
 import { deleteProductTypeAction } from "@/actions/delete-product-type-action";

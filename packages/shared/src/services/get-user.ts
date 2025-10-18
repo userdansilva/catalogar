@@ -1,5 +1,5 @@
-import { serverFetch } from "@catalogar/shared/utils/server-fetch";
-import { tag } from "@catalogar/shared/tag";
+import { serverFetch } from "@catalogar/shared/server-fetch";
+import { tag } from "@catalogar/shared/tags";
 import { ApiResponse, DefaultApiError } from "@catalogar/shared/types";
 
 export type Company = {
@@ -62,8 +62,10 @@ export async function getUser({
   headers,
   tags,
   revalidate,
-}: NextFetchRequestConfig & {
+}: {
   headers: Headers;
+  revalidate?: number | false;
+  tags?: string[];
 }) {
   return await serverFetch<GetUserError, GetUserResponse>({
     url: "/v1/users/me",

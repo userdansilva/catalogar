@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@catalogar/ui/components/button";
+import { Button } from "@catalogar/ui/button";
 import logo from "@/assets/images/logo.svg";
 
 export default function SignInOrRegister() {

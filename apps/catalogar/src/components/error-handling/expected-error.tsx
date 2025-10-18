@@ -2,7 +2,7 @@
 
 import { startTransition, useEffect, useState } from "react";
 import * as Sentry from "@sentry/nextjs";
-import { Button } from "@catalogar/ui/components/button";
+import { Button } from "@catalogar/ui/button";
 import { useRouter } from "next/navigation";
 import {
   Card,
@@ -10,7 +10,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@catalogar/ui/components/card";
+} from "@catalogar/ui/card";
 import { DefaultApiError } from "@/types/api-response";
 
 function RetryButton() {

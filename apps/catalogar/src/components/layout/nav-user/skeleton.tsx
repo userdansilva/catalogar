@@ -5,7 +5,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   useSidebar,
-} from "@catalogar/ui/components/sidebar";
+} from "@catalogar/ui/sidebar";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuGroup,
   DropdownMenuItem,
-} from "@catalogar/ui/components/dropdown-menu";
+} from "@catalogar/ui/dropdown-menu";
 import { Book, ChevronsUpDown, LogOut } from "lucide-react";
 import Link from "next/link";
 import { routes } from "@/routes";

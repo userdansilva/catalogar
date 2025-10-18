@@ -12,11 +12,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/components/form";
-import { Card, CardContent } from "@catalogar/ui/components/card";
+} from "@catalogar/ui/form";
+import { Card, CardContent } from "@catalogar/ui/card";
 import Image from "next/image";
 import { Menu } from "lucide-react";
-import { Input } from "@catalogar/ui/components/input";
+import { Input } from "@catalogar/ui/input";
 import { InputLogo } from "../inputs/input-logo";
 import { Button } from "../inputs/button";
 import { routes } from "@/routes";

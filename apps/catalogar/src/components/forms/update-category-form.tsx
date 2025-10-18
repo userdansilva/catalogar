@@ -11,15 +11,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/components/form";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@catalogar/ui/components/card";
-import { Input } from "@catalogar/ui/components/input";
-import { Badge } from "@catalogar/ui/components/badge";
+} from "@catalogar/ui/form";
+import { Card, CardContent, CardHeader, CardTitle } from "@catalogar/ui/card";
+import { Input } from "@catalogar/ui/input";
+import { Badge } from "@catalogar/ui/badge";
 import { Button } from "../inputs/button";
 import { updateCategoryAction } from "@/actions/update-category-action";
 import { routes } from "@/routes";

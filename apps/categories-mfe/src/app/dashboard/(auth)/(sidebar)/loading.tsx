@@ -1,3 +1,3 @@
-import { SidebarLayoutLoading } from "@catalogar/shared/components/layouts/sidebar-layout/loading";
+import { SidebarLayoutLoading } from "@catalogar/shared/sidebar-layout";
 
 export default SidebarLayoutLoading;

@@ -10,7 +10,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@catalogar/ui/components/drawer";
+} from "@catalogar/ui/drawer";
 import { Button } from "../inputs/button";
 import { ShareButton } from "../inputs/share-button";
 import { Company, Theme } from "@/services/get-user";

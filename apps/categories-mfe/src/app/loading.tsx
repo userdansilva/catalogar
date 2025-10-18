@@ -1,3 +1,3 @@
-import { RootLayoutLoading } from "@catalogar/shared/components/layouts/root-layout/loading";
+import { RootLayoutLoading } from "@catalogar/shared/root-layout";
 
 export default RootLayoutLoading;

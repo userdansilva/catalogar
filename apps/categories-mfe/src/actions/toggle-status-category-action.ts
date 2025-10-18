@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClient } from "@catalogar/shared/lib/next-safe-action";
+import { authActionClient } from "@catalogar/shared/next-safe-action";
 import { DefaultApiError } from "@catalogar/shared/classes/default-api-error";
-import { getUser } from "@catalogar/shared/services/get-user";
-import { tag as sharedTag } from "@catalogar/shared/tag";
-import { getAuthHeaders } from "@catalogar/shared/utils/get-auth-headers";
+import { getUser } from "@catalogar/shared/get-user";
+import { tag as sharedTag } from "@catalogar/shared/tags";
+import { getAuthHeaders } from "@catalogar/shared/get-auth-headers";
 import { categoryStatusToggleSchema } from "@/schemas";
 import { getCategory } from "@/services/get-category";
 import { putCategory } from "@/services/put-category";

@@ -4,7 +4,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@catalogar/ui/components/sidebar";
+} from "@catalogar/ui/sidebar";
 import { Suspense } from "react";
 import { CatalogSwitcherSkeleton } from "./catalog-switcher/skeleton";
 import { CatalogSwitcher } from "./catalog-switcher";

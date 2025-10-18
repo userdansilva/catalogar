@@ -11,14 +11,14 @@ import {
   View,
 } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@catalogar/ui/components/button";
+import { Button } from "@catalogar/ui/button";
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@catalogar/ui/components/card";
+} from "@catalogar/ui/card";
 import { redirect, RedirectType } from "next/navigation";
 import { CopyButton } from "./inputs/copy-button";
 import { routes } from "@/routes";

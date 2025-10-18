@@ -3,7 +3,7 @@
 import { Check, ChevronsUpDown, Filter } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Button } from "@catalogar/ui/components/button";
+import { Button } from "@catalogar/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -11,13 +11,9 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@catalogar/ui/components/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@catalogar/ui/components/popover";
-import { cn } from "@catalogar/ui/lib/utils";
+} from "@catalogar/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@catalogar/ui/popover";
+import { cn } from "@catalogar/ui/utils";
 import { Category } from "@/services/get-category-by-id";
 
 export function CategoriesFilter({

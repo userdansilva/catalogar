@@ -3,15 +3,15 @@
 import { AlertCircle, RefreshCw, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Button } from "@catalogar/ui/components/button";
+import { Button } from "@catalogar/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@catalogar/ui/components/card";
-import { Alert, AlertDescription } from "@catalogar/ui/components/alert";
+} from "@catalogar/ui/card";
+import { Alert, AlertDescription } from "@catalogar/ui/alert";
 import * as Sentry from "@sentry/nextjs";
 import Loader from "@/components/loader";
 

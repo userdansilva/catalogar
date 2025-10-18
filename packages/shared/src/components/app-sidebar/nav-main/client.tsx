@@ -10,18 +10,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@catalogar/ui/components/sidebar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@catalogar/ui/components/tooltip";
+} from "@catalogar/ui/sidebar";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@catalogar/ui/tooltip";
 import { useRouter } from "next/navigation";
-import { User } from "@catalogar/shared/services/get-user";
-import { route } from "@catalogar/shared/route";
-import { ProductType } from "@catalogar/shared/services/get-product-types";
-import { Category } from "@catalogar/shared/services/get-categories";
-import { CatalogItem } from "@catalogar/shared/services/get-catalog-items";
+import { User } from "@catalogar/shared/get-user";
+import { route } from "../../../routes";
+import { ProductType } from "@catalogar/shared/get-product-types";
+import { Category } from "@catalogar/shared/get-categories";
+import { CatalogItem } from "@catalogar/shared/get-catalog-items";
 
 type NavMainProps = {
   productTypes: ProductType[];

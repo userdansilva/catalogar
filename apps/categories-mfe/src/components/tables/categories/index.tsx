@@ -1,8 +1,8 @@
 import { redirect, RedirectType } from "next/navigation";
-import { getCategories } from "@catalogar/shared/services/get-categories";
-import { getAuthHeaders } from "@catalogar/shared/utils/get-auth-headers";
-import { DefaultApiError } from "@catalogar/shared/components/error-handling/default-api-error";
-import { DataTable } from "@catalogar/shared/components/data-table";
+import { getCategories } from "@catalogar/shared/get-categories";
+import { getAuthHeaders } from "@catalogar/shared/get-auth-headers";
+import { DefaultApiError } from "@catalogar/shared/default-api-error";
+import { DataTable } from "@catalogar/shared/data-table";
 import { columns } from "./columns";
 import { route } from "@/route";
 

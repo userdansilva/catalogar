@@ -10,7 +10,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@catalogar/ui/components/card";
+} from "@catalogar/ui/card";
 import { useRouter } from "next/navigation";
 import { Button } from "./inputs/button";
 import { routes } from "@/routes";
