@@ -2,29 +2,6 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /**
-   * Descomente as rewrites abaixo para habilitar o MFE de categorias
-   * em desenvolvimento.
-   *
-   * Lembre-se de renomear a pasta `categorias` em `src/app/dashboard/(auth)/(sidebar)`, para
-   * disponibilizar a rota para o MFE.
-   */
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: "/dashboard/categorias",
-  //       destination: "http://localhost:3001/dashboard/categorias",
-  //     },
-  //     {
-  //       source: "/dashboard/categorias/:path+",
-  //       destination: "http://localhost:3001/dashboard/categorias/:path+",
-  //     },
-  //     {
-  //       source: "/categories-mfe-static/:path+",
-  //       destination: "http://localhost:3001/categories-mfe-static/:path+",
-  //     },
-  //   ];
-  // },
   images: {
     remotePatterns: [
       {
