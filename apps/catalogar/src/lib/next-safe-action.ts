@@ -1,6 +1,5 @@
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
-import * as Sentry from "@sentry/nextjs";
 import { ExpectedError } from "@/classes/ExpectedError";
 
 export const authActionClient = createSafeActionClient({
@@ -10,14 +9,8 @@ export const authActionClient = createSafeActionClient({
     }),
   handleServerError(error, { metadata }) {
     if (error instanceof ExpectedError) {
-      // Loga erros nos sentry
       for (const message of error.errors) {
         console.error(
-          `ExpectedError: ${metadata.actionName}: ${message}`,
-          "warning",
-        );
-
-        Sentry.captureMessage(
           `ExpectedError: ${metadata.actionName}: ${message}`,
           "warning",
         );
@@ -35,7 +28,6 @@ export const authActionClient = createSafeActionClient({
 
     // Caso for um erro inesperado
     console.error(error);
-    Sentry.captureException(error);
 
     return {
       message: "Ops! Algo deu errado. Por favor, tente novamente",

@@ -1,7 +1,6 @@
 "use client";
 
 import { startTransition, useEffect, useState } from "react";
-import * as Sentry from "@sentry/nextjs";
 import { Button } from "@catalogar/ui/button";
 import { useRouter } from "next/navigation";
 import {
@@ -35,7 +34,7 @@ function RetryButton() {
 
 export function ExpectedError({ error }: { error: DefaultApiError }) {
   useEffect(() => {
-    Sentry.captureException(error);
+    console.error(error);
   }, [error]);
 
   if (error.statusCode === 400) {
