@@ -21,6 +21,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/card";
+import { Watch } from "react-hook-form";
 import { Button } from "../inputs/button";
 import { routes } from "@/routes";
 import { publishCatalogAction } from "@/actions/publish-catalog-action";
@@ -116,10 +117,17 @@ export function PublishCatalogForm({
             <CardTitle className="text-base">
               Seu link depois de publicar
             </CardTitle>
+
             <CardDescription>
-              {form.watch("slug")
-                ? `${process.env.NEXT_PUBLIC_BASE_URL}/@${form.watch("slug")}`
-                : "Defina um link customizado para ver o resulto"}
+              <Watch
+                control={form.control}
+                names={["slug"] as const}
+                render={([slug]) =>
+                  slug
+                    ? `${process.env.NEXT_PUBLIC_BASE_URL}/@${slug}`
+                    : "Defina um link customizado para ver seu link"
+                }
+              />
             </CardDescription>
           </CardHeader>
         </Card>

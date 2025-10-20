@@ -15,6 +15,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@catalogar/ui/card";
 import { Input } from "@catalogar/ui/input";
 import { Badge } from "@catalogar/ui/badge";
+import { Watch } from "react-hook-form";
 import { Button } from "../inputs/button";
 import { updateCategoryAction } from "@/actions/update-category-action";
 import { routes } from "@/routes";
@@ -85,14 +86,20 @@ export function UpdateCategoryForm({ category }: { category: Category }) {
           </CardHeader>
 
           <CardContent>
-            <Badge
-              style={{
-                color: form.watch("textColor"),
-                background: form.watch("backgroundColor"),
-              }}
-            >
-              {(form.watch("name") || "Categoria").trim()}
-            </Badge>
+            <Watch
+              control={form.control}
+              names={["name", "textColor", "backgroundColor"] as const}
+              render={([name, textColor, backgroundColor]) => (
+                <Badge
+                  style={{
+                    color: textColor,
+                    background: backgroundColor,
+                  }}
+                >
+                  {(name || "Categoria").trim()}
+                </Badge>
+              )}
+            />
           </CardContent>
         </Card>
 

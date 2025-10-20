@@ -6,7 +6,7 @@ import { ChevronDown, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEventHandler, PropsWithChildren, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Badge } from "@catalogar/ui/badge";
@@ -249,20 +249,26 @@ export function CatalogSwitcherDrawerDialog({
             <DrawerClose asChild>
               <Button variant="ghost">Cancelar</Button>
             </DrawerClose>
-            {form.watch("id") === "adicionar" ? (
-              <Button asChild>
-                <Link href={routes.catalog.sub.new.url}>Confirmar</Link>
-              </Button>
-            ) : (
-              <Button
-                type="submit"
-                form="catalog-switcher-drawer-dialog"
-                loading={form.formState.isSubmitting}
-                disabled={form.formState.isSubmitting}
-              >
-                Confirmar
-              </Button>
-            )}
+            <Watch
+              control={form.control}
+              names={["id"] as const}
+              render={([id]) =>
+                id === "adicionar" ? (
+                  <Button asChild>
+                    <Link href={routes.catalog.sub.new.url}>Confirmar</Link>
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    form="catalog-switcher-drawer-dialog"
+                    loading={form.formState.isSubmitting}
+                    disabled={form.formState.isSubmitting}
+                  >
+                    Confirmar
+                  </Button>
+                )
+              }
+            />
           </DialogFooter>
         </DrawerContent>
       </Drawer>
@@ -298,20 +304,26 @@ export function CatalogSwitcherDrawerDialog({
           <DialogClose asChild>
             <Button variant="ghost">Cancelar</Button>
           </DialogClose>
-          {form.watch("id") === "adicionar" ? (
-            <Button asChild>
-              <Link href={routes.catalog.sub.new.url}>Confirmar</Link>
-            </Button>
-          ) : (
-            <Button
-              type="submit"
-              form="catalog-switcher-drawer-dialog"
-              loading={form.formState.isSubmitting}
-              disabled={form.formState.isSubmitting}
-            >
-              Confirmar
-            </Button>
-          )}
+          <Watch
+            control={form.control}
+            names={["id"] as const}
+            render={([id]) =>
+              id === "adicionar" ? (
+                <Button asChild>
+                  <Link href={routes.catalog.sub.new.url}>Confirmar</Link>
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  form="catalog-switcher-drawer-dialog"
+                  loading={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting}
+                >
+                  Confirmar
+                </Button>
+              )
+            }
+          />
         </DialogFooter>
       </DialogContent>
     </Dialog>
