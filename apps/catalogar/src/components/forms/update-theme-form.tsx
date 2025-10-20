@@ -17,6 +17,7 @@ import { Card, CardContent } from "@catalogar/ui/card";
 import Image from "next/image";
 import { Menu } from "lucide-react";
 import { Input } from "@catalogar/ui/input";
+import { Watch } from "react-hook-form";
 import { InputLogo } from "../inputs/input-logo";
 import { Button } from "../inputs/button";
 import { updateThemeAction } from "@/actions/update-theme-action";
@@ -61,12 +62,6 @@ export function UpdateThemeForm({
       },
     },
   );
-
-  const [primaryColor, secondaryColor, logo] = form.watch([
-    "primaryColor",
-    "secondaryColor",
-    "logo",
-  ]);
 
   return (
     <Form {...form}>
@@ -119,35 +114,42 @@ export function UpdateThemeForm({
 
         <div className="space-y-2">
           <span className="text-sm font-medium">Pré-visualização</span>
-          <Card
-            style={{
-              color: secondaryColor,
-              background: primaryColor,
-            }}
-            className="flex flex-row items-center gap-4 rounded-sm p-4"
-          >
-            {logo?.width && logo.height && logo.url ? (
-              <CardContent className="h-7 flex-1">
-                <Image
-                  src={logo.url}
-                  alt="logo"
-                  height={logo.height}
-                  width={logo.width}
-                  style={{ height: 28, width: "auto" }}
-                  unoptimized
-                />
-              </CardContent>
-            ) : (
-              <span className="flex-1 font-semibold">
-                {company ? company.name : "SUA LOGO"}
-              </span>
-            )}
 
-            <Button variant="ghost">
-              <Menu className="size-4" />
-              Menu
-            </Button>
-          </Card>
+          <Watch
+            control={form.control}
+            names={["logo", "primaryColor", "secondaryColor"] as const}
+            render={([logo, primaryColor, secondaryColor]) => (
+              <Card
+                style={{
+                  color: secondaryColor,
+                  background: primaryColor,
+                }}
+                className="flex flex-row items-center gap-4 rounded-sm p-4"
+              >
+                {logo?.width && logo.height && logo.url ? (
+                  <CardContent className="h-7 flex-1">
+                    <Image
+                      src={logo.url}
+                      alt="logo"
+                      height={logo.height}
+                      width={logo.width}
+                      style={{ height: 28, width: "auto" }}
+                      unoptimized
+                    />
+                  </CardContent>
+                ) : (
+                  <span className="flex-1 font-semibold">
+                    {company ? company.name : "SUA LOGO"}
+                  </span>
+                )}
+
+                <Button variant="ghost">
+                  <Menu className="size-4" />
+                  Menu
+                </Button>
+              </Card>
+            )}
+          />
 
           <span className="text-muted-foreground text-[0.8rem]">
             Aqui você tem uma ideia de como a logo e as cores vão aparecer no

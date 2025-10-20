@@ -36,13 +36,13 @@ export const createCategoryAction = authActionClient
         throw new ExpectedError(userError);
       }
 
-      revalidateTag(tags.categories.getAll);
+      // revalidateTag(tags.categories.getAll);
 
       const { currentCatalog } = userData.data;
 
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
-      }
+      // if (currentCatalog?.isPublished && currentCatalog.slug) {
+      //   revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+      // }
 
       return {
         category: categoryData.data,

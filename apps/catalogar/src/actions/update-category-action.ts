@@ -36,14 +36,14 @@ export const updateCategoryAction = authActionClient
         throw new ExpectedError(userError);
       }
 
-      revalidateTag(tags.categories.getAll);
-      revalidateTag(tags.categories.getById(id));
+      // revalidateTag(tags.categories.getAll);
+      // revalidateTag(tags.categories.getById(id));
 
       const { currentCatalog } = userData.data;
 
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
-      }
+      // if (currentCatalog?.isPublished && currentCatalog.slug) {
+      //   revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+      // }
 
       return {
         category: categoryData.data,

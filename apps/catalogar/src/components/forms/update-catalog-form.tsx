@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@catalogar/ui/select";
+import { Watch } from "react-hook-form";
 import { Button } from "../inputs/button";
 import { updateCatalogAction } from "@/actions/update-catalog-action";
 import { routes } from "@/routes";
@@ -130,12 +131,20 @@ export function UpdateCatalogForm({
                 </SelectContent>
               </Select>
 
-              {!catalog.slug && form.watch("isPublished") && (
-                <FormDescription>
-                  Após clicar em Salvar Alterações você será redirecionado para
-                  a tela de publicação de catálogo.
-                </FormDescription>
-              )}
+              <Watch
+                control={form.control}
+                names={["isPublished"] as const}
+                render={([isPublished]) => (
+                  <>
+                    {!catalog.slug && isPublished && (
+                      <FormDescription>
+                        Após clicar em Salvar Alterações você será redirecionado
+                        para a tela de publicação de catálogo.
+                      </FormDescription>
+                    )}
+                  </>
+                )}
+              />
               <FormMessage />
             </FormItem>
           )}
