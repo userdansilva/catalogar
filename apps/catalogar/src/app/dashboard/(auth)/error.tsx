@@ -12,7 +12,6 @@ import {
   CardTitle,
 } from "@catalogar/ui/card";
 import { Alert, AlertDescription } from "@catalogar/ui/alert";
-import * as Sentry from "@sentry/nextjs";
 import Loader from "@/components/loader";
 
 export default function AuthError({
@@ -25,7 +24,7 @@ export default function AuthError({
   const [retrying, setRetrying] = useState(false);
 
   useEffect(() => {
-    Sentry.captureException(error);
+    console.error(error);
   }, [error]);
 
   if (retrying) {

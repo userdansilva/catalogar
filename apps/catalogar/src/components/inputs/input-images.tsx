@@ -14,7 +14,6 @@ import {
   AlertDialogTrigger,
 } from "@catalogar/ui/alert-dialog";
 import { ScrollArea, ScrollBar } from "@catalogar/ui/scroll-area";
-import * as Sentry from "@sentry/nextjs";
 import { Button } from "./button";
 import { createImageAction } from "@/actions/create-image-action";
 
@@ -99,7 +98,8 @@ export function InputImages({
         }, 1_500);
       }
     } catch (error) {
-      Sentry.captureException(error);
+      console.error(error);
+
       toast.error(
         "Falha inesperada ao carregar imagem, por favor tente novamente",
       );

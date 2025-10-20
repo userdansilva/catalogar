@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import * as Sentry from "@sentry/nextjs";
 import { UncaughtException } from "@/components/error-handling/uncaught-exception";
 
 export default function CategoriesError({
@@ -12,7 +11,7 @@ export default function CategoriesError({
   reset: () => void;
 }) {
   useEffect(() => {
-    Sentry.captureException(error);
+    console.error(error);
   }, [error]);
 
   return <UncaughtException reset={reset} />;
