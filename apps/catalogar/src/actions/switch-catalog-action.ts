@@ -1,10 +1,8 @@
 "use server";
 
 import { z } from "zod";
-import { revalidateTag } from "next/cache";
 import { putUserCurrentCatalog } from "@/services/put-user-current-catalog";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { tags } from "@/tags";
 import { authActionClient } from "@/lib/next-safe-action";
 
 export const switchCatalogAction = authActionClient
@@ -18,7 +16,4 @@ export const switchCatalogAction = authActionClient
     if (error) {
       throw new ExpectedError(error);
     }
-
-    // Como lidar com outras validações que existe?
-    revalidateTag(tags.users.me);
   });

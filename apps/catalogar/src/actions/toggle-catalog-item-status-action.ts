@@ -1,70 +1,61 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { tags } from "@/tags";
 import { getCatalogItemById } from "@/services/get-catalog-item-by-id";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { putCatalogItem } from "@/services/put-catalog-item";
-import { getUser } from "@/services/get-user";
-import { authActionClient } from "@/lib/next-safe-action";
+import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { catalogItemStatusToggleSchema } from "@/schemas/catalog-item";
+import { tags } from "@/tags";
 
-export const toggleCatalogItemStatusAction = authActionClient
+export const toggleCatalogItemStatusAction = authActionClientWithUser
   .inputSchema(catalogItemStatusToggleSchema)
   .metadata({
     actionName: "toggle-catalog-item-status",
   })
-  .action(async ({ parsedInput: { id } }) => {
-    const [getCatalogItemError, getCatalogItemData] =
-      await getCatalogItemById(id);
+  .action(
+    async ({
+      parsedInput: { id },
+      ctx: {
+        user: { currentCatalog },
+      },
+    }) => {
+      const [getCatalogItemError, getCatalogItemData] =
+        await getCatalogItemById(id);
 
-    if (getCatalogItemError) {
-      throw new ExpectedError(getCatalogItemError);
-    }
+      if (getCatalogItemError) {
+        throw new ExpectedError(getCatalogItemError);
+      }
 
-    const catalogItem = getCatalogItemData.data;
+      const catalogItem = getCatalogItemData.data;
 
-    const [putCatalogItemError, putCatalogItemData] = await putCatalogItem(id, {
-      title: catalogItem.title,
-      caption: catalogItem.caption,
-      productTypeId: catalogItem.productType.id,
-      images: catalogItem.images.map((image) => ({
-        fileName: image.fileName,
-        position: image.position,
-      })),
-      price: catalogItem.price?.toString(),
-      categoryIds: catalogItem.categories.map((category) => category.id),
-      isDisabled: !catalogItem.isDisabled,
-    });
-
-    if (putCatalogItemError) {
-      throw new ExpectedError(putCatalogItemError);
-    }
-
-    revalidateTag(tags.catalogItems.getAll);
-    revalidateTag(tags.catalogItems.getById(id));
-
-    const [userError, userData] = await getUser();
-
-    if (userError) {
-      throw new ExpectedError(userError);
-    }
-
-    if (!userData.data.currentCatalog) {
-      throw new Error("Catálogo atual não definido");
-    }
-
-    if (
-      userData.data.currentCatalog.isPublished &&
-      userData.data.currentCatalog.slug
-    ) {
-      revalidateTag(
-        tags.publicCatalog.getBySlug(userData.data.currentCatalog.slug),
+      const [putCatalogItemError, putCatalogItemData] = await putCatalogItem(
+        id,
+        {
+          title: catalogItem.title,
+          caption: catalogItem.caption,
+          productTypeId: catalogItem.productType.id,
+          images: catalogItem.images.map((image) => ({
+            fileName: image.fileName,
+            position: image.position,
+          })),
+          price: catalogItem.price?.toString(),
+          categoryIds: catalogItem.categories.map((category) => category.id),
+          isDisabled: !catalogItem.isDisabled,
+        },
       );
-    }
 
-    return {
-      catalogItem: putCatalogItemData.data,
-      message: putCatalogItemData.meta?.message,
-    };
-  });
+      if (putCatalogItemError) {
+        throw new ExpectedError(putCatalogItemError);
+      }
+
+      if (currentCatalog?.isPublished && currentCatalog.slug) {
+        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
+      }
+
+      return {
+        catalogItem: putCatalogItemData.data,
+        message: putCatalogItemData.meta?.message,
+      };
+    },
+  );

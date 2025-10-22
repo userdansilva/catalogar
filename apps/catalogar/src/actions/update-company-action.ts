@@ -1,14 +1,13 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { tags } from "@/tags";
 import { putCompany } from "@/services/put-company";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { getUser } from "@/services/get-user";
-import { authActionClient } from "@/lib/next-safe-action";
+import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { updateCompanySchema } from "@/schemas/company";
+import { tags } from "@/tags";
 
-export const updateCompanyAction = authActionClient
+export const updateCompanyAction = authActionClientWithUser
   .inputSchema(updateCompanySchema)
   .metadata({
     actionName: "update-company",
@@ -22,8 +21,11 @@ export const updateCompanyAction = authActionClient
         phoneNumber,
         businessTypeDescription,
       },
+      ctx: {
+        user: { currentCatalog },
+      },
     }) => {
-      const [putCompanyError, putCompanyData] = await putCompany({
+      const [error, data] = await putCompany({
         name,
         description,
         mainSiteUrl,
@@ -31,27 +33,17 @@ export const updateCompanyAction = authActionClient
         businessTypeDescription,
       });
 
-      if (putCompanyError) {
-        throw new ExpectedError(putCompanyError);
+      if (error) {
+        throw new ExpectedError(error);
       }
-
-      revalidateTag(tags.users.me);
-
-      const [userError, userData] = await getUser();
-
-      if (userError) {
-        throw new ExpectedError(userError);
-      }
-
-      const { currentCatalog } = userData.data;
 
       if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
       }
 
       return {
-        company: putCompanyData.data,
-        message: putCompanyData.meta?.message,
+        company: data.data,
+        message: data.meta?.message,
       };
     },
   );

@@ -1,6 +1,7 @@
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
 import { ExpectedError } from "@/classes/ExpectedError";
+import { getUser } from "@/services/get-user";
 
 export const authActionClient = createSafeActionClient({
   defineMetadataSchema: () =>
@@ -35,3 +36,17 @@ export const authActionClient = createSafeActionClient({
     };
   },
 });
+
+export const authActionClientWithUser = authActionClient.use(
+  async ({ next }) => {
+    const [error, data] = await getUser();
+
+    if (error) {
+      throw new ExpectedError(error);
+    }
+
+    const user = data.data;
+
+    return next({ ctx: { user } });
+  },
+);
