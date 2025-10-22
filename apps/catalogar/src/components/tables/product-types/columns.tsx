@@ -130,27 +130,40 @@ export const columns: ColumnDef<ProductType>[] = [
         deleteProductTypeAction,
       );
 
-      const handleToggleStatus = () =>
-        toast.promise(
-          async () => {
-            await executeToggleStatusAsync({ id });
-          },
-          {
-            loading: "Alterando status...",
-            success: "Status atualizado!",
-          },
-        );
+      const handleToggleStatus = () => {
+        const promise = new Promise<void>(async (res, rej) => {
+          const result = await executeToggleStatusAsync({ id });
 
-      const handleRemove = () =>
-        toast.promise(
-          async () => {
-            await executeDeleteAsync({ id });
-          },
-          {
-            loading: "Deletando tipo de produto...",
-            success: "Tipo de produto deletado com sucesso!",
-          },
-        );
+          if (result.serverError) {
+            rej(result.serverError.message);
+          }
+
+          res();
+        });
+
+        toast.promise(promise, {
+          loading: "Alterando status...",
+          success: "Status alterado!",
+          error: (res) => res,
+        });
+      };
+
+      const handleRemove = () => {
+        const promise = new Promise<void>(async (res, rej) => {
+          const result = await executeDeleteAsync({ id });
+
+          if (result.serverError) {
+            rej(result.serverError.message);
+          }
+
+          res();
+        });
+
+        toast.promise(promise, {
+          loading: "Deletando tipo de produto...",
+          success: "Tipo de produto deletado!",
+        });
+      };
 
       return (
         <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
