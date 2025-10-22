@@ -1,46 +1,42 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
 import slugify from "slugify";
-import { tags } from "@/tags";
+import { revalidateTag } from "next/cache";
 import { postProductType } from "@/services/post-product-type";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { getUser } from "@/services/get-user";
 import { createProductTypeSchema } from "@/schemas/product-type";
-import { authActionClient } from "@/lib/next-safe-action";
+import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { tags } from "@/tags";
 
-export const createProductTypeAction = authActionClient
+export const createProductTypeAction = authActionClientWithUser
   .inputSchema(createProductTypeSchema)
   .metadata({
     actionName: "create-product-type",
   })
-  .action(async ({ parsedInput: { name, isDisabled } }) => {
-    const [productTypeError, productTypeData] = await postProductType({
-      name,
-      slug: slugify(name, { lower: true }),
-      isDisabled,
-    });
+  .action(
+    async ({
+      parsedInput: { name, isDisabled },
+      ctx: {
+        user: { currentCatalog },
+      },
+    }) => {
+      const [error, data] = await postProductType({
+        name,
+        slug: slugify(name, { lower: true }),
+        isDisabled,
+      });
 
-    if (productTypeError) {
-      throw new ExpectedError(productTypeError);
-    }
+      if (error) {
+        throw new ExpectedError(error);
+      }
 
-    const [userError, userData] = await getUser();
+      if (currentCatalog?.isPublished && currentCatalog.slug) {
+        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
+      }
 
-    if (userError) {
-      throw new ExpectedError(userError);
-    }
-
-    revalidateTag(tags.productTypes.getAll);
-
-    const { currentCatalog } = userData.data;
-
-    if (currentCatalog?.isPublished && currentCatalog.slug) {
-      revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
-    }
-
-    return {
-      productType: productTypeData.data,
-      message: productTypeData.meta?.message,
-    };
-  });
+      return {
+        productType: data.data,
+        message: data.meta?.message,
+      };
+    },
+  );

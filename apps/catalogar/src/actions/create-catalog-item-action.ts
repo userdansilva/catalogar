@@ -1,14 +1,13 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { tags } from "@/tags";
 import { postCatalogItem } from "@/services/post-catalog-item";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { getUser } from "@/services/get-user";
 import { createCatalogItemSchema } from "@/schemas/catalog-item";
-import { authActionClient } from "@/lib/next-safe-action";
+import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { tags } from "@/tags";
 
-export const createCatalogItemAction = authActionClient
+export const createCatalogItemAction = authActionClientWithUser
   .inputSchema(createCatalogItemSchema)
   .metadata({
     actionName: "create-catalog-item",
@@ -24,8 +23,11 @@ export const createCatalogItemAction = authActionClient
         categoryIds,
         isDisabled,
       },
+      ctx: {
+        user: { currentCatalog },
+      },
     }) => {
-      const [catalogItemError, catalogItemData] = await postCatalogItem({
+      const [error, data] = await postCatalogItem({
         title,
         caption,
         productTypeId,
@@ -43,27 +45,17 @@ export const createCatalogItemAction = authActionClient
         isDisabled,
       });
 
-      if (catalogItemError) {
-        throw new ExpectedError(catalogItemError);
+      if (error) {
+        throw new ExpectedError(error);
       }
-
-      const [userError, userData] = await getUser();
-
-      if (userError) {
-        throw new ExpectedError(userError);
-      }
-
-      revalidateTag(tags.catalogItems.getAll);
-
-      const { currentCatalog } = userData.data;
 
       if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "");
       }
 
       return {
-        category: catalogItemData.data,
-        message: catalogItemData.meta?.message,
+        category: data.data,
+        message: data.meta?.message,
       };
     },
   );

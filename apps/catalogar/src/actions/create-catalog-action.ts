@@ -21,7 +21,7 @@ export const createCatalogAction = authActionClient
       throw new ExpectedError(error);
     }
 
-    revalidateTag(tags.users.me);
+    revalidateTag(tags.users.me, "max");
 
     return { catalog: data.data, message: data.meta?.message };
   });

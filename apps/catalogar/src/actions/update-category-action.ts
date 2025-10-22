@@ -1,15 +1,14 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
 import slugify from "slugify";
-import { tags } from "@/tags";
+import { revalidateTag } from "next/cache";
 import { putCategory } from "@/services/put-category";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { getUser } from "@/services/get-user";
-import { authActionClient } from "@/lib/next-safe-action";
+import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { updateCategorySchema } from "@/schemas/category";
+import { tags } from "@/tags";
 
-export const updateCategoryAction = authActionClient
+export const updateCategoryAction = authActionClientWithUser
   .inputSchema(updateCategorySchema)
   .metadata({
     actionName: "update-category",
@@ -17,8 +16,11 @@ export const updateCategoryAction = authActionClient
   .action(
     async ({
       parsedInput: { id, name, textColor, backgroundColor, isDisabled },
+      ctx: {
+        user: { currentCatalog },
+      },
     }) => {
-      const [categoryError, categoryData] = await putCategory(id, {
+      const [error, data] = await putCategory(id, {
         name,
         slug: slugify(name, { lower: true }),
         textColor,
@@ -26,28 +28,17 @@ export const updateCategoryAction = authActionClient
         isDisabled,
       });
 
-      if (categoryError) {
-        throw new ExpectedError(categoryError);
+      if (error) {
+        throw new ExpectedError(error);
       }
 
-      const [userError, userData] = await getUser();
-
-      if (userError) {
-        throw new ExpectedError(userError);
+      if (currentCatalog?.isPublished && currentCatalog.slug) {
+        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
       }
-
-      // revalidateTag(tags.categories.getAll);
-      // revalidateTag(tags.categories.getById(id));
-
-      const { currentCatalog } = userData.data;
-
-      // if (currentCatalog?.isPublished && currentCatalog.slug) {
-      //   revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
-      // }
 
       return {
-        category: categoryData.data,
-        message: categoryData.meta?.message,
+        category: data.data,
+        message: data.meta?.message,
       };
     },
   );

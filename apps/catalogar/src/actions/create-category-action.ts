@@ -1,15 +1,14 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
 import slugify from "slugify";
-import { tags } from "@/tags";
+import { revalidateTag } from "next/cache";
 import { postCategory } from "@/services/post-category";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { getUser } from "@/services/get-user";
 import { createCategorySchema } from "@/schemas/category";
-import { authActionClient } from "@/lib/next-safe-action";
+import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { tags } from "@/tags";
 
-export const createCategoryAction = authActionClient
+export const createCategoryAction = authActionClientWithUser
   .inputSchema(createCategorySchema)
   .metadata({
     actionName: "create-category",
@@ -17,8 +16,11 @@ export const createCategoryAction = authActionClient
   .action(
     async ({
       parsedInput: { name, textColor, backgroundColor, isDisabled },
+      ctx: {
+        user: { currentCatalog },
+      },
     }) => {
-      const [categoryError, categoryData] = await postCategory({
+      const [error, data] = await postCategory({
         name,
         slug: slugify(name, { lower: true }),
         textColor,
@@ -26,27 +28,17 @@ export const createCategoryAction = authActionClient
         isDisabled,
       });
 
-      if (categoryError) {
-        throw new ExpectedError(categoryError);
+      if (error) {
+        throw new ExpectedError(error);
       }
 
-      const [userError, userData] = await getUser();
-
-      if (userError) {
-        throw new ExpectedError(userError);
+      if (currentCatalog?.isPublished && currentCatalog.slug) {
+        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
       }
-
-      // revalidateTag(tags.categories.getAll);
-
-      const { currentCatalog } = userData.data;
-
-      // if (currentCatalog?.isPublished && currentCatalog.slug) {
-      //   revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
-      // }
 
       return {
-        category: categoryData.data,
-        message: categoryData.meta?.message,
+        category: data.data,
+        message: data.meta?.message,
       };
     },
   );

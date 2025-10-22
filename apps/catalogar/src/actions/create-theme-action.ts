@@ -1,7 +1,5 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
-import { tags } from "@/tags";
 import { postTheme } from "@/services/post-theme";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { createThemeSchema } from "@/schemas/theme";
@@ -31,8 +29,6 @@ export const createThemeAction = authActionClient
     if (error) {
       throw new ExpectedError(error);
     }
-
-    revalidateTag(tags.users.me);
 
     return { theme: data.data, message: data.meta?.message };
   });

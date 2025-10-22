@@ -1,14 +1,13 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { tags } from "@/tags";
 import { putCatalogItem } from "@/services/put-catalog-item";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { getUser } from "@/services/get-user";
-import { authActionClient } from "@/lib/next-safe-action";
+import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { updateCatalogItemSchema } from "@/schemas/catalog-item";
+import { tags } from "@/tags";
 
-export const updateCatalogItemAction = authActionClient
+export const updateCatalogItemAction = authActionClientWithUser
   .inputSchema(updateCatalogItemSchema)
   .metadata({
     actionName: "update-catalog-item",
@@ -25,8 +24,11 @@ export const updateCatalogItemAction = authActionClient
         categoryIds,
         isDisabled,
       },
+      ctx: {
+        user: { currentCatalog },
+      },
     }) => {
-      const [catalogItemError, catalogItemData] = await putCatalogItem(id, {
+      const [error, data] = await putCatalogItem(id, {
         title,
         caption,
         productTypeId,
@@ -44,28 +46,17 @@ export const updateCatalogItemAction = authActionClient
         isDisabled,
       });
 
-      if (catalogItemError) {
-        throw new ExpectedError(catalogItemError);
+      if (error) {
+        throw new ExpectedError(error);
       }
-
-      const [userError, userData] = await getUser();
-
-      if (userError) {
-        throw new ExpectedError(userError);
-      }
-
-      revalidateTag(tags.catalogItems.getAll);
-      revalidateTag(tags.catalogItems.getById(id));
-
-      const { currentCatalog } = userData.data;
 
       if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
       }
 
       return {
-        catalogItem: catalogItemData.data,
-        message: catalogItemData.meta?.message,
+        catalogItem: data.data,
+        message: data.meta?.message,
       };
     },
   );

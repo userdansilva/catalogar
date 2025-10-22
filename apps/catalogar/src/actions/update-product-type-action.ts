@@ -1,47 +1,42 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
 import slugify from "slugify";
-import { tags } from "@/tags";
+import { revalidateTag } from "next/cache";
 import { putProductType } from "@/services/put-product-type";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { getUser } from "@/services/get-user";
-import { authActionClient } from "@/lib/next-safe-action";
+import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { updateProductTypeSchema } from "@/schemas/product-type";
+import { tags } from "@/tags";
 
-export const updateProductTypeAction = authActionClient
+export const updateProductTypeAction = authActionClientWithUser
   .inputSchema(updateProductTypeSchema)
   .metadata({
     actionName: "update-product-type",
   })
-  .action(async ({ parsedInput: { id, name, isDisabled } }) => {
-    const [productTypeError, productTypeData] = await putProductType(id, {
-      name,
-      slug: slugify(name, { lower: true }),
-      isDisabled,
-    });
+  .action(
+    async ({
+      parsedInput: { id, name, isDisabled },
+      ctx: {
+        user: { currentCatalog },
+      },
+    }) => {
+      const [error, data] = await putProductType(id, {
+        name,
+        slug: slugify(name, { lower: true }),
+        isDisabled,
+      });
 
-    if (productTypeError) {
-      throw new ExpectedError(productTypeError);
-    }
+      if (error) {
+        throw new ExpectedError(error);
+      }
 
-    const [userError, userData] = await getUser();
+      if (currentCatalog?.isPublished && currentCatalog.slug) {
+        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
+      }
 
-    if (userError) {
-      throw new ExpectedError(userError);
-    }
-
-    revalidateTag(tags.productTypes.getAll);
-    revalidateTag(tags.productTypes.getById(id));
-
-    const { currentCatalog } = userData.data;
-
-    if (currentCatalog?.isPublished && currentCatalog.slug) {
-      revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
-    }
-
-    return {
-      productType: productTypeData.data,
-      message: productTypeData.meta?.message,
-    };
-  });
+      return {
+        productType: data.data,
+        message: data.meta?.message,
+      };
+    },
+  );

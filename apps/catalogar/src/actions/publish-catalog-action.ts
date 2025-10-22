@@ -1,14 +1,14 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { tags } from "@/tags";
 import { getUser } from "@/services/get-user";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { putCatalog } from "@/services/put-catalog";
 import { publishCatalogSchema } from "@/schemas/catalog";
-import { authActionClient } from "@/lib/next-safe-action";
+import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { tags } from "@/tags";
 
-export const publishCatalogAction = authActionClient
+export const publishCatalogAction = authActionClientWithUser
   .inputSchema(publishCatalogSchema)
   .metadata({
     actionName: "publish-catalog",
@@ -36,10 +36,8 @@ export const publishCatalogAction = authActionClient
       throw new ExpectedError(catalogError);
     }
 
-    revalidateTag(tags.users.me);
-
     if (currentCatalog?.isPublished && currentCatalog.slug) {
-      revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug));
+      revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
     }
 
     return { catalog: catalogData.data, message: catalogData.meta?.message };

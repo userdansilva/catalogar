@@ -1,7 +1,5 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
-import { tags } from "@/tags";
 import { postCompany } from "@/services/post-company";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { createCompanySchema } from "@/schemas/company";
@@ -33,8 +31,6 @@ export const createCompanyAction = authActionClient
       if (error) {
         throw new ExpectedError(error);
       }
-
-      revalidateTag(tags.users.me);
 
       return { company: data.data, message: data.meta?.message };
     },
