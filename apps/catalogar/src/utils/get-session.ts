@@ -6,6 +6,7 @@ import { auth0 } from "@/lib/auth0";
  */
 export async function getSession() {
   const session = await auth0.getSession();
+
   if (!session) redirect("/auth/login");
 
   return session;
