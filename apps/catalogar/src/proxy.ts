@@ -2,38 +2,29 @@ import { NextResponse, type NextRequest } from "next/server";
 import { auth0 } from "./lib/auth0";
 
 export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-
   const authRes = await auth0.middleware(request);
 
-  if (pathname === "/") {
-    return NextResponse.redirect(new URL("/dashboard", request.nextUrl.origin));
-  }
+  const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/auth")) {
     return authRes;
   }
 
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/dashboard", request.nextUrl.origin));
+  }
+
   if (pathname.startsWith("/dashboard")) {
-    const session = await auth0.getSession(request);
+    const session = await auth0.getSession();
 
     if (!session) {
       return NextResponse.redirect(
         new URL("/auth/login", request.nextUrl.origin),
       );
     }
-
-    try {
-      await auth0.getAccessToken(request, authRes);
-      return authRes;
-    } catch {
-      return NextResponse.redirect(
-        new URL("/auth/login", request.nextUrl.origin),
-      );
-    }
   }
 
-  return NextResponse.next();
+  return authRes;
 }
 
 export const config = {
