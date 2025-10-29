@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import {
@@ -77,10 +78,10 @@ export function NavUserSkeleton() {
 
             <DropdownMenuGroup>
               <DropdownMenuItem className="cursor-pointer" asChild>
-                <Link href="/auth/logout">
+                <a href="/auth/logout">
                   <LogOut />
                   Sair
-                </Link>
+                </a>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
