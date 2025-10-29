@@ -1,5 +1,19 @@
 # catalogar
 
+## 2.2.0
+
+### Minor Changes
+
+- 0d1e095: Atualização para Next 16 (Beta)
+
+### Patch Changes
+
+- c8c147f: melhoria nos actions e adaptação para Next16
+- 045bbbd: Substituição de todos os form.watch por <Watch /> devido a bug pós migração para Next16
+- 61dff36: tratativa de erro em update e delete de categorias e tipos de produto
+- 6b9940a: fix: alteração de link do auth0 de <Link> para <a> (recomendado pela a doc)
+- 0d1e095: Remoção do Sentry (será estudado e incluído posteriormente)
+
 ## 2.1.6
 
 ### Patch Changes
