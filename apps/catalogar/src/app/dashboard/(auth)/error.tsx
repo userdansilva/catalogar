@@ -1,8 +1,8 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import { AlertCircle, RefreshCw, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { Button } from "@catalogar/ui/button";
 import {
   Card,
@@ -72,10 +72,10 @@ export default function AuthError({
             </Button>
 
             <Button variant="outline" asChild>
-              <Link href="/auth/logout">
+              <a href="/auth/logout">
                 <LogOut />
                 Sair
-              </Link>
+              </a>
             </Button>
           </div>
         </CardContent>

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import { Book, ChevronsUpDown, LogOut } from "lucide-react";
@@ -92,10 +93,10 @@ export function NavUserClient({ user }: NavUserProps) {
 
             <DropdownMenuGroup>
               <DropdownMenuItem className="cursor-pointer" asChild>
-                <Link href="/auth/logout">
+                <a href="/auth/logout">
                   <LogOut />
                   Sair
-                </Link>
+                </a>
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

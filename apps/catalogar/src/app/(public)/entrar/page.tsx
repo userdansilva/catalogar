@@ -1,7 +1,7 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { Button } from "@catalogar/ui/button";
 import logo from "@/assets/images/logo.svg";
 
@@ -24,7 +24,7 @@ export default function SignInOrRegister() {
 
         <div className="mt-8 flex justify-center">
           <Button size="lg" className="w-full max-w-xs" asChild>
-            <Link href="/auth/login">Entrar / Cadastrar</Link>
+            <a href="/auth/login">Entrar / Cadastrar</a>
           </Button>
         </div>
 
