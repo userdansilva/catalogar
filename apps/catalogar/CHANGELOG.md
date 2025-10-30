@@ -1,5 +1,12 @@
 # catalogar
 
+## 2.2.1
+
+### Patch Changes
+
+- f44cd83: chore: instalação e configuração do ofetch
+- d265c29: Teste de ajuste na pipeline
+
 ## 2.2.0
 
 ### Minor Changes
