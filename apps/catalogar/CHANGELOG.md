@@ -1,5 +1,12 @@
 # catalogar
 
+## 2.2.2
+
+### Patch Changes
+
+- a26b7d5: teste: outro teste de pipe
+- 5b09c5a: Teste de ajuste na pipeline
+
 ## 2.2.1
 
 ### Patch Changes
