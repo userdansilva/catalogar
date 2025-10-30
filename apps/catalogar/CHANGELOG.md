@@ -1,5 +1,11 @@
 # catalogar
 
+## 2.2.3
+
+### Patch Changes
+
+- 034c61c: teste: outro teste 2
+
 ## 2.2.2
 
 ### Patch Changes
