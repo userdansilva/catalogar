@@ -7,9 +7,11 @@ export type DeleteProductTypeError = DefaultApiError;
 export async function deleteProductType(id: string) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<DeleteProductTypeError, void>({
-    url: `/v1/product-types/${id}`,
-    method: "DELETE",
-    headers,
-  });
+  return await serverFetch<DeleteProductTypeError, void>(
+    `/v1/product-types/${id}`,
+    {
+      method: "DELETE",
+      headers,
+    },
+  );
 }

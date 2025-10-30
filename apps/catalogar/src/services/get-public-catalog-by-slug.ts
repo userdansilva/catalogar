@@ -19,8 +19,7 @@ export async function getPublicCatalogBySlug(slug: string) {
   return await serverFetch<
     GetPublicCatalogBySlugError,
     GetPublicCatalogBySlugResponse
-  >({
-    url: `/v1/public/catalogs/${slug}`,
+  >(`/v1/public/catalogs/${slug}`, {
     next: {
       tags: [tags.publicCatalog.getBySlug(slug)],
     },

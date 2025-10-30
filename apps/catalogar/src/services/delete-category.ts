@@ -7,8 +7,7 @@ export type DeleteCategoryError = DefaultApiError;
 export async function deleteCategory(id: string) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<DeleteCategoryError, void>({
-    url: `/v1/categories/${id}`,
+  return await serverFetch<DeleteCategoryError, void>(`/v1/categories/${id}`, {
     method: "DELETE",
     headers,
   });

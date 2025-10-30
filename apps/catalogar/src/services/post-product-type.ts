@@ -14,12 +14,12 @@ export type PostProductTypeBody = {
 export async function postProductType(body: PostProductTypeBody) {
   const headers = await getAuthHeaders();
 
-  headers.append("Content-Type", "application/json");
-
-  return await serverFetch<PostProductTypeError, PostProductTypeResponse>({
-    url: "/v1/product-types",
-    method: "POST",
-    body: JSON.stringify(body),
-    headers,
-  });
+  return await serverFetch<PostProductTypeError, PostProductTypeResponse>(
+    "/v1/product-types",
+    {
+      method: "POST",
+      body,
+      headers,
+    },
+  );
 }

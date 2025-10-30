@@ -26,12 +26,12 @@ export type PutCatalogItemBody = {
 export async function putCatalogItem(id: string, body: PutCatalogItemBody) {
   const headers = await getAuthHeaders();
 
-  headers.append("Content-Type", "application/json");
-
-  return await serverFetch<PutCatalogItemError, PutCatalogItemResponse>({
-    url: `/v1/catalog-items/${id}`,
-    method: "PUT",
-    body: JSON.stringify(body),
-    headers,
-  });
+  return await serverFetch<PutCatalogItemError, PutCatalogItemResponse>(
+    `/v1/catalog-items/${id}`,
+    {
+      method: "PUT",
+      body,
+      headers,
+    },
+  );
 }

@@ -1,42 +1,19 @@
 "use server";
 
-export async function serverFetch<TError, TData>({
-  url,
-  params,
-  method,
-  ...config
-}: RequestInit & {
-  url: string;
-  next?: NextFetchRequestConfig;
-  cache?: RequestCache;
-  params?: Record<string, string>;
-  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-}): Promise<[TError, null] | [null, TData]> {
-  const searchParams = new URLSearchParams(params);
+import { FetchError, FetchOptions } from "ofetch";
+import { apiFetch } from "@/lib/ofetch";
 
-  const formattedParams = searchParams.size >= 1 ? `?${searchParams}` : "";
+export async function serverFetch<TError, TData>(
+  request: RequestInfo,
+  options: FetchOptions<"json">,
+): Promise<[TError, null] | [null, TData]> {
+  try {
+    const response = await apiFetch<TData>(request, options);
 
-  const response = await fetch(
-    `${process.env.API_URL}/api${url}${formattedParams}`,
-    {
-      ...config,
-      method,
-    },
-  );
+    return [null, response];
+  } catch (err) {
+    const error = err as FetchError;
 
-  /**
-   * Delete não retorna valor no sucesso, isso causava uma quebra ao
-   * tentar converter a resposta para json
-   */
-  if (method === "DELETE" && response.ok) {
-    return [null, null as TData];
+    return [error.data as TError, null];
   }
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    return [data, null];
-  }
-
-  return [null, data];
 }

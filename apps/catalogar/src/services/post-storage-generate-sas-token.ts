@@ -24,10 +24,9 @@ export async function postStorageGenerateSasToken(
   return await serverFetch<
     PostStorageGenerateSasTokenError,
     PostStorageGenerateSasTokenResponse
-  >({
-    url: "/v1/storage/generate-sas-token",
+  >("/v1/storage/generate-sas-token", {
     method: "POST",
-    body: JSON.stringify(body),
+    body,
     headers,
   });
 }

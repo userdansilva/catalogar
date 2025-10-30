@@ -14,12 +14,12 @@ export type PutCatalogBody = {
 export async function putCatalog(body: PutCatalogBody) {
   const headers = await getAuthHeaders();
 
-  headers.append("Content-Type", "application/json");
-
-  return await serverFetch<PutCatalogError, PutCatalogResponse>({
-    url: "/v1/catalogs",
-    method: "PUT",
-    body: JSON.stringify(body),
-    headers,
-  });
+  return await serverFetch<PutCatalogError, PutCatalogResponse>(
+    "/v1/catalogs",
+    {
+      method: "PUT",
+      body,
+      headers,
+    },
+  );
 }

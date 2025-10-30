@@ -1,6 +1,5 @@
 import { serverFetch } from "@/utils/server-fetch";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
-import { tags } from "@/tags";
 import {
   ApiResponseWithPagination,
   DefaultApiError,
@@ -33,12 +32,11 @@ export async function getCategories({
 } = {}) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<GetCategoriesError, GetCategoriesResponse>({
-    url: "/v1/categories",
-    params,
-    headers,
-    next: {
-      tags: [tags.categories.getAll],
+  return await serverFetch<GetCategoriesError, GetCategoriesResponse>(
+    "/v1/categories",
+    {
+      query: params,
+      headers,
     },
-  });
+  );
 }

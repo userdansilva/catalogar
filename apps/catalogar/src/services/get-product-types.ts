@@ -1,7 +1,6 @@
 import { ProductType } from "./get-product-type-by-id";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
-import { tags } from "@/tags";
 import {
   ApiResponseWithPagination,
   DefaultApiError,
@@ -23,12 +22,11 @@ export async function getProductTypes({
 } = {}) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<GetProductTypesError, GetProductTypesResponse>({
-    url: "/v1/product-types",
-    params,
-    headers,
-    next: {
-      tags: [tags.productTypes.getAll],
+  return await serverFetch<GetProductTypesError, GetProductTypesResponse>(
+    "/v1/product-types",
+    {
+      query: params,
+      headers,
     },
-  });
+  );
 }

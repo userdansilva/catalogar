@@ -16,12 +16,12 @@ export type PutCompanyBody = {
 export async function putCompany(body: PutCompanyBody) {
   const headers = await getAuthHeaders();
 
-  headers.append("Content-Type", "application/json");
-
-  return await serverFetch<PutCompanyError, PutCompanyResponse>({
-    url: "/v1/companies",
-    method: "PUT",
-    body: JSON.stringify(body),
-    headers,
-  });
+  return await serverFetch<PutCompanyError, PutCompanyResponse>(
+    "/v1/companies",
+    {
+      method: "PUT",
+      body,
+      headers,
+    },
+  );
 }

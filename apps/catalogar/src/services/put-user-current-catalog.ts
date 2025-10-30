@@ -7,11 +7,11 @@ export type PutUserCurrentCatalogError = DefaultApiError;
 export async function putUserCurrentCatalog(catalogId: string) {
   const headers = await getAuthHeaders();
 
-  headers.append("Content-Type", "application/json");
-
-  return await serverFetch<PutUserCurrentCatalogError, void>({
-    url: `/v1/users/me/current-catalog/${catalogId}`,
-    method: "PUT",
-    headers,
-  });
+  return await serverFetch<PutUserCurrentCatalogError, void>(
+    `/v1/users/me/current-catalog/${catalogId}`,
+    {
+      method: "PUT",
+      headers,
+    },
+  );
 }
