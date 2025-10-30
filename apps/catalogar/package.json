@@ -15,7 +15,6 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "^4.11.0",
     "@azure/storage-blob": "^12.29.1",
-    "@catalogar/shared": "workspace:*",
     "@catalogar/ui": "workspace:*",
     "@hookform/resolvers": "^5.2.2",
     "@next-safe-action/adapter-react-hook-form": "^2.0.0",
