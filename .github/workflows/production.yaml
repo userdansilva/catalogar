@@ -7,6 +7,14 @@ on:
     paths:
       - apps/catalogar/**
       - packages/**
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+    paths:
+      - apps/catalogar/**
+      - packages/**
 
 jobs:
   deploy:
