@@ -1,7 +1,5 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
-import { tags } from "@/tags";
 import { postCatalog } from "@/services/post-catalog";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { createCatalogSchema } from "@/schemas/catalog";
@@ -20,8 +18,6 @@ export const createCatalogAction = authActionClient
     if (error) {
       throw new ExpectedError(error);
     }
-
-    revalidateTag(tags.users.me, "max");
 
     return { catalog: data.data, message: data.meta?.message };
   });
