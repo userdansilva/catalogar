@@ -14,12 +14,12 @@ export type PutProductTypeBody = {
 export async function putProductType(id: string, body: PutProductTypeBody) {
   const headers = await getAuthHeaders();
 
-  headers.append("Content-Type", "application/json");
-
-  return await serverFetch<PutProductTypeError, PutProductTypeResponse>({
-    url: `/v1/product-types/${id}`,
-    method: "PUT",
-    body: JSON.stringify(body),
-    headers,
-  });
+  return await serverFetch<PutProductTypeError, PutProductTypeResponse>(
+    `/v1/product-types/${id}`,
+    {
+      method: "PUT",
+      body,
+      headers,
+    },
+  );
 }

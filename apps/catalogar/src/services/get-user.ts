@@ -1,6 +1,5 @@
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
-import { tags } from "@/tags";
 import { ApiResponse, DefaultApiError } from "@/types/api-response";
 
 export type Company = {
@@ -62,11 +61,7 @@ export type GetUserResponse = ApiResponse<User>;
 export async function getUser() {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<GetUserError, GetUserResponse>({
-    url: "/v1/users/me",
+  return await serverFetch<GetUserError, GetUserResponse>("/v1/users/me", {
     headers,
-    next: {
-      tags: [tags.users.me],
-    },
   });
 }

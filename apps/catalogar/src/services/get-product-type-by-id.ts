@@ -1,6 +1,5 @@
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
-import { tags } from "@/tags";
 import { ApiResponse, DefaultApiError } from "@/types/api-response";
 
 export type ProductType = {
@@ -20,12 +19,9 @@ export async function getProductTypeById(id: string) {
   const headers = await getAuthHeaders();
 
   return await serverFetch<GetProductTypeByIdError, GetProductTypeByIdResponse>(
+    `/v1/product-types/${id}`,
     {
-      url: `/v1/product-types/${id}`,
       headers,
-      next: {
-        tags: [tags.categories.getById(id)],
-      },
     },
   );
 }

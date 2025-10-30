@@ -1,9 +1,7 @@
 import { ProductType } from "./get-product-type-by-id";
 import { Category } from "./get-category-by-id";
-import { CatalogItemImage } from "./get-images-generate-sas-token";
 import { serverFetch } from "@/utils/server-fetch";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
-import { tags } from "@/tags";
 import { ApiResponse, DefaultApiError } from "@/types/api-response";
 
 export type CatalogItem = {
@@ -21,6 +19,18 @@ export type CatalogItem = {
   updatedAt: string;
 };
 
+export type CatalogItemImage = {
+  id: string;
+  fileName: string;
+  url: string;
+  sizeInBytes: number;
+  width: number;
+  height: number;
+  altText?: string;
+  position: number;
+  createdAt: string;
+};
+
 export type GetCatalogItemByIdError = DefaultApiError;
 export type GetCatalogItemByIdResponse = ApiResponse<CatalogItem>;
 
@@ -28,12 +38,9 @@ export async function getCatalogItemById(id: string) {
   const headers = await getAuthHeaders();
 
   return await serverFetch<GetCatalogItemByIdError, GetCatalogItemByIdResponse>(
+    `/v1/catalog-items/${id}`,
     {
-      url: `/v1/catalog-items/${id}`,
       headers,
-      next: {
-        tags: [tags.catalogItems.getById(id), tags.catalogItems.getByIdAny],
-      },
     },
   );
 }

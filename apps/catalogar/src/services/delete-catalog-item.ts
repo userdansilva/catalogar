@@ -7,9 +7,11 @@ export type DeleteCatalogItemError = DefaultApiError;
 export async function deleteCatalogItem(id: string) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<DeleteCatalogItemError, void>({
-    url: `/v1/catalog-items/${id}`,
-    method: "DELETE",
-    headers,
-  });
+  return await serverFetch<DeleteCatalogItemError, void>(
+    `/v1/catalog-items/${id}`,
+    {
+      method: "DELETE",
+      headers,
+    },
+  );
 }
