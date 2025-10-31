@@ -1,5 +1,11 @@
 # catalogar
 
+## 2.2.4
+
+### Patch Changes
+
+- 4729e3f: teste: pipeline 02
+
 ## 2.2.3
 
 ### Patch Changes
