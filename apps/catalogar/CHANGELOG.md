@@ -1,37 +1,10 @@
 # catalogar
 
-## 2.2.5
-
-### Patch Changes
-
-- 9cb67c3: teste: alteração readme
-- 08653c3: outro teste
-
-## 2.2.4
-
-### Patch Changes
-
-- 4729e3f: teste: pipeline 02
-
-## 2.2.3
-
-### Patch Changes
-
-- 034c61c: teste: outro teste 2
-
-## 2.2.2
-
-### Patch Changes
-
-- a26b7d5: teste: outro teste de pipe
-- 5b09c5a: Teste de ajuste na pipeline
-
 ## 2.2.1
 
 ### Patch Changes
 
 - f44cd83: chore: instalação e configuração do ofetch
-- d265c29: Teste de ajuste na pipeline
 
 ## 2.2.0
 
