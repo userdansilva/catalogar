@@ -1,5 +1,12 @@
 # catalogar
 
+## 2.2.5
+
+### Patch Changes
+
+- 9cb67c3: teste: alteração readme
+- 08653c3: outro teste
+
 ## 2.2.4
 
 ### Patch Changes
