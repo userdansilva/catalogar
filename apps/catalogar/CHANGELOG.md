@@ -1,5 +1,11 @@
 # catalogar
 
+## 2.2.2
+
+### Patch Changes
+
+- ab6ec45: teste de auto publish
+
 ## 2.2.1
 
 ### Patch Changes
