@@ -13,6 +13,8 @@ jobs:
     name: Deploy to Vercel (Production)
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    # Add condition to skip changeset-release/main branch
+    if: github.ref != 'refs/heads/changeset-release/main'
     environment: Production
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
