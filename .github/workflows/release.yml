@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - apps/catalogar/**
-      - packages/**
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -14,8 +11,6 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    # Add condition to skip changeset-release/main branch
-    if: github.ref != 'refs/heads/changeset-release/main'
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -45,5 +40,7 @@ jobs:
 
       - name: Create Release Pull Request
         uses: changesets/action@v1
+        with:
+          publish: pnpm publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
