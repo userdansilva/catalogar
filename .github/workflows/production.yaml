@@ -7,19 +7,10 @@ on:
     paths:
       - apps/catalogar/**
       - packages/**
-  pull_request:
-    types:
-      - closed
-    branches:
-      - main
-    paths:
-      - apps/catalogar/**
-      - packages/**
 
 jobs:
   deploy:
     name: Deploy to Vercel (Production)
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'changeset-release/')
     timeout-minutes: 15
     runs-on: ubuntu-latest
     environment: Production
