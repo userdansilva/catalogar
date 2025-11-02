@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import { AlertCircle, RefreshCw, LogOut } from "lucide-react";
@@ -72,7 +71,9 @@ export default function AuthError({
             </Button>
 
             <Button variant="outline" asChild>
-              <a href="/auth/logout">
+              <a
+                href={`/auth/logout?returnTo=${process.env.NEXT_PUBLIC_BASE_URL}`}
+              >
                 <LogOut />
                 Sair
               </a>
