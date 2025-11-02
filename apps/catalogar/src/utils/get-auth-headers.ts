@@ -1,10 +1,10 @@
-import { getAccessToken } from "./get-access-token";
+import { getSession } from "./get-session";
 
 export async function getAuthHeaders() {
-  const accessToken = await getAccessToken();
+  const session = await getSession();
 
   const headers = new Headers({
-    Authorization: `Bearer ${accessToken}`,
+    Authorization: `Bearer ${session.tokenSet.accessToken}`,
   });
 
   return headers;
