@@ -1,5 +1,11 @@
 # catalogar
 
+## 2.2.3
+
+### Patch Changes
+
+- ff4f401: chore: add returnTo attr nos links de logout
+
 ## 2.2.2
 
 ### Patch Changes
