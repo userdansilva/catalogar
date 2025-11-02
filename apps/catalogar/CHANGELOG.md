@@ -1,5 +1,11 @@
 # catalogar
 
+## 2.2.2
+
+### Patch Changes
+
+- 51cfc3e: fix: ajuste na atualização do token (em progresso)
+
 ## 2.2.1
 
 ### Patch Changes
