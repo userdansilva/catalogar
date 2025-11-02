@@ -22,6 +22,27 @@ export async function proxy(request: NextRequest) {
         new URL("/auth/login", request.nextUrl.origin),
       );
     }
+
+    try {
+      /**
+       * A chamada do getAccessToken aqui é para garantir a atualização do token,
+       * pois o getAccessToken não pode ser chamado em Server Components já que ele
+       * não consegue atualizar o token lá.
+       *
+       * https://github.com/auth0/nextjs-auth0/blob/main/EXAMPLES.md#on-the-server-app-router-2
+       *
+       * Obs.: Acompanhar progresso na thread de suporte do Auth0/Nextjs para Next16.
+       *
+       * https://github.com/auth0/nextjs-auth0/issues/2375
+       */
+      await auth0.getAccessToken();
+    } catch (e) {
+      console.error("Refresh Access Token Error", e);
+
+      return NextResponse.redirect(
+        new URL("/auth/login", request.nextUrl.origin),
+      );
+    }
   }
 
   return authRes;
