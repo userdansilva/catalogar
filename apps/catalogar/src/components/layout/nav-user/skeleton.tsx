@@ -78,7 +78,9 @@ export function NavUserSkeleton() {
 
             <DropdownMenuGroup>
               <DropdownMenuItem className="cursor-pointer" asChild>
-                <a href="/auth/logout">
+                <a
+                  href={`/auth/logout?returnTo=${process.env.NEXT_PUBLIC_BASE_URL}`}
+                >
                   <LogOut />
                   Sair
                 </a>
