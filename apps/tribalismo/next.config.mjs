@@ -1,0 +1,29 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactCompiler: true,
+  experimental: {
+    turbopackFileSystemCacheForDev: true,
+  },
+  // Next 15
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "catalogarblobdev.blob.core.windows.net",
+        pathname: "/catalogar-dev/**",
+      },
+      {
+        protocol: "https",
+        hostname: "media-dev.catalogar.com.br",
+        pathname: "/catalogar-dev/**",
+      },
+      {
+        protocol: "https",
+        hostname: "media.catalogar.com.br",
+        pathname: "/catalogar/**",
+      },
+    ],
+  },
+};
+
+export default nextConfig;
