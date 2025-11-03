@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@catalogar/ui/utils";
 import { Badge } from "@catalogar/ui/badge";
-import { CatalogItem } from "@/services/get-catalog-item-by-id";
+import { CatalogItem } from "@/services/get-public-catalog-by-slug";
 
 export function PublicCatalogItem({
   catalogItem,

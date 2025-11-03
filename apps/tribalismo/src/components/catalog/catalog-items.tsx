@@ -1,10 +1,9 @@
-import { PrivateCatalogItem } from "./private-catalog-item";
 import { CatalogPagination } from "./catalog-pagination";
 import { PublicCatalogItem } from "./public-catalog-item";
 import { CatalogNoResults } from "./catalog-no-results";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
-import { CatalogItem } from "@/services/get-catalog-item-by-id";
+import { CatalogItem } from "@/services/get-public-catalog-by-slug";
 
 export function CatalogItems({
   query,
@@ -62,20 +61,13 @@ export function CatalogItems({
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {paginatedCatalogItems.map((catalogItem) =>
-          isPublic ? (
-            <PublicCatalogItem
-              key={catalogItem.id}
-              catalogItem={catalogItem}
-              unoptimized={unoptimized}
-            />
-          ) : (
-            <PrivateCatalogItem
-              key={catalogItem.id}
-              catalogItem={catalogItem}
-            />
-          ),
-        )}
+        {paginatedCatalogItems.map((catalogItem) => (
+          <PublicCatalogItem
+            key={catalogItem.id}
+            catalogItem={catalogItem}
+            unoptimized={unoptimized}
+          />
+        ))}
       </div>
 
       {catalogItemsTotal > perPage && (

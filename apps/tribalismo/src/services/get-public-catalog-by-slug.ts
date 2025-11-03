@@ -102,13 +102,15 @@ export type PublishedCatalog = Required<Catalog> & {
 export type GetPublicCatalogBySlugError = DefaultApiError;
 export type GetPublicCatalogBySlugResponse = ApiResponse<PublishedCatalog>;
 
-export async function getPublicCatalogBySlug(slug: string) {
+export async function getPublicCatalogBySlug() {
   return await serverFetch<
     GetPublicCatalogBySlugError,
     GetPublicCatalogBySlugResponse
-  >(`/v1/public/catalogs/${slug}`, {
+  >(`/v1/public/catalogs/${process.env.NEXT_PUBLIC_SLUG}`, {
     next: {
-      tags: [tags.publicCatalog.getBySlug(slug)],
+      tags: [
+        tags.publicCatalog.getBySlug(process.env.NEXT_PUBLIC_SLUG as string),
+      ],
     },
     cache: "force-cache",
   });

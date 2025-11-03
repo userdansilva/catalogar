@@ -6,8 +6,7 @@ import { Badge } from "@catalogar/ui/badge";
 import { ShareButton } from "../inputs/share-button";
 import { CopyButton } from "../inputs/copy-button";
 import { CarouselImages } from "@/components/catalog/carousel-images";
-import { CatalogItem } from "@/services/get-catalog-item-by-id";
-import { Company } from "@/services/get-user";
+import { CatalogItem, Company } from "@/services/get-public-catalog-by-slug";
 
 export function PublicCatalogItemDetail({
   baseUrl,

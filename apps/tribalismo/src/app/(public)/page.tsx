@@ -1,4 +1,3 @@
-import { notFound } from "next/navigation";
 import { CategoriesFilter } from "@/components/filters/categories-filter";
 import { ProductTypesFilter } from "@/components/filters/product-types-filter";
 import { QueryFilter } from "@/components/filters/query-filter";
@@ -8,7 +7,6 @@ import { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
 import { ExpectedError } from "@/components/error-handling/expected-error";
 
-const ASCIIforAt = "%40"; // @
 const ITEMS_PER_PAGE = 16;
 
 const SEARCH_PARAM_NAMES = defineSearchParamNames({
@@ -19,21 +17,11 @@ const SEARCH_PARAM_NAMES = defineSearchParamNames({
 });
 
 export default async function Page({
-  params,
   searchParams,
 }: {
-  params: Promise<{ slug: string }>;
   searchParams: Promise<SearchParams<typeof SEARCH_PARAM_NAMES>>;
 }) {
-  const { slug: slugWithAt } = await params;
-
-  if (!slugWithAt.startsWith(ASCIIforAt)) {
-    return notFound();
-  }
-
-  const slug = slugWithAt.replace(ASCIIforAt, "");
-
-  const [error, data] = await getPublicCatalogBySlug(slug);
+  const [error, data] = await getPublicCatalogBySlug();
 
   if (error) {
     return <ExpectedError error={error} />;

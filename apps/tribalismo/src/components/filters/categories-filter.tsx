@@ -14,7 +14,7 @@ import {
 } from "@catalogar/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@catalogar/ui/popover";
 import { cn } from "@catalogar/ui/utils";
-import { Category } from "@/services/get-category-by-id";
+import { Category } from "@/services/get-public-catalog-by-slug";
 
 export function CategoriesFilter({
   categories,

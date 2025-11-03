@@ -1,31 +1,21 @@
 import { notFound } from "next/navigation";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
-import { routes } from "@/routes";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
 import { ExpectedError } from "@/components/error-handling/expected-error";
-
-const ASCIIforAt = "%40"; // @
 
 export default async function Page({
   params,
 }: {
   params: Promise<{
     reference: string;
-    slug: string;
   }>;
 }) {
-  const { slug: slugWithAt, reference } = await params;
+  const { reference } = await params;
 
-  if (!slugWithAt.startsWith(ASCIIforAt)) {
-    return notFound();
-  }
-
-  const slug = slugWithAt.replace(ASCIIforAt, "");
-
-  const [error, data] = await getPublicCatalogBySlug(slug);
+  const [error, data] = await getPublicCatalogBySlug();
 
   if (error) {
     return <ExpectedError error={error} />;
@@ -58,10 +48,10 @@ export default async function Page({
 
   return (
     <div className="max-w-7xl space-y-6 md:container">
-      <PrevButton url={routes.public.url(slug)} />
+      <PrevButton url={process.env.NEXT_PUBLIC_BASE_URL as string} />
 
       <PublicCatalogItemDetail
-        baseUrl={routes.public.url(slug)}
+        baseUrl={process.env.NEXT_PUBLIC_BASE_URL as string}
         catalogItem={catalogItem}
         company={catalog.company}
         relatedCatalogItems={paginatedCatalogItems}
