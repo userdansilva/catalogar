@@ -1,6 +1,5 @@
 import { serverFetch } from "@/utils/server-fetch";
 import { ApiResponse, DefaultApiError } from "@/types/api-response";
-import { tags } from "@/tags";
 
 export type Company = {
   name: string;
@@ -106,11 +105,9 @@ export async function getPublicCatalogBySlug() {
   return await serverFetch<
     GetPublicCatalogBySlugError,
     GetPublicCatalogBySlugResponse
-  >(`/v1/public/catalogs/${process.env.NEXT_PUBLIC_SLUG}`, {
+  >(`/v1/public/catalogs/${process.env.CATALOG_SLUG}`, {
     next: {
-      tags: [
-        tags.publicCatalog.getBySlug(process.env.NEXT_PUBLIC_SLUG as string),
-      ],
+      tags: [process.env.CATALOG_SLUG as string],
     },
     cache: "force-cache",
   });

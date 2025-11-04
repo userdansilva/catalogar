@@ -1,11 +1,13 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
+import { ofetch } from "ofetch";
 import { putCatalogItem } from "@/services/put-catalog-item";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { updateCatalogItemSchema } from "@/schemas/catalog-item";
 import { tags } from "@/tags";
+import { standaloneCatalogs } from "@/standalone-catalogs";
 
 export const updateCatalogItemAction = authActionClientWithUser
   .inputSchema(updateCatalogItemSchema)
@@ -51,6 +53,17 @@ export const updateCatalogItemAction = authActionClientWithUser
       }
 
       if (currentCatalog?.isPublished && currentCatalog.slug) {
+        const standalone = standaloneCatalogs.find(
+          ({ slug }) => slug === currentCatalog.slug,
+        );
+
+        if (standalone) {
+          await ofetch(`${standalone.url}/api/revalidate`, {
+            method: "POST",
+            ignoreResponseError: true,
+          });
+        }
+
         revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
       }
 

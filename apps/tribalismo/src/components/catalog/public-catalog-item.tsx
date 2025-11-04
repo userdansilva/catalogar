@@ -1,9 +1,6 @@
-"use client";
-
 import { Images } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { cn } from "@catalogar/ui/utils";
 import { Badge } from "@catalogar/ui/badge";
 import { CatalogItem } from "@/services/get-public-catalog-by-slug";
@@ -15,12 +12,10 @@ export function PublicCatalogItem({
   catalogItem: CatalogItem;
   unoptimized?: boolean;
 }) {
-  const pathname = usePathname();
-
   return (
     <Link
       className={cn("space-y-2", catalogItem.isDisabled && "opacity-60")}
-      href={`${pathname}/${catalogItem.reference}`}
+      href={catalogItem.reference.toString()}
       prefetch={!unoptimized}
     >
       <div className="relative">
