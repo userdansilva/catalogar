@@ -4,14 +4,14 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@catalogar/ui/sidebar";
-import { Separator } from "@catalogar/ui/separator";
+} from "@catalogar/ui/components/sidebar";
+import { Separator } from "@catalogar/ui/components/separator";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-} from "@catalogar/ui/breadcrumb";
+} from "@catalogar/ui/components/breadcrumb";
 import { routes } from "@/routes";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 

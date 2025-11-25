@@ -13,14 +13,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/form";
-import { Input } from "@catalogar/ui/input";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@catalogar/ui/card";
+} from "@catalogar/ui/components/card";
 import { Watch } from "react-hook-form";
 import { Button } from "../inputs/button";
 import { routes } from "@/routes";

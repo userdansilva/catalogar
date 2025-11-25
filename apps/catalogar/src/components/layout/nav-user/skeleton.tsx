@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import {
@@ -6,7 +5,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   useSidebar,
-} from "@catalogar/ui/sidebar";
+} from "@catalogar/ui/components/sidebar";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -15,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuGroup,
   DropdownMenuItem,
-} from "@catalogar/ui/dropdown-menu";
+} from "@catalogar/ui/components/dropdown-menu";
 import { Book, ChevronsUpDown, LogOut } from "lucide-react";
 import Link from "next/link";
 import { routes } from "@/routes";

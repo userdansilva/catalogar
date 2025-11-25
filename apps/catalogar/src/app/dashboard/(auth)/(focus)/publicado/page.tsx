@@ -1,7 +1,12 @@
 import { CircleCheckBig } from "lucide-react";
 import Link from "next/link";
 import { redirect, RedirectType } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@catalogar/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@catalogar/ui/components/card";
 import { CopyButton } from "@/components/inputs/copy-button";
 import { Button } from "@/components/inputs/button";
 import { routes } from "@/routes";

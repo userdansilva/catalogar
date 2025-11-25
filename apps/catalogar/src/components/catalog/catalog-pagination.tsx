@@ -8,7 +8,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@catalogar/ui/pagination";
+} from "@catalogar/ui/components/pagination";
 
 export function CatalogPagination({
   totalItems,

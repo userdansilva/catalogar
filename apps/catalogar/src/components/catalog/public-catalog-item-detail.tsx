@@ -1,8 +1,8 @@
 import { Forward } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ScrollArea, ScrollBar } from "@catalogar/ui/scroll-area";
-import { Badge } from "@catalogar/ui/badge";
+import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
+import { Badge } from "@catalogar/ui/components/badge";
 import { ShareButton } from "../inputs/share-button";
 import { CopyButton } from "../inputs/copy-button";
 import { CarouselImages } from "@/components/catalog/carousel-images";

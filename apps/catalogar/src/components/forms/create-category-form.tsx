@@ -11,10 +11,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/form";
-import { Input } from "@catalogar/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@catalogar/ui/card";
-import { Badge } from "@catalogar/ui/badge";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@catalogar/ui/components/card";
+import { Badge } from "@catalogar/ui/components/badge";
 import { Watch } from "react-hook-form";
 import { Button } from "../inputs/button";
 import { routes } from "@/routes";

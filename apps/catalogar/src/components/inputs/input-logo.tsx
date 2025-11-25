@@ -11,7 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@catalogar/ui/alert-dialog";
+} from "@catalogar/ui/components/alert-dialog";
 import { Button } from "./button";
 import { createLogoAction } from "@/actions/create-logo-action";
 
