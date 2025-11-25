@@ -22,7 +22,7 @@ import { CarouselImages } from "./carousel-images";
 import { deleteCatalogItemAction } from "@/actions/delete-catalog-item-action";
 import { toggleCatalogItemStatusAction } from "@/actions/toggle-catalog-item-status-action";
 import { routes } from "@/routes";
-import { CatalogItem } from "@/services/get-catalog-item-by-id";
+import { CatalogItem } from "@/services/get-catalog-item";
 
 export function PrivateCatalogItem({
   catalogItem,

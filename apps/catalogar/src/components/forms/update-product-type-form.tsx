@@ -16,7 +16,7 @@ import { Input } from "@catalogar/ui/components/input";
 import { Button } from "../inputs/button";
 import { routes } from "@/routes";
 import { updateProductTypeAction } from "@/actions/update-product-type-action";
-import { ProductType } from "@/services/get-product-type-by-id";
+import { ProductType } from "@/services/get-product-type";
 import { toastServerError } from "@/utils/toast-server-error";
 import { updateProductTypeSchema } from "@/schemas/product-type";
 

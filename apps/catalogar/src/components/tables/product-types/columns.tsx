@@ -52,7 +52,7 @@ import { Input } from "@catalogar/ui/components/input";
 import { routes } from "@/routes";
 import { toggleProductTypeStatusAction } from "@/actions/toggle-status-product-type-action";
 import { deleteProductTypeAction } from "@/actions/delete-product-type-action";
-import { ProductType } from "@/services/get-product-type-by-id";
+import { ProductType } from "@/services/get-product-type";
 
 export const columns: ColumnDef<ProductType>[] = [
   {

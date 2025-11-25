@@ -53,7 +53,7 @@ import { Input } from "@catalogar/ui/components/input";
 import { routes } from "@/routes";
 import { toggleCategoryStatusAction } from "@/actions/toggle-status-category-action";
 import { deleteCategoryAction } from "@/actions/delete-category-action";
-import { Category } from "@/services/get-category-by-id";
+import { Category } from "@/services/get-category";
 
 export const columns: ColumnDef<Category>[] = [
   {

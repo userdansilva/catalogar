@@ -1,7 +1,18 @@
-import { Category } from "./get-category-by-id";
 import { ApiResponse, DefaultApiError } from "@/types/api-response";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
+
+export type Category = {
+  id: string;
+  name: string;
+  slug: string;
+  textColor: string;
+  backgroundColor: string;
+  isDisabled: boolean;
+  disabledAt?: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type PutCategoryError = DefaultApiError;
 export type PutCategoryResponse = ApiResponse<Category>;

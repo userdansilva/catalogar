@@ -1,10 +1,97 @@
-import { Catalog } from "./get-user";
-import { Category } from "./get-category-by-id";
-import { ProductType } from "./get-product-type-by-id";
-import { CatalogItem } from "./get-catalog-item-by-id";
 import { serverFetch } from "@/utils/server-fetch";
 import { ApiResponse, DefaultApiError } from "@/types/api-response";
 import { tags } from "@/tags";
+
+export type Company = {
+  name: string;
+  description: string;
+  mainSiteUrl: string;
+  phoneNumber: string;
+  businessTypeDescription: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Theme = {
+  primaryColor: string;
+  secondaryColor: string;
+  logo?: Logo;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Logo = {
+  id: string;
+  fileName: string;
+  url: string;
+  sizeInBytes: number;
+  width: number;
+  height: number;
+  altText?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Catalog = {
+  id: string;
+  name: string;
+  slug?: string;
+  publishedAt?: string;
+  isPublished: boolean;
+  company?: Company;
+  theme?: Theme;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Category = {
+  id: string;
+  name: string;
+  slug: string;
+  textColor: string;
+  backgroundColor: string;
+  isDisabled: boolean;
+  disabledAt?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ProductType = {
+  id: string;
+  name: string;
+  slug: string;
+  isDisabled: boolean;
+  disabledAt?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CatalogItemImage = {
+  id: string;
+  fileName: string;
+  url: string;
+  sizeInBytes: number;
+  width: number;
+  height: number;
+  altText?: string;
+  position: number;
+  createdAt: string;
+};
+
+export type CatalogItem = {
+  id: string;
+  title: string;
+  caption?: string;
+  price?: number;
+  reference: number;
+  productType: ProductType;
+  categories: Category[];
+  images: CatalogItemImage[];
+  isDisabled: boolean;
+  disabled?: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type PublishedCatalog = Required<Catalog> & {
   categories: Category[];

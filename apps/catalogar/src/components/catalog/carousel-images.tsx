@@ -11,7 +11,7 @@ import {
   CarouselPrevious,
 } from "@catalogar/ui/components/carousel";
 import { cn } from "@catalogar/ui/lib/utils";
-import { CatalogItemImage } from "@/services/get-catalog-item-by-id";
+import { CatalogItemImage } from "@/services/get-catalog-item";
 
 export function CarouselImages({
   images,

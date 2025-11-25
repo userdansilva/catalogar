@@ -24,7 +24,7 @@ import { Watch } from "react-hook-form";
 import { Button } from "../inputs/button";
 import { updateCategoryAction } from "@/actions/update-category-action";
 import { routes } from "@/routes";
-import { Category } from "@/services/get-category-by-id";
+import { Category } from "@/services/get-category";
 import { toastServerError } from "@/utils/toast-server-error";
 import { updateCategorySchema } from "@/schemas/category";
 

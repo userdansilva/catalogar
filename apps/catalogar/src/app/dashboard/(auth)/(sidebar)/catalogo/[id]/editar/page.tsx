@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { UpdateCatalogItemForm } from "@/components/forms/update-catalog-item-form";
 import { routes } from "@/routes";
-import { getCatalogItemById } from "@/services/get-catalog-item-by-id";
+import { getCatalogItem } from "@/services/get-catalog-item";
 import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
 import { ExpectedError } from "@/components/error-handling/expected-error";
@@ -26,7 +26,7 @@ export default async function EditCatalogItem({
     [productTypesError, productTypesData],
     [categoriesError, categoriesData],
   ] = await Promise.all([
-    getCatalogItemById(id),
+    getCatalogItem(id),
     getProductTypes(),
     getCategories(),
   ]);
