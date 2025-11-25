@@ -13,7 +13,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^4.11.0",
+    "@auth0/nextjs-auth0": "^4.13.1",
     "@azure/storage-blob": "^12.29.1",
     "@catalogar/ui": "workspace:*",
     "@hookform/resolvers": "^5.2.2",
