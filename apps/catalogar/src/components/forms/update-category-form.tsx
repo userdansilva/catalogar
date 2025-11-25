@@ -88,7 +88,7 @@ export function UpdateCategoryForm({ category }: { category: Category }) {
           <CardContent>
             <Watch
               control={form.control}
-              names={["name", "textColor", "backgroundColor"] as const}
+              names={["name", "textColor", "backgroundColor"]}
               render={([name, textColor, backgroundColor]) => (
                 <Badge
                   style={{

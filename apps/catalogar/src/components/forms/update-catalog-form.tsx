@@ -133,7 +133,7 @@ export function UpdateCatalogForm({
 
               <Watch
                 control={form.control}
-                names={["isPublished"] as const}
+                names={["isPublished"]}
                 render={([isPublished]) => (
                   <>
                     {!catalog.slug && isPublished && (

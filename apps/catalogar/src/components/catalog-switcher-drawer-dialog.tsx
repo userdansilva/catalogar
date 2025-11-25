@@ -251,7 +251,7 @@ export function CatalogSwitcherDrawerDialog({
             </DrawerClose>
             <Watch
               control={form.control}
-              names={["id"] as const}
+              names={["id"]}
               render={([id]) =>
                 id === "adicionar" ? (
                   <Button asChild>
@@ -306,7 +306,7 @@ export function CatalogSwitcherDrawerDialog({
           </DialogClose>
           <Watch
             control={form.control}
-            names={["id"] as const}
+            names={["id"]}
             render={([id]) =>
               id === "adicionar" ? (
                 <Button asChild>

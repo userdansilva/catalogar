@@ -117,7 +117,7 @@ export function UpdateThemeForm({
 
           <Watch
             control={form.control}
-            names={["logo", "primaryColor", "secondaryColor"] as const}
+            names={["logo", "primaryColor", "secondaryColor"]}
             render={([logo, primaryColor, secondaryColor]) => (
               <Card
                 style={{

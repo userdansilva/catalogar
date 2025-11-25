@@ -121,7 +121,7 @@ export function PublishCatalogForm({
             <CardDescription>
               <Watch
                 control={form.control}
-                names={["slug"] as const}
+                names={["slug"]}
                 render={([slug]) =>
                   slug
                     ? `${process.env.NEXT_PUBLIC_BASE_URL}/@${slug}`
