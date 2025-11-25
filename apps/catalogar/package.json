@@ -10,7 +10,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "e2e:ui": "playwright test --ui",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4.13.1",

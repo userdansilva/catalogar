@@ -78,11 +78,11 @@ export function NavMainSkeleton() {
               ) : (
                 <SidebarMenuButton>
                   {/* Icon placeholder */}
-                  <div className="h-4 w-4 rounded bg-muted-foreground animate-pulse" />
+                  <div className="bg-muted-foreground h-4 w-4 animate-pulse rounded" />
                   {/* Text placeholder */}
-                  <span className="h-4 w-24 rounded bg-muted-foreground animate-pulse" />
+                  <span className="bg-muted-foreground h-4 w-24 animate-pulse rounded" />
                   {/* Optional right-side lock icon placeholder */}
-                  <div className="ml-auto h-4 w-4 rounded bg-muted-foreground animate-pulse" />
+                  <div className="bg-muted-foreground ml-auto h-4 w-4 animate-pulse rounded" />
                 </SidebarMenuButton>
               )}
             </SidebarMenuItem>

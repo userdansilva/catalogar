@@ -26,7 +26,7 @@ export default async function PreviewLayout({ children }: PropsWithChildren) {
   return (
     <div>
       <div className="bg-foreground">
-        <div className="container border-b-[.5px] border-accent-foreground">
+        <div className="border-accent-foreground container border-b-[.5px]">
           <Button variant="link" className="dark pl-0" size="sm" asChild>
             <Link href={routes.dashboard.url}>
               <ChevronLeft />

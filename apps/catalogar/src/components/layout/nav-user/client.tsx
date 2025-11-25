@@ -44,7 +44,7 @@ export function NavUserClient({ user }: NavUserProps) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="size-8 rounded-lg dark">
+              <Avatar className="dark size-8 rounded-lg">
                 <AvatarFallback className="rounded-lg">
                   {initials}
                 </AvatarFallback>
