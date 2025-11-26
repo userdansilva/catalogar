@@ -13,14 +13,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/form";
-import { Input } from "@catalogar/ui/input";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@catalogar/ui/card";
+} from "@catalogar/ui/components/card";
 import { Watch } from "react-hook-form";
 import { Button } from "../inputs/button";
 import { routes } from "@/routes";
@@ -121,7 +121,7 @@ export function PublishCatalogForm({
             <CardDescription>
               <Watch
                 control={form.control}
-                names={["slug"] as const}
+                names={["slug"]}
                 render={([slug]) =>
                   slug
                     ? `${process.env.NEXT_PUBLIC_BASE_URL}/@${slug}`

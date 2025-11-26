@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentProps, forwardRef } from "react";
-import { Button } from "@catalogar/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 
 type ShareButtonProps = Omit<ComponentProps<typeof Button>, "onClick"> & {
   shareData?: {

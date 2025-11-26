@@ -1,7 +1,7 @@
 "use client";
 
 import { startTransition, useEffect, useState } from "react";
-import { Button } from "@catalogar/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 import { useRouter } from "next/navigation";
 import {
   Card,
@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@catalogar/ui/card";
+} from "@catalogar/ui/components/card";
 import { DefaultApiError } from "@/types/api-response";
 
 function RetryButton() {

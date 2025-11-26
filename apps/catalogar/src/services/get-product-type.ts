@@ -2,26 +2,24 @@ import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 import { ApiResponse, DefaultApiError } from "@/types/api-response";
 
-export type Category = {
+export type ProductType = {
   id: string;
   name: string;
   slug: string;
-  textColor: string;
-  backgroundColor: string;
   isDisabled: boolean;
   disabledAt?: string;
   createdAt: string;
   updatedAt: string;
 };
 
-export type GetCategoryByIdError = DefaultApiError;
-export type GetCategoryByIdResponse = ApiResponse<Category>;
+export type GetProductTypeError = DefaultApiError;
+export type GetProductTypeResponse = ApiResponse<ProductType>;
 
-export async function getCategoryById(id: string) {
+export async function getProductType(id: string) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<GetCategoryByIdError, GetCategoryByIdResponse>(
-    `/v1/categories/${id}`,
+  return await serverFetch<GetProductTypeError, GetProductTypeResponse>(
+    `/v1/product-types/${id}`,
     {
       headers,
     },

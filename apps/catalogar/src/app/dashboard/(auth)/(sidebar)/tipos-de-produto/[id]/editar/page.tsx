@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { UpdateProductTypeForm } from "@/components/forms/update-product-type-form";
 import { routes } from "@/routes";
-import { getProductTypeById } from "@/services/get-product-type-by-id";
+import { getProductType } from "@/services/get-product-type";
 import { ExpectedError } from "@/components/error-handling/expected-error";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PageHeader } from "@/components/layout/page-header";
@@ -19,7 +19,7 @@ export default async function EditProductType({
 }) {
   const { id } = await params;
 
-  const [error, data] = await getProductTypeById(id);
+  const [error, data] = await getProductType(id);
 
   if (error) {
     return <ExpectedError error={error} />;

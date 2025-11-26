@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { getCatalogItemById } from "@/services/get-catalog-item-by-id";
+import { getCatalogItem } from "@/services/get-catalog-item";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { putCatalogItem } from "@/services/put-catalog-item";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
@@ -21,7 +21,7 @@ export const toggleCatalogItemStatusAction = authActionClientWithUser
       },
     }) => {
       const [getCatalogItemError, getCatalogItemData] =
-        await getCatalogItemById(id);
+        await getCatalogItem(id);
 
       if (getCatalogItemError) {
         throw new ExpectedError(getCatalogItemError);

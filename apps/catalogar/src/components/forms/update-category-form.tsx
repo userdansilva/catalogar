@@ -11,15 +11,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/form";
-import { Card, CardContent, CardHeader, CardTitle } from "@catalogar/ui/card";
-import { Input } from "@catalogar/ui/input";
-import { Badge } from "@catalogar/ui/badge";
+} from "@catalogar/ui/components/form";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@catalogar/ui/components/card";
+import { Input } from "@catalogar/ui/components/input";
+import { Badge } from "@catalogar/ui/components/badge";
 import { Watch } from "react-hook-form";
 import { Button } from "../inputs/button";
 import { updateCategoryAction } from "@/actions/update-category-action";
 import { routes } from "@/routes";
-import { Category } from "@/services/get-category-by-id";
+import { Category } from "@/services/get-category";
 import { toastServerError } from "@/utils/toast-server-error";
 import { updateCategorySchema } from "@/schemas/category";
 
@@ -88,7 +93,7 @@ export function UpdateCategoryForm({ category }: { category: Category }) {
           <CardContent>
             <Watch
               control={form.control}
-              names={["name", "textColor", "backgroundColor"] as const}
+              names={["name", "textColor", "backgroundColor"]}
               render={([name, textColor, backgroundColor]) => (
                 <Badge
                   style={{

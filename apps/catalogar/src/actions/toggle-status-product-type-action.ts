@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { getProductTypeById } from "@/services/get-product-type-by-id";
+import { getProductType } from "@/services/get-product-type";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { putProductType } from "@/services/put-product-type";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
@@ -21,7 +21,7 @@ export const toggleProductTypeStatusAction = authActionClientWithUser
       },
     }) => {
       const [getProductTypeError, getProductTypeData] =
-        await getProductTypeById(id);
+        await getProductType(id);
 
       if (getProductTypeError) {
         throw new ExpectedError(getProductTypeError);

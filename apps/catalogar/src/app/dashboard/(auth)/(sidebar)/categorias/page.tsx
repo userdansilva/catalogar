@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { Button } from "@catalogar/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { CategoriesTable } from "@/components/tables/categories";

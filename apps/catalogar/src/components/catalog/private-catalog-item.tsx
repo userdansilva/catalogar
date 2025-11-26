@@ -14,15 +14,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@catalogar/ui/alert-dialog";
-import { Badge } from "@catalogar/ui/badge";
-import { Button } from "@catalogar/ui/button";
-import { cn } from "@catalogar/ui/utils";
+} from "@catalogar/ui/components/alert-dialog";
+import { Badge } from "@catalogar/ui/components/badge";
+import { Button } from "@catalogar/ui/components/button";
+import { cn } from "@catalogar/ui/lib/utils";
 import { CarouselImages } from "./carousel-images";
 import { deleteCatalogItemAction } from "@/actions/delete-catalog-item-action";
 import { toggleCatalogItemStatusAction } from "@/actions/toggle-catalog-item-status-action";
 import { routes } from "@/routes";
-import { CatalogItem } from "@/services/get-catalog-item-by-id";
+import { CatalogItem } from "@/services/get-catalog-item";
 
 export function PrivateCatalogItem({
   catalogItem,

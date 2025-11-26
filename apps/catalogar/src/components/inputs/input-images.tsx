@@ -12,8 +12,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@catalogar/ui/alert-dialog";
-import { ScrollArea, ScrollBar } from "@catalogar/ui/scroll-area";
+} from "@catalogar/ui/components/alert-dialog";
+import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
 import { Button } from "./button";
 import { createImageAction } from "@/actions/create-image-action";
 

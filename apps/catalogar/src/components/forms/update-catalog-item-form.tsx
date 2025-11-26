@@ -12,24 +12,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/form";
-import { Input } from "@catalogar/ui/input";
-import { Textarea } from "@catalogar/ui/textarea";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
+import { Textarea } from "@catalogar/ui/components/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@catalogar/ui/select";
-import { Checkbox } from "@catalogar/ui/checkbox";
+} from "@catalogar/ui/components/select";
+import { Checkbox } from "@catalogar/ui/components/checkbox";
 import { InputImages } from "../inputs/input-images";
 import { Button } from "../inputs/button";
 import { routes } from "@/routes";
 import { updateCatalogItemAction } from "@/actions/update-catalog-item-action";
-import { CatalogItem } from "@/services/get-catalog-item-by-id";
-import { Category } from "@/services/get-category-by-id";
-import { ProductType } from "@/services/get-product-type-by-id";
+import { CatalogItem } from "@/services/get-catalog-item";
+import { Category } from "@/services/get-category";
+import { ProductType } from "@/services/get-product-type";
 import { toastServerError } from "@/utils/toast-server-error";
 import { updateCatalogItemSchema } from "@/schemas/catalog-item";
 

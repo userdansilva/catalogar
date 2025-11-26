@@ -1,9 +1,8 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import { Book, ChevronsUpDown, LogOut } from "lucide-react";
 import Link from "next/link";
-import { Avatar, AvatarFallback } from "@catalogar/ui/avatar";
+import { Avatar, AvatarFallback } from "@catalogar/ui/components/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,13 +11,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@catalogar/ui/dropdown-menu";
+} from "@catalogar/ui/components/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@catalogar/ui/sidebar";
+} from "@catalogar/ui/components/sidebar";
 import { routes } from "@/routes";
 
 type NavUserProps = {
@@ -45,7 +44,7 @@ export function NavUserClient({ user }: NavUserProps) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="size-8 rounded-lg dark">
+              <Avatar className="dark size-8 rounded-lg">
                 <AvatarFallback className="rounded-lg">
                   {initials}
                 </AvatarFallback>

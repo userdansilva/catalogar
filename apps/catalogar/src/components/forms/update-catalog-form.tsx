@@ -12,15 +12,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/form";
-import { Input } from "@catalogar/ui/input";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@catalogar/ui/select";
+} from "@catalogar/ui/components/select";
 import { Watch } from "react-hook-form";
 import { Button } from "../inputs/button";
 import { updateCatalogAction } from "@/actions/update-catalog-action";
@@ -133,7 +133,7 @@ export function UpdateCatalogForm({
 
               <Watch
                 control={form.control}
-                names={["isPublished"] as const}
+                names={["isPublished"]}
                 render={([isPublished]) => (
                   <>
                     {!catalog.slug && isPublished && (

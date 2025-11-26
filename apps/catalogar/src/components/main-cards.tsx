@@ -11,20 +11,20 @@ import {
   View,
 } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@catalogar/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@catalogar/ui/card";
+} from "@catalogar/ui/components/card";
 import { redirect, RedirectType } from "next/navigation";
 import { CopyButton } from "./inputs/copy-button";
 import { routes } from "@/routes";
-import { ProductType } from "@/services/get-product-type-by-id";
-import { Category } from "@/services/get-category-by-id";
-import { CatalogItem } from "@/services/get-catalog-item-by-id";
+import { ProductType } from "@/services/get-product-type";
+import { Category } from "@/services/get-category";
+import { CatalogItem } from "@/services/get-catalog-item";
 import { User } from "@/services/get-user";
 
 export function MainCards({

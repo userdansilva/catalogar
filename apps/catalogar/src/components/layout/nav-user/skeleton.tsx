@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import {
@@ -6,7 +5,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   useSidebar,
-} from "@catalogar/ui/sidebar";
+} from "@catalogar/ui/components/sidebar";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -15,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuGroup,
   DropdownMenuItem,
-} from "@catalogar/ui/dropdown-menu";
+} from "@catalogar/ui/components/dropdown-menu";
 import { Book, ChevronsUpDown, LogOut } from "lucide-react";
 import Link from "next/link";
 import { routes } from "@/routes";
@@ -33,12 +32,12 @@ export function NavUserSkeleton() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               {/* Avatar placeholder */}
-              <div className="size-8 rounded-lg bg-muted-foreground animate-pulse" />
+              <div className="bg-muted-foreground size-8 animate-pulse rounded-lg" />
 
               {/* Name & email placeholders */}
-              <div className="grid flex-1 text-left text-sm leading-tight ml-2">
-                <span className="h-4 w-24 bg-muted-foreground rounded animate-pulse" />
-                <span className="h-3 w-32 bg-muted-foreground rounded animate-pulse mt-1" />
+              <div className="ml-2 grid flex-1 text-left text-sm leading-tight">
+                <span className="bg-muted-foreground h-4 w-24 animate-pulse rounded" />
+                <span className="bg-muted-foreground mt-1 h-3 w-32 animate-pulse rounded" />
               </div>
 
               <ChevronsUpDown className="ml-auto size-4" />
@@ -54,11 +53,11 @@ export function NavUserSkeleton() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 {/* Avatar placeholder */}
-                <div className="size-8 rounded-lg bg-muted animate-pulse" />
+                <div className="bg-muted size-8 animate-pulse rounded-lg" />
                 {/* Name/email placeholders */}
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="h-4 w-24 bg-muted rounded animate-pulse" />
-                  <span className="h-3 w-32 bg-muted rounded animate-pulse mt-1" />
+                  <span className="bg-muted h-4 w-24 animate-pulse rounded" />
+                  <span className="bg-muted mt-1 h-3 w-32 animate-pulse rounded" />
                 </div>
               </div>
             </DropdownMenuLabel>

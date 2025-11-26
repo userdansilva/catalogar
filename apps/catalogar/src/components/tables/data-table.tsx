@@ -14,7 +14,7 @@ import {
   PaginationItem,
   PaginationNext,
   PaginationPrevious,
-} from "@catalogar/ui/pagination";
+} from "@catalogar/ui/components/pagination";
 import {
   Table,
   TableBody,
@@ -22,7 +22,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@catalogar/ui/table";
+} from "@catalogar/ui/components/table";
 import { Pagination as TPagination } from "@/types/api-response";
 
 type DataTableProps<TData, TValues> = {

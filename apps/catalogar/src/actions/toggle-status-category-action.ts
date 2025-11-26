@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { getCategoryById } from "@/services/get-category-by-id";
+import { getCategory } from "@/services/get-category";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { putCategory } from "@/services/put-category";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
@@ -20,7 +20,7 @@ export const toggleCategoryStatusAction = authActionClientWithUser
         user: { currentCatalog },
       },
     }) => {
-      const [getCategoryError, getCategoryData] = await getCategoryById(id);
+      const [getCategoryError, getCategoryData] = await getCategory(id);
 
       if (getCategoryError) {
         throw new ExpectedError(getCategoryError);

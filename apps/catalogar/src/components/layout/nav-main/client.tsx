@@ -10,13 +10,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@catalogar/ui/sidebar";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@catalogar/ui/tooltip";
+} from "@catalogar/ui/components/sidebar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@catalogar/ui/components/tooltip";
 import { useRouter } from "next/navigation";
 import { routes } from "@/routes";
-import { ProductType } from "@/services/get-product-type-by-id";
-import { Category } from "@/services/get-category-by-id";
-import { CatalogItem } from "@/services/get-catalog-item-by-id";
+import { ProductType } from "@/services/get-product-type";
+import { Category } from "@/services/get-category";
+import { CatalogItem } from "@/services/get-catalog-item";
 import { User } from "@/services/get-user";
 
 type NavMainProps = {

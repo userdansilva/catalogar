@@ -12,9 +12,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/form";
-import { Input } from "@catalogar/ui/input";
-import { Textarea } from "@catalogar/ui/textarea";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
+import { Textarea } from "@catalogar/ui/components/textarea";
 import { Button } from "../inputs/button";
 import { updateCompanyAction } from "@/actions/update-company-action";
 import { toastServerError } from "@/utils/toast-server-error";

@@ -1,10 +1,10 @@
 "use client";
 
 import { Mission } from "./mission";
-import { ProductType } from "@/services/get-product-type-by-id";
+import { ProductType } from "@/services/get-product-type";
 import { routes } from "@/routes";
-import { Category } from "@/services/get-category-by-id";
-import { CatalogItem } from "@/services/get-catalog-item-by-id";
+import { Category } from "@/services/get-category";
+import { CatalogItem } from "@/services/get-catalog-item";
 
 export function FirstSteps({
   productTypes,
@@ -78,7 +78,7 @@ export function FirstSteps({
 
       <Mission
         title="3. Adicione o primeiro item de catálogo"
-        description="Agora, você pode adicionar o item de catálogo vinculado 
+        description="Agora, você pode adicionar o item de catálogo vinculado
         ao tipo de produto que criou."
         status={catalogItemMissionStatus}
         href={routes.catalogItems.sub.createFirst.url}

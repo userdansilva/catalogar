@@ -3,7 +3,7 @@
 import { Search } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Button } from "@catalogar/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 
 export function CatalogNoResults({
   query,

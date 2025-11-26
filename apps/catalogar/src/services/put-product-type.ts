@@ -1,7 +1,16 @@
-import { ProductType } from "./get-product-type-by-id";
 import { ApiResponse, DefaultApiError } from "@/types/api-response";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
+
+export type ProductType = {
+  id: string;
+  name: string;
+  slug: string;
+  isDisabled: boolean;
+  disabledAt?: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type PutProductTypeError = DefaultApiError;
 export type PutProductTypeResponse = ApiResponse<ProductType>;

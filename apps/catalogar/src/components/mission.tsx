@@ -1,8 +1,8 @@
 import { Circle, CircleCheck, Lock } from "lucide-react";
 import Link from "next/link";
-import { Badge } from "@catalogar/ui/badge";
-import { Button } from "@catalogar/ui/button";
-import { cn } from "@catalogar/ui/utils";
+import { Badge } from "@catalogar/ui/components/badge";
+import { Button } from "@catalogar/ui/components/button";
+import { cn } from "@catalogar/ui/lib/utils";
 import { routes } from "@/routes";
 
 export function Mission({

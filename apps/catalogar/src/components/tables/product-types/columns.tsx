@@ -28,8 +28,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@catalogar/ui/dropdown-menu";
-import { Button } from "@catalogar/ui/button";
+} from "@catalogar/ui/components/dropdown-menu";
+import { Button } from "@catalogar/ui/components/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -40,19 +40,19 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@catalogar/ui/alert-dialog";
+} from "@catalogar/ui/components/alert-dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@catalogar/ui/form";
-import { Input } from "@catalogar/ui/input";
+} from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
 import { routes } from "@/routes";
 import { toggleProductTypeStatusAction } from "@/actions/toggle-status-product-type-action";
 import { deleteProductTypeAction } from "@/actions/delete-product-type-action";
-import { ProductType } from "@/services/get-product-type-by-id";
+import { ProductType } from "@/services/get-product-type";
 
 export const columns: ColumnDef<ProductType>[] = [
   {

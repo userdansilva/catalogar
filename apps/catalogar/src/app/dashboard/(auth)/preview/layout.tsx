@@ -1,7 +1,7 @@
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
-import { Button } from "@catalogar/ui/button";
+import { Button } from "@catalogar/ui/components/button";
 import { redirect, RedirectType } from "next/navigation";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
 import { routes } from "@/routes";
@@ -26,7 +26,7 @@ export default async function PreviewLayout({ children }: PropsWithChildren) {
   return (
     <div>
       <div className="bg-foreground">
-        <div className="container border-b-[.5px] border-accent-foreground">
+        <div className="border-accent-foreground container border-b-[.5px]">
           <Button variant="link" className="dark pl-0" size="sm" asChild>
             <Link href={routes.dashboard.url}>
               <ChevronLeft />

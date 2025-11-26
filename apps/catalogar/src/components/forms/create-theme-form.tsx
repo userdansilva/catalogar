@@ -12,11 +12,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@catalogar/ui/form";
-import { Card, CardContent } from "@catalogar/ui/card";
+} from "@catalogar/ui/components/form";
+import { Card, CardContent } from "@catalogar/ui/components/card";
 import Image from "next/image";
 import { Menu } from "lucide-react";
-import { Input } from "@catalogar/ui/input";
+import { Input } from "@catalogar/ui/components/input";
 import { Watch } from "react-hook-form";
 import { InputLogo } from "../inputs/input-logo";
 import { Button } from "../inputs/button";
@@ -119,7 +119,7 @@ export function CreateThemeForm({
 
           <Watch
             control={form.control}
-            names={["logo", "primaryColor", "secondaryColor"] as const}
+            names={["logo", "primaryColor", "secondaryColor"]}
             render={([logo, primaryColor, secondaryColor]) => (
               <Card
                 style={{
