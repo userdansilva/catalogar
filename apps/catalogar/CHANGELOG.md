@@ -1,5 +1,19 @@
 # catalogar
 
+## 2.2.4
+
+### Patch Changes
+
+- 58d076e: Aplicação de independência de tipagem de services e remoção do "by-id"
+- 10bc823: Atualização do @auth0/nextjs-auth0 de 4.11.0 p/ 4.13.1 (suporte ao Next16)
+- adeaf69: Atualização de componentes do shadcn e adição dos novos componentes
+- d0e98a7: Atualização do React-Hook-Form 7.65.0 p/ 7.66.1 (+ alteração nos Watch)
+- ef123ec: Atualizações genéricas: Nenhuma ação requerida
+- e2e9d27: Ajuste na configuração do prettier
+- Updated dependencies [adeaf69]
+- Updated dependencies [d0e98a7]
+  - @catalogar/ui@1.1.0
+
 ## 2.2.3
 
 ### Patch Changes
