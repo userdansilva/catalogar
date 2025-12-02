@@ -1,5 +1,15 @@
 # catalogar
 
+## 2.2.5
+
+### Patch Changes
+
+- ddc71ad: fix: ajuste do getAccessToken para atualizar a sessão corretamente
+- 6694baf: fix: ajuste de tipagem do InputImages
+- f5f25f2: chore: atualização de libs
+- Updated dependencies [f5f25f2]
+  - @catalogar/ui@1.1.1
+
 ## 2.2.4
 
 ### Patch Changes
