@@ -32,7 +32,7 @@ export function InputImages({
   value,
   disabled,
 }: {
-  value: Image[];
+  value?: Image[];
   onChange: (x: Image[]) => void;
   disabled?: boolean;
 }) {
@@ -76,7 +76,7 @@ export function InputImages({
       if (!data) throw new Error();
 
       onChange([
-        ...value,
+        ...(value ?? []),
         {
           fileName: data.fileName,
           url: data.url,
@@ -84,7 +84,7 @@ export function InputImages({
           width: data.width,
           height: data.height,
           altText: "",
-          position: value.length + 1,
+          position: (value ?? []).length + 1,
         },
       ]);
 
@@ -113,7 +113,7 @@ export function InputImages({
 
   const handleRemove = (url: string) => {
     onChange(
-      value
+      (value ?? [])
         .filter((image) => image.url !== url)
         .map((image, i) => ({ ...image, position: i + 1 })),
     );
@@ -123,7 +123,7 @@ export function InputImages({
     <>
       <ScrollArea className="border-input w-full max-w-[calc(100vw-40px)] rounded-md border bg-transparent text-base shadow-xs md:text-sm">
         <div className="flex w-max gap-x-4 p-3">
-          {value.map((image) => (
+          {(value ?? []).map((image) => (
             <div className="relative size-52 rounded-md" key={image.url}>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
