@@ -1,9 +1,6 @@
 import { serverFetch } from "@/utils/server-fetch";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
-import {
-  ApiResponseWithPagination,
-  DefaultApiError,
-} from "@/types/api-response";
+import { Paginated } from "@/types/api-response";
 
 export type Category = {
   id: string;
@@ -16,27 +13,21 @@ export type Category = {
   createdAt: string;
   updatedAt: string;
 };
-export type GetCategoriesError = DefaultApiError;
-export type GetCategoriesResponse = ApiResponseWithPagination<Category[]>;
-export type GetCategoriesParams = {
-  field?: "name" | "createdAt";
-  sort?: "asc" | "desc";
-  page?: string;
-  perPage?: string;
-};
 
 export async function getCategories({
-  params,
+  query,
 }: {
-  params?: GetCategoriesParams;
+  query?: {
+    field?: "name" | "createdAt";
+    sort?: "asc" | "desc";
+    page?: string;
+    perPage?: string;
+  };
 } = {}) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<GetCategoriesError, GetCategoriesResponse>(
-    "/v1/categories",
-    {
-      query: params,
-      headers,
-    },
-  );
+  return await serverFetch<Paginated<Category[]>>("/v1/categories", {
+    query,
+    headers,
+  });
 }

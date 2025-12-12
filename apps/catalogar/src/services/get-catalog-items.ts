@@ -1,6 +1,5 @@
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
 
 export type ProductType = {
   id: string;
@@ -51,25 +50,23 @@ export type CatalogItem = {
   updatedAt: string;
 };
 
-export type GetCatalogItemsError = DefaultApiError;
-export type GetCatalogItemsResponse = ApiResponse<CatalogItem[]>;
-export type GetCatalogItemsParams = {
+export type Query = {
   field?: "name" | "createdAt";
   sort?: "asc" | "desc";
 };
 
 export async function getCatalogItems({
-  params,
+  query,
 }: {
-  params?: GetCatalogItemsParams;
+  query?: {
+    field?: "name" | "createdAt";
+    sort?: "asc" | "desc";
+  };
 } = {}) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<GetCatalogItemsError, GetCatalogItemsResponse>(
-    "/v1/catalog-items",
-    {
-      query: params,
-      headers,
-    },
-  );
+  return await serverFetch<CatalogItem[]>("/v1/catalog-items", {
+    query,
+    headers,
+  });
 }

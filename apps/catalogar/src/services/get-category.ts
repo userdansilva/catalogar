@@ -1,6 +1,5 @@
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
 
 export type Category = {
   id: string;
@@ -14,16 +13,10 @@ export type Category = {
   updatedAt: string;
 };
 
-export type GetCategoryError = DefaultApiError;
-export type GetCategoryResponse = ApiResponse<Category>;
-
 export async function getCategory(id: string) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<GetCategoryError, GetCategoryResponse>(
-    `/v1/categories/${id}`,
-    {
-      headers,
-    },
-  );
+  return await serverFetch<Category>(`/v1/categories/${id}`, {
+    headers,
+  });
 }

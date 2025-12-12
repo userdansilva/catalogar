@@ -1,4 +1,3 @@
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
@@ -12,23 +11,16 @@ export type ProductType = {
   updatedAt: string;
 };
 
-export type PostProductTypeError = DefaultApiError;
-export type PostProductTypeResponse = ApiResponse<ProductType>;
-export type PostProductTypeBody = {
+export async function postProductType(body: {
   name: string;
   slug: string;
   isDisabled: boolean;
-};
-
-export async function postProductType(body: PostProductTypeBody) {
+}) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<PostProductTypeError, PostProductTypeResponse>(
-    "/v1/product-types",
-    {
-      method: "POST",
-      body,
-      headers,
-    },
-  );
+  return await serverFetch<ProductType>("/v1/product-types", {
+    method: "POST",
+    body,
+    headers,
+  });
 }

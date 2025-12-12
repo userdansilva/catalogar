@@ -13,7 +13,7 @@ export async function ProductTypesTable({
   currentPage,
 }: ProductTypesTableProps) {
   const [error, data] = await getProductTypes({
-    params: {
+    query: {
       field: "createdAt",
       page: currentPage.toString(),
       perPage: "10",

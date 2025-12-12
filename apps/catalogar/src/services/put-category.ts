@@ -1,4 +1,3 @@
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
@@ -14,25 +13,21 @@ export type Category = {
   updatedAt: string;
 };
 
-export type PutCategoryError = DefaultApiError;
-export type PutCategoryResponse = ApiResponse<Category>;
-export type PutCategoryBody = {
-  name: string;
-  slug: string;
-  textColor: string;
-  backgroundColor: string;
-  isDisabled: boolean;
-};
-
-export async function putCategory(id: string, body: PutCategoryBody) {
+export async function putCategory(
+  id: string,
+  body: {
+    name: string;
+    slug: string;
+    textColor: string;
+    backgroundColor: string;
+    isDisabled: boolean;
+  },
+) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<PutCategoryError, PutCategoryResponse>(
-    `/v1/categories/${id}`,
-    {
-      method: "PUT",
-      body,
-      headers,
-    },
-  );
+  return await serverFetch<Category>(`/v1/categories/${id}`, {
+    method: "PUT",
+    body,
+    headers,
+  });
 }
