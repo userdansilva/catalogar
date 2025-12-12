@@ -1,4 +1,3 @@
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
@@ -44,21 +43,12 @@ export type Catalog = {
   updatedAt: string;
 };
 
-export type PostCatalogError = DefaultApiError;
-export type PostCatalogResponse = ApiResponse<Catalog>;
-export type PostCatalogBody = {
-  name: string;
-};
-
-export async function postCatalog(body: PostCatalogBody) {
+export async function postCatalog(body: { name: string }) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<PostCatalogError, PostCatalogResponse>(
-    "/v1/catalogs",
-    {
-      method: "POST",
-      body,
-      headers,
-    },
-  );
+  return await serverFetch<Catalog>("/v1/catalogs", {
+    method: "POST",
+    body,
+    headers,
+  });
 }

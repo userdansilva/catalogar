@@ -1,4 +1,3 @@
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
@@ -22,9 +21,7 @@ export type Theme = {
   updatedAt: string;
 };
 
-export type PostThemeError = DefaultApiError;
-export type PostThemeResponse = ApiResponse<Theme>;
-export type PostThemeBody = {
+export async function postTheme(body: {
   primaryColor: string;
   secondaryColor: string;
   logo?: {
@@ -35,12 +32,10 @@ export type PostThemeBody = {
     height: number;
     altText: string;
   };
-};
-
-export async function postTheme(body: PostThemeBody) {
+}) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<PostThemeError, PostThemeResponse>("/v1/themes", {
+  return await serverFetch<Theme>("/v1/themes", {
     method: "POST",
     body,
     headers,

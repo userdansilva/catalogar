@@ -1,4 +1,3 @@
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
@@ -12,25 +11,18 @@ export type Company = {
   updatedAt: string;
 };
 
-export type PutCompanyError = DefaultApiError;
-export type PutCompanyResponse = ApiResponse<Company>;
-export type PutCompanyBody = {
+export async function putCompany(body: {
   name: string;
   description?: string;
   mainSiteUrl?: string;
   phoneNumber?: string;
   businessTypeDescription?: string;
-};
-
-export async function putCompany(body: PutCompanyBody) {
+}) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<PutCompanyError, PutCompanyResponse>(
-    "/v1/companies",
-    {
-      method: "PUT",
-      body,
-      headers,
-    },
-  );
+  return await serverFetch<Company>("/v1/companies", {
+    method: "PUT",
+    body,
+    headers,
+  });
 }

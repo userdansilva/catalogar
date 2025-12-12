@@ -1,5 +1,4 @@
 import { serverFetch } from "@/utils/server-fetch";
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
 import { tags } from "@/tags";
 
 export type Company = {
@@ -99,14 +98,8 @@ export type PublishedCatalog = Required<Catalog> & {
   catalogItems: CatalogItem[];
 };
 
-export type GetPublicCatalogBySlugError = DefaultApiError;
-export type GetPublicCatalogBySlugResponse = ApiResponse<PublishedCatalog>;
-
 export async function getPublicCatalogBySlug(slug: string) {
-  return await serverFetch<
-    GetPublicCatalogBySlugError,
-    GetPublicCatalogBySlugResponse
-  >(`/v1/public/catalogs/${slug}`, {
+  return await serverFetch<PublishedCatalog>(`/v1/public/catalogs/${slug}`, {
     next: {
       tags: [tags.publicCatalog.getBySlug(slug)],
     },

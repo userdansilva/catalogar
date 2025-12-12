@@ -47,6 +47,21 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: React2Shell
+        run: |
+          set -e
+
+          OUTPUT=$(npx fix-react2shell-next --dry-run)
+          echo "$OUTPUT"
+
+          # Match any "Found X vulnerable file(s):" pattern
+          if echo "$OUTPUT" | grep -qE "Found [0-9]+ vulnerable file\(s\)"; then
+            echo "Vulnerabilities detected. Failing pipeline."
+            exit 1
+          fi
+
+          echo "No vulnerabilities found."
+
       - name: Install Vercel CLI globally
         run: pnpm add -g vercel@latest
 

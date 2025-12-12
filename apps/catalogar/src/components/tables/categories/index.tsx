@@ -11,7 +11,7 @@ type CategoriesTableProps = {
 
 export async function CategoriesTable({ currentPage }: CategoriesTableProps) {
   const [error, data] = await getCategories({
-    params: {
+    query: {
       field: "name",
       sort: "desc",
       page: currentPage.toString(),
