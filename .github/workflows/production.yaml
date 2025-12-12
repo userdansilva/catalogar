@@ -47,6 +47,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: React2Shell
+        run: npx fix-react2shell-next --dry-run
+
       - name: Install Vercel CLI globally
         run: pnpm add -g vercel@latest
 
