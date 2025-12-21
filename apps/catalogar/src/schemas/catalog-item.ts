@@ -1,49 +1,68 @@
 import { z } from "zod";
+import { ProductType } from "./product-type";
+import { Category } from "./category";
+import { CatalogItemImage } from "./catalog-item-image";
 
-const catalogItem = z.object({
+export const CatalogItem = z.object({
   id: z.uuid({ version: "v4" }),
-  title: z.string().min(1, "Campo obrigatório"),
+  title: z.string(),
   caption: z.string().optional(),
-  productTypeId: z.string().min(1, "Campo obrigatório"),
+  price: z.string().optional(),
+  reference: z.number(),
+  productType: ProductType,
+  categories: z.array(Category),
+  images: z.array(CatalogItemImage),
+  isDisabled: z.boolean(),
+  disabledAt: z.string().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+export const createCatalogItemSchema = z.object({
+  title: CatalogItem.shape.title.min(1, "Campo obrigatório"),
+  caption: CatalogItem.shape.caption,
+  productTypeId: ProductType.shape.id.min(1, "Campo obrigatório"),
   images: z
     .array(
       z.object({
-        fileName: z.string(),
-        url: z.string(),
-        sizeInBytes: z.number(),
-        width: z.number(),
-        height: z.number(),
-        altText: z.string(),
-        position: z.number(),
+        fileName: CatalogItemImage.shape.fileName,
+        url: CatalogItemImage.shape.url,
+        sizeInBytes: CatalogItemImage.shape.sizeInBytes,
+        width: CatalogItemImage.shape.width,
+        height: CatalogItemImage.shape.height,
+        altText: CatalogItemImage.shape.altText,
+        position: CatalogItemImage.shape.position,
       }),
     )
     .min(1, "É necessário adicionar, no mínimo, uma imagem"),
-  price: z.string().optional(),
-  categoryIds: z.array(z.uuid({ version: "v4" })).optional(),
-  isDisabled: z.boolean(),
+  price: CatalogItem.shape.price,
+  categoryIds: z.array(Category.shape.id).optional(),
+  isDisabled: CatalogItem.shape.isDisabled,
 });
 
-export const createCatalogItemSchema = catalogItem.pick({
-  title: true,
-  caption: true,
-  productTypeId: true,
-  images: true,
-  price: true,
-  categoryIds: true,
-  isDisabled: true,
+export const updateCatalogItemSchema = z.object({
+  id: CatalogItem.shape.id,
+  title: CatalogItem.shape.title.min(1, "Campo obrigatório"),
+  caption: CatalogItem.shape.caption,
+  productTypeId: ProductType.shape.id.min(1, "Campo obrigatório"),
+  images: z
+    .array(
+      z.object({
+        fileName: CatalogItemImage.shape.fileName,
+        url: CatalogItemImage.shape.url,
+        sizeInBytes: CatalogItemImage.shape.sizeInBytes,
+        width: CatalogItemImage.shape.width,
+        height: CatalogItemImage.shape.height,
+        altText: CatalogItemImage.shape.altText,
+        position: CatalogItemImage.shape.position,
+      }),
+    )
+    .min(1, "É necessário adicionar, no mínimo, uma imagem"),
+  price: CatalogItem.shape.price,
+  categoryIds: z.array(Category.shape.id).optional(),
+  isDisabled: CatalogItem.shape.isDisabled,
 });
 
-export const updateCatalogItemSchema = catalogItem.pick({
-  id: true,
-  title: true,
-  caption: true,
-  productTypeId: true,
-  images: true,
-  price: true,
-  categoryIds: true,
-  isDisabled: true,
-});
-
-export const catalogItemStatusToggleSchema = catalogItem.pick({
-  id: true,
+export const catalogItemStatusToggleSchema = z.object({
+  id: CatalogItem.shape.id,
 });

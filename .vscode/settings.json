@@ -6,7 +6,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "prettier.prettier-vscode",
   "typescript.updateImportsOnFileMove.enabled": "prompt",
   "eslint.workingDirectories": [
     {
