@@ -1,4 +1,4 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { auth0 } from "./lib/auth0";
 
 export async function proxy(request: NextRequest) {
@@ -28,7 +28,7 @@ export async function proxy(request: NextRequest) {
        * A chamada do getAccessToken aqui é para garantir a atualização do token,
        * pois o getAccessToken não pode ser chamado em Server Components já que ele
        * não consegue atualizar o token lá.
-       * 
+       *
        * https://github.com/auth0/nextjs-auth0/blob/main/EXAMPLES.md#middleware-2
        */
       await auth0.getAccessToken(request, authRes);

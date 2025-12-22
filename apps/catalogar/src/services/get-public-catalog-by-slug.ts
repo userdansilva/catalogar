@@ -1,5 +1,5 @@
-import { serverFetch } from "@/utils/server-fetch";
 import { tags } from "@/tags";
+import { serverFetch } from "@/utils/server-fetch";
 
 export type Company = {
   name: string;

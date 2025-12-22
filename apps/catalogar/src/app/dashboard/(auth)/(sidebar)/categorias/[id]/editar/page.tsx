@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { UpdateCategoryForm } from "@/components/forms/update-category-form";
 import { routes } from "@/routes";
 import { getCategory } from "@/services/get-category";

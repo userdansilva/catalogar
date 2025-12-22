@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { routes } from "@/routes";
 import { CreateCatalogItemForm } from "@/components/forms/create-catalog-item-form";
 import { getProductTypes } from "@/services/get-product-types";

@@ -1,75 +1,33 @@
+import z from "zod";
+import {
+  CatalogItem,
+  type createCatalogItemSchema,
+} from "@/schemas/catalog-item";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export type ProductType = {
-  id: string;
-  name: string;
-  slug: string;
-  isDisabled: boolean;
-  disabledAt?: string;
-  createdAt: string;
-  updatedAt: string;
-};
+const catalogItemSchema = z.object({
+  id: CatalogItem.shape.id,
+  title: CatalogItem.shape.title,
+  caption: CatalogItem.shape.caption,
+  price: CatalogItem.shape.price,
+  reference: CatalogItem.shape.reference,
+  productType: CatalogItem.shape.productType,
+  categories: CatalogItem.shape.categories,
+  images: CatalogItem.shape.images,
+  isDisabled: CatalogItem.shape.isDisabled,
+  disabledAt: CatalogItem.shape.disabledAt,
+  createdAt: CatalogItem.shape.createdAt,
+  updatedAt: CatalogItem.shape.updatedAt,
+});
 
-export type Category = {
-  id: string;
-  name: string;
-  slug: string;
-  textColor: string;
-  backgroundColor: string;
-  isDisabled: boolean;
-  disabledAt?: string;
-  createdAt: string;
-  updatedAt: string;
-};
+type CatalogItemType = z.infer<typeof catalogItemSchema>;
+type Body = z.infer<typeof createCatalogItemSchema>;
 
-export type CatalogItemImage = {
-  id: string;
-  fileName: string;
-  url: string;
-  sizeInBytes: number;
-  width: number;
-  height: number;
-  altText?: string;
-  position: number;
-  createdAt: string;
-};
-
-export type CatalogItem = {
-  id: string;
-  title: string;
-  caption?: string;
-  price?: number;
-  reference: number;
-  productType: ProductType;
-  categories: Category[];
-  images: CatalogItemImage[];
-  isDisabled: boolean;
-  disabled?: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export async function postCatalogItem(body: {
-  title: string;
-  caption?: string;
-  productTypeId: string;
-  images: {
-    fileName: string;
-    url: string;
-    sizeInBytes: number;
-    width: number;
-    height: number;
-    altText: string;
-    position: number;
-  }[];
-  price?: string;
-  categoryIds?: string[];
-  isDisabled: boolean;
-}) {
+export async function postCatalogItem(body: Body) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<CatalogItem>("/v1/catalog-items", {
+  return await serverFetch<CatalogItemType>("/v1/catalog-items", {
     method: "POST",
     body,
     headers,

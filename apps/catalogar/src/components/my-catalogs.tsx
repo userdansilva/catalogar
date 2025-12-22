@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "./inputs/button";
 import { routes } from "@/routes";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
-import { Catalog } from "@/services/get-user";
+import type { Catalog } from "@/services/get-user";
 
 type MyCatalogsProps = {
   catalogs: Catalog[];
@@ -88,7 +88,9 @@ export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
                         if (isCurrentCatalog) return;
 
                         toast.promise(
-                          switchCatalog.executeAsync({ id: catalog.id }),
+                          switchCatalog.executeAsync({
+                            id: catalog.id,
+                          }),
                           {
                             loading: "Trocando de catálogo...",
                             success: () => {

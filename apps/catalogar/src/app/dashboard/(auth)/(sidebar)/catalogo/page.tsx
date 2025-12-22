@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect, RedirectType } from "next/navigation";
 import { CatalogItems } from "@/components/catalog/catalog-items";
@@ -11,7 +11,7 @@ import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
-import { SearchParams } from "@/types/system";
+import type { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
 import { ExpectedError } from "@/components/error-handling/expected-error";
 import { PrevButton } from "@/components/inputs/prev-button";

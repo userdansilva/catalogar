@@ -18,7 +18,7 @@ import { Textarea } from "@catalogar/ui/components/textarea";
 import { Button } from "../inputs/button";
 import { updateCompanyAction } from "@/actions/update-company-action";
 import { toastServerError } from "@/utils/toast-server-error";
-import { Company } from "@/services/get-user";
+import type { Company } from "@/services/get-user";
 import { routes } from "@/routes";
 import { updateCompanySchema } from "@/schemas/company";
 

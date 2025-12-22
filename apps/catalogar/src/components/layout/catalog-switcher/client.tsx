@@ -22,7 +22,7 @@ import {
 } from "@catalogar/ui/components/sidebar";
 import { routes } from "@/routes";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
-import { Catalog } from "@/services/get-user";
+import type { Catalog } from "@/services/get-user";
 
 export function CatalogSwitcherClient({
   catalogs,

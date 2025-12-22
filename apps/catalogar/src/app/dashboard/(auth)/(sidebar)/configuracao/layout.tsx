@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { routes } from "@/routes";
 import { PageHeader } from "@/components/layout/page-header";
 import { PrevButton } from "@/components/inputs/prev-button";

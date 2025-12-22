@@ -1,7 +1,7 @@
-import { serverFetch } from "@/utils/server-fetch";
-import { CatalogItem } from "@/schemas/catalog-item";
 import z from "zod";
+import { CatalogItem } from "@/schemas/catalog-item";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
+import { serverFetch } from "@/utils/server-fetch";
 
 const catalogItemSchema = z.object({
   id: CatalogItem.shape.id,
@@ -18,6 +18,8 @@ const catalogItemSchema = z.object({
   updatedAt: CatalogItem.shape.updatedAt,
 });
 
+type CatalogItemType = z.infer<typeof catalogItemSchema>;
+
 export async function getCatalogItem(id: string) {
   const headers = await getAuthHeaders();
 
@@ -25,5 +27,3 @@ export async function getCatalogItem(id: string) {
     headers,
   });
 }
-
-type CatalogItemType = z.infer<typeof catalogItemSchema>;

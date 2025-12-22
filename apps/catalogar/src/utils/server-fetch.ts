@@ -1,8 +1,8 @@
 "use server";
 
-import { FetchError, FetchOptions } from "ofetch";
+import type { FetchError, FetchOptions } from "ofetch";
 import { apiFetch } from "@/lib/ofetch";
-import { ApiResponse, ApiResponseError } from "../types/api-response";
+import type { ApiResponse, ApiResponseError } from "../types/api-response";
 
 export async function serverFetch<
   TData extends object | object[] | void = void,

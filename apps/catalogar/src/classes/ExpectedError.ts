@@ -1,4 +1,4 @@
-import { ApiResponseError } from "@/types/api-response";
+import type { ApiResponseError } from "@/types/api-response";
 
 /**
  * **Não use em componentes**

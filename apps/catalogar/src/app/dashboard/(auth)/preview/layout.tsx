@@ -1,6 +1,6 @@
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { Button } from "@catalogar/ui/components/button";
 import { redirect, RedirectType } from "next/navigation";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";

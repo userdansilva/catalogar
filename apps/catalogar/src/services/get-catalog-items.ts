@@ -1,7 +1,7 @@
-import { getAuthHeaders } from "@/utils/get-auth-headers";
-import { serverFetch } from "@/utils/server-fetch";
 import z from "zod";
 import { CatalogItem } from "@/schemas/catalog-item";
+import { getAuthHeaders } from "@/utils/get-auth-headers";
+import { serverFetch } from "@/utils/server-fetch";
 
 const catalogItemSchema = z.object({
   id: CatalogItem.shape.id,

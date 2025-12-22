@@ -1,5 +1,5 @@
 import { redirect, RedirectType } from "next/navigation";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { CustomizationMissions } from "@/components/customization-missions";
 import { FirstSteps } from "@/components/first-steps";
 import { routes } from "@/routes";

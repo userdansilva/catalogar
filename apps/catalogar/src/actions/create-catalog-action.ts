@@ -1,9 +1,9 @@
 "use server";
 
-import { postCatalog } from "@/services/post-catalog";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { createCatalogSchema } from "@/schemas/catalog";
 import { authActionClient } from "@/lib/next-safe-action";
+import { createCatalogSchema } from "@/schemas/catalog";
+import { postCatalog } from "@/services/post-catalog";
 
 export const createCatalogAction = authActionClient
   .inputSchema(createCatalogSchema)

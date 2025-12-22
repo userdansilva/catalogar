@@ -1,25 +1,26 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useState } from "react";
 import {
   Carousel,
-  CarouselApi,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from "@catalogar/ui/components/carousel";
 import { cn } from "@catalogar/ui/lib/utils";
-import { CatalogItemImage } from "@/services/get-catalog-item";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
-export function CarouselImages({
-  images,
-  unoptimized,
-}: {
-  images: CatalogItemImage[];
+type CarouselImagesProps = {
+  images: {
+    id: string;
+    url: string;
+  }[];
   unoptimized?: boolean;
-}) {
+};
+
+export function CarouselImages({ images, unoptimized }: CarouselImagesProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -39,7 +40,7 @@ export function CarouselImages({
 
   return (
     <Carousel
-      className="group bg-background max-h-[600px] w-full max-w-[600px] overflow-hidden rounded-md"
+      className="group bg-background max-h-150 w-full max-w-150 overflow-hidden rounded-md"
       setApi={setApi}
     >
       <CarouselContent>
@@ -64,9 +65,9 @@ export function CarouselImages({
 
           <div className="absolute inset-x-0 bottom-0 flex justify-center p-4">
             <div className="flex space-x-2">
-              {Array.from({ length: count }).map((_, i) => (
+              {Array.from({ length: count }, crypto.randomUUID).map((id, i) => (
                 <span
-                  key={i}
+                  key={id}
                   className={cn(
                     "bg-background block size-2 rounded-full",
                     current === i + 1 && "bg-primary",

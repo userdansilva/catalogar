@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Button } from "@catalogar/ui/components/button";
 import Link from "next/link";

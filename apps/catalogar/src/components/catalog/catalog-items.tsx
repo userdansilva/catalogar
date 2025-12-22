@@ -1,10 +1,35 @@
-import { PrivateCatalogItem } from "./private-catalog-item";
-import { CatalogPagination } from "./catalog-pagination";
-import { PublicCatalogItem } from "./public-catalog-item";
-import { CatalogNoResults } from "./catalog-no-results";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
-import { CatalogItem } from "@/services/get-catalog-item";
+import { CatalogNoResults } from "./catalog-no-results";
+import { CatalogPagination } from "./catalog-pagination";
+import { PrivateCatalogItem } from "./private-catalog-item";
+import { PublicCatalogItem } from "./public-catalog-item";
+
+type CatalogItemsProps = {
+  query?: string;
+  catalogItems: {
+    id: string;
+    name: string;
+    description: string;
+    productType: {
+      isDisabled: boolean;
+      slug: string;
+    };
+    category?: {
+      slug: string;
+    };
+  }[];
+  productTypeSlug?: string;
+  categorySlug?: string;
+  currentPage?: number;
+  perPage: number;
+  isPublic?: boolean;
+  unoptimized?: boolean;
+  searchParamNames: {
+    page: string;
+    query: string;
+  };
+};
 
 export function CatalogItems({
   query,
@@ -16,20 +41,7 @@ export function CatalogItems({
   isPublic,
   unoptimized,
   searchParamNames,
-}: {
-  query?: string;
-  catalogItems: CatalogItem[];
-  productTypeSlug?: string;
-  categorySlug?: string;
-  currentPage?: number;
-  perPage: number;
-  isPublic?: boolean;
-  unoptimized?: boolean;
-  searchParamNames: {
-    page: string;
-    query: string;
-  };
-}) {
+}: CatalogItemsProps) {
   const filteredCatalogItems = filterCatalogItems(
     catalogItems,
     {

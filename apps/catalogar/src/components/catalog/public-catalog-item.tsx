@@ -1,20 +1,37 @@
 "use client";
 
+import { Badge } from "@catalogar/ui/components/badge";
+import { cn } from "@catalogar/ui/lib/utils";
 import { Images } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@catalogar/ui/lib/utils";
-import { Badge } from "@catalogar/ui/components/badge";
-import { CatalogItem } from "@/services/get-catalog-item";
+
+type CatalogItem = {
+  reference: string;
+  title: string;
+  isDisabled: boolean;
+  images: {
+    url: string;
+  }[];
+  categories: {
+    id: string;
+    name: string;
+    textColor: string;
+    backgroundColor: string;
+    isDisabled: boolean;
+  }[];
+};
+
+type PublicCatalogItemProps = {
+  catalogItem: CatalogItem;
+  unoptimized?: boolean;
+};
 
 export function PublicCatalogItem({
   catalogItem,
   unoptimized,
-}: {
-  catalogItem: CatalogItem;
-  unoptimized?: boolean;
-}) {
+}: PublicCatalogItemProps) {
   const pathname = usePathname();
 
   return (
@@ -67,9 +84,7 @@ export function PublicCatalogItem({
         >
           {catalogItem.title}
         </div>
-        <div className="text-muted-foreground text-xs">
-          {`Código: ${catalogItem.reference}`}
-        </div>
+        <div className="text-muted-foreground text-xs">{`Código: ${catalogItem.reference}`}</div>
       </div>
     </Link>
   );

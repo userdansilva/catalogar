@@ -27,9 +27,9 @@ import { InputImages } from "../inputs/input-images";
 import { Button } from "../inputs/button";
 import { routes } from "@/routes";
 import { updateCatalogItemAction } from "@/actions/update-catalog-item-action";
-import { CatalogItem } from "@/services/get-catalog-item";
-import { Category } from "@/services/get-category";
-import { ProductType } from "@/services/get-product-type";
+import type { CatalogItem } from "@/services/get-catalog-item";
+import type { Category } from "@/services/get-category";
+import type { ProductType } from "@/services/get-product-type";
 import { toastServerError } from "@/utils/toast-server-error";
 import { updateCatalogItemSchema } from "@/schemas/catalog-item";
 
@@ -111,6 +111,7 @@ export function UpdateCatalogItemForm({
                     href="https://convertio.co/pt/"
                     target="_blank"
                     className="underline underline-offset-2"
+                    rel="noopener"
                   >
                     Convertio.co
                   </a>{" "}
@@ -122,6 +123,7 @@ export function UpdateCatalogItemForm({
                     href="https://tinyjpg.com/"
                     target="_blank"
                     className="underline underline-offset-2"
+                    rel="noopener"
                   >
                     TinyJPG
                   </a>{" "}

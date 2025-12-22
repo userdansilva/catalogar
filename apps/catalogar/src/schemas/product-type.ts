@@ -10,23 +10,17 @@ export const ProductType = z.object({
   updatedAt: z.string(),
 });
 
-// const productType = z.object({
-//   id: z.uuid({ version: "v4" }),
-//   name: z.string().min(1, "Campo obrigatório"),
-//   isDisabled: z.boolean(),
-// });
+export const createProductTypeSchema = z.object({
+  name: ProductType.shape.name.min(1, "Campo obrigatório"),
+  isDisabled: ProductType.shape.isDisabled,
+});
 
-// export const createProductTypeSchema = productType.pick({
-//   name: true,
-//   isDisabled: true,
-// });
+export const updateProductTypeSchema = z.object({
+  id: ProductType.shape.id,
+  name: ProductType.shape.name.min(1, "Campo obrigatório"),
+  isDisabled: ProductType.shape.isDisabled,
+});
 
-// export const updateProductTypeSchema = productType.pick({
-//   id: true,
-//   name: true,
-//   isDisabled: true,
-// });
-
-// export const productTypeStatusToggleSchema = productType.pick({
-//   id: true,
-// });
+export const productTypeStatusToggleSchema = z.object({
+  id: ProductType.shape.id,
+});

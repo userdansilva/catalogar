@@ -5,8 +5,8 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { ChevronDown, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEventHandler, PropsWithChildren, useState } from "react";
-import { UseFormReturn, Watch } from "react-hook-form";
+import { type FormEventHandler, type PropsWithChildren, useState } from "react";
+import { type UseFormReturn, Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Badge } from "@catalogar/ui/components/badge";
@@ -52,7 +52,7 @@ import { useIsMobile } from "@catalogar/ui/hooks/use-mobile";
 import { Button } from "./inputs/button";
 import { routes } from "@/routes";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
-import { Catalog } from "@/services/get-user";
+import type { Catalog } from "@/services/get-user";
 import { toastServerError } from "@/utils/toast-server-error";
 
 function CatalogSwitcherCard({

@@ -22,10 +22,10 @@ import {
 import { redirect, RedirectType } from "next/navigation";
 import { CopyButton } from "./inputs/copy-button";
 import { routes } from "@/routes";
-import { ProductType } from "@/services/get-product-type";
-import { Category } from "@/services/get-category";
-import { CatalogItem } from "@/services/get-catalog-item";
-import { User } from "@/services/get-user";
+import type { ProductType } from "@/services/get-product-type";
+import type { Category } from "@/services/get-category";
+import type { CatalogItem } from "@/services/get-catalog-item";
+import type { User } from "@/services/get-user";
 
 export function MainCards({
   productTypes,

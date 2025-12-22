@@ -1,9 +1,5 @@
 "use client";
 
-import { CloudUpload, EyeOff, Pencil, Trash } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import Link from "next/link";
-import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,17 +14,38 @@ import {
 import { Badge } from "@catalogar/ui/components/badge";
 import { Button } from "@catalogar/ui/components/button";
 import { cn } from "@catalogar/ui/lib/utils";
-import { CarouselImages } from "./carousel-images";
+import { CloudUpload, EyeOff, Pencil, Trash } from "lucide-react";
+import Link from "next/link";
+import { useAction } from "next-safe-action/hooks";
+import { toast } from "sonner";
 import { deleteCatalogItemAction } from "@/actions/delete-catalog-item-action";
 import { toggleCatalogItemStatusAction } from "@/actions/toggle-catalog-item-status-action";
 import { routes } from "@/routes";
-import { CatalogItem } from "@/services/get-catalog-item";
+import { CarouselImages } from "./carousel-images";
 
-export function PrivateCatalogItem({
-  catalogItem,
-}: {
+type CatalogItem = {
+  id: string;
+  reference: string;
+  title: string;
+  isDisabled: boolean;
+  images: {
+    id: string;
+    url: string;
+  }[];
+  categories: {
+    id: string;
+    name: string;
+    textColor: string;
+    backgroundColor: string;
+    isDisabled: boolean;
+  }[];
+};
+
+type PrivateCatalogItemProps = {
   catalogItem: CatalogItem;
-}) {
+};
+
+export function PrivateCatalogItem({ catalogItem }: PrivateCatalogItemProps) {
   const { executeAsync: executeToggleStatusAsync } = useAction(
     toggleCatalogItemStatusAction,
   );
@@ -43,12 +60,8 @@ export function PrivateCatalogItem({
         await executeToggleStatusAsync({ id: catalogItem.id });
       },
       {
-        loading: `${
-          catalogItem.isDisabled ? "Ativando" : "Ocultando"
-        }  item de catálogo...`,
-        success: `Item de catálogo ${
-          catalogItem.isDisabled ? "ativado" : "ocultado"
-        } com sucesso!`,
+        loading: `${catalogItem.isDisabled ? "Ativando" : "Ocultando"}  item de catálogo...`,
+        success: `Item de catálogo ${catalogItem.isDisabled ? "ativado" : "ocultado"} com sucesso!`,
       },
     );
 
@@ -95,9 +108,7 @@ export function PrivateCatalogItem({
         >
           {catalogItem.title}
         </div>
-        <div className="text-muted-foreground text-xs">
-          {`Código: ${catalogItem.reference}`}
-        </div>
+        <div className="text-muted-foreground text-xs">{`Código: ${catalogItem.reference}`}</div>
       </div>
 
       <div className="space-x-2">

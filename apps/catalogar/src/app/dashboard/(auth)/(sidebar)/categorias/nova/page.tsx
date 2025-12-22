@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { CreateCategoryForm } from "@/components/forms/create-category-form";
 import { routes } from "@/routes";
 import { PrevButton } from "@/components/inputs/prev-button";

@@ -1,7 +1,9 @@
 {
   "editor.fontFamily": "JetBrains Mono",
   "editor.fontLigatures": true,
-  "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "typescript.updateImportsOnFileMove.enabled": "prompt"
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  }
 }

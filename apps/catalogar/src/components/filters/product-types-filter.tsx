@@ -18,7 +18,7 @@ import {
   PopoverTrigger,
 } from "@catalogar/ui/components/popover";
 import { cn } from "@catalogar/ui/lib/utils";
-import { ProductType } from "@/services/get-product-type";
+import type { ProductType } from "@/services/get-product-type";
 
 export function ProductTypesFilter({
   productTypes,

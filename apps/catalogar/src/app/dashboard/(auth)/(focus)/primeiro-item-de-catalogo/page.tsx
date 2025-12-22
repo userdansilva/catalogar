@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { redirect, RedirectType } from "next/navigation";
 import { CreateCatalogItemForm } from "@/components/forms/create-catalog-item-form";
 import { PrevButton } from "@/components/inputs/prev-button";

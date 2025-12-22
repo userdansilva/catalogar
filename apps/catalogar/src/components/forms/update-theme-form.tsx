@@ -22,7 +22,7 @@ import { InputLogo } from "../inputs/input-logo";
 import { Button } from "../inputs/button";
 import { updateThemeAction } from "@/actions/update-theme-action";
 import { toastServerError } from "@/utils/toast-server-error";
-import { Company, Theme } from "@/services/get-user";
+import type { Company, Theme } from "@/services/get-user";
 import { routes } from "@/routes";
 import { updateThemeSchema } from "@/schemas/theme";
 
@@ -89,6 +89,7 @@ export function UpdateThemeForm({
                     href="https://convertio.co/pt/"
                     target="_blank"
                     className="underline underline-offset-2"
+                    rel="noopener"
                   >
                     Convertio.co
                   </a>{" "}
@@ -100,6 +101,7 @@ export function UpdateThemeForm({
                     href="https://tinypng.com/"
                     target="_blank"
                     className="underline underline-offset-2"
+                    rel="noopener"
                   >
                     TinyPNG
                   </a>{" "}

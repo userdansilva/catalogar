@@ -1,6 +1,6 @@
 import { redirect, RedirectType } from "next/navigation";
 import { Mission } from "./mission";
-import { User } from "@/services/get-user";
+import type { User } from "@/services/get-user";
 import { routes } from "@/routes";
 
 export function CustomizationMissions({ user }: { user: User }) {

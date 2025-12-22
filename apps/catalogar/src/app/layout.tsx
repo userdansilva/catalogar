@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "@catalogar/ui/globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Toaster } from "@catalogar/ui/components/sonner";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 

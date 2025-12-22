@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { redirect, RedirectType } from "next/navigation";
 import { MyCatalogs } from "@/components/my-catalogs";
 import { routes } from "@/routes";

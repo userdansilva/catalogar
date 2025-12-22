@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  ColumnDef,
+  type ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -23,7 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@catalogar/ui/components/table";
-import { Pagination as TPagination } from "@/types/api-response";
+import type { Pagination as TPagination } from "@/types/api-response";
 
 type DataTableProps<TData, TValues> = {
   columns: ColumnDef<TData, TValues>[];

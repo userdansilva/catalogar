@@ -1,10 +1,10 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { putTheme } from "@/services/put-theme";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { updateThemeSchema } from "@/schemas/theme";
+import { putTheme } from "@/services/put-theme";
 import { tags } from "@/tags";
 
 export const updateThemeAction = authActionClientWithUser
@@ -22,17 +22,16 @@ export const updateThemeAction = authActionClientWithUser
       const [error, data] = await putTheme({
         primaryColor,
         secondaryColor,
-        logo:
-          logo && logo.fileName
-            ? {
-                fileName: logo.fileName,
-                url: logo.url,
-                sizeInBytes: logo.sizeInBytes,
-                width: logo.width,
-                height: logo.height,
-                altText: logo.altText,
-              }
-            : undefined,
+        logo: logo?.fileName
+          ? {
+              fileName: logo.fileName,
+              url: logo.url,
+              sizeInBytes: logo.sizeInBytes,
+              width: logo.width,
+              height: logo.height,
+              altText: logo.altText,
+            }
+          : undefined,
       });
 
       if (error) {

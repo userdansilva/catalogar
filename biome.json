@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "linter": {
     "enabled": true,
     "rules": {
@@ -6,8 +7,8 @@
     }
   },
   "formatter": {
-    "lineWidth": 120,
+    "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 6
+    "indentWidth": 2
   }
 }

@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { redirect, RedirectType } from "next/navigation";
 import { UpdateCatalogForm } from "@/components/forms/update-catalog-form";
 import { routes } from "@/routes";

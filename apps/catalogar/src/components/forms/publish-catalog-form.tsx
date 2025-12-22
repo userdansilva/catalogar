@@ -26,7 +26,7 @@ import { Button } from "../inputs/button";
 import { routes } from "@/routes";
 import { publishCatalogAction } from "@/actions/publish-catalog-action";
 import { toastServerError } from "@/utils/toast-server-error";
-import { Catalog } from "@/services/get-user";
+import type { Catalog } from "@/services/get-user";
 import { publishCatalogSchema } from "@/schemas/catalog";
 
 export function PublishCatalogForm({

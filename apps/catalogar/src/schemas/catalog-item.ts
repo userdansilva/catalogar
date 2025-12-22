@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { ProductType } from "./product-type";
-import { Category } from "./category";
 import { CatalogItemImage } from "./catalog-item-image";
+import { Category } from "./category";
+import { ProductType } from "./product-type";
 
 export const CatalogItem = z.object({
   id: z.uuid({ version: "v4" }),

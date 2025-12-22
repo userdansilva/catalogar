@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { routes } from "@/routes";
 import { PrevButton } from "@/components/inputs/prev-button";
 

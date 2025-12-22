@@ -1,7 +1,3 @@
-import { ImageUp, Trash } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import { ChangeEvent, useRef } from "react";
-import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,8 +8,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@catalogar/ui/components/alert-dialog";
-import { Button } from "./button";
+import { ImageUp, Trash } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import { type ChangeEvent, useRef } from "react";
+import { toast } from "sonner";
 import { createLogoAction } from "@/actions/create-logo-action";
+import { Button } from "./button";
 
 type Logo = {
   fileName: string;
@@ -90,7 +90,7 @@ export function InputLogo({
   return (
     <>
       <div>
-        {value && value.fileName ? (
+        {value?.fileName ? (
           <div className="flex items-center space-x-4 rounded-md border p-4">
             <div className="mr-3 flex-1 truncate text-sm">{value.fileName}</div>
 

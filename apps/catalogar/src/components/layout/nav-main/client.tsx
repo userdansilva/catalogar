@@ -18,10 +18,10 @@ import {
 } from "@catalogar/ui/components/tooltip";
 import { useRouter } from "next/navigation";
 import { routes } from "@/routes";
-import { ProductType } from "@/services/get-product-type";
-import { Category } from "@/services/get-category";
-import { CatalogItem } from "@/services/get-catalog-item";
-import { User } from "@/services/get-user";
+import type { ProductType } from "@/services/get-product-type";
+import type { Category } from "@/services/get-category";
+import type { CatalogItem } from "@/services/get-catalog-item";
+import type { User } from "@/services/get-user";
 
 type NavMainProps = {
   productTypes: ProductType[];
