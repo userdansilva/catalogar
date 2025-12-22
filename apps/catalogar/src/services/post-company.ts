@@ -1,26 +1,15 @@
+import type z from "zod";
+import type { Company, createCompanySchema } from "@/schemas/company";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export type Company = {
-  name: string;
-  description: string;
-  mainSiteUrl: string;
-  phoneNumber: string;
-  businessTypeDescription: string;
-  createdAt: string;
-  updatedAt: string;
-};
+type CompanyType = z.infer<typeof Company>;
+type Body = z.infer<typeof createCompanySchema>;
 
-export async function postCompany(body: {
-  name: string;
-  description?: string;
-  mainSiteUrl?: string;
-  phoneNumber?: string;
-  businessTypeDescription?: string;
-}) {
+export async function postCompany(body: Body) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<Company>("/v1/companies", {
+  return await serverFetch<CompanyType>("/v1/companies", {
     method: "POST",
     body,
     headers,

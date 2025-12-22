@@ -5,12 +5,15 @@ export const Theme = z.object({
   secondaryColor: z.string().min(1, "Campo obrigatório"),
   logo: z
     .object({
+      // id: z.uuid({ version: "v4" }),
       fileName: z.string(),
       url: z.string(),
       sizeInBytes: z.number(),
       width: z.number(),
       height: z.number(),
       altText: z.string(),
+      // createdAt: z.string(),
+      // updatedAt: z.string(),
     })
     .optional(),
   createAt: z.string(),

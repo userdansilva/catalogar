@@ -1,56 +1,15 @@
+import type z from "zod";
+import type { Catalog, updateCatalogSchema } from "@/schemas/catalog";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export type Company = {
-  name: string;
-  description: string;
-  mainSiteUrl: string;
-  phoneNumber: string;
-  businessTypeDescription: string;
-  createdAt: string;
-  updatedAt: string;
-};
+type CatalogType = z.infer<typeof Catalog>;
+type Body = z.infer<typeof updateCatalogSchema>;
 
-export type Logo = {
-  id: string;
-  fileName: string;
-  url: string;
-  sizeInBytes: number;
-  width: number;
-  height: number;
-  altText?: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type Theme = {
-  primaryColor: string;
-  secondaryColor: string;
-  logo?: Logo;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type Catalog = {
-  id: string;
-  name: string;
-  slug?: string;
-  publishedAt?: string;
-  isPublished: boolean;
-  company?: Company;
-  theme?: Theme;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export async function putCatalog(body: {
-  name: string;
-  slug?: string;
-  isPublished?: boolean;
-}) {
+export async function putCatalog(body: Body) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<Catalog>("/v1/catalogs", {
+  return await serverFetch<CatalogType>("/v1/catalogs", {
     method: "PUT",
     body,
     headers,

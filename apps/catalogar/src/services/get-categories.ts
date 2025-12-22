@@ -1,28 +1,18 @@
 import z from "zod";
-import { Category } from "@/schemas/category";
+import type { Category } from "@/schemas/category";
 import type { Paginated } from "@/types/api-response";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-const categorySchema = z.object({
-  id: Category.shape.id,
-  name: Category.shape.name,
-  slug: Category.shape.slug,
-  textColor: Category.shape.textColor,
-  backgroundColor: Category.shape.backgroundColor,
-  isDisabled: Category.shape.isDisabled,
-  disabledAt: Category.shape.disabledAt,
-  createdAt: Category.shape.createdAt,
-  updatedAt: Category.shape.updatedAt,
+const querySchema = z.object({
+  field: z.enum(["name", "createdAt"]).optional(),
+  sort: z.enum(["asc", "desc"]).optional(),
+  page: z.string().optional(),
+  perPage: z.string().optional(),
 });
 
-type CategoryType = z.infer<typeof categorySchema>;
-type QueryParams = {
-  field?: "name" | "createdAt";
-  sort?: "asc" | "desc";
-  page?: string;
-  perPage?: string;
-};
+type CategoryType = z.infer<typeof Category>;
+type QueryParams = z.infer<typeof querySchema>;
 
 type GetCategoriesParams = {
   query?: QueryParams;
