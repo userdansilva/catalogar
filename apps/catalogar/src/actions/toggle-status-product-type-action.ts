@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { getProductType } from "@/services/get-product-type";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { putProductType } from "@/services/put-product-type";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { productTypeStatusToggleSchema } from "@/schemas/product-type";
+import { getProductType } from "@/services/get-product-type";
+import { putProductType } from "@/services/put-product-type";
 import { tags } from "@/tags";
 
 export const toggleProductTypeStatusAction = authActionClientWithUser
@@ -29,14 +29,10 @@ export const toggleProductTypeStatusAction = authActionClientWithUser
 
       const productType = getProductTypeData.data;
 
-      const [putProdutTypeError, putProductTypeData] = await putProductType(
-        id,
-        {
-          name: productType.name,
-          slug: productType.slug,
-          isDisabled: !productType.isDisabled,
-        },
-      );
+      const [putProdutTypeError, putProductTypeData] = await putProductType({
+        ...productType,
+        isDisabled: !productType.isDisabled,
+      });
 
       if (putProdutTypeError) {
         throw new ExpectedError(putProdutTypeError);

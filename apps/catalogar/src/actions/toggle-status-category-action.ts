@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { getCategory } from "@/services/get-category";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { putCategory } from "@/services/put-category";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { categoryStatusToggleSchema } from "@/schemas/category";
+import { getCategory } from "@/services/get-category";
+import { putCategory } from "@/services/put-category";
 import { tags } from "@/tags";
 
 export const toggleCategoryStatusAction = authActionClientWithUser
@@ -28,11 +28,8 @@ export const toggleCategoryStatusAction = authActionClientWithUser
 
       const category = getCategoryData.data;
 
-      const [putCategoryError, putCategoryData] = await putCategory(id, {
-        name: category.name,
-        slug: category.slug,
-        textColor: category.textColor,
-        backgroundColor: category.backgroundColor,
+      const [putCategoryError, putCategoryData] = await putCategory({
+        ...category,
         isDisabled: !category.isDisabled,
       });
 

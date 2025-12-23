@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { getUser } from "@/services/get-user";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { putCatalog } from "@/services/put-catalog";
-import { publishCatalogSchema } from "@/schemas/catalog";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { publishCatalogSchema } from "@/schemas/catalog";
+import { getUser } from "@/services/get-user";
+import { putCatalog } from "@/services/put-catalog";
 import { tags } from "@/tags";
 
 export const publishCatalogAction = authActionClientWithUser

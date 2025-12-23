@@ -38,6 +38,7 @@ export const updateCatalogAction = authActionClientWithUser
       if (isPublished && !user.currentCatalog?.slug) {
         const [putCatalogError] = await putCatalog({
           name,
+          isPublished,
         });
 
         if (putCatalogError) {

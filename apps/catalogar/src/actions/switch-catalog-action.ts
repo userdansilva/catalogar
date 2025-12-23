@@ -1,9 +1,9 @@
 "use server";
 
 import { z } from "zod";
-import { putUserCurrentCatalog } from "@/services/put-user-current-catalog";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClient } from "@/lib/next-safe-action";
+import { putUserCurrentCatalog } from "@/services/put-user-current-catalog";
 
 export const switchCatalogAction = authActionClient
   .inputSchema(z.object({ id: z.string() }))

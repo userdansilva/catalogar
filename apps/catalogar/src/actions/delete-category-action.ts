@@ -1,10 +1,10 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { deleteCategory } from "@/services/delete-category";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { deleteSchema } from "@/schemas/others";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { deleteSchema } from "@/schemas/others";
+import { deleteCategory } from "@/services/delete-category";
 import { tags } from "@/tags";
 
 export const deleteCategoryAction = authActionClientWithUser

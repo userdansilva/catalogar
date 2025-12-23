@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { getCatalogItem } from "@/services/get-catalog-item";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { putCatalogItem } from "@/services/put-catalog-item";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { catalogItemStatusToggleSchema } from "@/schemas/catalog-item";
+import { getCatalogItem } from "@/services/get-catalog-item";
+import { putCatalogItem } from "@/services/put-catalog-item";
 import { tags } from "@/tags";
 
 export const toggleCatalogItemStatusAction = authActionClientWithUser
@@ -29,21 +29,12 @@ export const toggleCatalogItemStatusAction = authActionClientWithUser
 
       const catalogItem = getCatalogItemData.data;
 
-      const [putCatalogItemError, putCatalogItemData] = await putCatalogItem(
-        id,
-        {
-          title: catalogItem.title,
-          caption: catalogItem.caption,
-          productTypeId: catalogItem.productType.id,
-          images: catalogItem.images.map((image) => ({
-            fileName: image.fileName,
-            position: image.position,
-          })),
-          price: catalogItem.price?.toString(),
-          categoryIds: catalogItem.categories.map((category) => category.id),
-          isDisabled: !catalogItem.isDisabled,
-        },
-      );
+      const [putCatalogItemError, putCatalogItemData] = await putCatalogItem({
+        ...catalogItem,
+        productTypeId: catalogItem.productType.id,
+        categoryIds: catalogItem.categories.map((category) => category.id),
+        isDisabled: !catalogItem.isDisabled,
+      });
 
       if (putCatalogItemError) {
         throw new ExpectedError(putCatalogItemError);
