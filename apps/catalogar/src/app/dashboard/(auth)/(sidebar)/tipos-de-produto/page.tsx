@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Button } from "@/components/inputs/button";
+import { PrevButton } from "@/components/inputs/prev-button";
+import { PageHeader } from "@/components/layout/page-header";
 import { ProductTypesTable } from "@/components/tables/product-types";
 import { ProductTypesSkeleton } from "@/components/tables/product-types/skeleton";
 import { routes } from "@/routes";
-import { PrevButton } from "@/components/inputs/prev-button";
-import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
   title: routes.productTypes.title,

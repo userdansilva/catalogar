@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { redirect, RedirectType } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
 import { CatalogItems } from "@/components/catalog/catalog-items";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 import { CategoriesFilter } from "@/components/filters/categories-filter";
 import { ProductTypesFilter } from "@/components/filters/product-types-filter";
 import { QueryFilter } from "@/components/filters/query-filter";
@@ -11,7 +12,6 @@ import { getProductTypes } from "@/services/get-product-types";
 import { getUser } from "@/services/get-user";
 import type { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export const metadata: Metadata = {
   title: routes.preview.title,

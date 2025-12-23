@@ -1,14 +1,11 @@
-import type z from "zod";
 import type { Category } from "@/schemas/category";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-type CategoryType = z.infer<typeof Category>;
-
-export async function getCategory(id: CategoryType["id"]) {
+export async function getCategory(id: Category["id"]) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<CategoryType>(`/v1/categories/${id}`, {
+  return await serverFetch<Category>(`/v1/categories/${id}`, {
     headers,
   });
 }

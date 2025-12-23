@@ -1,7 +1,6 @@
 "use client";
 
-import { AlertCircle, RefreshCw, LogOut } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Alert, AlertDescription } from "@catalogar/ui/components/alert";
 import { Button } from "@catalogar/ui/components/button";
 import {
   Card,
@@ -10,7 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
-import { Alert, AlertDescription } from "@catalogar/ui/components/alert";
+import { AlertCircle, LogOut, RefreshCw } from "lucide-react";
+import { useEffect, useState } from "react";
 import Loader from "@/components/loader";
 
 export default function AuthError({

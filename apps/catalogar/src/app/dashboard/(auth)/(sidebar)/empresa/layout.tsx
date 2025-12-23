@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
-import { routes } from "@/routes";
-import { PageHeader } from "@/components/layout/page-header";
 import { PrevButton } from "@/components/inputs/prev-button";
+import { PageHeader } from "@/components/layout/page-header";
+import { routes } from "@/routes";
 
 export default function CompanyLayout({ children }: PropsWithChildren) {
   return (

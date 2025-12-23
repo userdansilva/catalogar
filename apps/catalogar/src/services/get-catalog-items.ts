@@ -8,17 +8,16 @@ const querySchema = z.object({
   sort: z.enum(["asc", "desc"]).optional(),
 });
 
-type CatalogItemType = z.infer<typeof CatalogItem>;
 type QueryParams = z.infer<typeof querySchema>;
 
 type GetCatalogItemsParams = {
   query?: QueryParams;
 };
 
-export async function getCatalogItems({ query }: GetCatalogItemsParams) {
+export async function getCatalogItems({ query }: GetCatalogItemsParams = {}) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<CatalogItemType[]>("/v1/catalog-items", {
+  return await serverFetch<CatalogItem[]>("/v1/catalog-items", {
     query,
     headers,
   });

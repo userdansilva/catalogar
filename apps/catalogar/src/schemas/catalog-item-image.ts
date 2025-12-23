@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CatalogItemImage = z.object({
+export const catalogItemImageSchema = z.object({
   id: z.uuid({ version: "v4" }),
   fileName: z.string(),
   url: z.string(),
@@ -11,3 +11,5 @@ export const CatalogItemImage = z.object({
   position: z.number(),
   createdAt: z.string(),
 });
+
+export type CatalogItemImage = z.infer<typeof catalogItemImageSchema>;

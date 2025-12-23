@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { redirect, RedirectType } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 import { CreateCategoryForm } from "@/components/forms/create-category-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
 import { getCategories } from "@/services/get-categories";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export const metadata: Metadata = {
   title: routes.categories.sub.createFirst.title,

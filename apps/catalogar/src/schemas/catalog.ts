@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { validator } from "@/utils/validator";
-import { Company } from "./company";
-import { Theme } from "./theme";
+import { companySchema } from "./company";
+import { themeSchema } from "./theme";
 
-export const Catalog = z.object({
+export const catalogSchema = z.object({
   id: z.uuid({ version: "v4" }),
   name: z
     .string()
@@ -17,23 +17,28 @@ export const Catalog = z.object({
     .optional(),
   publishedAt: z.string().optional(),
   isPublished: z.boolean(),
-  company: Company.optional(),
-  theme: Theme.optional(),
+  company: companySchema.optional(),
+  theme: themeSchema.optional(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
 
 export const createCatalogSchema = z.object({
-  name: Catalog.shape.name,
+  name: catalogSchema.shape.name,
 });
 
 export const updateCatalogSchema = z.object({
-  name: Catalog.shape.name,
-  isPublished: Catalog.shape.isPublished,
+  name: catalogSchema.shape.name,
+  isPublished: catalogSchema.shape.isPublished,
 });
 
 export const publishCatalogSchema = z.object({
-  name: Catalog.shape.name,
-  isPublished: Catalog.shape.isPublished,
-  slug: Catalog.shape.slug.nonoptional(),
+  name: catalogSchema.shape.name,
+  isPublished: catalogSchema.shape.isPublished,
+  slug: catalogSchema.shape.slug.nonoptional(),
 });
+
+export type Catalog = z.infer<typeof catalogSchema>;
+export type CreateCatalog = z.infer<typeof createCatalogSchema>;
+export type UpdateCatalog = z.infer<typeof updateCatalogSchema>;
+export type PublishCatalog = z.infer<typeof publishCatalogSchema>;

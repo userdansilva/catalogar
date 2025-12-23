@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const ProductType = z.object({
+export const productTypeSchema = z.object({
   id: z.uuid({ version: "v4" }),
   name: z.string(),
   slug: z.string(),
@@ -11,18 +11,25 @@ export const ProductType = z.object({
 });
 
 export const createProductTypeSchema = z.object({
-  name: ProductType.shape.name.min(1, "Campo obrigatório"),
-  slug: ProductType.shape.slug.min(1, "Campo obrigatório"),
-  isDisabled: ProductType.shape.isDisabled,
+  name: productTypeSchema.shape.name.min(1, "Campo obrigatório"),
+  slug: productTypeSchema.shape.slug.min(1, "Campo obrigatório"),
+  isDisabled: productTypeSchema.shape.isDisabled,
 });
 
 export const updateProductTypeSchema = z.object({
-  id: ProductType.shape.id,
-  name: ProductType.shape.name.min(1, "Campo obrigatório"),
-  slug: ProductType.shape.slug.min(1, "Campo obrigatório"),
-  isDisabled: ProductType.shape.isDisabled,
+  id: productTypeSchema.shape.id,
+  name: productTypeSchema.shape.name.min(1, "Campo obrigatório"),
+  slug: productTypeSchema.shape.slug.min(1, "Campo obrigatório"),
+  isDisabled: productTypeSchema.shape.isDisabled,
 });
 
 export const productTypeStatusToggleSchema = z.object({
-  id: ProductType.shape.id,
+  id: productTypeSchema.shape.id,
 });
+
+export type ProductType = z.infer<typeof productTypeSchema>;
+export type CreateProductType = z.infer<typeof createProductTypeSchema>;
+export type UpdateProductType = z.infer<typeof updateProductTypeSchema>;
+export type ProductTypeStatusToggle = z.infer<
+  typeof productTypeStatusToggleSchema
+>;

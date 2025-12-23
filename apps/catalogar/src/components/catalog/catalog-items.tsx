@@ -9,15 +9,6 @@ type CatalogItemsProps = {
   query?: string;
   catalogItems: {
     id: string;
-    name: string;
-    description: string;
-    productType: {
-      isDisabled: boolean;
-      slug: string;
-    };
-    category?: {
-      slug: string;
-    };
   }[];
   productTypeSlug?: string;
   categorySlug?: string;

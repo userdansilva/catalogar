@@ -11,17 +11,16 @@ const querySchema = z.object({
   perPage: z.string().optional(),
 });
 
-type CategoryType = z.infer<typeof Category>;
 type QueryParams = z.infer<typeof querySchema>;
 
 type GetCategoriesParams = {
   query?: QueryParams;
 };
 
-export async function getCategories({ query }: GetCategoriesParams) {
+export async function getCategories({ query }: GetCategoriesParams = {}) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<Paginated<CategoryType[]>>("/v1/categories", {
+  return await serverFetch<Paginated<Category[]>>("/v1/categories", {
     query,
     headers,
   });

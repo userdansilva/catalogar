@@ -11,17 +11,16 @@ const querySchema = z.object({
   perPage: z.string().optional(),
 });
 
-type ProductTypeType = z.infer<typeof ProductType>;
 type QueryParams = z.infer<typeof querySchema>;
 
 type GetProductTypesParams = {
   query?: QueryParams;
 };
 
-export async function getProductTypes({ query }: GetProductTypesParams) {
+export async function getProductTypes({ query }: GetProductTypesParams = {}) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<Paginated<ProductTypeType[]>>("/v1/product-types", {
+  return await serverFetch<Paginated<ProductType[]>>("/v1/product-types", {
     query,
     headers,
   });

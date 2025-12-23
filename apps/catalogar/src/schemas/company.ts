@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const Company = z.object({
+export const companySchema = z.object({
   name: z.string().min(1, "Campo obrigatório"),
   description: z.string().optional(),
   mainSiteUrl: z.union([
@@ -20,17 +20,21 @@ export const Company = z.object({
 });
 
 export const createCompanySchema = z.object({
-  name: Company.shape.name,
-  description: Company.shape.description,
-  mainSiteUrl: Company.shape.mainSiteUrl,
-  phoneNumber: Company.shape.phoneNumber,
-  businessTypeDescription: Company.shape.businessTypeDescription,
+  name: companySchema.shape.name,
+  description: companySchema.shape.description,
+  mainSiteUrl: companySchema.shape.mainSiteUrl,
+  phoneNumber: companySchema.shape.phoneNumber,
+  businessTypeDescription: companySchema.shape.businessTypeDescription,
 });
 
 export const updateCompanySchema = z.object({
-  name: Company.shape.name,
-  description: Company.shape.description,
-  mainSiteUrl: Company.shape.mainSiteUrl,
-  phoneNumber: Company.shape.phoneNumber,
-  businessTypeDescription: Company.shape.businessTypeDescription,
+  name: companySchema.shape.name,
+  description: companySchema.shape.description,
+  mainSiteUrl: companySchema.shape.mainSiteUrl,
+  phoneNumber: companySchema.shape.phoneNumber,
+  businessTypeDescription: companySchema.shape.businessTypeDescription,
 });
+
+export type Company = z.infer<typeof companySchema>;
+export type CreateCompany = z.infer<typeof createCompanySchema>;
+export type UpdateCompany = z.infer<typeof updateCompanySchema>;

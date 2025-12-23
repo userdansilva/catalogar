@@ -1,12 +1,12 @@
-import { notFound, redirect, RedirectType } from "next/navigation";
-import { PrevButton } from "@/components/inputs/prev-button";
+import { notFound, RedirectType, redirect } from "next/navigation";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
+import { ExpectedError } from "@/components/error-handling/expected-error";
+import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getUser } from "@/services/get-user";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export default async function Page({
   params,

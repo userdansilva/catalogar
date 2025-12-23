@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { CreateProductTypeForm } from "@/components/forms/create-product-type-form";
-import { routes } from "@/routes";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PageHeader } from "@/components/layout/page-header";
+import { routes } from "@/routes";
 
 export const metadata: Metadata = {
   title: routes.productTypes.sub.new.title,

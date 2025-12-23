@@ -1,17 +1,17 @@
-import { CircleCheckBig } from "lucide-react";
-import Link from "next/link";
-import { redirect, RedirectType } from "next/navigation";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
-import { CopyButton } from "@/components/inputs/copy-button";
+import { CircleCheckBig } from "lucide-react";
+import Link from "next/link";
+import { RedirectType, redirect } from "next/navigation";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 import { Button } from "@/components/inputs/button";
+import { CopyButton } from "@/components/inputs/copy-button";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export default async function Page() {
   const [error, data] = await getUser();

@@ -1,12 +1,12 @@
+import { Button } from "@catalogar/ui/components/button";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
+import { RedirectType, redirect } from "next/navigation";
 import type { PropsWithChildren } from "react";
-import { Button } from "@catalogar/ui/components/button";
-import { redirect, RedirectType } from "next/navigation";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export default async function PreviewLayout({ children }: PropsWithChildren) {
   const [error, data] = await getUser();

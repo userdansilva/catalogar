@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const Theme = z.object({
+export const themeSchema = z.object({
   primaryColor: z.string().min(1, "Campo obrigatório"),
   secondaryColor: z.string().min(1, "Campo obrigatório"),
   logo: z
@@ -21,13 +21,17 @@ export const Theme = z.object({
 });
 
 export const createThemeSchema = z.object({
-  primaryColor: Theme.shape.primaryColor,
-  secondaryColor: Theme.shape.secondaryColor,
-  logo: Theme.shape.logo,
+  primaryColor: themeSchema.shape.primaryColor,
+  secondaryColor: themeSchema.shape.secondaryColor,
+  logo: themeSchema.shape.logo,
 });
 
 export const updateThemeSchema = z.object({
-  primaryColor: Theme.shape.primaryColor,
-  secondaryColor: Theme.shape.secondaryColor,
-  logo: Theme.shape.logo,
+  primaryColor: themeSchema.shape.primaryColor,
+  secondaryColor: themeSchema.shape.secondaryColor,
+  logo: themeSchema.shape.logo,
 });
+
+export type Theme = z.infer<typeof themeSchema>;
+export type CreateTheme = z.infer<typeof createThemeSchema>;
+export type UpdateTheme = z.infer<typeof updateThemeSchema>;

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { UpdateCategoryForm } from "@/components/forms/update-category-form";
-import { routes } from "@/routes";
-import { getCategory } from "@/services/get-category";
 import { ExpectedError } from "@/components/error-handling/expected-error";
+import { UpdateCategoryForm } from "@/components/forms/update-category-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PageHeader } from "@/components/layout/page-header";
+import { routes } from "@/routes";
+import { getCategory } from "@/services/get-category";
 
 export const metadata: Metadata = {
   title: routes.categories.sub.edit.title,
