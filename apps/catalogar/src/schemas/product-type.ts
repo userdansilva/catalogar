@@ -12,12 +12,14 @@ export const ProductType = z.object({
 
 export const createProductTypeSchema = z.object({
   name: ProductType.shape.name.min(1, "Campo obrigatório"),
+  slug: ProductType.shape.slug.min(1, "Campo obrigatório"),
   isDisabled: ProductType.shape.isDisabled,
 });
 
 export const updateProductTypeSchema = z.object({
   id: ProductType.shape.id,
   name: ProductType.shape.name.min(1, "Campo obrigatório"),
+  slug: ProductType.shape.slug.min(1, "Campo obrigatório"),
   isDisabled: ProductType.shape.isDisabled,
 });
 

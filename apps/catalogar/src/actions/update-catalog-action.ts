@@ -1,13 +1,13 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { revalidateTag } from "next/cache";
-import { routes } from "@/routes";
-import { getUser } from "@/services/get-user";
+import { redirect } from "next/navigation";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { putCatalog } from "@/services/put-catalog";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { routes } from "@/routes";
 import { updateCatalogSchema } from "@/schemas/catalog";
+import { getUser } from "@/services/get-user";
+import { putCatalog } from "@/services/put-catalog";
 import { tags } from "@/tags";
 
 export const updateCatalogAction = authActionClientWithUser

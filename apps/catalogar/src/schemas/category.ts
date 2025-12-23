@@ -14,6 +14,7 @@ export const Category = z.object({
 
 export const createCategorySchema = z.object({
   name: Category.shape.name.min(1, "Campo obrigatório"),
+  slug: Category.shape.slug.min(1, "Campo obrigatório"),
   textColor: Category.shape.textColor.min(1, "Campo obrigatório"),
   backgroundColor: Category.shape.backgroundColor.min(1, "Campo obrigatório"),
   isDisabled: Category.shape.isDisabled,
@@ -22,6 +23,7 @@ export const createCategorySchema = z.object({
 export const updateCategorySchema = z.object({
   id: Category.shape.id,
   name: Category.shape.name.min(1, "Campo obrigatório"),
+  slug: Category.shape.slug.min(1, "Campo obrigatório"),
   textColor: Category.shape.textColor.min(1, "Campo obrigatório"),
   backgroundColor: Category.shape.backgroundColor.min(1, "Campo obrigatório"),
   isDisabled: Category.shape.isDisabled,

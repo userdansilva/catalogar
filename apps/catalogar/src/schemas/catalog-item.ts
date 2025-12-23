@@ -36,7 +36,7 @@ export const createCatalogItemSchema = z.object({
     )
     .min(1, "É necessário adicionar, no mínimo, uma imagem"),
   price: CatalogItem.shape.price,
-  categoryIds: z.array(Category.shape.id).optional(),
+  categoryIds: z.array(Category.shape.id),
   isDisabled: CatalogItem.shape.isDisabled,
 });
 

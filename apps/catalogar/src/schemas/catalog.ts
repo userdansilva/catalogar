@@ -33,5 +33,7 @@ export const updateCatalogSchema = z.object({
 });
 
 export const publishCatalogSchema = z.object({
+  name: Catalog.shape.name,
+  isPublished: Catalog.shape.isPublished,
   slug: Catalog.shape.slug.nonoptional(),
 });

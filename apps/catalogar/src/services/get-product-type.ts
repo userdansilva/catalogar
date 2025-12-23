@@ -5,7 +5,7 @@ import { serverFetch } from "@/utils/server-fetch";
 
 type ProductTypeType = z.infer<typeof ProductType>;
 
-export async function getProductType(id: string) {
+export async function getProductType(id: ProductTypeType["id"]) {
   const headers = await getAuthHeaders();
 
   return await serverFetch<ProductTypeType>(`/v1/product-types/${id}`, {

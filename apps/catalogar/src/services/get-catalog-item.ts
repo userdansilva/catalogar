@@ -5,7 +5,7 @@ import { serverFetch } from "@/utils/server-fetch";
 
 type CatalogItemType = z.infer<typeof CatalogItem>;
 
-export async function getCatalogItem(id: string) {
+export async function getCatalogItem(id: CatalogItemType["id"]) {
   const headers = await getAuthHeaders();
 
   return await serverFetch<CatalogItemType>(`/v1/catalog-items/${id}`, {
