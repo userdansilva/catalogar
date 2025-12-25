@@ -1,9 +1,5 @@
 "use client";
 
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -21,21 +17,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@catalogar/ui/components/select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
-import { Button } from "../inputs/button";
+import { toast } from "sonner";
 import { updateCatalogAction } from "@/actions/update-catalog-action";
 import { routes } from "@/routes";
+import { type Catalog, updateCatalogSchema } from "@/schemas/catalog";
 import { toastServerError } from "@/utils/toast-server-error";
-import type { Catalog } from "@/services/get-user";
-import { updateCatalogSchema } from "@/schemas/catalog";
+import { Button } from "../inputs/button";
+
+type UpdateCatalogFormProps = {
+  catalog: Catalog;
+  callbackUrl?: string;
+};
 
 export function UpdateCatalogForm({
   catalog,
   callbackUrl,
-}: {
-  catalog: Catalog;
-  callbackUrl?: string;
-}) {
+}: UpdateCatalogFormProps) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(

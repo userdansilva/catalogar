@@ -14,36 +14,12 @@ export const createCatalogItemAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput: {
-        title,
-        caption,
-        productTypeId,
-        images,
-        price,
-        categoryIds,
-        isDisabled,
-      },
+      parsedInput,
       ctx: {
         user: { currentCatalog },
       },
     }) => {
-      const [error, data] = await postCatalogItem({
-        title,
-        caption,
-        productTypeId,
-        images: images.map((image) => ({
-          fileName: image.fileName,
-          url: image.url,
-          sizeInBytes: image.sizeInBytes,
-          width: image.width,
-          height: image.height,
-          altText: image.altText,
-          position: image.position,
-        })),
-        price,
-        categoryIds,
-        isDisabled,
-      });
+      const [error, data] = await postCatalogItem(parsedInput);
 
       if (error) {
         throw new ExpectedError(error);

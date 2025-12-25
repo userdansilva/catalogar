@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const productTypeSchema = z.object({
   id: z.uuid({ version: "v4" }),
-  name: z.string(),
+  name: z.string().min(1, "Campo obrigatório"),
   slug: z.string(),
   isDisabled: z.boolean(),
   disabledAt: z.string().optional(),
@@ -11,15 +11,11 @@ export const productTypeSchema = z.object({
 });
 
 export const createProductTypeSchema = z.object({
-  name: productTypeSchema.shape.name.min(1, "Campo obrigatório"),
-  slug: productTypeSchema.shape.slug.min(1, "Campo obrigatório"),
-  isDisabled: productTypeSchema.shape.isDisabled,
+  name: productTypeSchema.shape.name,
 });
 
-export const updateProductTypeSchema = z.object({
+export const updateProductTypeSchema = createProductTypeSchema.extend({
   id: productTypeSchema.shape.id,
-  name: productTypeSchema.shape.name.min(1, "Campo obrigatório"),
-  slug: productTypeSchema.shape.slug.min(1, "Campo obrigatório"),
   isDisabled: productTypeSchema.shape.isDisabled,
 });
 

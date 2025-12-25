@@ -1,8 +1,17 @@
-import type { CreateProductType, ProductType } from "@/schemas/product-type";
+import z from "zod";
+import { type ProductType, productTypeSchema } from "@/schemas/product-type";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export async function postProductType(body: CreateProductType) {
+const bodySchema = z.object({
+  name: productTypeSchema.shape.name,
+  slug: productTypeSchema.shape.slug,
+  isDisabled: productTypeSchema.shape.isDisabled,
+});
+
+type Body = z.infer<typeof bodySchema>;
+
+export async function postProductType(body: Body) {
   const headers = await getAuthHeaders();
 
   return await serverFetch<ProductType>("/v1/product-types", {

@@ -1,10 +1,10 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { putCompany } from "@/services/put-company";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { updateCompanySchema } from "@/schemas/company";
+import { putCompany } from "@/services/put-company";
 import { tags } from "@/tags";
 
 export const updateCompanyAction = authActionClientWithUser

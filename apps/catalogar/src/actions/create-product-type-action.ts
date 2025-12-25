@@ -15,7 +15,7 @@ export const createProductTypeAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput: { name, isDisabled },
+      parsedInput: { name },
       ctx: {
         user: { currentCatalog },
       },
@@ -23,7 +23,7 @@ export const createProductTypeAction = authActionClientWithUser
       const [error, data] = await postProductType({
         name,
         slug: slugify(name, { lower: true }),
-        isDisabled,
+        isDisabled: false,
       });
 
       if (error) {

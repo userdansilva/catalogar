@@ -1,9 +1,5 @@
 "use client";
 
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -13,17 +9,23 @@ import {
   FormMessage,
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
-import { Button } from "../inputs/button";
-import { routes } from "@/routes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { createProductTypeAction } from "@/actions/create-product-type-action";
-import { toastServerError } from "@/utils/toast-server-error";
+import { routes } from "@/routes";
 import { createProductTypeSchema } from "@/schemas/product-type";
+import { toastServerError } from "@/utils/toast-server-error";
+import { Button } from "../inputs/button";
+
+type CreateProductTypeFormProps = {
+  callbackUrl?: string;
+};
 
 export function CreateProductTypeForm({
   callbackUrl,
-}: {
-  callbackUrl?: string;
-}) {
+}: CreateProductTypeFormProps) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(
@@ -34,7 +36,6 @@ export function CreateProductTypeForm({
         mode: "onChange",
         defaultValues: {
           name: "",
-          isDisabled: false,
         },
       },
       actionProps: {

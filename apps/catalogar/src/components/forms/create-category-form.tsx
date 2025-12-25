@@ -1,9 +1,12 @@
 "use client";
 
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { Badge } from "@catalogar/ui/components/badge";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@catalogar/ui/components/card";
 import {
   Form,
   FormControl,
@@ -13,21 +16,22 @@ import {
   FormMessage,
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@catalogar/ui/components/card";
-import { Badge } from "@catalogar/ui/components/badge";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
-import { Button } from "../inputs/button";
-import { routes } from "@/routes";
+import { toast } from "sonner";
 import { createCategoryAction } from "@/actions/create-category-action";
-import { toastServerError } from "@/utils/toast-server-error";
+import { routes } from "@/routes";
 import { createCategorySchema } from "@/schemas/category";
+import { toastServerError } from "@/utils/toast-server-error";
+import { Button } from "../inputs/button";
 
-export function CreateCategoryForm({ callbackUrl }: { callbackUrl?: string }) {
+type CreateCategoryFormProps = {
+  callbackUrl?: string;
+};
+
+export function CreateCategoryForm({ callbackUrl }: CreateCategoryFormProps) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(
@@ -40,7 +44,6 @@ export function CreateCategoryForm({ callbackUrl }: { callbackUrl?: string }) {
           name: "",
           textColor: "#FFFFFF",
           backgroundColor: "#000000",
-          isDisabled: false,
         },
       },
       actionProps: {

@@ -27,8 +27,7 @@ export const createCatalogSchema = z.object({
   name: catalogSchema.shape.name,
 });
 
-export const updateCatalogSchema = z.object({
-  name: catalogSchema.shape.name,
+export const updateCatalogSchema = createCatalogSchema.extend({
   isPublished: catalogSchema.shape.isPublished,
 });
 

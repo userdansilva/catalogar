@@ -1,9 +1,6 @@
 "use client";
 
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { Checkbox } from "@catalogar/ui/components/checkbox";
 import {
   Form,
   FormControl,
@@ -14,7 +11,6 @@ import {
   FormMessage,
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
-import { Textarea } from "@catalogar/ui/components/textarea";
 import {
   Select,
   SelectContent,
@@ -22,25 +18,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@catalogar/ui/components/select";
-import { Checkbox } from "@catalogar/ui/components/checkbox";
-import { InputImages } from "../inputs/input-images";
-import { Button } from "../inputs/button";
-import { routes } from "@/routes";
+import { Textarea } from "@catalogar/ui/components/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { createCatalogItemAction } from "@/actions/create-catalog-item-action";
-import type { Category } from "@/services/get-category";
-import type { ProductType } from "@/services/get-product-type";
-import { toastServerError } from "@/utils/toast-server-error";
+import { routes } from "@/routes";
 import { createCatalogItemSchema } from "@/schemas/catalog-item";
+import type { Category } from "@/schemas/category";
+import type { ProductType } from "@/schemas/product-type";
+import { toastServerError } from "@/utils/toast-server-error";
+import { Button } from "../inputs/button";
+import { InputImages } from "../inputs/input-images";
+
+type CreateCatalogItemFormProps = {
+  categories: Category[];
+  productTypes: ProductType[];
+  callbackUrl?: string;
+};
 
 export function CreateCatalogItemForm({
   categories,
   productTypes,
   callbackUrl,
-}: {
-  categories: Category[];
-  productTypes: ProductType[];
-  callbackUrl?: string;
-}) {
+}: CreateCatalogItemFormProps) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(

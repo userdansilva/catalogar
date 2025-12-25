@@ -27,13 +27,7 @@ export const createCompanySchema = z.object({
   businessTypeDescription: companySchema.shape.businessTypeDescription,
 });
 
-export const updateCompanySchema = z.object({
-  name: companySchema.shape.name,
-  description: companySchema.shape.description,
-  mainSiteUrl: companySchema.shape.mainSiteUrl,
-  phoneNumber: companySchema.shape.phoneNumber,
-  businessTypeDescription: companySchema.shape.businessTypeDescription,
-});
+export const updateCompanySchema = createCompanySchema;
 
 export type Company = z.infer<typeof companySchema>;
 export type CreateCompany = z.infer<typeof createCompanySchema>;

@@ -15,7 +15,7 @@ export const createCategoryAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput: { name, textColor, backgroundColor, isDisabled },
+      parsedInput: { name, textColor, backgroundColor },
       ctx: {
         user: { currentCatalog },
       },
@@ -25,7 +25,7 @@ export const createCategoryAction = authActionClientWithUser
         slug: slugify(name, { lower: true }),
         textColor,
         backgroundColor,
-        isDisabled,
+        isDisabled: false,
       });
 
       if (error) {

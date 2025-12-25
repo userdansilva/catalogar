@@ -10,28 +10,12 @@ export const createCompanyAction = authActionClient
   .metadata({
     actionName: "create-company",
   })
-  .action(
-    async ({
-      parsedInput: {
-        name,
-        description,
-        mainSiteUrl,
-        phoneNumber,
-        businessTypeDescription,
-      },
-    }) => {
-      const [error, data] = await postCompany({
-        name,
-        description,
-        mainSiteUrl,
-        phoneNumber,
-        businessTypeDescription,
-      });
+  .action(async ({ parsedInput }) => {
+    const [error, data] = await postCompany(parsedInput);
 
-      if (error) {
-        throw new ExpectedError(error);
-      }
+    if (error) {
+      throw new ExpectedError(error);
+    }
 
-      return { company: data.data, message: data.meta?.message };
-    },
-  );
+    return { company: data.data, message: data.meta?.message };
+  });

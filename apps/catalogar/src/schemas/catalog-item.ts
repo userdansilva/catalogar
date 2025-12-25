@@ -40,27 +40,8 @@ export const createCatalogItemSchema = z.object({
   isDisabled: catalogItemSchema.shape.isDisabled,
 });
 
-export const updateCatalogItemSchema = z.object({
+export const updateCatalogItemSchema = createCatalogItemSchema.extend({
   id: catalogItemSchema.shape.id,
-  title: catalogItemSchema.shape.title.min(1, "Campo obrigatório"),
-  caption: catalogItemSchema.shape.caption,
-  productTypeId: productTypeSchema.shape.id.min(1, "Campo obrigatório"),
-  images: z
-    .array(
-      z.object({
-        fileName: catalogItemImageSchema.shape.fileName,
-        url: catalogItemImageSchema.shape.url,
-        sizeInBytes: catalogItemImageSchema.shape.sizeInBytes,
-        width: catalogItemImageSchema.shape.width,
-        height: catalogItemImageSchema.shape.height,
-        altText: catalogItemImageSchema.shape.altText,
-        position: catalogItemImageSchema.shape.position,
-      }),
-    )
-    .min(1, "É necessário adicionar, no mínimo, uma imagem"),
-  price: catalogItemSchema.shape.price,
-  categoryIds: z.array(categorySchema.shape.id).optional(),
-  isDisabled: catalogItemSchema.shape.isDisabled,
 });
 
 export const catalogItemStatusToggleSchema = z.object({

@@ -1,9 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -15,13 +11,21 @@ import {
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
 import { Textarea } from "@catalogar/ui/components/textarea";
-import { Button } from "../inputs/button";
-import { routes } from "@/routes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { createCompanyAction } from "@/actions/create-company-action";
-import { toastServerError } from "@/utils/toast-server-error";
+import { routes } from "@/routes";
 import { createCompanySchema } from "@/schemas/company";
+import { toastServerError } from "@/utils/toast-server-error";
+import { Button } from "../inputs/button";
 
-export function CreateCompanyForm({ callbackUrl }: { callbackUrl?: string }) {
+type CreateCompanyFormProps = {
+  callbackUrl?: string;
+};
+
+export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(

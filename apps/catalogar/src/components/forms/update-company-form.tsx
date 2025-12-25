@@ -1,9 +1,5 @@
 "use client";
 
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -15,12 +11,15 @@ import {
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
 import { Textarea } from "@catalogar/ui/components/textarea";
-import { Button } from "../inputs/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { updateCompanyAction } from "@/actions/update-company-action";
-import { toastServerError } from "@/utils/toast-server-error";
-import type { Company } from "@/services/get-user";
 import { routes } from "@/routes";
-import { updateCompanySchema } from "@/schemas/company";
+import { type Company, updateCompanySchema } from "@/schemas/company";
+import { toastServerError } from "@/utils/toast-server-error";
+import { Button } from "../inputs/button";
 
 type UpdateCompanyFormProps = {
   company: Company;
