@@ -14,24 +14,12 @@ export const updateCompanyAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput: {
-        name,
-        description,
-        mainSiteUrl,
-        phoneNumber,
-        businessTypeDescription,
-      },
+      parsedInput,
       ctx: {
         user: { currentCatalog },
       },
     }) => {
-      const [error, data] = await putCompany({
-        name,
-        description,
-        mainSiteUrl,
-        phoneNumber,
-        businessTypeDescription,
-      });
+      const [error, data] = await putCompany(parsedInput);
 
       if (error) {
         throw new ExpectedError(error);

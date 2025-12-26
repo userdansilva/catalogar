@@ -56,18 +56,8 @@ export function UpdateCatalogItemForm({
         mode: "onChange",
         defaultValues: {
           ...catalogItem,
-          images: catalogItem.images.map((image) => ({
-            fileName: image.fileName,
-            url: image.url,
-            sizeInBytes: image.sizeInBytes,
-            width: image.width,
-            height: image.height,
-            altText: image.altText,
-            position: image.position,
-          })),
           productTypeId: catalogItem.productType.id,
           categoryIds: catalogItem.categories.map((category) => category.id),
-          price: catalogItem.price?.toString(),
         },
       },
       actionProps: {
@@ -288,7 +278,7 @@ export function UpdateCatalogItemForm({
 
         <Button
           type="submit"
-          disabled={form.formState.isSubmitting}
+          disabled={form.formState.isSubmitting || !form.formState.isDirty}
           loading={form.formState.isSubmitting}
         >
           Salvar alterações

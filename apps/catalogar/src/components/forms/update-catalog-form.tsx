@@ -46,8 +46,8 @@ export function UpdateCatalogForm({
       formProps: {
         mode: "onChange",
         defaultValues: {
-          name: catalog.name,
-          isPublished: catalog.isPublished,
+          ...catalog,
+          slug: catalog.slug ?? "",
         },
       },
       actionProps: {
@@ -67,6 +67,8 @@ export function UpdateCatalogForm({
       },
     },
   );
+
+  console.log("catalog", catalog);
 
   return (
     <Form {...form}>
@@ -146,6 +148,51 @@ export function UpdateCatalogForm({
                   </>
                 )}
               />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="slug"
+          control={form.control}
+          render={({ field: { onChange, ...field } }) => (
+            <FormItem className="space-y-2">
+              <FormLabel>Link customizado (Apenas catálogo público)</FormLabel>
+
+              <div className="flex">
+                <div className="bg-muted text-muted-foreground flex h-9 items-center rounded-l-md border border-r-0 px-3 py-2 text-sm">
+                  {`${process.env.NEXT_PUBLIC_BASE_URL}/@`}
+                </div>
+                <div className="flex-1">
+                  <FormControl>
+                    <Input
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck="false"
+                      className="rounded-l-none"
+                      placeholder="minha-empresa"
+                      onChange={(e) => {
+                        e.target.value
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")
+                          .replace(/[^a-z0-9-]/g, "")
+                          .replace(/-+/g, "-")
+                          .replace(/(^-)|(-$)/g, "");
+
+                        onChange(e);
+                      }}
+                      disabled={form.formState.isSubmitting}
+                      {...field}
+                    />
+                  </FormControl>
+                </div>
+              </div>
+
+              <FormDescription>
+                Apenas letras minúsculas, números e hífens são permitidos
+              </FormDescription>
+
               <FormMessage />
             </FormItem>
           )}

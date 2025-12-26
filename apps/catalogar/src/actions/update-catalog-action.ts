@@ -17,7 +17,7 @@ export const updateCatalogAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput: { name, isPublished },
+      parsedInput: { name, isPublished, slug },
       ctx: {
         user: { currentCatalog },
       },
@@ -35,10 +35,10 @@ export const updateCatalogAction = authActionClientWithUser
       }
 
       // Publicar pela a primeira vez
-      if (isPublished && !user.currentCatalog?.slug) {
+      if (isPublished && !user.currentCatalog.isPublished) {
         const [putCatalogError] = await putCatalog({
           name,
-          isPublished,
+          slug,
         });
 
         if (putCatalogError) {
@@ -52,7 +52,7 @@ export const updateCatalogAction = authActionClientWithUser
       const [putCatalogError, putCatalogData] = await putCatalog({
         name,
         isPublished,
-        slug: user.currentCatalog.slug,
+        slug,
       });
 
       if (putCatalogError) {

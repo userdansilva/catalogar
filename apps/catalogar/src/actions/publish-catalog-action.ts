@@ -27,8 +27,8 @@ export const publishCatalogAction = authActionClientWithUser
     }
 
     const [catalogError, catalogData] = await putCatalog({
-      name: currentCatalog.name,
       slug,
+      name: currentCatalog.name,
       isPublished: true,
     });
 

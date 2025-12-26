@@ -29,8 +29,8 @@ export function InputLogo({
   onChange,
   disabled,
 }: {
-  value?: Logo;
-  onChange: (v: Logo) => void;
+  value?: Logo | null;
+  onChange: (v: Logo | null) => void;
   disabled?: boolean;
 }) {
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -77,15 +77,7 @@ export function InputLogo({
     }
   };
 
-  const handleRemove = () =>
-    onChange({
-      fileName: "",
-      url: "",
-      sizeInBytes: 0,
-      width: 0,
-      height: 0,
-      altText: "",
-    });
+  const handleRemove = () => onChange(null);
 
   return (
     <>

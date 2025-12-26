@@ -22,16 +22,7 @@ export const updateThemeAction = authActionClientWithUser
       const [error, data] = await putTheme({
         primaryColor,
         secondaryColor,
-        logo: logo?.fileName
-          ? {
-              fileName: logo.fileName,
-              url: logo.url,
-              sizeInBytes: logo.sizeInBytes,
-              width: logo.width,
-              height: logo.height,
-              altText: logo.altText,
-            }
-          : undefined,
+        logo: logo ?? undefined,
       });
 
       if (error) {

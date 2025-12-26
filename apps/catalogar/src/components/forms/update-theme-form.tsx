@@ -76,7 +76,7 @@ export function UpdateThemeForm({
               <FormControl>
                 <InputLogo
                   onChange={onChange}
-                  value={value ?? undefined}
+                  value={value}
                   disabled={form.formState.isSubmitting}
                 />
               </FormControl>

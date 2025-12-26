@@ -65,15 +65,17 @@ export function CarouselImages({ images, unoptimized }: CarouselImagesProps) {
 
           <div className="absolute inset-x-0 bottom-0 flex justify-center p-4">
             <div className="flex space-x-2">
-              {Array.from({ length: count }, crypto.randomUUID).map((id, i) => (
-                <span
-                  key={id}
-                  className={cn(
-                    "bg-background block size-2 rounded-full",
-                    current === i + 1 && "bg-primary",
-                  )}
-                />
-              ))}
+              {Array.from({ length: count }, () => crypto.randomUUID()).map(
+                (id, i) => (
+                  <span
+                    key={id}
+                    className={cn(
+                      "bg-background block size-2 rounded-full",
+                      current === i + 1 && "bg-primary",
+                    )}
+                  />
+                ),
+              )}
             </div>
           </div>
         </>

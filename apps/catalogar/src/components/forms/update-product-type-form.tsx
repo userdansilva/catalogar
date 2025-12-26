@@ -37,9 +37,7 @@ export function UpdateProductTypeForm({
     {
       formProps: {
         mode: "onChange",
-        defaultValues: {
-          ...productType,
-        },
+        defaultValues: productType,
       },
       actionProps: {
         onSuccess: (res) => {

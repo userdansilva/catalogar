@@ -40,9 +40,7 @@ export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
     {
       formProps: {
         mode: "onChange",
-        defaultValues: {
-          ...category,
-        },
+        defaultValues: category,
       },
       actionProps: {
         onSuccess: (res) => {

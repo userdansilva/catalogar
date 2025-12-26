@@ -21,7 +21,7 @@ export const createThemeSchema = z.object({
       height: logoSchema.shape.height,
       altText: logoSchema.shape.altText,
     })
-    .optional(),
+    .nullish(),
 });
 
 export const updateThemeSchema = createThemeSchema;

@@ -10,10 +10,14 @@ export const catalogSchema = z.object({
     .min(1, "Campo obrigatório")
     .max(35, "Máximo de 35 caracteres"),
   slug: z
-    .string()
-    .min(1, "Campo obrigatório")
-    .max(30, "Máximo de 30 caracteres")
-    .and(validator.slugValidator)
+    .union([
+      z.literal(""),
+      z
+        .string()
+        .min(1, "Campo obrigatório")
+        .max(30, "Máximo de 30 caracteres")
+        .and(validator.slugValidator),
+    ])
     .optional(),
   publishedAt: z.string().optional(),
   isPublished: z.boolean(),
@@ -28,13 +32,16 @@ export const createCatalogSchema = z.object({
 });
 
 export const updateCatalogSchema = createCatalogSchema.extend({
-  isPublished: catalogSchema.shape.isPublished,
+  isPublished: catalogSchema.shape.isPublished.optional(),
+  slug: catalogSchema.shape.slug,
 });
 
 export const publishCatalogSchema = z.object({
-  name: catalogSchema.shape.name,
-  isPublished: catalogSchema.shape.isPublished,
-  slug: catalogSchema.shape.slug.nonoptional(),
+  slug: z
+    .string()
+    .min(1, "Campo obrigatório")
+    .max(30, "Máximo de 30 caracteres")
+    .and(validator.slugValidator),
 });
 
 export type Catalog = z.infer<typeof catalogSchema>;
