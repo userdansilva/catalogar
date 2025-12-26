@@ -38,7 +38,13 @@ export function UpdateCompanyForm({
     {
       formProps: {
         mode: "onChange",
-        defaultValues: company,
+        defaultValues: {
+          name: company.name,
+          description: company.description ?? "",
+          mainSiteUrl: company.mainSiteUrl ?? "",
+          phoneNumber: company.phoneNumber ?? "",
+          businessTypeDescription: company.businessTypeDescription ?? "",
+        },
       },
       actionProps: {
         onSuccess: (res) => {

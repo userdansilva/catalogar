@@ -1,14 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { ChevronDown, Plus } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { type FormEventHandler, type PropsWithChildren, useState } from "react";
-import { type UseFormReturn, Watch } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 import { Badge } from "@catalogar/ui/components/badge";
 import {
   Card,
@@ -27,6 +18,14 @@ import {
   DialogTrigger,
 } from "@catalogar/ui/components/dialog";
 import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@catalogar/ui/components/drawer";
+import {
   Form,
   FormControl,
   FormField,
@@ -40,20 +39,21 @@ import {
   RadioGroupItem,
 } from "@catalogar/ui/components/radio-group";
 import { ScrollArea } from "@catalogar/ui/components/scroll-area";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@catalogar/ui/components/drawer";
 import { useIsMobile } from "@catalogar/ui/hooks/use-mobile";
-import { Button } from "./inputs/button";
-import { routes } from "@/routes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { ChevronDown, Plus } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { type FormEventHandler, type PropsWithChildren, useState } from "react";
+import { type UseFormReturn, Watch } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
-import type { Catalog } from "@/services/get-user";
+import { routes } from "@/routes";
+import type { Catalog } from "@/schemas/catalog";
 import { toastServerError } from "@/utils/toast-server-error";
+import { Button } from "./inputs/button";
 
 function CatalogSwitcherCard({
   currentCatalog,

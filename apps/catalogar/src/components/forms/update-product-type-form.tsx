@@ -37,7 +37,11 @@ export function UpdateProductTypeForm({
     {
       formProps: {
         mode: "onChange",
-        defaultValues: productType,
+        defaultValues: {
+          id: productType.id,
+          name: productType.name,
+          isDisabled: productType.isDisabled,
+        },
       },
       actionProps: {
         onSuccess: (res) => {

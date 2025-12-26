@@ -10,8 +10,12 @@ export const createThemeAction = authActionClient
   .metadata({
     actionName: "create-theme",
   })
-  .action(async ({ parsedInput }) => {
-    const [error, data] = await postTheme(parsedInput);
+  .action(async ({ parsedInput: { primaryColor, secondaryColor, logo } }) => {
+    const [error, data] = await postTheme({
+      primaryColor,
+      secondaryColor,
+      logo: logo ?? undefined,
+    });
 
     if (error) {
       throw new ExpectedError(error);

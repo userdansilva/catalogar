@@ -43,7 +43,11 @@ export function UpdateThemeForm({
     {
       formProps: {
         mode: "onChange",
-        defaultValues: theme,
+        defaultValues: {
+          logo: theme.logo ?? null,
+          primaryColor: theme.primaryColor,
+          secondaryColor: theme.secondaryColor,
+        },
       },
       actionProps: {
         onSuccess: (res) => {

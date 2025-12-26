@@ -46,7 +46,8 @@ export function UpdateCatalogForm({
       formProps: {
         mode: "onChange",
         defaultValues: {
-          ...catalog,
+          name: catalog.name,
+          isPublished: catalog.isPublished,
           slug: catalog.slug ?? "",
         },
       },
@@ -67,8 +68,6 @@ export function UpdateCatalogForm({
       },
     },
   );
-
-  console.log("catalog", catalog);
 
   return (
     <Form {...form}>

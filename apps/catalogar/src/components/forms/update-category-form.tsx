@@ -40,7 +40,13 @@ export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
     {
       formProps: {
         mode: "onChange",
-        defaultValues: category,
+        defaultValues: {
+          id: category.id,
+          name: category.name,
+          backgroundColor: category.backgroundColor,
+          textColor: category.textColor,
+          isDisabled: category.isDisabled,
+        },
       },
       actionProps: {
         onSuccess: (res) => {

@@ -55,9 +55,14 @@ export function UpdateCatalogItemForm({
       formProps: {
         mode: "onChange",
         defaultValues: {
-          ...catalogItem,
+          id: catalogItem.id,
+          title: catalogItem.title,
+          caption: catalogItem.caption ?? "",
+          price: catalogItem.price ?? "",
           productTypeId: catalogItem.productType.id,
           categoryIds: catalogItem.categories.map((category) => category.id),
+          images: catalogItem.images,
+          isDisabled: catalogItem.isDisabled,
         },
       },
       actionProps: {
