@@ -51,7 +51,7 @@ import z from "zod";
 import { deleteCategoryAction } from "@/actions/delete-category-action";
 import { toggleCategoryStatusAction } from "@/actions/toggle-status-category-action";
 import { routes } from "@/routes";
-import type { Category } from "@/services/get-category";
+import type { Category } from "@/schemas/category";
 
 export const columns: ColumnDef<Category>[] = [
   {

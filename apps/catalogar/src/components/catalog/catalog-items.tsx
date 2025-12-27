@@ -1,3 +1,4 @@
+import type { CatalogItem } from "@/schemas/catalog-item";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
 import { CatalogNoResults } from "./catalog-no-results";
@@ -7,9 +8,7 @@ import { PublicCatalogItem } from "./public-catalog-item";
 
 type CatalogItemsProps = {
   query?: string;
-  catalogItems: {
-    id: string;
-  }[];
+  catalogItems: CatalogItem[];
   productTypeSlug?: string;
   categorySlug?: string;
   currentPage?: number;

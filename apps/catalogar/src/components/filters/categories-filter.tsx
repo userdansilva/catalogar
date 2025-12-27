@@ -1,8 +1,5 @@
 "use client";
 
-import { Check, ChevronsUpDown, Filter } from "lucide-react";
-import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
 import { Button } from "@catalogar/ui/components/button";
 import {
   Command,
@@ -18,14 +15,12 @@ import {
   PopoverTrigger,
 } from "@catalogar/ui/components/popover";
 import { cn } from "@catalogar/ui/lib/utils";
-import type { Category } from "@/services/get-category";
+import { Check, ChevronsUpDown, Filter } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import type { Category } from "@/schemas/category";
 
-export function CategoriesFilter({
-  categories,
-  currentCategorySlug,
-  mode,
-  searchParamNames,
-}: {
+type CategoriesFilterProps = {
   categories: Category[];
   currentCategorySlug?: string;
   mode: "preview" | "dashboard";
@@ -33,7 +28,14 @@ export function CategoriesFilter({
     page: string;
     categorySlug: string;
   };
-}) {
+};
+
+export function CategoriesFilter({
+  categories,
+  currentCategorySlug,
+  mode,
+  searchParamNames,
+}: CategoriesFilterProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
@@ -76,7 +78,7 @@ export function CategoriesFilter({
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="w-50 p-0">
           <Command>
             <CommandInput placeholder="Buscar categoria..." className="h-9" />
             <CommandList>

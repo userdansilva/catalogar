@@ -1,9 +1,5 @@
 "use client";
 
-import { Box, Check, Plus, Settings } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import { toast } from "sonner";
-import Link from "next/link";
 import {
   Card,
   CardDescription,
@@ -11,11 +7,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
+import { Box, Check, Plus, Settings } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button } from "./inputs/button";
-import { routes } from "@/routes";
+import { useAction } from "next-safe-action/hooks";
+import { toast } from "sonner";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
-import type { Catalog } from "@/services/get-user";
+import { routes } from "@/routes";
+import type { Catalog } from "@/schemas/catalog";
+import { Button } from "./inputs/button";
 
 type MyCatalogsProps = {
   catalogs: Catalog[];

@@ -50,7 +50,7 @@ import { z } from "zod";
 import { deleteProductTypeAction } from "@/actions/delete-product-type-action";
 import { toggleProductTypeStatusAction } from "@/actions/toggle-status-product-type-action";
 import { routes } from "@/routes";
-import type { ProductType } from "@/services/get-product-type";
+import type { ProductType } from "@/schemas/product-type";
 
 export const columns: ColumnDef<ProductType>[] = [
   {

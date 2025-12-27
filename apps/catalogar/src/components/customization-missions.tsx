@@ -1,9 +1,13 @@
-import { redirect, RedirectType } from "next/navigation";
-import { Mission } from "./mission";
-import type { User } from "@/services/get-user";
+import { RedirectType, redirect } from "next/navigation";
 import { routes } from "@/routes";
+import type { User } from "@/schemas/user";
+import { Mission } from "./mission";
 
-export function CustomizationMissions({ user }: { user: User }) {
+type CustomizationMissionsProps = {
+  user: User;
+};
+
+export function CustomizationMissions({ user }: CustomizationMissionsProps) {
   if (!user.currentCatalog) {
     redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
   }
@@ -40,7 +44,7 @@ export function CustomizationMissions({ user }: { user: User }) {
 
       <Mission
         title="1. Adicione informações da empresa"
-        description="Aqui, você pode colocar o nome e descrição da sua empresa, 
+        description="Aqui, você pode colocar o nome e descrição da sua empresa,
         e link para contato."
         status={companyMissionStatus}
         href={routes.company.sub.new.url}

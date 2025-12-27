@@ -1,10 +1,5 @@
 "use client";
 
-import { Box, ChevronsUpDown, Plus } from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 import { Badge } from "@catalogar/ui/components/badge";
 import {
   DropdownMenu,
@@ -20,17 +15,24 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@catalogar/ui/components/sidebar";
-import { routes } from "@/routes";
+import { Box, ChevronsUpDown, Plus } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAction } from "next-safe-action/hooks";
+import { toast } from "sonner";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
-import type { Catalog } from "@/services/get-user";
+import { routes } from "@/routes";
+import type { Catalog } from "@/schemas/catalog";
+
+type CatalogSwitcherClientProps = {
+  catalogs: Array<Catalog>;
+  currentCatalog: Catalog;
+};
 
 export function CatalogSwitcherClient({
   catalogs,
   currentCatalog,
-}: {
-  catalogs: Array<Catalog>;
-  currentCatalog: Catalog;
-}) {
+}: CatalogSwitcherClientProps) {
   const router = useRouter();
   const switchCatalog = useAction(switchCatalogAction);
   const { isMobile } = useSidebar();

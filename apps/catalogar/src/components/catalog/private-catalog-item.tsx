@@ -21,25 +21,8 @@ import { toast } from "sonner";
 import { deleteCatalogItemAction } from "@/actions/delete-catalog-item-action";
 import { toggleCatalogItemStatusAction } from "@/actions/toggle-catalog-item-status-action";
 import { routes } from "@/routes";
+import type { CatalogItem } from "@/schemas/catalog-item";
 import { CarouselImages } from "./carousel-images";
-
-type CatalogItem = {
-  id: string;
-  reference: string;
-  title: string;
-  isDisabled: boolean;
-  images: {
-    id: string;
-    url: string;
-  }[];
-  categories: {
-    id: string;
-    name: string;
-    textColor: string;
-    backgroundColor: string;
-    isDisabled: boolean;
-  }[];
-};
 
 type PrivateCatalogItemProps = {
   catalogItem: CatalogItem;

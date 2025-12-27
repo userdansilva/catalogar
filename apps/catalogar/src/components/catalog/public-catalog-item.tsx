@@ -6,22 +6,7 @@ import { Images } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-type CatalogItem = {
-  reference: string;
-  title: string;
-  isDisabled: boolean;
-  images: {
-    url: string;
-  }[];
-  categories: {
-    id: string;
-    name: string;
-    textColor: string;
-    backgroundColor: string;
-    isDisabled: boolean;
-  }[];
-};
+import type { CatalogItem } from "@/schemas/catalog-item";
 
 type PublicCatalogItemProps = {
   catalogItem: CatalogItem;

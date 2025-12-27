@@ -1,7 +1,5 @@
 "use client";
 
-import { Lock } from "lucide-react";
-import Link from "next/link";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -16,14 +14,16 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@catalogar/ui/components/tooltip";
+import { Lock } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { routes } from "@/routes";
-import type { ProductType } from "@/services/get-product-type";
-import type { Category } from "@/services/get-category";
-import type { CatalogItem } from "@/services/get-catalog-item";
-import type { User } from "@/services/get-user";
+import type { CatalogItem } from "@/schemas/catalog-item";
+import type { Category } from "@/schemas/category";
+import type { ProductType } from "@/schemas/product-type";
+import type { User } from "@/schemas/user";
 
-type NavMainProps = {
+type NavMainClientProps = {
   productTypes: ProductType[];
   categories: Category[];
   catalogItems: CatalogItem[];
@@ -35,7 +35,7 @@ export function NavMainClient({
   productTypes,
   categories,
   catalogItems,
-}: NavMainProps) {
+}: NavMainClientProps) {
   const { setOpenMobile } = useSidebar();
   const router = useRouter();
 

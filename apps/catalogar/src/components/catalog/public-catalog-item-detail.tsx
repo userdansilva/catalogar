@@ -1,13 +1,21 @@
+import { Badge } from "@catalogar/ui/components/badge";
+import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
 import { Forward } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
-import { Badge } from "@catalogar/ui/components/badge";
-import { ShareButton } from "../inputs/share-button";
-import { CopyButton } from "../inputs/copy-button";
 import { CarouselImages } from "@/components/catalog/carousel-images";
-import type { CatalogItem } from "@/services/get-catalog-item";
-import type { Company } from "@/services/get-user";
+import type { CatalogItem } from "@/schemas/catalog-item";
+import type { Company } from "@/schemas/company";
+import { CopyButton } from "../inputs/copy-button";
+import { ShareButton } from "../inputs/share-button";
+
+type PublicCatalogItemDetailProps = {
+  baseUrl: string;
+  catalogItem: CatalogItem;
+  company: Company;
+  unoptimized?: boolean;
+  relatedCatalogItems: CatalogItem[];
+};
 
 export function PublicCatalogItemDetail({
   baseUrl,
@@ -15,13 +23,7 @@ export function PublicCatalogItemDetail({
   company,
   unoptimized,
   relatedCatalogItems,
-}: {
-  baseUrl: string;
-  catalogItem: CatalogItem;
-  company: Company;
-  unoptimized?: boolean;
-  relatedCatalogItems: CatalogItem[];
-}) {
+}: PublicCatalogItemDetailProps) {
   return (
     <div className="flex flex-col space-y-10">
       <div className="flex flex-col gap-10 lg:flex-row">
