@@ -14,8 +14,6 @@ type Body = z.infer<typeof bodySchema>;
 export async function putCatalog(body: Body) {
   const headers = await getAuthHeaders();
 
-  console.log("body", body);
-
   return await serverFetch<Catalog>("/v1/catalogs", {
     method: "PUT",
     body,
