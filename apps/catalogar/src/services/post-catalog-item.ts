@@ -23,7 +23,6 @@ const bodySchema = z.object({
   ),
   price: catalogItemSchema.shape.price,
   categoryIds: z.array(categorySchema.shape.id),
-  isDisabled: catalogItemSchema.shape.isDisabled,
 });
 
 type Body = z.infer<typeof bodySchema>;

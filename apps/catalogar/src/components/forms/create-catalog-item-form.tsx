@@ -61,7 +61,6 @@ export function CreateCatalogItemForm({
           images: [],
           price: "",
           categoryIds: [],
-          isDisabled: false,
         },
       },
       actionProps: {

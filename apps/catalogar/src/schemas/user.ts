@@ -2,7 +2,7 @@ import z from "zod";
 import { catalogSchema } from "./catalog";
 
 export const userSchema = z.object({
-  id: z.uuid({ version: "v4" }),
+  id: z.uuidv4(),
   name: z.string(),
   email: z.email(),
   phoneNumber: z.string().optional(),

@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const logoSchema = z.object({
-  id: z.uuid({ version: "v4" }),
+  id: z.uuidv4(),
   fileName: z.string(),
   url: z.string(),
   sizeInBytes: z.number(),

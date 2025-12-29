@@ -21,7 +21,7 @@ type Logo = {
   sizeInBytes: number;
   width: number;
   height: number;
-  altText?: string;
+  altText: string;
 };
 
 export function InputLogo({

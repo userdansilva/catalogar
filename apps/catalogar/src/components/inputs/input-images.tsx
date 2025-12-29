@@ -23,7 +23,7 @@ type Image = {
   sizeInBytes: number;
   width: number;
   height: number;
-  altText?: string;
+  altText: string;
   position: number;
 };
 

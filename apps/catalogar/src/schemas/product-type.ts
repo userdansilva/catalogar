@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const productTypeSchema = z.object({
-  id: z.uuid({ version: "v4" }),
-  name: z.string().min(1, "Campo obrigatório"),
+  id: z.uuidv4(),
+  name: z.string(),
   slug: z.string(),
   isDisabled: z.boolean(),
   disabledAt: z.string().optional(),
@@ -10,22 +10,21 @@ export const productTypeSchema = z.object({
   updatedAt: z.string(),
 });
 
+export type ProductType = z.infer<typeof productTypeSchema>;
+
 export const createProductTypeSchema = z.object({
-  name: productTypeSchema.shape.name,
+  name: z.string().min(1, "Campo obrigatório"),
 });
 
 export const updateProductTypeSchema = createProductTypeSchema.extend({
-  id: productTypeSchema.shape.id,
-  isDisabled: productTypeSchema.shape.isDisabled,
+  id: z.uuidv4({
+    error: "Campo obrigatório",
+  }),
+  isDisabled: z.boolean(),
 });
 
 export const productTypeStatusToggleSchema = z.object({
-  id: productTypeSchema.shape.id,
+  id: z.uuidv4({
+    error: "Campo obrigatório",
+  }),
 });
-
-export type ProductType = z.infer<typeof productTypeSchema>;
-export type CreateProductType = z.infer<typeof createProductTypeSchema>;
-export type UpdateProductType = z.infer<typeof updateProductTypeSchema>;
-export type ProductTypeStatusToggle = z.infer<
-  typeof productTypeStatusToggleSchema
->;

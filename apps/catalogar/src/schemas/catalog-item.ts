@@ -4,7 +4,7 @@ import { categorySchema } from "./category";
 import { productTypeSchema } from "./product-type";
 
 export const catalogItemSchema = z.object({
-  id: z.uuid({ version: "v4" }),
+  id: z.uuidv4(),
   title: z.string(),
   caption: z.string().optional(),
   price: z.string().optional(),
@@ -18,39 +18,40 @@ export const catalogItemSchema = z.object({
   updatedAt: z.string(),
 });
 
+export type CatalogItem = z.infer<typeof catalogItemSchema>;
+
 export const createCatalogItemSchema = z.object({
-  title: catalogItemSchema.shape.title.min(1, "Campo obrigatório"),
-  caption: catalogItemSchema.shape.caption,
-  productTypeId: productTypeSchema.shape.id.min(1, "Campo obrigatório"),
+  title: z.string().min(1, "Campo obrigatório"),
+  caption: z.string(),
+  productTypeId: z.uuidv4({
+    error: "Campo obrigatório",
+  }),
   images: z
     .array(
       z.object({
-        fileName: catalogItemImageSchema.shape.fileName,
-        url: catalogItemImageSchema.shape.url,
-        sizeInBytes: catalogItemImageSchema.shape.sizeInBytes,
-        width: catalogItemImageSchema.shape.width,
-        height: catalogItemImageSchema.shape.height,
-        altText: catalogItemImageSchema.shape.altText,
-        position: catalogItemImageSchema.shape.position,
+        fileName: z.string(),
+        url: z.string(),
+        sizeInBytes: z.number(),
+        width: z.number(),
+        height: z.number(),
+        altText: z.string(),
+        position: z.number(),
       }),
     )
     .min(1, "É necessário adicionar, no mínimo, uma imagem"),
-  price: catalogItemSchema.shape.price,
-  categoryIds: z.array(categorySchema.shape.id),
-  isDisabled: catalogItemSchema.shape.isDisabled,
+  price: z.string(),
+  categoryIds: z.array(z.uuidv4()),
 });
 
 export const updateCatalogItemSchema = createCatalogItemSchema.extend({
-  id: catalogItemSchema.shape.id,
+  id: z.uuidv4({
+    error: "Campo obrigatório",
+  }),
+  isDisabled: z.boolean(),
 });
 
 export const catalogItemStatusToggleSchema = z.object({
-  id: catalogItemSchema.shape.id,
+  id: z.uuidv4({
+    error: "Campo obrigatório",
+  }),
 });
-
-export type CatalogItem = z.infer<typeof catalogItemSchema>;
-export type CreateCatalogItem = z.infer<typeof createCatalogItemSchema>;
-export type UpdateCatalogItem = z.infer<typeof updateCatalogItemSchema>;
-export type CatalogItemStatusToggle = z.infer<
-  typeof catalogItemStatusToggleSchema
->;
