@@ -1,5 +1,18 @@
 # catalogar
 
+## 2.2.6
+
+### Patch Changes
+
+- fbe11d6: enhance: melhoria na tipagem de response e erro nos services
+- b87639e: chore: substituição de eslint/prettier por biomejs
+- b87639e: enchance: melhoria na pipeline com adição de React2Shell
+- b87639e: enchance: melhoria na tipagem de resposta da api com Zod
+- b87639e: chore: add config para Zed Editor
+- a164a23: chore: atualização de dependências
+- Updated dependencies [a164a23]
+  - @catalogar/ui@1.1.2
+
 ## 2.2.5
 
 ### Patch Changes

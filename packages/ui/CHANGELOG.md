@@ -1,5 +1,11 @@
 # @catalogar/ui
 
+## 1.1.2
+
+### Patch Changes
+
+- a164a23: chore: atualização de dependências
+
 ## 1.1.1
 
 ### Patch Changes
