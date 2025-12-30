@@ -1,13 +1,13 @@
-import { Metadata } from "next";
-import { Suspense } from "react";
 import { Button } from "@catalogar/ui/components/button";
-import Link from "next/link";
 import { Plus } from "lucide-react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Suspense } from "react";
+import { PrevButton } from "@/components/inputs/prev-button";
+import { PageHeader } from "@/components/layout/page-header";
 import { CategoriesTable } from "@/components/tables/categories";
 import { CategoriesSkeleton } from "@/components/tables/categories/skeleton";
 import { routes } from "@/routes";
-import { PrevButton } from "@/components/inputs/prev-button";
-import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
   title: routes.categories.title,

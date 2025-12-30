@@ -1,10 +1,10 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { putCompany } from "@/services/put-company";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { updateCompanySchema } from "@/schemas/company";
+import { putCompany } from "@/services/put-company";
 import { tags } from "@/tags";
 
 export const updateCompanyAction = authActionClientWithUser
@@ -14,24 +14,12 @@ export const updateCompanyAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput: {
-        name,
-        description,
-        mainSiteUrl,
-        phoneNumber,
-        businessTypeDescription,
-      },
+      parsedInput,
       ctx: {
         user: { currentCatalog },
       },
     }) => {
-      const [error, data] = await putCompany({
-        name,
-        description,
-        mainSiteUrl,
-        phoneNumber,
-        businessTypeDescription,
-      });
+      const [error, data] = await putCompany(parsedInput);
 
       if (error) {
         throw new ExpectedError(error);

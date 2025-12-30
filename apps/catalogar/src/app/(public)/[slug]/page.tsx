@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
+import { CatalogItems } from "@/components/catalog/catalog-items";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 import { CategoriesFilter } from "@/components/filters/categories-filter";
 import { ProductTypesFilter } from "@/components/filters/product-types-filter";
 import { QueryFilter } from "@/components/filters/query-filter";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
-import { CatalogItems } from "@/components/catalog/catalog-items";
-import { SearchParams } from "@/types/system";
+import type { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 
 const ASCIIforAt = "%40"; // @
 const ITEMS_PER_PAGE = 16;

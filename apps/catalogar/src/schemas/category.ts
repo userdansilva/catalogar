@@ -1,28 +1,34 @@
 import { z } from "zod";
 
-const category = z.object({
-  id: z.uuid({ version: "v4" }),
+export const categorySchema = z.object({
+  id: z.uuidv4(),
+  name: z.string(),
+  slug: z.string(),
+  textColor: z.string(),
+  backgroundColor: z.string(),
+  isDisabled: z.boolean(),
+  disabledAt: z.string().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+export type Category = z.infer<typeof categorySchema>;
+
+export const createCategorySchema = z.object({
   name: z.string().min(1, "Campo obrigatório"),
   textColor: z.string().min(1, "Campo obrigatório"),
   backgroundColor: z.string().min(1, "Campo obrigatório"),
+});
+
+export const updateCategorySchema = createCategorySchema.extend({
+  id: z.uuidv4({
+    error: "Campo obrigatório",
+  }),
   isDisabled: z.boolean(),
 });
 
-export const createCategorySchema = category.pick({
-  name: true,
-  textColor: true,
-  backgroundColor: true,
-  isDisabled: true,
-});
-
-export const updateCategorySchema = category.pick({
-  id: true,
-  name: true,
-  textColor: true,
-  backgroundColor: true,
-  isDisabled: true,
-});
-
-export const categoryStatusToggleSchema = category.pick({
-  id: true,
+export const categoryStatusToggleSchema = z.object({
+  id: z.uuidv4({
+    error: "Campo obrigatório",
+  }),
 });

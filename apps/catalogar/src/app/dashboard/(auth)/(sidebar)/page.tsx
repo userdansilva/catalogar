@@ -1,16 +1,16 @@
-import { redirect, RedirectType } from "next/navigation";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import { RedirectType, redirect } from "next/navigation";
+import { CatalogSwitcherDrawerDialog } from "@/components/catalog-switcher-drawer-dialog";
 import { CustomizationMissions } from "@/components/customization-missions";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 import { FirstSteps } from "@/components/first-steps";
-import { routes } from "@/routes";
-import { getCatalogItems } from "@/services/get-catalog-items";
-import { getUser } from "@/services/get-user";
 import { MainCards } from "@/components/main-cards";
 import { MyCatalogs } from "@/components/my-catalogs";
-import { CatalogSwitcherDrawerDialog } from "@/components/catalog-switcher-drawer-dialog";
+import { routes } from "@/routes";
+import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
-import { ExpectedError } from "@/components/error-handling/expected-error";
+import { getUser } from "@/services/get-user";
 
 export const metadata: Metadata = {
   title: routes.dashboard.title,

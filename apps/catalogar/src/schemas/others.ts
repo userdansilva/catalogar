@@ -19,5 +19,5 @@ export const queryFilterSchema = z.object({
  * Common
  */
 export const deleteSchema = z.object({
-  id: z.uuid({ version: "v4" }),
+  id: z.uuidv4(),
 });

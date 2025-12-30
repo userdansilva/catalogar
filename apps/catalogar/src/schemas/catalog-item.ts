@@ -1,10 +1,31 @@
 import { z } from "zod";
+import { catalogItemImageSchema } from "./catalog-item-image";
+import { categorySchema } from "./category";
+import { productTypeSchema } from "./product-type";
 
-const catalogItem = z.object({
-  id: z.uuid({ version: "v4" }),
-  title: z.string().min(1, "Campo obrigatório"),
+export const catalogItemSchema = z.object({
+  id: z.uuidv4(),
+  title: z.string(),
   caption: z.string().optional(),
-  productTypeId: z.string().min(1, "Campo obrigatório"),
+  price: z.string().optional(),
+  reference: z.number(),
+  productType: productTypeSchema,
+  categories: z.array(categorySchema),
+  images: z.array(catalogItemImageSchema),
+  isDisabled: z.boolean(),
+  disabledAt: z.string().optional(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+export type CatalogItem = z.infer<typeof catalogItemSchema>;
+
+export const createCatalogItemSchema = z.object({
+  title: z.string().min(1, "Campo obrigatório"),
+  caption: z.string(),
+  productTypeId: z.uuidv4({
+    error: "Campo obrigatório",
+  }),
   images: z
     .array(
       z.object({
@@ -18,32 +39,19 @@ const catalogItem = z.object({
       }),
     )
     .min(1, "É necessário adicionar, no mínimo, uma imagem"),
-  price: z.string().optional(),
-  categoryIds: z.array(z.uuid({ version: "v4" })).optional(),
+  price: z.string(),
+  categoryIds: z.array(z.uuidv4()),
+});
+
+export const updateCatalogItemSchema = createCatalogItemSchema.extend({
+  id: z.uuidv4({
+    error: "Campo obrigatório",
+  }),
   isDisabled: z.boolean(),
 });
 
-export const createCatalogItemSchema = catalogItem.pick({
-  title: true,
-  caption: true,
-  productTypeId: true,
-  images: true,
-  price: true,
-  categoryIds: true,
-  isDisabled: true,
-});
-
-export const updateCatalogItemSchema = catalogItem.pick({
-  id: true,
-  title: true,
-  caption: true,
-  productTypeId: true,
-  images: true,
-  price: true,
-  categoryIds: true,
-  isDisabled: true,
-});
-
-export const catalogItemStatusToggleSchema = catalogItem.pick({
-  id: true,
+export const catalogItemStatusToggleSchema = z.object({
+  id: z.uuidv4({
+    error: "Campo obrigatório",
+  }),
 });

@@ -1,7 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
-import { PropsWithChildren } from "react";
-import { ExternalLink, Forward, Menu } from "lucide-react";
 import {
   Drawer,
   DrawerContent,
@@ -11,20 +7,37 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@catalogar/ui/components/drawer";
+import { ExternalLink, Forward, Menu } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import type { PropsWithChildren } from "react";
 import { Button } from "../inputs/button";
 import { ShareButton } from "../inputs/share-button";
-import { Company, Theme } from "@/services/get-user";
+
+type CatalogLayoutProps = PropsWithChildren<{
+  baseUrl: string;
+  company: {
+    name: string;
+    mainSiteUrl?: string;
+    description?: string;
+  };
+  theme: {
+    primaryColor: string;
+    secondaryColor: string;
+    logo?: {
+      url: string;
+      width: number;
+      height: number;
+    };
+  };
+}>;
 
 export function CatalogLayout({
   children,
   baseUrl,
   company,
   theme,
-}: PropsWithChildren<{
-  baseUrl: string;
-  company: Pick<Company, "name" | "mainSiteUrl" | "description">;
-  theme: Pick<Theme, "primaryColor" | "secondaryColor" | "logo">;
-}>) {
+}: CatalogLayoutProps) {
   return (
     <div>
       <header

@@ -1,42 +1,27 @@
-import { serverFetch } from "@/utils/server-fetch";
+import z from "zod";
+import type { Category } from "@/schemas/category";
+import type { Paginated } from "@/types/api-response";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
-import {
-  ApiResponseWithPagination,
-  DefaultApiError,
-} from "@/types/api-response";
+import { serverFetch } from "@/utils/server-fetch";
 
-export type Category = {
-  id: string;
-  name: string;
-  slug: string;
-  textColor: string;
-  backgroundColor: string;
-  isDisabled: boolean;
-  disabledAt?: string;
-  createdAt: string;
-  updatedAt: string;
-};
-export type GetCategoriesError = DefaultApiError;
-export type GetCategoriesResponse = ApiResponseWithPagination<Category[]>;
-export type GetCategoriesParams = {
-  field?: "name" | "createdAt";
-  sort?: "asc" | "desc";
-  page?: string;
-  perPage?: string;
+const querySchema = z.object({
+  field: z.enum(["name", "createdAt"]).optional(),
+  sort: z.enum(["asc", "desc"]).optional(),
+  page: z.string().optional(),
+  perPage: z.string().optional(),
+});
+
+type QueryParams = z.infer<typeof querySchema>;
+
+type GetCategoriesParams = {
+  query?: QueryParams;
 };
 
-export async function getCategories({
-  params,
-}: {
-  params?: GetCategoriesParams;
-} = {}) {
+export async function getCategories({ query }: GetCategoriesParams = {}) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<GetCategoriesError, GetCategoriesResponse>(
-    "/v1/categories",
-    {
-      query: params,
-      headers,
-    },
-  );
+  return await serverFetch<Paginated<Category[]>>("/v1/categories", {
+    query,
+    headers,
+  });
 }

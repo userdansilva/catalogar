@@ -1,9 +1,9 @@
-import { Metadata } from "next";
-import { redirect, RedirectType } from "next/navigation";
+import type { Metadata } from "next";
+import { RedirectType, redirect } from "next/navigation";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 import { CreateCatalogForm } from "@/components/forms/create-catalog-form";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export const metadata: Metadata = {
   title: routes.catalog.sub.createFirst.title,

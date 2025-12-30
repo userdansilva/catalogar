@@ -1,38 +1,24 @@
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
+import z from "zod";
+import { type Category, categorySchema } from "@/schemas/category";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export type Category = {
-  id: string;
-  name: string;
-  slug: string;
-  textColor: string;
-  backgroundColor: string;
-  isDisabled: boolean;
-  disabledAt?: string;
-  createdAt: string;
-  updatedAt: string;
-};
+const bodySchema = z.object({
+  name: categorySchema.shape.name,
+  slug: categorySchema.shape.slug,
+  textColor: categorySchema.shape.textColor,
+  backgroundColor: categorySchema.shape.backgroundColor,
+  isDisabled: categorySchema.shape.isDisabled,
+});
 
-export type PostCategoryError = DefaultApiError;
-export type PostCategoryResponse = ApiResponse<Category>;
-export type PostCategoryBody = {
-  name: string;
-  slug: string;
-  textColor: string;
-  backgroundColor: string;
-  isDisabled: boolean;
-};
+type Body = z.infer<typeof bodySchema>;
 
-export async function postCategory(body: PostCategoryBody) {
+export async function postCategory(body: Body) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<PostCategoryError, PostCategoryResponse>(
-    "/v1/categories",
-    {
-      method: "POST",
-      body,
-      headers,
-    },
-  );
+  return await serverFetch<Category>("/v1/categories", {
+    method: "POST",
+    body,
+    headers,
+  });
 }

@@ -1,10 +1,10 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { putCatalogItem } from "@/services/put-catalog-item";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { updateCatalogItemSchema } from "@/schemas/catalog-item";
+import { putCatalogItem } from "@/services/put-catalog-item";
 import { tags } from "@/tags";
 
 export const updateCatalogItemAction = authActionClientWithUser
@@ -14,37 +14,12 @@ export const updateCatalogItemAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput: {
-        id,
-        title,
-        caption,
-        productTypeId,
-        images,
-        price,
-        categoryIds,
-        isDisabled,
-      },
+      parsedInput,
       ctx: {
         user: { currentCatalog },
       },
     }) => {
-      const [error, data] = await putCatalogItem(id, {
-        title,
-        caption,
-        productTypeId,
-        images: images.map((image) => ({
-          fileName: image.fileName,
-          url: image.url,
-          sizeInBytes: image.sizeInBytes,
-          width: image.width,
-          height: image.height,
-          altText: image.altText,
-          position: image.position,
-        })),
-        price,
-        categoryIds,
-        isDisabled,
-      });
+      const [error, data] = await putCatalogItem(parsedInput);
 
       if (error) {
         throw new ExpectedError(error);

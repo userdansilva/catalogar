@@ -1,11 +1,11 @@
 "use server";
 
-import slugify from "slugify";
 import { revalidateTag } from "next/cache";
-import { postProductType } from "@/services/post-product-type";
+import slugify from "slugify";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { createProductTypeSchema } from "@/schemas/product-type";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { createProductTypeSchema } from "@/schemas/product-type";
+import { postProductType } from "@/services/post-product-type";
 import { tags } from "@/tags";
 
 export const createProductTypeAction = authActionClientWithUser
@@ -15,7 +15,7 @@ export const createProductTypeAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput: { name, isDisabled },
+      parsedInput: { name },
       ctx: {
         user: { currentCatalog },
       },
@@ -23,7 +23,7 @@ export const createProductTypeAction = authActionClientWithUser
       const [error, data] = await postProductType({
         name,
         slug: slugify(name, { lower: true }),
-        isDisabled,
+        isDisabled: false,
       });
 
       if (error) {

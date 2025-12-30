@@ -1,29 +1,29 @@
 import { z } from "zod";
+import { logoSchema } from "./logo";
 
-const theme = z.object({
+export const themeSchema = z.object({
+  primaryColor: z.string(),
+  secondaryColor: z.string(),
+  logo: logoSchema.optional(),
+  createAt: z.string(),
+  updatedAt: z.string(),
+});
+
+export type Theme = z.infer<typeof themeSchema>;
+
+export const createThemeSchema = z.object({
   primaryColor: z.string().min(1, "Campo obrigatório"),
   secondaryColor: z.string().min(1, "Campo obrigatório"),
-  logo: z.union([
-    z.object({
+  logo: z
+    .object({
       fileName: z.string(),
       url: z.string(),
       sizeInBytes: z.number(),
       width: z.number(),
       height: z.number(),
       altText: z.string(),
-    }),
-    z.null(),
-  ]),
+    })
+    .nullish(),
 });
 
-export const createThemeSchema = theme.pick({
-  primaryColor: true,
-  secondaryColor: true,
-  logo: true,
-});
-
-export const updateThemeSchema = theme.pick({
-  primaryColor: true,
-  secondaryColor: true,
-  logo: true,
-});
+export const updateThemeSchema = createThemeSchema;

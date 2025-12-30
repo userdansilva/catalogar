@@ -1,46 +1,30 @@
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
+import z from "zod";
+import { logoSchema } from "@/schemas/logo";
+import { type Theme, themeSchema } from "@/schemas/theme";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export type Logo = {
-  id: string;
-  fileName: string;
-  url: string;
-  sizeInBytes: number;
-  width: number;
-  height: number;
-  altText?: string;
-  createdAt: string;
-  updatedAt: string;
-};
+const bodySchema = z.object({
+  primaryColor: themeSchema.shape.primaryColor,
+  secondaryColor: themeSchema.shape.secondaryColor,
+  logo: z
+    .object({
+      fileName: logoSchema.shape.fileName,
+      url: logoSchema.shape.url,
+      sizeInBytes: logoSchema.shape.sizeInBytes,
+      width: logoSchema.shape.width,
+      height: logoSchema.shape.height,
+      altText: logoSchema.shape.altText,
+    })
+    .optional(),
+});
 
-export type Theme = {
-  primaryColor: string;
-  secondaryColor: string;
-  logo?: Logo;
-  createdAt: string;
-  updatedAt: string;
-};
+type Body = z.infer<typeof bodySchema>;
 
-export type PostThemeError = DefaultApiError;
-export type PostThemeResponse = ApiResponse<Theme>;
-export type PostThemeBody = {
-  primaryColor: string;
-  secondaryColor: string;
-  logo?: {
-    fileName: string;
-    url: string;
-    sizeInBytes: number;
-    width: number;
-    height: number;
-    altText: string;
-  };
-};
-
-export async function postTheme(body: PostThemeBody) {
+export async function postTheme(body: Body) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<PostThemeError, PostThemeResponse>("/v1/themes", {
+  return await serverFetch<Theme>("/v1/themes", {
     method: "POST",
     body,
     headers,

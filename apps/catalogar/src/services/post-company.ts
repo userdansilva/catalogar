@@ -1,36 +1,24 @@
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
+import z from "zod";
+import { type Company, companySchema } from "@/schemas/company";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export type Company = {
-  name: string;
-  description: string;
-  mainSiteUrl: string;
-  phoneNumber: string;
-  businessTypeDescription: string;
-  createdAt: string;
-  updatedAt: string;
-};
+const bodySchema = z.object({
+  name: companySchema.shape.name,
+  description: companySchema.shape.description,
+  mainSiteUrl: companySchema.shape.mainSiteUrl,
+  phoneNumber: companySchema.shape.phoneNumber,
+  businessTypeDescription: companySchema.shape.businessTypeDescription,
+});
 
-export type PostCompanyError = DefaultApiError;
-export type PostCompanyResponse = ApiResponse<Company>;
-export type PostCompanyBody = {
-  name: string;
-  description?: string;
-  mainSiteUrl?: string;
-  phoneNumber?: string;
-  businessTypeDescription?: string;
-};
+type Body = z.infer<typeof bodySchema>;
 
-export async function postCompany(body: PostCompanyBody) {
+export async function postCompany(body: Body) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<PostCompanyError, PostCompanyResponse>(
-    "/v1/companies",
-    {
-      method: "POST",
-      body,
-      headers,
-    },
-  );
+  return await serverFetch<Company>("/v1/companies", {
+    method: "POST",
+    body,
+    headers,
+  });
 }

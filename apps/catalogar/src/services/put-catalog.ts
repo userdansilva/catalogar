@@ -1,66 +1,22 @@
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
+import z from "zod";
+import { type Catalog, catalogSchema } from "@/schemas/catalog";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export type Company = {
-  name: string;
-  description: string;
-  mainSiteUrl: string;
-  phoneNumber: string;
-  businessTypeDescription: string;
-  createdAt: string;
-  updatedAt: string;
-};
+const bodySchema = z.object({
+  name: catalogSchema.shape.name,
+  isPublished: catalogSchema.shape.isPublished.optional(),
+  slug: catalogSchema.shape.slug.optional(),
+});
 
-export type Logo = {
-  id: string;
-  fileName: string;
-  url: string;
-  sizeInBytes: number;
-  width: number;
-  height: number;
-  altText?: string;
-  createdAt: string;
-  updatedAt: string;
-};
+type Body = z.infer<typeof bodySchema>;
 
-export type Theme = {
-  primaryColor: string;
-  secondaryColor: string;
-  logo?: Logo;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type Catalog = {
-  id: string;
-  name: string;
-  slug?: string;
-  publishedAt?: string;
-  isPublished: boolean;
-  company?: Company;
-  theme?: Theme;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type PutCatalogError = DefaultApiError;
-export type PutCatalogResponse = ApiResponse<Catalog>;
-export type PutCatalogBody = {
-  name: string;
-  slug?: string;
-  isPublished?: boolean;
-};
-
-export async function putCatalog(body: PutCatalogBody) {
+export async function putCatalog(body: Body) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<PutCatalogError, PutCatalogResponse>(
-    "/v1/catalogs",
-    {
-      method: "PUT",
-      body,
-      headers,
-    },
-  );
+  return await serverFetch<Catalog>("/v1/catalogs", {
+    method: "PUT",
+    body,
+    headers,
+  });
 }

@@ -1,11 +1,11 @@
 "use server";
 
-import slugify from "slugify";
 import { revalidateTag } from "next/cache";
-import { postCategory } from "@/services/post-category";
+import slugify from "slugify";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { createCategorySchema } from "@/schemas/category";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { createCategorySchema } from "@/schemas/category";
+import { postCategory } from "@/services/post-category";
 import { tags } from "@/tags";
 
 export const createCategoryAction = authActionClientWithUser
@@ -15,7 +15,7 @@ export const createCategoryAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput: { name, textColor, backgroundColor, isDisabled },
+      parsedInput: { name, textColor, backgroundColor },
       ctx: {
         user: { currentCatalog },
       },
@@ -25,7 +25,7 @@ export const createCategoryAction = authActionClientWithUser
         slug: slugify(name, { lower: true }),
         textColor,
         backgroundColor,
-        isDisabled,
+        isDisabled: false,
       });
 
       if (error) {

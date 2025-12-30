@@ -1,9 +1,9 @@
-import { redirect, RedirectType } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
+import { ExpectedError } from "@/components/error-handling/expected-error";
+import { routes } from "@/routes";
+import { getProductTypes } from "@/services/get-product-types";
 import { DataTable } from "../data-table";
 import { columns } from "./columns";
-import { getProductTypes } from "@/services/get-product-types";
-import { routes } from "@/routes";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 
 type ProductTypesTableProps = {
   currentPage: number;
@@ -13,7 +13,7 @@ export async function ProductTypesTable({
   currentPage,
 }: ProductTypesTableProps) {
   const [error, data] = await getProductTypes({
-    params: {
+    query: {
       field: "createdAt",
       page: currentPage.toString(),
       perPage: "10",

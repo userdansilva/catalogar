@@ -1,9 +1,9 @@
 "use server";
 
-import { postTheme } from "@/services/post-theme";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { createThemeSchema } from "@/schemas/theme";
 import { authActionClient } from "@/lib/next-safe-action";
+import { createThemeSchema } from "@/schemas/theme";
+import { postTheme } from "@/services/post-theme";
 
 export const createThemeAction = authActionClient
   .inputSchema(createThemeSchema)
@@ -14,16 +14,7 @@ export const createThemeAction = authActionClient
     const [error, data] = await postTheme({
       primaryColor,
       secondaryColor,
-      logo: logo?.fileName
-        ? {
-            fileName: logo.fileName,
-            url: logo.url,
-            sizeInBytes: logo.sizeInBytes,
-            width: logo.width,
-            height: logo.height,
-            altText: logo.altText,
-          }
-        : undefined,
+      logo: logo ?? undefined,
     });
 
     if (error) {

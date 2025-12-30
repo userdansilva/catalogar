@@ -1,9 +1,6 @@
 "use client";
 
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { Checkbox } from "@catalogar/ui/components/checkbox";
 import {
   Form,
   FormControl,
@@ -14,7 +11,6 @@ import {
   FormMessage,
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
-import { Textarea } from "@catalogar/ui/components/textarea";
 import {
   Select,
   SelectContent,
@@ -22,26 +18,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@catalogar/ui/components/select";
-import { Checkbox } from "@catalogar/ui/components/checkbox";
-import { InputImages } from "../inputs/input-images";
-import { Button } from "../inputs/button";
-import { routes } from "@/routes";
+import { Textarea } from "@catalogar/ui/components/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { updateCatalogItemAction } from "@/actions/update-catalog-item-action";
-import { CatalogItem } from "@/services/get-catalog-item";
-import { Category } from "@/services/get-category";
-import { ProductType } from "@/services/get-product-type";
+import { routes } from "@/routes";
+import {
+  type CatalogItem,
+  updateCatalogItemSchema,
+} from "@/schemas/catalog-item";
+import type { Category } from "@/schemas/category";
+import type { ProductType } from "@/schemas/product-type";
 import { toastServerError } from "@/utils/toast-server-error";
-import { updateCatalogItemSchema } from "@/schemas/catalog-item";
+import { Button } from "../inputs/button";
+import { InputImages } from "../inputs/input-images";
+
+type UpdateCatalogItemFormProps = {
+  catalogItem: CatalogItem;
+  categories: Category[];
+  productTypes: ProductType[];
+};
 
 export function UpdateCatalogItemForm({
   catalogItem,
   categories,
   productTypes,
-}: {
-  catalogItem: CatalogItem;
-  categories: Category[];
-  productTypes: ProductType[];
-}) {
+}: UpdateCatalogItemFormProps) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(
@@ -51,19 +55,14 @@ export function UpdateCatalogItemForm({
       formProps: {
         mode: "onChange",
         defaultValues: {
-          ...catalogItem,
-          images: catalogItem.images.map((image) => ({
-            fileName: image.fileName,
-            url: image.url,
-            sizeInBytes: image.sizeInBytes,
-            width: image.width,
-            height: image.height,
-            altText: image.altText,
-            position: image.position,
-          })),
+          id: catalogItem.id,
+          title: catalogItem.title,
+          caption: catalogItem.caption ?? "",
+          price: catalogItem.price ?? "",
           productTypeId: catalogItem.productType.id,
           categoryIds: catalogItem.categories.map((category) => category.id),
-          price: catalogItem.price?.toString(),
+          images: catalogItem.images,
+          isDisabled: catalogItem.isDisabled,
         },
       },
       actionProps: {
@@ -111,6 +110,7 @@ export function UpdateCatalogItemForm({
                     href="https://convertio.co/pt/"
                     target="_blank"
                     className="underline underline-offset-2"
+                    rel="noopener"
                   >
                     Convertio.co
                   </a>{" "}
@@ -122,6 +122,7 @@ export function UpdateCatalogItemForm({
                     href="https://tinyjpg.com/"
                     target="_blank"
                     className="underline underline-offset-2"
+                    rel="noopener"
                   >
                     TinyJPG
                   </a>{" "}
@@ -282,7 +283,7 @@ export function UpdateCatalogItemForm({
 
         <Button
           type="submit"
-          disabled={form.formState.isSubmitting}
+          disabled={form.formState.isSubmitting || !form.formState.isDirty}
           loading={form.formState.isSubmitting}
         >
           Salvar alterações

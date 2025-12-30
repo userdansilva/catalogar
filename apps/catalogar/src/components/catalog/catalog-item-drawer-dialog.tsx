@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { PropsWithChildren, useState } from "react";
 import { Dialog, DialogContent } from "@catalogar/ui/components/dialog";
 import { Drawer, DrawerContent } from "@catalogar/ui/components/drawer";
 import { ScrollArea } from "@catalogar/ui/components/scroll-area";
 import { useIsMobile } from "@catalogar/ui/hooks/use-mobile";
+import { useRouter } from "next/navigation";
+import { type PropsWithChildren, useState } from "react";
 
 /**
  * Componente não utilizado
@@ -47,7 +47,7 @@ export function CatalogItemDrawerDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-w-[1080px] pt-10">
+      <DialogContent className="max-w-270 pt-10">
         <ScrollArea className="max-h-[calc(100vh-100px)]">
           {children}
         </ScrollArea>

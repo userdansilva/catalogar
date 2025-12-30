@@ -1,9 +1,5 @@
 "use client";
 
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -21,21 +17,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@catalogar/ui/components/select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
-import { Button } from "../inputs/button";
+import { toast } from "sonner";
 import { updateCatalogAction } from "@/actions/update-catalog-action";
 import { routes } from "@/routes";
+import { type Catalog, updateCatalogSchema } from "@/schemas/catalog";
 import { toastServerError } from "@/utils/toast-server-error";
-import { Catalog } from "@/services/get-user";
-import { updateCatalogSchema } from "@/schemas/catalog";
+import { Button } from "../inputs/button";
+
+type UpdateCatalogFormProps = {
+  catalog: Catalog;
+  callbackUrl?: string;
+};
 
 export function UpdateCatalogForm({
   catalog,
   callbackUrl,
-}: {
-  catalog: Catalog;
-  callbackUrl?: string;
-}) {
+}: UpdateCatalogFormProps) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(
@@ -47,6 +48,7 @@ export function UpdateCatalogForm({
         defaultValues: {
           name: catalog.name,
           isPublished: catalog.isPublished,
+          slug: catalog.slug ?? "",
         },
       },
       actionProps: {
@@ -145,6 +147,51 @@ export function UpdateCatalogForm({
                   </>
                 )}
               />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="slug"
+          control={form.control}
+          render={({ field: { onChange, ...field } }) => (
+            <FormItem className="space-y-2">
+              <FormLabel>Link customizado (Apenas catálogo público)</FormLabel>
+
+              <div className="flex">
+                <div className="bg-muted text-muted-foreground flex h-9 items-center rounded-l-md border border-r-0 px-3 py-2 text-sm">
+                  {`${process.env.NEXT_PUBLIC_BASE_URL}/@`}
+                </div>
+                <div className="flex-1">
+                  <FormControl>
+                    <Input
+                      autoComplete="off"
+                      autoCorrect="off"
+                      spellCheck="false"
+                      className="rounded-l-none"
+                      placeholder="minha-empresa"
+                      onChange={(e) => {
+                        e.target.value
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")
+                          .replace(/[^a-z0-9-]/g, "")
+                          .replace(/-+/g, "-")
+                          .replace(/(^-)|(-$)/g, "");
+
+                        onChange(e);
+                      }}
+                      disabled={form.formState.isSubmitting}
+                      {...field}
+                    />
+                  </FormControl>
+                </div>
+              </div>
+
+              <FormDescription>
+                Apenas letras minúsculas, números e hífens são permitidos
+              </FormDescription>
+
               <FormMessage />
             </FormItem>
           )}

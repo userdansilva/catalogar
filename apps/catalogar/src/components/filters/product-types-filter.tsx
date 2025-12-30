@@ -1,8 +1,5 @@
 "use client";
 
-import { Check, ChevronsUpDown, List } from "lucide-react";
-import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
 import { Button } from "@catalogar/ui/components/button";
 import {
   Command,
@@ -18,14 +15,12 @@ import {
   PopoverTrigger,
 } from "@catalogar/ui/components/popover";
 import { cn } from "@catalogar/ui/lib/utils";
-import { ProductType } from "@/services/get-product-type";
+import { Check, ChevronsUpDown, List } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import type { ProductType } from "@/schemas/product-type";
 
-export function ProductTypesFilter({
-  productTypes,
-  currentProductTypeSlug,
-  mode,
-  searchParamNames,
-}: {
+type ProductTypesFilterProps = {
   productTypes: ProductType[];
   currentProductTypeSlug?: string;
   mode: "preview" | "dashboard";
@@ -33,7 +28,14 @@ export function ProductTypesFilter({
     page: string;
     productSlug: string;
   };
-}) {
+};
+
+export function ProductTypesFilter({
+  productTypes,
+  currentProductTypeSlug,
+  mode,
+  searchParamNames,
+}: ProductTypesFilterProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
@@ -76,7 +78,7 @@ export function ProductTypesFilter({
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="w-50 p-0">
           <Command>
             <CommandInput
               placeholder="Buscar tipo de produto..."

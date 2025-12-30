@@ -1,32 +1,29 @@
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
+import z from "zod";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export type StorageSasToken = {
-  fileName: string;
-  uploadUrl: string;
-  accessUrl: string;
-};
+const storageSasTokenSchema = z.object({
+  fileName: z.string(),
+  uploadUrl: z.url(),
+  accessUrl: z.url(),
+});
 
-export type PostStorageGenerateSasTokenError = DefaultApiError;
-export type PostStorageGenerateSasTokenResponse = ApiResponse<StorageSasToken>;
-export type PostStorageGenerateSasTokenBody = {
-  fileType: "PNG" | "JPG" | "SVG" | "WEBP";
-};
+const bodySchema = z.object({
+  fileType: z.enum(["PNG", "JPG", "SVG", "WEBP"]),
+});
 
-export async function postStorageGenerateSasToken(
-  body: PostStorageGenerateSasTokenBody,
-) {
+type StorageSasTokenType = z.infer<typeof storageSasTokenSchema>;
+type Body = z.infer<typeof bodySchema>;
+
+export async function postStorageGenerateSasToken(body: Body) {
   const headers = await getAuthHeaders();
 
-  headers.append("Content-Type", "application/json");
-
-  return await serverFetch<
-    PostStorageGenerateSasTokenError,
-    PostStorageGenerateSasTokenResponse
-  >("/v1/storage/generate-sas-token", {
-    method: "POST",
-    body,
-    headers,
-  });
+  return await serverFetch<StorageSasTokenType>(
+    "/v1/storage/generate-sas-token",
+    {
+      method: "POST",
+      body,
+      headers,
+    },
+  );
 }

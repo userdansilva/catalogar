@@ -1,4 +1,4 @@
-import { DefaultApiError } from "@/types/api-response";
+import type { ApiResponseError } from "@/types/api-response";
 
 /**
  * **Não use em componentes**
@@ -20,7 +20,7 @@ export class ExpectedError extends Error {
     message: string;
   }>;
 
-  constructor(error: DefaultApiError) {
+  constructor(error: ApiResponseError) {
     super(error.message);
 
     this.name = "ExpectedError";

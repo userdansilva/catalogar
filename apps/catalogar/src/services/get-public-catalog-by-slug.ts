@@ -1,112 +1,21 @@
-import { serverFetch } from "@/utils/server-fetch";
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
+import z from "zod";
+import { catalogSchema } from "@/schemas/catalog";
+import { catalogItemSchema } from "@/schemas/catalog-item";
+import { categorySchema } from "@/schemas/category";
+import { productTypeSchema } from "@/schemas/product-type";
 import { tags } from "@/tags";
+import { serverFetch } from "@/utils/server-fetch";
 
-export type Company = {
-  name: string;
-  description: string;
-  mainSiteUrl: string;
-  phoneNumber: string;
-  businessTypeDescription: string;
-  createdAt: string;
-  updatedAt: string;
-};
+const publishedCatalogSchema = catalogSchema.required().extend({
+  categories: z.array(categorySchema),
+  productTypes: z.array(productTypeSchema),
+  catalogItems: z.array(catalogItemSchema),
+});
 
-export type Theme = {
-  primaryColor: string;
-  secondaryColor: string;
-  logo?: Logo;
-  createdAt: string;
-  updatedAt: string;
-};
+type PublishedCatalog = z.infer<typeof publishedCatalogSchema>;
 
-export type Logo = {
-  id: string;
-  fileName: string;
-  url: string;
-  sizeInBytes: number;
-  width: number;
-  height: number;
-  altText?: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type Catalog = {
-  id: string;
-  name: string;
-  slug?: string;
-  publishedAt?: string;
-  isPublished: boolean;
-  company?: Company;
-  theme?: Theme;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type Category = {
-  id: string;
-  name: string;
-  slug: string;
-  textColor: string;
-  backgroundColor: string;
-  isDisabled: boolean;
-  disabledAt?: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type ProductType = {
-  id: string;
-  name: string;
-  slug: string;
-  isDisabled: boolean;
-  disabledAt?: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type CatalogItemImage = {
-  id: string;
-  fileName: string;
-  url: string;
-  sizeInBytes: number;
-  width: number;
-  height: number;
-  altText?: string;
-  position: number;
-  createdAt: string;
-};
-
-export type CatalogItem = {
-  id: string;
-  title: string;
-  caption?: string;
-  price?: number;
-  reference: number;
-  productType: ProductType;
-  categories: Category[];
-  images: CatalogItemImage[];
-  isDisabled: boolean;
-  disabled?: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type PublishedCatalog = Required<Catalog> & {
-  categories: Category[];
-  productTypes: ProductType[];
-  catalogItems: CatalogItem[];
-};
-
-export type GetPublicCatalogBySlugError = DefaultApiError;
-export type GetPublicCatalogBySlugResponse = ApiResponse<PublishedCatalog>;
-
-export async function getPublicCatalogBySlug(slug: string) {
-  return await serverFetch<
-    GetPublicCatalogBySlugError,
-    GetPublicCatalogBySlugResponse
-  >(`/v1/public/catalogs/${slug}`, {
+export async function getPublicCatalogBySlug(slug: PublishedCatalog["slug"]) {
+  return await serverFetch<PublishedCatalog>(`/v1/public/catalogs/${slug}`, {
     next: {
       tags: [tags.publicCatalog.getBySlug(slug)],
     },

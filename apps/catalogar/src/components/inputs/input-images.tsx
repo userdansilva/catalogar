@@ -1,8 +1,3 @@
-import { Plus, X } from "lucide-react";
-import { ChangeEvent, useRef } from "react";
-import { useAction } from "next-safe-action/hooks";
-import NextImage from "next/image";
-import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,8 +9,13 @@ import {
   AlertDialogTrigger,
 } from "@catalogar/ui/components/alert-dialog";
 import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
-import { Button } from "./button";
+import { Plus, X } from "lucide-react";
+import NextImage from "next/image";
+import { useAction } from "next-safe-action/hooks";
+import { type ChangeEvent, useRef } from "react";
+import { toast } from "sonner";
 import { createImageAction } from "@/actions/create-image-action";
+import { Button } from "./button";
 
 type Image = {
   fileName: string;
@@ -23,7 +23,7 @@ type Image = {
   sizeInBytes: number;
   width: number;
   height: number;
-  altText?: string;
+  altText: string;
   position: number;
 };
 

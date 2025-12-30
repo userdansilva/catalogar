@@ -1,5 +1,5 @@
 import { Loader2 } from "lucide-react";
-import { ComponentProps, forwardRef } from "react";
+import { type ComponentProps, forwardRef } from "react";
 import { Button as ButtonUI } from "@catalogar/ui/components/button";
 
 type ButtonProps = ComponentProps<typeof ButtonUI> & {

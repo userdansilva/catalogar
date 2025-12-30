@@ -14,10 +14,12 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <html>
+    <html lang="pt-BR">
       <body>
         <h2>Something went wrong!</h2>
-        <button onClick={() => reset()}>Try again</button>
+        <button onClick={() => reset()} type="button">
+          Try again
+        </button>
       </body>
     </html>
   );

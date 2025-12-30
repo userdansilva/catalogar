@@ -1,22 +1,12 @@
-import { PrivateCatalogItem } from "./private-catalog-item";
-import { CatalogPagination } from "./catalog-pagination";
-import { PublicCatalogItem } from "./public-catalog-item";
-import { CatalogNoResults } from "./catalog-no-results";
+import type { CatalogItem } from "@/schemas/catalog-item";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
-import { CatalogItem } from "@/services/get-catalog-item";
+import { CatalogNoResults } from "./catalog-no-results";
+import { CatalogPagination } from "./catalog-pagination";
+import { PrivateCatalogItem } from "./private-catalog-item";
+import { PublicCatalogItem } from "./public-catalog-item";
 
-export function CatalogItems({
-  query,
-  catalogItems,
-  productTypeSlug,
-  categorySlug,
-  currentPage,
-  perPage,
-  isPublic,
-  unoptimized,
-  searchParamNames,
-}: {
+type CatalogItemsProps = {
   query?: string;
   catalogItems: CatalogItem[];
   productTypeSlug?: string;
@@ -29,7 +19,19 @@ export function CatalogItems({
     page: string;
     query: string;
   };
-}) {
+};
+
+export function CatalogItems({
+  query,
+  catalogItems,
+  productTypeSlug,
+  categorySlug,
+  currentPage,
+  perPage,
+  isPublic,
+  unoptimized,
+  searchParamNames,
+}: CatalogItemsProps) {
   const filteredCatalogItems = filterCatalogItems(
     catalogItems,
     {

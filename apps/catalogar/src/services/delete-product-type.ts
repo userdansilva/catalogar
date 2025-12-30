@@ -1,17 +1,12 @@
-import { DefaultApiError } from "@/types/api-response";
+import type { ProductType } from "@/schemas/product-type";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export type DeleteProductTypeError = DefaultApiError;
-
-export async function deleteProductType(id: string) {
+export async function deleteProductType(id: ProductType["id"]) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<DeleteProductTypeError, void>(
-    `/v1/product-types/${id}`,
-    {
-      method: "DELETE",
-      headers,
-    },
-  );
+  return await serverFetch(`/v1/product-types/${id}`, {
+    method: "DELETE",
+    headers,
+  });
 }

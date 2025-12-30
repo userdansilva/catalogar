@@ -1,10 +1,10 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { deleteProductType } from "@/services/delete-product-type";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { deleteSchema } from "@/schemas/others";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { deleteSchema } from "@/schemas/others";
+import { deleteProductType } from "@/services/delete-product-type";
 import { tags } from "@/tags";
 
 export const deleteProductTypeAction = authActionClientWithUser

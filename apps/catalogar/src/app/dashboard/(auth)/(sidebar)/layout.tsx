@@ -1,19 +1,19 @@
-import { PropsWithChildren } from "react";
-import Link from "next/link";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@catalogar/ui/components/sidebar";
-import { Separator } from "@catalogar/ui/components/separator";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
 } from "@catalogar/ui/components/breadcrumb";
-import { routes } from "@/routes";
+import { Separator } from "@catalogar/ui/components/separator";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@catalogar/ui/components/sidebar";
+import Link from "next/link";
+import type { PropsWithChildren } from "react";
 import { AppSidebar } from "@/components/layout/app-sidebar";
+import { routes } from "@/routes";
 
 export default function DashboardLayout({ children }: PropsWithChildren) {
   return (

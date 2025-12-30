@@ -1,10 +1,11 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { toast } from "sonner";
-import { Rocket } from "lucide-react";
-import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@catalogar/ui/components/card";
 import {
   Form,
   FormControl,
@@ -15,25 +16,25 @@ import {
   FormMessage,
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@catalogar/ui/components/card";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { Rocket } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
-import { Button } from "../inputs/button";
-import { routes } from "@/routes";
+import { toast } from "sonner";
 import { publishCatalogAction } from "@/actions/publish-catalog-action";
+import { routes } from "@/routes";
+import { type Catalog, publishCatalogSchema } from "@/schemas/catalog";
 import { toastServerError } from "@/utils/toast-server-error";
-import { Catalog } from "@/services/get-user";
-import { publishCatalogSchema } from "@/schemas/catalog";
+import { Button } from "../inputs/button";
+
+type PublishCatalogFormProps = {
+  currentCatalog: Catalog;
+};
 
 export function PublishCatalogForm({
   currentCatalog,
-}: {
-  currentCatalog: Catalog;
-}) {
+}: PublishCatalogFormProps) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(

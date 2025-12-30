@@ -1,9 +1,5 @@
 "use client";
 
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -13,12 +9,18 @@ import {
   FormMessage,
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
-import { Button } from "../inputs/button";
-import { routes } from "@/routes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { updateProductTypeAction } from "@/actions/update-product-type-action";
-import { ProductType } from "@/services/get-product-type";
+import { routes } from "@/routes";
+import {
+  type ProductType,
+  updateProductTypeSchema,
+} from "@/schemas/product-type";
 import { toastServerError } from "@/utils/toast-server-error";
-import { updateProductTypeSchema } from "@/schemas/product-type";
+import { Button } from "../inputs/button";
 
 type UpdateProductTypeFormProps = {
   productType: ProductType;
@@ -36,7 +38,9 @@ export function UpdateProductTypeForm({
       formProps: {
         mode: "onChange",
         defaultValues: {
-          ...productType,
+          id: productType.id,
+          name: productType.name,
+          isDisabled: productType.isDisabled,
         },
       },
       actionProps: {

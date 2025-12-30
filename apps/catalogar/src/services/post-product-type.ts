@@ -1,34 +1,22 @@
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
+import z from "zod";
+import { type ProductType, productTypeSchema } from "@/schemas/product-type";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export type ProductType = {
-  id: string;
-  name: string;
-  slug: string;
-  isDisabled: boolean;
-  disabledAt?: string;
-  createdAt: string;
-  updatedAt: string;
-};
+const bodySchema = z.object({
+  name: productTypeSchema.shape.name,
+  slug: productTypeSchema.shape.slug,
+  isDisabled: productTypeSchema.shape.isDisabled,
+});
 
-export type PostProductTypeError = DefaultApiError;
-export type PostProductTypeResponse = ApiResponse<ProductType>;
-export type PostProductTypeBody = {
-  name: string;
-  slug: string;
-  isDisabled: boolean;
-};
+type Body = z.infer<typeof bodySchema>;
 
-export async function postProductType(body: PostProductTypeBody) {
+export async function postProductType(body: Body) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<PostProductTypeError, PostProductTypeResponse>(
-    "/v1/product-types",
-    {
-      method: "POST",
-      body,
-      headers,
-    },
-  );
+  return await serverFetch<ProductType>("/v1/product-types", {
+    method: "POST",
+    body,
+    headers,
+  });
 }

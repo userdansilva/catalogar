@@ -1,41 +1,27 @@
+import z from "zod";
+import type { ProductType } from "@/schemas/product-type";
+import type { Paginated } from "@/types/api-response";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
-import {
-  ApiResponseWithPagination,
-  DefaultApiError,
-} from "@/types/api-response";
 
-export type ProductType = {
-  id: string;
-  name: string;
-  slug: string;
-  isDisabled: boolean;
-  disabledAt?: string;
-  createdAt: string;
-  updatedAt: string;
+const querySchema = z.object({
+  field: z.enum(["name", "createdAt"]).optional(),
+  sort: z.enum(["asc", "desc"]).optional(),
+  page: z.string().optional(),
+  perPage: z.string().optional(),
+});
+
+type QueryParams = z.infer<typeof querySchema>;
+
+type GetProductTypesParams = {
+  query?: QueryParams;
 };
 
-export type GetProductTypesError = DefaultApiError;
-export type GetProductTypesResponse = ApiResponseWithPagination<ProductType[]>;
-export type GetProductTypesParams = {
-  field?: "name" | "createdAt";
-  sort?: "asc" | "desc";
-  page?: string;
-  perPage?: string;
-};
-
-export async function getProductTypes({
-  params,
-}: {
-  params?: GetProductTypesParams;
-} = {}) {
+export async function getProductTypes({ query }: GetProductTypesParams = {}) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<GetProductTypesError, GetProductTypesResponse>(
-    "/v1/product-types",
-    {
-      query: params,
-      headers,
-    },
-  );
+  return await serverFetch<Paginated<ProductType[]>>("/v1/product-types", {
+    query,
+    headers,
+  });
 }

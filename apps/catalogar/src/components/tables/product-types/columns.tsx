@@ -1,35 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import {
-  Check,
-  CloudUpload,
-  EllipsisVertical,
-  EyeOff,
-  Pencil,
-  Trash,
-  X,
-} from "lucide-react";
-import { useAction } from "next-safe-action/hooks";
-import Link from "next/link";
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@catalogar/ui/components/dropdown-menu";
-import { Button } from "@catalogar/ui/components/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,6 +11,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@catalogar/ui/components/alert-dialog";
+import { Button } from "@catalogar/ui/components/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@catalogar/ui/components/dropdown-menu";
 import {
   Form,
   FormControl,
@@ -49,10 +28,29 @@ import {
   FormMessage,
 } from "@catalogar/ui/components/form";
 import { Input } from "@catalogar/ui/components/input";
-import { routes } from "@/routes";
-import { toggleProductTypeStatusAction } from "@/actions/toggle-status-product-type-action";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import {
+  Check,
+  CloudUpload,
+  EllipsisVertical,
+  EyeOff,
+  Pencil,
+  Trash,
+  X,
+} from "lucide-react";
+import Link from "next/link";
+import { useAction } from "next-safe-action/hooks";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 import { deleteProductTypeAction } from "@/actions/delete-product-type-action";
-import { ProductType } from "@/services/get-product-type";
+import { toggleProductTypeStatusAction } from "@/actions/toggle-status-product-type-action";
+import { routes } from "@/routes";
+import type { ProductType } from "@/schemas/product-type";
 
 export const columns: ColumnDef<ProductType>[] = [
   {
@@ -131,14 +129,14 @@ export const columns: ColumnDef<ProductType>[] = [
       );
 
       const handleToggleStatus = () => {
-        const promise = new Promise<void>(async (res, rej) => {
-          const result = await executeToggleStatusAsync({ id });
+        const promise = new Promise<void>((res, rej) => {
+          executeToggleStatusAsync({ id }).then((result) => {
+            if (result.serverError) {
+              rej(result.serverError.message);
+            }
 
-          if (result.serverError) {
-            rej(result.serverError.message);
-          }
-
-          res();
+            res();
+          });
         });
 
         toast.promise(promise, {
@@ -149,14 +147,14 @@ export const columns: ColumnDef<ProductType>[] = [
       };
 
       const handleRemove = () => {
-        const promise = new Promise<void>(async (res, rej) => {
-          const result = await executeDeleteAsync({ id });
+        const promise = new Promise<void>((res, rej) => {
+          executeDeleteAsync({ id }).then((result) => {
+            if (result.serverError) {
+              rej(result.serverError.message);
+            }
 
-          if (result.serverError) {
-            rej(result.serverError.message);
-          }
-
-          res();
+            res();
+          });
         });
 
         toast.promise(promise, {

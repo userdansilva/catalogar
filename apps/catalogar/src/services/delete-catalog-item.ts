@@ -1,17 +1,12 @@
-import { DefaultApiError } from "@/types/api-response";
+import type { CatalogItem } from "@/schemas/catalog-item";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export type DeleteCatalogItemError = DefaultApiError;
-
-export async function deleteCatalogItem(id: string) {
+export async function deleteCatalogItem(id: CatalogItem["id"]) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<DeleteCatalogItemError, void>(
-    `/v1/catalog-items/${id}`,
-    {
-      method: "DELETE",
-      headers,
-    },
-  );
+  return await serverFetch(`/v1/catalog-items/${id}`, {
+    method: "DELETE",
+    headers,
+  });
 }

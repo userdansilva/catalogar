@@ -1,3 +1,11 @@
+import { Button } from "@catalogar/ui/components/button";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@catalogar/ui/components/card";
 import {
   Book,
   Box,
@@ -11,33 +19,27 @@ import {
   View,
 } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@catalogar/ui/components/button";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@catalogar/ui/components/card";
-import { redirect, RedirectType } from "next/navigation";
-import { CopyButton } from "./inputs/copy-button";
+import { RedirectType, redirect } from "next/navigation";
 import { routes } from "@/routes";
-import { ProductType } from "@/services/get-product-type";
-import { Category } from "@/services/get-category";
-import { CatalogItem } from "@/services/get-catalog-item";
-import { User } from "@/services/get-user";
+import type { CatalogItem } from "@/schemas/catalog-item";
+import type { Category } from "@/schemas/category";
+import type { ProductType } from "@/schemas/product-type";
+import type { User } from "@/schemas/user";
+import { CopyButton } from "./inputs/copy-button";
+
+type MainCardsProps = {
+  productTypes: ProductType[];
+  categories: Category[];
+  catalogItems: CatalogItem[];
+  user: User;
+};
 
 export function MainCards({
   productTypes,
   categories,
   catalogItems,
   user,
-}: {
-  productTypes: ProductType[];
-  categories: Category[];
-  catalogItems: CatalogItem[];
-  user: User;
-}) {
+}: MainCardsProps) {
   if (!user.currentCatalog) {
     redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
   }

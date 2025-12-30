@@ -1,11 +1,11 @@
-import { redirect, RedirectType } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PublishRequirements } from "@/components/publish-requirements";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getProductTypes } from "@/services/get-product-types";
 import { getUser } from "@/services/get-user";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 
 export default async function Page() {
   const [userError, userData] = await getUser();

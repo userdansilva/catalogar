@@ -1,23 +1,21 @@
-import { AlertCircle, Check, CircleCheckBigIcon, Lock, X } from "lucide-react";
-import Link from "next/link";
-import { PropsWithChildren } from "react";
 import { Alert, AlertTitle } from "@catalogar/ui/components/alert";
 import { Button } from "@catalogar/ui/components/button";
-import { redirect, RedirectType } from "next/navigation";
-import { PublishCatalogForm } from "./forms/publish-catalog-form";
+import { AlertCircle, Check, CircleCheckBigIcon, Lock, X } from "lucide-react";
+import Link from "next/link";
+import { RedirectType, redirect } from "next/navigation";
+import type { PropsWithChildren } from "react";
 import { routes } from "@/routes";
-import { User } from "@/services/get-user";
-import { ProductType } from "@/services/get-product-type";
-import { CatalogItem } from "@/services/get-catalog-item";
+import type { CatalogItem } from "@/schemas/catalog-item";
+import type { ProductType } from "@/schemas/product-type";
+import type { User } from "@/schemas/user";
+import { PublishCatalogForm } from "./forms/publish-catalog-form";
 
-function RequireItem({
-  done,
-  children,
-  href,
-}: PropsWithChildren<{
+type RequireItemProps = PropsWithChildren<{
   done?: boolean;
   href: string;
-}>) {
+}>;
+
+function RequireItem({ done, children, href }: RequireItemProps) {
   return (
     <li className="flex items-center gap-2">
       {done ? (

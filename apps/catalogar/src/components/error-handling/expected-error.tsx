@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
-import { DefaultApiError } from "@/types/api-response";
+import type { ApiResponseError } from "@/types/api-response";
 
 function RetryButton() {
   const router = useRouter();
@@ -32,7 +32,7 @@ function RetryButton() {
   );
 }
 
-export function ExpectedError({ error }: { error: DefaultApiError }) {
+export function ExpectedError({ error }: { error: ApiResponseError }) {
   useEffect(() => {
     console.error(error);
   }, [error]);

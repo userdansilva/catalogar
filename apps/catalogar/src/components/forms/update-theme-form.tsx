@@ -1,9 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { Card, CardContent } from "@catalogar/ui/components/card";
 import {
   Form,
   FormControl,
@@ -13,18 +10,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@catalogar/ui/components/form";
-import { Card, CardContent } from "@catalogar/ui/components/card";
-import Image from "next/image";
-import { Menu } from "lucide-react";
 import { Input } from "@catalogar/ui/components/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { Menu } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
-import { InputLogo } from "../inputs/input-logo";
-import { Button } from "../inputs/button";
+import { toast } from "sonner";
 import { updateThemeAction } from "@/actions/update-theme-action";
-import { toastServerError } from "@/utils/toast-server-error";
-import { Company, Theme } from "@/services/get-user";
 import { routes } from "@/routes";
-import { updateThemeSchema } from "@/schemas/theme";
+import type { Company } from "@/schemas/company";
+import { type Theme, updateThemeSchema } from "@/schemas/theme";
+import { toastServerError } from "@/utils/toast-server-error";
+import { Button } from "../inputs/button";
+import { InputLogo } from "../inputs/input-logo";
 
 export function UpdateThemeForm({
   theme,
@@ -43,7 +43,11 @@ export function UpdateThemeForm({
     {
       formProps: {
         mode: "onChange",
-        defaultValues: theme,
+        defaultValues: {
+          logo: theme.logo ?? null,
+          primaryColor: theme.primaryColor,
+          secondaryColor: theme.secondaryColor,
+        },
       },
       actionProps: {
         onSuccess: (res) => {
@@ -76,7 +80,7 @@ export function UpdateThemeForm({
               <FormControl>
                 <InputLogo
                   onChange={onChange}
-                  value={value ?? undefined}
+                  value={value}
                   disabled={form.formState.isSubmitting}
                 />
               </FormControl>
@@ -89,6 +93,7 @@ export function UpdateThemeForm({
                     href="https://convertio.co/pt/"
                     target="_blank"
                     className="underline underline-offset-2"
+                    rel="noopener"
                   >
                     Convertio.co
                   </a>{" "}
@@ -100,6 +105,7 @@ export function UpdateThemeForm({
                     href="https://tinypng.com/"
                     target="_blank"
                     className="underline underline-offset-2"
+                    rel="noopener"
                   >
                     TinyPNG
                   </a>{" "}

@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
-import { PrevButton } from "@/components/inputs/prev-button";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
+import { ExpectedError } from "@/components/error-handling/expected-error";
+import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 
 const ASCIIforAt = "%40"; // @
 

@@ -1,13 +1,13 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { revalidateTag } from "next/cache";
-import { routes } from "@/routes";
-import { getUser } from "@/services/get-user";
+import { redirect } from "next/navigation";
 import { ExpectedError } from "@/classes/ExpectedError";
-import { putCatalog } from "@/services/put-catalog";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { routes } from "@/routes";
 import { updateCatalogSchema } from "@/schemas/catalog";
+import { getUser } from "@/services/get-user";
+import { putCatalog } from "@/services/put-catalog";
 import { tags } from "@/tags";
 
 export const updateCatalogAction = authActionClientWithUser
@@ -17,7 +17,7 @@ export const updateCatalogAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput: { name, isPublished },
+      parsedInput: { name, isPublished, slug },
       ctx: {
         user: { currentCatalog },
       },
@@ -35,9 +35,10 @@ export const updateCatalogAction = authActionClientWithUser
       }
 
       // Publicar pela a primeira vez
-      if (isPublished && !user.currentCatalog?.slug) {
+      if (isPublished && !user.currentCatalog.isPublished) {
         const [putCatalogError] = await putCatalog({
           name,
+          slug,
         });
 
         if (putCatalogError) {
@@ -51,7 +52,7 @@ export const updateCatalogAction = authActionClientWithUser
       const [putCatalogError, putCatalogData] = await putCatalog({
         name,
         isPublished,
-        slug: user.currentCatalog.slug,
+        slug,
       });
 
       if (putCatalogError) {

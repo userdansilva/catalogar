@@ -1,9 +1,12 @@
 "use client";
 
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { Badge } from "@catalogar/ui/components/badge";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@catalogar/ui/components/card";
 import {
   Form,
   FormControl,
@@ -12,23 +15,23 @@ import {
   FormLabel,
   FormMessage,
 } from "@catalogar/ui/components/form";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@catalogar/ui/components/card";
 import { Input } from "@catalogar/ui/components/input";
-import { Badge } from "@catalogar/ui/components/badge";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
-import { Button } from "../inputs/button";
+import { toast } from "sonner";
 import { updateCategoryAction } from "@/actions/update-category-action";
 import { routes } from "@/routes";
-import { Category } from "@/services/get-category";
+import { type Category, updateCategorySchema } from "@/schemas/category";
 import { toastServerError } from "@/utils/toast-server-error";
-import { updateCategorySchema } from "@/schemas/category";
+import { Button } from "../inputs/button";
 
-export function UpdateCategoryForm({ category }: { category: Category }) {
+type UpdateCategoryFormProps = {
+  category: Category;
+};
+
+export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
   const router = useRouter();
 
   const { form, handleSubmitWithAction } = useHookFormAction(
@@ -38,7 +41,11 @@ export function UpdateCategoryForm({ category }: { category: Category }) {
       formProps: {
         mode: "onChange",
         defaultValues: {
-          ...category,
+          id: category.id,
+          name: category.name,
+          backgroundColor: category.backgroundColor,
+          textColor: category.textColor,
+          isDisabled: category.isDisabled,
         },
       },
       actionProps: {

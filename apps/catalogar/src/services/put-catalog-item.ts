@@ -1,85 +1,40 @@
-import { ApiResponse, DefaultApiError } from "@/types/api-response";
+import z from "zod";
+import { type CatalogItem, catalogItemSchema } from "@/schemas/catalog-item";
+import { catalogItemImageSchema } from "@/schemas/catalog-item-image";
+import { categorySchema } from "@/schemas/category";
+import { productTypeSchema } from "@/schemas/product-type";
 import { getAuthHeaders } from "@/utils/get-auth-headers";
 import { serverFetch } from "@/utils/server-fetch";
 
-export type ProductType = {
-  id: string;
-  name: string;
-  slug: string;
-  isDisabled: boolean;
-  disabledAt?: string;
-  createdAt: string;
-  updatedAt: string;
-};
+const bodySchema = z.object({
+  id: catalogItemSchema.shape.id,
+  title: catalogItemSchema.shape.title,
+  caption: catalogItemSchema.shape.caption,
+  productTypeId: productTypeSchema.shape.id,
+  images: z.array(
+    z.object({
+      fileName: catalogItemImageSchema.shape.fileName,
+      url: catalogItemImageSchema.shape.url,
+      sizeInBytes: catalogItemImageSchema.shape.sizeInBytes,
+      width: catalogItemImageSchema.shape.width,
+      height: catalogItemImageSchema.shape.height,
+      altText: catalogItemImageSchema.shape.altText,
+      position: catalogItemImageSchema.shape.position,
+    }),
+  ),
+  price: catalogItemSchema.shape.price,
+  categoryIds: z.array(categorySchema.shape.id),
+  isDisabled: catalogItemSchema.shape.isDisabled,
+});
 
-export type Category = {
-  id: string;
-  name: string;
-  slug: string;
-  textColor: string;
-  backgroundColor: string;
-  isDisabled: boolean;
-  disabledAt?: string;
-  createdAt: string;
-  updatedAt: string;
-};
+type Body = z.infer<typeof bodySchema>;
 
-export type CatalogItemImage = {
-  id: string;
-  fileName: string;
-  url: string;
-  sizeInBytes: number;
-  width: number;
-  height: number;
-  altText?: string;
-  position: number;
-  createdAt: string;
-};
-
-export type CatalogItem = {
-  id: string;
-  title: string;
-  caption?: string;
-  price?: number;
-  reference: number;
-  productType: ProductType;
-  categories: Category[];
-  images: CatalogItemImage[];
-  isDisabled: boolean;
-  disabled?: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type PutCatalogItemError = DefaultApiError;
-export type PutCatalogItemResponse = ApiResponse<CatalogItem>;
-export type PutCatalogItemBody = {
-  title: string;
-  caption?: string;
-  productTypeId: string;
-  images: {
-    fileName: string;
-    position: number;
-    url?: string;
-    sizeInBytes?: number;
-    width?: number;
-    height?: number;
-    altText?: string;
-  }[];
-  price?: string;
-  categoryIds?: string[];
-  isDisabled: boolean;
-};
-
-export async function putCatalogItem(id: string, body: PutCatalogItemBody) {
+export async function putCatalogItem({ id, ...body }: Body) {
   const headers = await getAuthHeaders();
 
-  return await serverFetch<PutCatalogItemError, PutCatalogItemResponse>(
-    `/v1/catalog-items/${id}`,
-    {
-      method: "PUT",
-      body,
-      headers,
-    },
-  );
+  return await serverFetch<CatalogItem>(`/v1/catalog-items/${id}`, {
+    method: "PUT",
+    body,
+    headers,
+  });
 }

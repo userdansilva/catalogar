@@ -1,11 +1,11 @@
 "use server";
 
-import slugify from "slugify";
 import { revalidateTag } from "next/cache";
-import { putCategory } from "@/services/put-category";
+import slugify from "slugify";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { updateCategorySchema } from "@/schemas/category";
+import { putCategory } from "@/services/put-category";
 import { tags } from "@/tags";
 
 export const updateCategoryAction = authActionClientWithUser
@@ -20,7 +20,8 @@ export const updateCategoryAction = authActionClientWithUser
         user: { currentCatalog },
       },
     }) => {
-      const [error, data] = await putCategory(id, {
+      const [error, data] = await putCategory({
+        id,
         name,
         slug: slugify(name, { lower: true }),
         textColor,

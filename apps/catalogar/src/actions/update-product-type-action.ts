@@ -1,11 +1,11 @@
 "use server";
 
-import slugify from "slugify";
 import { revalidateTag } from "next/cache";
-import { putProductType } from "@/services/put-product-type";
+import slugify from "slugify";
 import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import { updateProductTypeSchema } from "@/schemas/product-type";
+import { putProductType } from "@/services/put-product-type";
 import { tags } from "@/tags";
 
 export const updateProductTypeAction = authActionClientWithUser
@@ -20,7 +20,8 @@ export const updateProductTypeAction = authActionClientWithUser
         user: { currentCatalog },
       },
     }) => {
-      const [error, data] = await putProductType(id, {
+      const [error, data] = await putProductType({
+        id,
         name,
         slug: slugify(name, { lower: true }),
         isDisabled,

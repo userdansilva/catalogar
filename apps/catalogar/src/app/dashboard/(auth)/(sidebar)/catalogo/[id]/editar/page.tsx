@@ -1,12 +1,12 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 import { UpdateCatalogItemForm } from "@/components/forms/update-catalog-item-form";
+import { PrevButton } from "@/components/inputs/prev-button";
+import { PageHeader } from "@/components/layout/page-header";
 import { routes } from "@/routes";
 import { getCatalogItem } from "@/services/get-catalog-item";
 import { getCategories } from "@/services/get-categories";
 import { getProductTypes } from "@/services/get-product-types";
-import { ExpectedError } from "@/components/error-handling/expected-error";
-import { PrevButton } from "@/components/inputs/prev-button";
-import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
   title: routes.catalogItems.sub.edit.title,

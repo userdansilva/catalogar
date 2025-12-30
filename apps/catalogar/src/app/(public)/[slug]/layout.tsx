@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
+import { ExpectedError } from "@/components/error-handling/expected-error";
 import { routes } from "@/routes";
 import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 
 const ASCIIforAt = "%40"; // @
 
