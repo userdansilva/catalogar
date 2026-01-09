@@ -7,5 +7,5 @@ app
     port: env.PORT,
   })
   .then(() => {
-    console.log("🛩️  Fastify is running on 3333 port!");
+    console.log("🔥 Fastify is running on 3333 port!");
   });
