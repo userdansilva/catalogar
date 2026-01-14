@@ -54,3 +54,21 @@
 ## Requisitos Não Funcionais
 
 - [ ] Os dados da aplicação devem estar persistidos em um banco PostgreSQL;
+
+## Comandos Úteis do Docker
+
+```shell
+docker ps
+docker compose up -d
+docker compose stop
+docker compose down
+docker rm container-name
+docker stop contaioner-name
+```
+
+## Comandos Úteis do Prisma
+```shell
+npx prisma migrate dev
+npx prisma studio
+npx prisma generate
+```

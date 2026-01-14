@@ -16,12 +16,16 @@ datasource db {
 model User {
   id String @id @default(uuid())
   email String @unique
+  password_hash String
   name String?
   role Role @default(USER)
-  catalogs Catalog[]
+  catalogs Catalog[] @relation("UserCatalogs")
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  currentCatalog Catalog? @relation("UserCurrentCatalog", fields: [current_catalog_id], references: [id])
+  current_catalog_id String? @unique
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("users")
 }
@@ -29,57 +33,61 @@ model User {
 model Catalog {
   id String @id @default(uuid())
   name String
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  productTypes ProductType[]
-  categories Category[]
-  catalogItems CatalogItem[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user User @relation("UserCatalogs", fields: [user_id], references: [id])
+  user_id String
+
+  currentFor User? @relation("UserCurrentCatalog")
+
+  types Type[]
+  categories Category[]
+  items Item[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("catalogs")
 }
 
-model ProductType {
+model Type {
   id String @id @default(uuid())
   name String
-  catalog Catalog @relation(fields: [catalogId], references: [id])
-  catalogId String @unique
-  catalogItems CatalogItem[]
+  catalog Catalog @relation(fields: [catalog_id], references: [id])
+  catalog_id String @unique
+  items Item[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  @@map("product_types")
+  @@map("types")
 }
 
 model Category {
   id String @id @default(uuid())
   name String
-  catalog Catalog @relation(fields: [catalogId], references: [id])
-  catalogId String @unique
-  catalogItems CatalogItem[]
+  catalog Catalog @relation(fields: [catalog_id], references: [id])
+  catalog_id String @unique
+  items Item[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("categories")
 }
 
-model CatalogItem {
+model Item {
   id String @id @default(uuid())
   name String
-  catalog Catalog @relation(fields: [catalogId], references: [id])
-  catalogId String @unique
-  productType ProductType @relation(fields: [productTypeId], references: [id])
-  productTypeId String
+  catalog Catalog @relation(fields: [catalog_id], references: [id])
+  catalog_id String @unique
+  type Type @relation(fields: [type_id], references: [id])
+  type_id String
   categories Category[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  @@map("catalog_items")
+  @@map("items")
 }
 
 enum Role {
