@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { PrismaUsersRepository } from "@/repositories/prisma-users-repository";
+import { PrismaUsersRepository } from "@/repositories/prisma/prisma-users-repository";
 import { SignupUseCase } from "@/use-cases/signup";
 
 export async function signup(request: FastifyRequest, reply: FastifyReply) {
@@ -12,18 +12,10 @@ export async function signup(request: FastifyRequest, reply: FastifyReply) {
 
   const { name, email, password } = signupSchema.parse(request.body);
 
-  try {
-    const usersRespository = new PrismaUsersRepository();
-    const signupUseCase = new SignupUseCase(usersRespository);
+  const usersRespository = new PrismaUsersRepository();
+  const signupUseCase = new SignupUseCase(usersRespository);
 
-    const user = await signupUseCase.execute({ name, email, password });
+  const user = await signupUseCase.execute({ name, email, password });
 
-    return reply.status(201).send({ user });
-  } catch (err) {
-    const error = err as Error;
-
-    return reply.status(400).send({
-      message: error.message,
-    });
-  }
+  return reply.status(201).send({ user });
 }
