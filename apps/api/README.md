@@ -16,12 +16,12 @@
 - [ ] Deve ser possível buscar catálogo por nome;
 - [ ] Deve ser possível ordenar catálogo por mais recente;
 
-### Tipo de produto
-- [ ] Deve ser possível criar tipo de produto;
-- [ ] Deve ser possível editar tipo de produto;
-- [ ] Deve ser possível remover tipo de produto;
-- [ ] Deve ser possível buscar tipo de produto por nome;
-- [ ] Deve ser possível ordenar tipo de produto por mais recente;
+### Tipo (produto, serviço, etc...)
+- [ ] Deve ser possível criar produto;
+- [ ] Deve ser possível editar produto;
+- [ ] Deve ser possível remover produto;
+- [ ] Deve ser possível buscar produto por nome;
+- [ ] Deve ser possível ordenar produto por mais recente;
 - [ ] Deve ser possível obter quantidade de items de catálogo vinculados;
 
 ### Categoria
@@ -40,15 +40,25 @@
 - [ ] Deve ser possível ordenar item de catálogo por mais recente;
 - [ ] Deve ser possível buscar item de catálogo por categoria;
 - [ ] Deve ser possível buscar item de catálogo por produto;
+- [ ] Deve ser possível buscar item de catálogo por status;
+
+### Status (Customizado)
+- [ ] Deve ser possível criar status;
+- [ ] Deve ser possível editar status;
+- [ ] Deve ser possível remover status;
+- [ ] Deve ser possível buscar status por nome;
+- [ ] Deve ser possível ordenar status por mais recente;
+- [ ] Deve ser possível obter quantidade de items de catálogo vinculados;
 
 ## Regras de Negócio
 
 - [ ] O usuário não pode ter email duplicado;
 - [ ] O mesmo usuário não pode ter nome de catálogo duplicado;
 - [ ] O usuário não pode ter nome/slug de categoria duplicada no mesmo catálogo;
-- [ ] O usuário não pode ter nome/slug de tipo de produto duplicado no mesmo catálogo;
-- [ ] O item de catálogo deve ter um tipo de produto vinculado;
-- [ ] Ao remover um tipo de produto, os itens de catálogo vinculados devem ser removidos;
+- [ ] O usuário não pode ter nome/slug de produto duplicado no mesmo catálogo;
+- [ ] O usuário não pode ter nome/slug de status duplicado no mesmo catálogo;
+- [ ] O item de catálogo deve ter um produto vinculado;
+- [ ] Ao remover um produto, os itens de catálogo vinculados devem ser removidos;
 - [ ] Ao remover uma categoria, os itens de catálogo vinculados devem remover a categoria;
 
 ## Requisitos Não Funcionais
