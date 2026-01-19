@@ -5,17 +5,16 @@ import { SignupUseCase } from "@/use-cases/signup";
 
 export async function signup(request: FastifyRequest, reply: FastifyReply) {
   const signupSchema = z.object({
-    name: z.string(),
     email: z.email(),
     password: z.string().min(6),
   });
 
-  const { name, email, password } = signupSchema.parse(request.body);
+  const { email, password } = signupSchema.parse(request.body);
 
   const usersRespository = new PrismaUsersRepository();
   const signupUseCase = new SignupUseCase(usersRespository);
 
-  const user = await signupUseCase.execute({ name, email, password });
+  const { user } = await signupUseCase.execute({ email, password });
 
   return reply.status(201).send({ user });
 }
