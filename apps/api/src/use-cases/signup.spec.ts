@@ -1,14 +1,19 @@
 import { compare } from "bcryptjs";
-import { describe, expect, it } from "vitest";
-import { UniqueFieldConflitError } from "@/common/error/unique-field-conflict-error";
+import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryUsersRepository } from "@/repositories/in-memory/in-memory-users-repository";
+import { UniqueFieldConflictError } from "@/use-cases/errors/unique-field-conflict-error";
 import { SignupUseCase } from "./signup";
 
-describe("Signup Use Case", () => {
-  it("should be able to register", async () => {
-    const usersRepository = new InMemoryUsersRepository();
-    const signupUseCase = new SignupUseCase(usersRepository);
+let usersRepository: InMemoryUsersRepository;
+let signupUseCase: SignupUseCase;
 
+describe("Signup Use Case", () => {
+  beforeEach(() => {
+    usersRepository = new InMemoryUsersRepository();
+    signupUseCase = new SignupUseCase(usersRepository);
+  });
+
+  it("should be able to register", async () => {
     const { user } = await signupUseCase.execute({
       email: "daniel@catalogar.com.br",
       password: "123456",
@@ -18,9 +23,6 @@ describe("Signup Use Case", () => {
   });
 
   it("should hash user's password on signup", async () => {
-    const usersRepository = new InMemoryUsersRepository();
-    const signupUseCase = new SignupUseCase(usersRepository);
-
     const { user } = await signupUseCase.execute({
       email: "daniel@catalogar.com.br",
       password: "123456",
@@ -32,9 +34,6 @@ describe("Signup Use Case", () => {
   });
 
   it("should not allow duplicated e-mail", async () => {
-    const usersRepository = new InMemoryUsersRepository();
-    const signupUseCase = new SignupUseCase(usersRepository);
-
     await signupUseCase.execute({
       email: "duplicate@catalogar.com.br",
       password: "123456",
@@ -45,6 +44,6 @@ describe("Signup Use Case", () => {
         email: "duplicate@catalogar.com.br",
         password: "123456",
       }),
-    ).rejects.toBeInstanceOf(UniqueFieldConflitError);
+    ).rejects.toBeInstanceOf(UniqueFieldConflictError);
   });
 });

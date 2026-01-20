@@ -1,7 +1,7 @@
 import { hash } from "bcryptjs";
 import type { User } from "generated/prisma/client";
-import { UniqueFieldConflitError } from "@/common/error/unique-field-conflict-error";
 import type { UsersRepository } from "@/repositories/users-repository";
+import { UniqueFieldConflictError } from "@/use-cases/errors/unique-field-conflict-error";
 
 type SignupUseCaseRequest = {
   email: string;
@@ -24,7 +24,7 @@ export class SignupUseCase {
     const existsByEmail = await this.usersRepository.existsByEmail(email);
 
     if (existsByEmail) {
-      throw new UniqueFieldConflitError(
+      throw new UniqueFieldConflictError(
         `Usuário com email: ${email} já cadastrado.`,
       );
     }

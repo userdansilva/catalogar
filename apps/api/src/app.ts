@@ -1,6 +1,6 @@
 import fastify from "fastify";
-import { defaultErrorHandler } from "./common/error/default-error-handler";
 import { routes } from "./http/routes";
+import { defaultErrorHandler } from "./use-cases/errors/default-error-handler";
 
 export const app = fastify();
 

@@ -2,7 +2,8 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import z, { ZodError } from "zod";
 import { env } from "@/env";
 import { InvalidCredentialsError } from "./invalid-credentials-error";
-import { UniqueFieldConflitError } from "./unique-field-conflict-error";
+import { ResourceNotFoundError } from "./resource-not-found-error";
+import { UniqueFieldConflictError } from "./unique-field-conflict-error";
 
 export function defaultErrorHandler(
   error: Error,
@@ -18,14 +19,20 @@ export function defaultErrorHandler(
   }
 
   /** Custom Errors */
-  if (error instanceof UniqueFieldConflitError) {
+  if (error instanceof UniqueFieldConflictError) {
     return reply.status(409).send({
       message: error.message,
     });
   }
 
   if (error instanceof InvalidCredentialsError) {
-    return reply.status(401).send({
+    return reply.status(400).send({
+      message: error.message,
+    });
+  }
+
+  if (error instanceof ResourceNotFoundError) {
+    return reply.status(404).send({
       message: error.message,
     });
   }
