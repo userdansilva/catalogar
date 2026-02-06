@@ -19,7 +19,7 @@ export class SignupUseCase {
     email,
     password,
   }: SignupUseCaseRequest): Promise<SignupUseCaseResponse> {
-    const password_hash = await hash(password, 6);
+    const passwordHash = await hash(password, 6);
 
     const existsByEmail = await this.usersRepository.existsByEmail(email);
 
@@ -31,7 +31,7 @@ export class SignupUseCase {
 
     const user = await this.usersRepository.create({
       email,
-      password_hash,
+      passwordHash,
     });
 
     return { user };

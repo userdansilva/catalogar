@@ -3,26 +3,28 @@
 ## Requisitos Funcionais
 
 ### Autenticação
-- [ ] Deve ser possível se cadastrar;
-- [ ] Deve ser possível se autenticar;
-- [ ] Deve ser possível obter dados do usuário logado;
-- [ ] Deve ser possível editar dados do usuário;
+- [x] Deve ser possível se cadastrar;
+- [x] Deve ser possível se autenticar;
+- [x] Deve ser possível obter dados do usuário logado;
+
+### Perfil
+- [ ] Deve ser possível editar nome do usuário;
 
 ### Catálogo
-- [ ] Deve ser possível criar catálogo;
-- [ ] Deve ser possível editar catálogo;
-- [ ] Deve ser possível remover catálogo;
-- [ ] Deve ser possível trocar de catálogo atual;
-- [ ] Deve ser possível buscar catálogo por nome;
-- [ ] Deve ser possível ordenar catálogo por mais recente;
+- [ ] Deve ser possível editar link;
+- [ ] Deve ser possível editar whatsapp;
+- [ ] Deve ser possível editar instagram;
+- [ ] Deve ser possível editar site oficial (ex.: linktree, site oficial);
 
-### Tipo (produto, serviço, etc...)
-- [ ] Deve ser possível criar produto;
-- [ ] Deve ser possível editar produto;
-- [ ] Deve ser possível remover produto;
-- [ ] Deve ser possível buscar produto por nome;
-- [ ] Deve ser possível ordenar produto por mais recente;
-- [ ] Deve ser possível obter quantidade de items de catálogo vinculados;
+### Item de catálogo
+- [ ] Deve ser possível criar item de catálogo;
+- [ ] Deve ser possível editar item de catálogo;
+- [ ] Deve ser possível remover item de catálogo;
+- [ ] Deve ser possível buscar item de catálogo por nome;
+- [ ] Deve ser possível ordenar item de catálogo por mais recente;
+- [ ] Deve ser possível buscar item de catálogo por categoria;
+- [ ] Deve ter preço padrão;
+- [ ] Deve ter preço reduzido (com desconto ex.: de/para);
 
 ### Categoria
 - [ ] Deve ser possível criar categoria;
@@ -32,38 +34,19 @@
 - [ ] Deve ser possível ordenar categoria por mais recente;
 - [ ] Deve ser possível obter quantidade de items de catálogo vinculados;
 
-### Item de catálogo
-- [ ] Deve ser possível criar item de catálogo;
-- [ ] Deve ser possível editar item de catálogo;
-- [ ] Deve ser possível remover item de catálogo;
-- [ ] Deve ser possível buscar item de catálogo por nome;
-- [ ] Deve ser possível ordenar item de catálogo por mais recente;
-- [ ] Deve ser possível buscar item de catálogo por categoria;
-- [ ] Deve ser possível buscar item de catálogo por produto;
-- [ ] Deve ser possível buscar item de catálogo por status;
-
-### Status (Customizado)
-- [ ] Deve ser possível criar status;
-- [ ] Deve ser possível editar status;
-- [ ] Deve ser possível remover status;
-- [ ] Deve ser possível buscar status por nome;
-- [ ] Deve ser possível ordenar status por mais recente;
-- [ ] Deve ser possível obter quantidade de items de catálogo vinculados;
-
 ## Regras de Negócio
 
-- [ ] O usuário não pode ter email duplicado;
-- [ ] O mesmo usuário não pode ter nome de catálogo duplicado;
-- [ ] O usuário não pode ter nome/slug de categoria duplicada no mesmo catálogo;
-- [ ] O usuário não pode ter nome/slug de produto duplicado no mesmo catálogo;
-- [ ] O usuário não pode ter nome/slug de status duplicado no mesmo catálogo;
-- [ ] O item de catálogo deve ter um produto vinculado;
-- [ ] Ao remover um produto, os itens de catálogo vinculados devem ser removidos;
-- [ ] Ao remover uma categoria, os itens de catálogo vinculados devem remover a categoria;
+- [x] O usuário não pode ter email duplicado;
+- [x] Ao criar um usuário, deve ser criado o Profile e Catalog;
+- [ ] O item de catálogo deve ter uma categoria;
+- [ ] O catálogo não pode ter nome/slug de categoria duplicada;
+- [ ] Ao remover uma categoria, os itens de catálogo vinculados devem ser removidos;
 
 ## Requisitos Não Funcionais
 
 - [ ] Os dados da aplicação devem estar persistidos em um banco PostgreSQL;
+- [ ] Deve ser implementado Better-Auth com login Email/Senha e Google;
+- [ ] Deve ser implementato Token Refresh, e a sessão do usuário deve durar 14 dias;
 
 ## Comandos Úteis do Docker
 

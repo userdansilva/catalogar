@@ -16,7 +16,7 @@ describe("Authenticate Use Case", () => {
   it("should be able to authenticate", async () => {
     await inMemoryUsersRepository.create({
       email: "daniel@catalogar.com.br",
-      password_hash: await hash("123456", 6),
+      passwordHash: await hash("123456", 6),
     });
 
     const { user } = await authenticateUseCase.execute({
@@ -39,7 +39,7 @@ describe("Authenticate Use Case", () => {
   it("should throw invalid credentials with invalid password", async () => {
     await inMemoryUsersRepository.create({
       email: "daniel@catalogar.com.br",
-      password_hash: await hash("123456", 6),
+      passwordHash: await hash("123456", 6),
     });
 
     await expect(() =>

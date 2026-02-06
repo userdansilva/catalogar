@@ -17,12 +17,10 @@ model User {
   id String @id @default(uuid())
   email String @unique
   password_hash String
-  name String?
   role Role @default(USER)
-  catalogs Catalog[] @relation("UserCatalogs")
 
-  currentCatalog Catalog? @relation("UserCurrentCatalog", fields: [current_catalog_id], references: [id])
-  current_catalog_id String? @unique
+  profile Profile?
+  catalog Catalog?
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -30,18 +28,27 @@ model User {
   @@map("users")
 }
 
+model Profile {
+  id String @id @default(uuid())
+  user_name String?
+
+  user User @relation(fields: [user_id], references: [id])
+  user_id String @unique
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("profiles")
+}
+
 model Catalog {
   id String @id @default(uuid())
-  name String
 
-  user User @relation("UserCatalogs", fields: [user_id], references: [id])
-  user_id String
+  user User @relation(fields: [user_id], references: [id])
+  user_id String @unique
 
-  currentFor User? @relation("UserCurrentCatalog")
-
-  types Type[]
-  categories Category[]
-  items Item[]
+  categories Category[] @relation("CatalogCategories")
+  items Item[] @relation("CatalogItems")
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -49,25 +56,12 @@ model Catalog {
   @@map("catalogs")
 }
 
-model Type {
-  id String @id @default(uuid())
-  name String
-  catalog Catalog @relation(fields: [catalog_id], references: [id])
-  catalog_id String @unique
-  items Item[]
-
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-
-  @@map("types")
-}
-
 model Category {
   id String @id @default(uuid())
   name String
-  catalog Catalog @relation(fields: [catalog_id], references: [id])
-  catalog_id String @unique
-  items Item[]
+  catalog Catalog @relation("CatalogCategories", fields: [catalog_id], references: [id])
+  catalog_id String
+  items Item[] @relation("CategoryItems")
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -78,11 +72,11 @@ model Category {
 model Item {
   id String @id @default(uuid())
   name String
-  catalog Catalog @relation(fields: [catalog_id], references: [id])
-  catalog_id String @unique
-  type Type @relation(fields: [type_id], references: [id])
-  type_id String
-  categories Category[]
+  catalog Catalog @relation("CatalogItems", fields: [catalog_id], references: [id])
+  catalog_id String
+
+  category Category @relation("CategoryItems", fields: [category_id], references: [id])
+  category_id String
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

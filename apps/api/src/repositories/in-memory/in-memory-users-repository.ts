@@ -1,18 +1,16 @@
 import { randomUUID } from "node:crypto";
 import type { User } from "generated/prisma/client";
-import type { UserCreateInput } from "generated/prisma/models";
+import type { CreateUserDTO } from "@/use-cases/dtos/create-user-dto";
 import type { UsersRepository } from "../users-repository";
 
 export class InMemoryUsersRepository implements UsersRepository {
   public users: User[] = [];
 
-  async create(data: UserCreateInput): Promise<User> {
+  async create(data: CreateUserDTO): Promise<User> {
     const user: User = {
       id: randomUUID(),
-      name: null,
       email: data.email,
-      password_hash: data.password_hash,
-      current_catalog_id: null,
+      password_hash: data.passwordHash,
       role: "USER",
       created_at: new Date(),
       updated_at: new Date(),
