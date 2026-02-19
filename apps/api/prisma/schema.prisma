@@ -14,41 +14,31 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  email String @unique
-  password_hash String
-  role Role @default(USER)
+  id   String @id @default(uuid())
+  role Role   @default(USER)
 
-  profile Profile?
   catalog Catalog?
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  name          String
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
 
   @@map("users")
-}
-
-model Profile {
-  id String @id @default(uuid())
-  user_name String?
-
-  user User @relation(fields: [user_id], references: [id])
-  user_id String @unique
-
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-
-  @@map("profiles")
 }
 
 model Catalog {
   id String @id @default(uuid())
 
-  user User @relation(fields: [user_id], references: [id])
+  user    User   @relation(fields: [user_id], references: [id])
   user_id String @unique
 
   categories Category[] @relation("CatalogCategories")
-  items Item[] @relation("CatalogItems")
+  items      Item[]     @relation("CatalogItems")
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -57,11 +47,11 @@ model Catalog {
 }
 
 model Category {
-  id String @id @default(uuid())
-  name String
-  catalog Catalog @relation("CatalogCategories", fields: [catalog_id], references: [id])
+  id         String  @id @default(uuid())
+  name       String
+  catalog    Catalog @relation("CatalogCategories", fields: [catalog_id], references: [id])
   catalog_id String
-  items Item[] @relation("CategoryItems")
+  items      Item[]  @relation("CategoryItems")
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -70,13 +60,13 @@ model Category {
 }
 
 model Item {
-  id String @id @default(uuid())
-  name String
-  catalog Catalog @relation("CatalogItems", fields: [catalog_id], references: [id])
+  id         String  @id @default(uuid())
+  name       String
+  catalog    Catalog @relation("CatalogItems", fields: [catalog_id], references: [id])
   catalog_id String
 
-  category Category @relation("CategoryItems", fields: [category_id], references: [id])
-  category_id String
+  category    Category? @relation("CategoryItems", fields: [category_id], references: [id])
+  category_id String?
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -87,4 +77,52 @@ model Item {
 enum Role {
   USER
   ADMIN
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
 }

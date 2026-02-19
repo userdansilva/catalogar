@@ -1,19 +1,19 @@
-import { randomUUID } from "node:crypto";
-import type { User } from "generated/prisma/client";
-import type { CreateUserDTO } from "@/use-cases/dtos/create-user-dto";
+import type { Prisma, User } from "generated/prisma/client";
 import type { UsersRepository } from "../users-repository";
 
 export class InMemoryUsersRepository implements UsersRepository {
-  public users: User[] = [];
+  private users: User[] = [];
 
-  async create(data: CreateUserDTO): Promise<User> {
+  async create(data: Prisma.UserCreateInput): Promise<User> {
     const user: User = {
-      id: randomUUID(),
+      id: crypto.randomUUID(),
+      name: data.name,
       email: data.email,
-      password_hash: data.passwordHash,
+      emailVerified: false,
+      image: null,
       role: "USER",
-      created_at: new Date(),
-      updated_at: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     this.users.push(user);
@@ -21,18 +21,10 @@ export class InMemoryUsersRepository implements UsersRepository {
     return user;
   }
 
-  async existsByEmail(email: string): Promise<boolean> {
-    const user = await this.findByEmail(email);
+  async existsById(id: string): Promise<boolean> {
+    const user = await this.findById(id);
 
     return !!user;
-  }
-
-  async findByEmail(email: string): Promise<User | null> {
-    const user = this.users.find((user) => user.email === email);
-
-    if (!user) return null;
-
-    return user;
   }
 
   async findById(id: string): Promise<User | null> {
