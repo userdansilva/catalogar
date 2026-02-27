@@ -4,6 +4,7 @@ import { Toaster } from "@catalogar/ui/components/sonner";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { TRPCReactProvider } from "@/trpc/client";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,14 +33,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          disableTransitionOnChange
-        >
-          <main>{children}</main>
-          <Toaster duration={3_000} position="top-center" />
-        </ThemeProvider>
+        <TRPCReactProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            disableTransitionOnChange
+          >
+            <main>{children}</main>
+            <Toaster duration={3_000} position="top-center" />
+          </ThemeProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );

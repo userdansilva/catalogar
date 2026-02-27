@@ -23,4 +23,5 @@ export interface CategoriesRepository {
     id: string,
     catalogId: string,
   ): Promise<boolean>;
+  findAllByCatalogId(catalogId: string): Promise<Category[]>;
 }

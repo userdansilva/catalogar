@@ -1,11 +1,31 @@
 import fastifyCors from "@fastify/cors";
+import {
+  type FastifyTRPCPluginOptions,
+  fastifyTRPCPlugin,
+} from "@trpc/server/adapters/fastify";
 import fastify from "fastify";
 import { env } from "./env";
-import { routes } from "./http/routes";
 import { auth } from "./lib/auth";
-import { defaultErrorHandler } from "./use-cases/errors/default-error-handler";
+import { createTRPCContext } from "./trpc/init";
+import { type AppRouter, appRouter } from "./trpc/routers/_app";
 
-export const app = fastify();
+export const app = fastify({
+  routerOptions: {
+    maxParamLength: 5000,
+  },
+});
+
+app.register(fastifyTRPCPlugin, {
+  prefix: "/api/trpc",
+  trpcOptions: {
+    router: appRouter,
+    createContext: createTRPCContext,
+    onError({ path, error }) {
+      // report to error monitoring
+      console.error(`Error in tRPC handler on path '${path}':`, error);
+    },
+  } satisfies FastifyTRPCPluginOptions<AppRouter>["trpcOptions"],
+});
 
 app.register(fastifyCors, {
   origin: env.CLIENT_ORIGIN,
@@ -57,7 +77,3 @@ app.route({
     }
   },
 });
-
-app.register(routes);
-
-app.setErrorHandler(defaultErrorHandler);

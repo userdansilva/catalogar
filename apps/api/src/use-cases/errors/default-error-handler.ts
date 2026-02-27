@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z, { ZodError } from "zod";
 import { env } from "@/env";
@@ -32,9 +33,14 @@ export function defaultErrorHandler(
   }
 
   if (error instanceof ResourceNotFoundError) {
-    return reply.status(404).send({
+    throw new TRPCError({
+      code: "NOT_FOUND",
       message: error.message,
     });
+
+    // return reply.status(404).send({
+    //   message: error.message,
+    // });
   }
 
   /** Logging */

@@ -102,4 +102,14 @@ export class PrismaCategoriesRepository implements CategoriesRepository {
 
     return !!category;
   }
+
+  async findAllByCatalogId(catalogId: string): Promise<Category[]> {
+    const categories = await prisma.category.findMany({
+      where: {
+        catalog_id: catalogId,
+      },
+    });
+
+    return categories;
+  }
 }

@@ -15,10 +15,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "exports": {
+    "./trpc/routers/_app": "./src/trpc/routers/_app.ts"
+  },
   "dependencies": {
     "@fastify/cors": "11.2.0",
     "@prisma/adapter-pg": "7.2.0",
     "@prisma/client": "7.2.0",
+    "@trpc/server": "11.10.0",
     "bcryptjs": "3.0.3",
     "better-auth": "1.4.18",
     "dotenv": "17.2.3",

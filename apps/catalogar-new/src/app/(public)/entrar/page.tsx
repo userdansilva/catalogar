@@ -13,7 +13,7 @@ export default function SignInOrRegister() {
   const signUp = async () => {
     await authClient.signUp.email(
       {
-        email: "daniel.sousa@catalogar.com.br",
+        email: "daniel.sousa01@catalogar.com.br",
         password: "12345678",
         name: "Daniel Sousa",
         callbackURL: "/dashboard",
@@ -35,7 +35,7 @@ export default function SignInOrRegister() {
   const signIn = async () => {
     await authClient.signIn.email(
       {
-        email: "daniel.sousa@catalogar.com.br",
+        email: "daniel.sousa01@catalogar.com.br",
         password: "12345678",
       },
       {

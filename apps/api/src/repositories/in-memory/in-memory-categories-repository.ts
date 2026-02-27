@@ -117,4 +117,10 @@ export class InMemoryCategoriesRepository implements CategoriesRepository {
 
     return !!category;
   }
+
+  async findAllByCatalogId(catalogId: string): Promise<Category[]> {
+    return this.categories.filter(
+      (category) => category.catalog_id === catalogId,
+    );
+  }
 }
