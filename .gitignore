@@ -50,3 +50,7 @@ playwright/.cache/
 
 # API
 build/
+
+# Ignore generated code
+apps/catalogar-new/src/gen/
+.kubb/

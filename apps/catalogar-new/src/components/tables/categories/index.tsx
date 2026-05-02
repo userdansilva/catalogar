@@ -1,37 +1,16 @@
-import { redirect, RedirectType } from "next/navigation";
+import { headers } from "next/headers";
+import { getCategories } from "@/gen/categories/categories";
 import { DataTable } from "../data-table";
 import { columns } from "./columns";
-import { getCategories } from "@/services/get-categories";
-import { routes } from "@/routes";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 
-type CategoriesTableProps = {
-  currentPage: number;
-};
-
-export async function CategoriesTable({ currentPage }: CategoriesTableProps) {
-  const [error, data] = await getCategories({
-    query: {
-      field: "name",
-      sort: "desc",
-      page: currentPage.toString(),
-      perPage: "10",
-    },
+export async function CategoriesTable() {
+  const { data, status } = await getCategories({
+    headers: await headers(),
   });
 
-  if (error) {
-    return <ExpectedError error={error} />;
+  if (status !== 200) {
+    return <div>Error loading categories</div>;
   }
 
-  if (data.data.length === 0) {
-    redirect(routes.categories.sub.createFirst.url, RedirectType.replace);
-  }
-
-  return (
-    <DataTable
-      columns={columns}
-      data={data.data}
-      pagination={data.meta.pagination}
-    />
-  );
+  return <DataTable columns={columns} data={data.categories} />;
 }

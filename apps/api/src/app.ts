@@ -1,11 +1,38 @@
-import fastifyCors from "@fastify/cors";
-import fastify from "fastify";
+import { fastifyCors } from "@fastify/cors";
+import { fastifySwagger } from "@fastify/swagger";
+import { fastifySwaggerUi } from "@fastify/swagger-ui";
+import { fastify } from "fastify";
+import {
+  jsonSchemaTransform,
+  jsonSchemaTransformObject,
+  serializerCompiler,
+  validatorCompiler,
+  type ZodTypeProvider,
+} from "fastify-type-provider-zod";
 import { env } from "./env";
-import { routes } from "./http/routes";
 import { auth } from "./lib/auth";
-import { defaultErrorHandler } from "./use-cases/errors/default-error-handler";
+import { categoriesRouter } from "./rest/routers/categories";
+import { itemsRouter } from "./rest/routers/items";
 
-export const app = fastify();
+export const app = fastify().withTypeProvider<ZodTypeProvider>();
+
+app.setValidatorCompiler(validatorCompiler);
+app.setSerializerCompiler(serializerCompiler);
+
+app.register(fastifySwagger, {
+  openapi: {
+    info: {
+      title: "Catalogar API",
+      version: "1.0.0",
+    },
+  },
+  transform: jsonSchemaTransform,
+  transformObject: jsonSchemaTransformObject,
+});
+
+app.register(fastifySwaggerUi, {
+  routePrefix: "/docs",
+});
 
 app.register(fastifyCors, {
   origin: env.CLIENT_ORIGIN,
@@ -58,6 +85,7 @@ app.route({
   },
 });
 
-app.register(routes);
+app.register(categoriesRouter);
+app.register(itemsRouter);
 
-app.setErrorHandler(defaultErrorHandler);
+// app.setErrorHandler(defaultErrorHandler);

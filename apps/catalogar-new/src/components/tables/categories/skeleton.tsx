@@ -3,6 +3,6 @@
 import { TableSkeleton } from "../table-skeleton";
 import { columns } from "./columns";
 
-export function CategoriesSkeleton() {
+export function CategoriesTableSkeleton() {
   return <TableSkeleton columns={columns} />;
 }

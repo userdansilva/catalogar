@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { env } from "@/env";
-import { makeCreateCatalogUseCase } from "@/use-cases/factories/make-create-catalog-use-case";
+import { createCatalog } from "@/queries/catalogs";
 import { prisma } from "./prisma";
 
 export const auth = betterAuth({
@@ -17,9 +17,7 @@ export const auth = betterAuth({
       create: {
         after: async (user) => {
           // Automatically create a catalog for the new user
-          const createCatalogUseCase = makeCreateCatalogUseCase();
-
-          await createCatalogUseCase.execute({
+          await createCatalog({
             userId: user.id,
           });
         },

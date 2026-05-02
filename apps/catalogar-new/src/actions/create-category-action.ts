@@ -1,44 +1,31 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
-import slugify from "slugify";
-import { ExpectedError } from "@/classes/ExpectedError";
-import { authActionClientWithUser } from "@/lib/next-safe-action";
-import { createCategorySchema } from "@/schemas/category";
-import { postCategory } from "@/services/post-category";
-import { tags } from "@/tags";
+import { headers } from "next/headers";
+import { createCategory } from "@/gen/categories/categories";
+import { authActionClient } from "@/lib/next-safe-action";
+import { createCategorySchema } from "@/schemas/create-category-schema";
 
-export const createCategoryAction = authActionClientWithUser
+export const createCategoryAction = authActionClient
   .inputSchema(createCategorySchema)
   .metadata({
     actionName: "create-category",
   })
-  .action(
-    async ({
-      parsedInput: { name, textColor, backgroundColor },
-      ctx: {
-        user: { currentCatalog },
-      },
-    }) => {
-      const [error, data] = await postCategory({
+  .action(async ({ parsedInput: { name }, ctx: { options } }) => {
+    const headersList = await headers();
+
+    const { data, status } = await createCategory(
+      {
         name,
-        slug: slugify(name, { lower: true }),
-        textColor,
-        backgroundColor,
-        isDisabled: false,
-      });
+      },
+      options,
+    );
 
-      if (error) {
-        throw new ExpectedError(error);
-      }
+    if (status !== 201) {
+      console.log("status", status);
+      throw new Error("Failed to create category");
+    }
 
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
-      }
-
-      return {
-        category: data.data,
-        message: data.meta?.message,
-      };
-    },
-  );
+    return {
+      category: data.category,
+    };
+  });

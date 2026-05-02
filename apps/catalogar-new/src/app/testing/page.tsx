@@ -1,15 +1,19 @@
 import { headers } from "next/headers";
-import { ofetch } from "ofetch";
+import { getCategories } from "@/gen/categories/categories";
 
 export default async function Page() {
-  try {
-    const response = await ofetch("http://localhost:3333/profile", {
-      headers: await headers(),
-    });
-    console.log("Profile response:", response);
-  } catch (error) {
-    console.error("Error fetching profile:", error);
+  const { data, status } = await getCategories({
+    headers: await headers(),
+  });
+
+  if (status !== 200) {
+    console.log(data.message, status);
+    return "Something went wrong";
   }
+
+  const categories = data.categories;
+
+  console.log("categories", categories);
 
   return (
     <div>
