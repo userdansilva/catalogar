@@ -29,6 +29,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
 
 # vercel
 .vercel
@@ -46,3 +47,7 @@ playwright/.cache/
 
 # Turbo
 .turbo
+
+# Prisma
+apps/catalogar/src/generated/prisma
+apps/catalogar/java-legacy

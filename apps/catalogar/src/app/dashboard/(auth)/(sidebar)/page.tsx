@@ -21,103 +21,109 @@ export default async function Home({
 }: {
   searchParams: Promise<{ pular?: string }>;
 }) {
-  const [userError, userData] = await getUser();
+  const user = await getUser();
 
-  if (userError) {
-    return <ExpectedError error={userError} />;
-  }
+  console.log("user", user);
 
-  if (!userData.data.currentCatalog) {
-    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
+  return <div>Ok</div>;
 
-  const [
-    [productTypesError, productTypesData],
-    [categoriesError, categoriesData],
-    [catalogItemsError, catalogItemsData],
-  ] = await Promise.all([
-    getProductTypes(),
-    getCategories(),
-    getCatalogItems(),
-  ]);
+  // const [userError, userData] = await getUser();
 
-  if (productTypesError) {
-    return <ExpectedError error={productTypesError} />;
-  }
+  // if (userError) {
+  //   return <ExpectedError error={userError} />;
+  // }
 
-  if (categoriesError) {
-    return <ExpectedError error={categoriesError} />;
-  }
+  // if (!userData.data.currentCatalog) {
+  //   return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
+  // }
 
-  if (catalogItemsError) {
-    return <ExpectedError error={catalogItemsError} />;
-  }
+  // const [
+  //   [productTypesError, productTypesData],
+  //   [categoriesError, categoriesData],
+  //   [catalogItemsError, catalogItemsData],
+  // ] = await Promise.all([
+  //   getProductTypes(),
+  //   getCategories(),
+  //   getCatalogItems(),
+  // ]);
 
-  const shouldDisplayMainMissions =
-    productTypesData.data.length === 0 || catalogItemsData.data.length === 0;
+  // if (productTypesError) {
+  //   return <ExpectedError error={productTypesError} />;
+  // }
 
-  const shouldDisplayCustomizationMissions =
-    !userData.data.currentCatalog.company ||
-    !userData.data.currentCatalog.theme;
+  // if (categoriesError) {
+  //   return <ExpectedError error={categoriesError} />;
+  // }
 
-  const { pular } = await searchParams;
+  // if (catalogItemsError) {
+  //   return <ExpectedError error={catalogItemsError} />;
+  // }
 
-  return (
-    <div className="space-y-10">
-      <div>
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-          Bem-Vindo ao{" "}
-          <span className="underline underline-offset-2">Catalogar!</span>
-        </h1>
+  // const shouldDisplayMainMissions =
+  //   productTypesData.data.length === 0 || catalogItemsData.data.length === 0;
 
-        {(shouldDisplayMainMissions || shouldDisplayCustomizationMissions) && (
-          <p className="leading-7 not-first:mt-6">
-            Siga as etapas abaixo para configurar o seu catálogo. Ao
-            completá-las, você poderá publicar e ter um link customizado para
-            compartilhar com seus clientes!
-          </p>
-        )}
-      </div>
+  // const shouldDisplayCustomizationMissions =
+  //   !userData.data.currentCatalog.company ||
+  //   !userData.data.currentCatalog.theme;
 
-      {shouldDisplayMainMissions ? (
-        <FirstSteps
-          productTypes={productTypesData.data}
-          categories={categoriesData.data}
-          catalogItems={catalogItemsData.data}
-          skipCategory={pular === "categoria"}
-        />
-      ) : (
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <p className="text-muted-foreground text-sm">
-              Catálogo selecionado
-            </p>
+  // const { pular } = await searchParams;
 
-            <CatalogSwitcherDrawerDialog
-              catalogs={userData.data.catalogs}
-              currentCatalog={userData.data.currentCatalog}
-            />
-          </div>
+  // return (
+  //   <div className="space-y-10">
+  //     <div>
+  //       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+  //         Bem-Vindo ao{" "}
+  //         <span className="underline underline-offset-2">Catalogar!</span>
+  //       </h1>
 
-          <MainCards
-            productTypes={productTypesData.data}
-            categories={categoriesData.data}
-            catalogItems={catalogItemsData.data}
-            user={userData.data}
-          />
-        </div>
-      )}
+  //       {(shouldDisplayMainMissions || shouldDisplayCustomizationMissions) && (
+  //         <p className="leading-7 not-first:mt-6">
+  //           Siga as etapas abaixo para configurar o seu catálogo. Ao
+  //           completá-las, você poderá publicar e ter um link customizado para
+  //           compartilhar com seus clientes!
+  //         </p>
+  //       )}
+  //     </div>
 
-      {shouldDisplayCustomizationMissions && (
-        <CustomizationMissions user={userData.data} />
-      )}
+  //     {shouldDisplayMainMissions ? (
+  //       <FirstSteps
+  //         productTypes={productTypesData.data}
+  //         categories={categoriesData.data}
+  //         catalogItems={catalogItemsData.data}
+  //         skipCategory={pular === "categoria"}
+  //       />
+  //     ) : (
+  //       <div className="space-y-6">
+  //         <div className="space-y-2">
+  //           <p className="text-muted-foreground text-sm">
+  //             Catálogo selecionado
+  //           </p>
 
-      {(!shouldDisplayMainMissions || userData.data.catalogs.length > 1) && (
-        <MyCatalogs
-          catalogs={userData.data.catalogs}
-          currentCatalog={userData.data.currentCatalog}
-        />
-      )}
-    </div>
-  );
+  //           <CatalogSwitcherDrawerDialog
+  //             catalogs={userData.data.catalogs}
+  //             currentCatalog={userData.data.currentCatalog}
+  //           />
+  //         </div>
+
+  //         <MainCards
+  //           productTypes={productTypesData.data}
+  //           categories={categoriesData.data}
+  //           catalogItems={catalogItemsData.data}
+  //           user={userData.data}
+  //         />
+  //       </div>
+  //     )}
+
+  //     {shouldDisplayCustomizationMissions && (
+  //       <CustomizationMissions user={userData.data} />
+  //     )}
+
+  //     {(!shouldDisplayMainMissions || userData.data.catalogs.length > 1) && (
+  //       <MyCatalogs
+  //         catalogs={userData.data.catalogs}
+  //         currentCatalog={userData.data.currentCatalog}
+  //       />
+  //     )}
+  //   </div>
+  // );
 }

@@ -17,11 +17,11 @@ import {
 import { Lock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import type { User } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import type { CatalogItem } from "@/schemas/catalog-item";
 import type { Category } from "@/schemas/category";
 import type { ProductType } from "@/schemas/product-type";
-import type { User } from "@/schemas/user";
 
 type NavMainClientProps = {
   productTypes: ProductType[];

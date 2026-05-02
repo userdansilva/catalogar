@@ -25,4 +25,5 @@ export const auth0 = new Auth0Client({
       secure: process.env.NODE_ENV === "production",
     },
   },
+  signInReturnToPath: "/dashboard",
 });
