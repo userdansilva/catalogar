@@ -22,8 +22,9 @@ import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { updateCategoryAction } from "@/actions/update-category-action";
+import type { Category } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import { type Category, updateCategorySchema } from "@/schemas/category";
+import { updateCategorySchema } from "@/schemas/category";
 import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
@@ -45,14 +46,12 @@ export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
           name: category.name,
           backgroundColor: category.backgroundColor,
           textColor: category.textColor,
-          isDisabled: category.isDisabled,
+          isDisabled: category.disabledAt !== null,
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Alterações salvas!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Alterações salvas!");
           router.push(routes.categories.url);
         },
         onError: (e) => {

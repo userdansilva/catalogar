@@ -24,10 +24,9 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createCatalogItemAction } from "@/actions/create-catalog-item-action";
+import type { Category, ProductType } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import { createCatalogItemSchema } from "@/schemas/catalog-item";
-import type { Category } from "@/schemas/category";
-import type { ProductType } from "@/schemas/product-type";
 import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 import { InputImages } from "../inputs/input-images";
@@ -64,10 +63,8 @@ export function CreateCatalogItemForm({
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Item de catálogo adicionado!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Item de catálogo adicionado!");
           router.push(callbackUrl || routes.catalogItems.url);
         },
         onError: (e) => {

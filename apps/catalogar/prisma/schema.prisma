@@ -50,8 +50,7 @@ model Catalog {
   productTypes      ProductType[]
   categories        Category[]
   catalogItems      CatalogItem[]
-  files             File[]
-  images            Image[]
+  themeLogos        ThemeLogo[]
   catalogItemImages CatalogItemImage[]
 
   @@map("catalogs")
@@ -92,9 +91,28 @@ model Theme {
   catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
 
   logoId String? @unique
-  logo   Image?  @relation("ThemeLogo", fields: [logoId], references: [id])
+  logo   ThemeLogo?  @relation("ThemeLogo")
 
   @@map("themes")
+}
+
+model ThemeLogo {
+  id        String   @id @default(uuid())
+  name      String
+  url       String   @unique
+  size      BigInt
+  createdAt DateTime @default(now())
+  width     Int
+  height    Int
+  altText   String
+
+  themeId String @unique
+  theme   Theme @relation("ThemeLogo", fields: [themeId], references: [id], onDelete: Cascade)
+
+  catalogId String
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
+
+  @@map("theme_logos")
 }
 
 // =====================
@@ -165,51 +183,6 @@ model CatalogItem {
   @@map("catalog_items")
 }
 
-// =====================
-// File Management (Inheritance: File -> Image -> CatalogItemImage)
-// =====================
-
-model File {
-  id        String   @id @default(uuid())
-  name      String
-  url       String   @unique
-  size      BigInt
-  createdAt DateTime @default(now())
-  type      String // Discriminator for single table inheritance: "File", "Image", "CatalogItemImage"
-
-  catalogId String
-  catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
-
-  // Image specific fields
-  width   Int?
-  height  Int?
-  altText String?
-
-  // CatalogItemImage specific fields
-  position Int?
-
-  @@map("files")
-}
-
-// Separate tables for clarity and better querying
-model Image {
-  id        String   @id @default(uuid())
-  name      String
-  url       String   @unique
-  size      BigInt
-  createdAt DateTime @default(now())
-  width     Int?
-  height    Int?
-  altText   String?
-
-  catalogId String
-  catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
-
-  // Reference for Theme logo
-  themeLogo Theme? @relation("ThemeLogo")
-
-  @@map("images")
-}
 
 model CatalogItemImage {
   id        String   @id @default(uuid())
@@ -217,9 +190,9 @@ model CatalogItemImage {
   url       String   @unique
   size      BigInt
   createdAt DateTime @default(now())
-  width     Int?
-  height    Int?
-  altText   String?
+  width     Int
+  height    Int
+  altText   String
   position  Int
 
   catalogItemId String
@@ -229,15 +202,4 @@ model CatalogItemImage {
   catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
 
   @@map("catalog_item_images")
-}
-
-// =====================
-// Enums
-// =====================
-
-enum FileType {
-  WEBP
-  JPG
-  PNG
-  SVG
 }

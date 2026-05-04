@@ -7,24 +7,13 @@ import {
 import { CircleCheckBig } from "lucide-react";
 import Link from "next/link";
 import { RedirectType, redirect } from "next/navigation";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { Button } from "@/components/inputs/button";
 import { CopyButton } from "@/components/inputs/copy-button";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
 
 export default async function Page() {
-  const [error, data] = await getUser();
-
-  if (error) {
-    return <ExpectedError error={error} />;
-  }
-
-  const user = data.data;
-
-  if (!user.currentCatalog) {
-    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
+  const user = await getUser();
 
   if (!user.currentCatalog.slug) {
     redirect(routes.dashboard.url, RedirectType.replace);

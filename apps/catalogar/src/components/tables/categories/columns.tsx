@@ -50,8 +50,8 @@ import { toast } from "sonner";
 import z from "zod";
 import { deleteCategoryAction } from "@/actions/delete-category-action";
 import { toggleCategoryStatusAction } from "@/actions/toggle-status-category-action";
+import type { Category } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { Category } from "@/schemas/category";
 
 export const columns: ColumnDef<Category>[] = [
   {
@@ -77,7 +77,7 @@ export const columns: ColumnDef<Category>[] = [
     accessorKey: "isDisabled",
     header: "Ativo",
     cell: ({ row }) => {
-      const { isDisabled } = row.original;
+      const isDisabled = !!row.original.disabledAt;
 
       return !isDisabled ? (
         <Check className="size-4" />
@@ -113,7 +113,8 @@ export const columns: ColumnDef<Category>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { id, isDisabled } = row.original;
+      const isDisabled = !!row.original.disabledAt;
+      const { id } = row.original;
 
       const schema = z.object({
         confirm: z

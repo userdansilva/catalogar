@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { RedirectType, redirect } from "next/navigation";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { UpdateCompanyForm } from "@/components/forms/update-company-form";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
@@ -16,19 +15,9 @@ export default async function Company({
     callbackUrl?: string;
   }>;
 }) {
-  const [error, data] = await getUser();
+  const user = await getUser();
 
-  if (error) {
-    return <ExpectedError error={error} />;
-  }
-
-  const currentCatalog = data.data.currentCatalog;
-
-  if (!currentCatalog) {
-    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
-
-  if (!currentCatalog.company) {
+  if (!user.currentCatalog.company) {
     redirect(routes.company.sub.new.url, RedirectType.replace);
   }
 
@@ -36,7 +25,7 @@ export default async function Company({
 
   return (
     <UpdateCompanyForm
-      company={currentCatalog.company}
+      company={user.currentCatalog.company}
       callbackUrl={callbackUrl}
     />
   );

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { CreateCatalogItemForm } from "@/components/forms/create-catalog-item-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PageHeader } from "@/components/layout/page-header";
@@ -18,21 +17,10 @@ export default async function NewCatalogItem({
 }) {
   const { callbackUrl } = await searchParams;
 
-  const [
-    [productTypesError, productTypesData],
-    [categoriesError, categoriesData],
-  ] = await Promise.all([getProductTypes(), getCategories()]);
-
-  if (productTypesError) {
-    return <ExpectedError error={productTypesError} />;
-  }
-
-  if (categoriesError) {
-    return <ExpectedError error={categoriesError} />;
-  }
-
-  const productTypes = productTypesData.data;
-  const categories = categoriesData.data;
+  const [{ productTypes }, { categories }] = await Promise.all([
+    getProductTypes(),
+    getCategories(),
+  ]);
 
   return (
     <div className="space-y-6">

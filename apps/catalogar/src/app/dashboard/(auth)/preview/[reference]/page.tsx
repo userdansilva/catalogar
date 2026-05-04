@@ -1,6 +1,5 @@
 import { notFound, RedirectType, redirect } from "next/navigation";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
@@ -13,30 +12,17 @@ export default async function Page({
 }: {
   params: Promise<{ reference: string }>;
 }) {
-  const [userError, userData] = await getUser();
-
-  if (userError) {
-    return <ExpectedError error={userError} />;
-  }
-
-  const user = userData.data;
+  const user = await getUser();
 
   if (!user.currentCatalog) {
     return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
   }
 
-  const [catalogItemsError, catalogItemsData] = await getCatalogItems();
-
-  if (catalogItemsError) {
-    return <ExpectedError error={catalogItemsError} />;
-  }
-
-  const catalogItems = catalogItemsData.data;
-
+  const { catalogItems } = await getCatalogItems();
   const { reference } = await params;
 
   const catalogItem = catalogItems.find(
-    (item) => item.reference === Number(reference),
+    (item) => Number(item.reference) === Number(reference),
   );
 
   if (!catalogItem) {

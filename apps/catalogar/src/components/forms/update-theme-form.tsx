@@ -19,9 +19,9 @@ import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { updateThemeAction } from "@/actions/update-theme-action";
+import type { Company, Prisma } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { Company } from "@/schemas/company";
-import { type Theme, updateThemeSchema } from "@/schemas/theme";
+import { updateThemeSchema } from "@/schemas/theme";
 import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 import { InputLogo } from "../inputs/input-logo";
@@ -31,8 +31,10 @@ export function UpdateThemeForm({
   company,
   callbackUrl,
 }: {
-  theme: Theme;
-  company?: Company;
+  theme: Prisma.ThemeGetPayload<{
+    include: { logo: true };
+  }>;
+  company?: Company | null;
   callbackUrl?: string;
 }) {
   const router = useRouter();
@@ -50,10 +52,8 @@ export function UpdateThemeForm({
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Alterações salvas!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Alterações salvas!");
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {

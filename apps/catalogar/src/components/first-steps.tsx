@@ -1,9 +1,11 @@
 "use client";
 
+import type {
+  CatalogItem,
+  Category,
+  ProductType,
+} from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { CatalogItem } from "@/schemas/catalog-item";
-import type { Category } from "@/schemas/category";
-import type { ProductType } from "@/schemas/product-type";
 import { Mission } from "./mission";
 
 export function FirstSteps({

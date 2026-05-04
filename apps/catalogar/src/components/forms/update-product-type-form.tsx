@@ -14,11 +14,9 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { updateProductTypeAction } from "@/actions/update-product-type-action";
+import type { ProductType } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import {
-  type ProductType,
-  updateProductTypeSchema,
-} from "@/schemas/product-type";
+import { updateProductTypeSchema } from "@/schemas/product-type";
 import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
@@ -40,14 +38,12 @@ export function UpdateProductTypeForm({
         defaultValues: {
           id: productType.id,
           name: productType.name,
-          isDisabled: productType.isDisabled,
+          isDisabled: !!productType.disabledAt,
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Alterações salvas!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Alterações salvas!");
           router.push(routes.productTypes.url);
         },
         onError: (e) => {

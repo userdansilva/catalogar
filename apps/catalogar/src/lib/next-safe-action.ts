@@ -39,13 +39,7 @@ export const authActionClient = createSafeActionClient({
 
 export const authActionClientWithUser = authActionClient.use(
   async ({ next }) => {
-    const [error, data] = await getUser();
-
-    if (error) {
-      throw new ExpectedError(error);
-    }
-
-    const user = data.data;
+    const user = await getUser();
 
     return next({ ctx: { user } });
   },

@@ -20,18 +20,29 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { RedirectType, redirect } from "next/navigation";
+import type {
+  CatalogItem,
+  Category,
+  Prisma,
+  ProductType,
+} from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { CatalogItem } from "@/schemas/catalog-item";
-import type { Category } from "@/schemas/category";
-import type { ProductType } from "@/schemas/product-type";
-import type { User } from "@/schemas/user";
 import { CopyButton } from "./inputs/copy-button";
 
 type MainCardsProps = {
   productTypes: ProductType[];
   categories: Category[];
   catalogItems: CatalogItem[];
-  user: User;
+  user: Prisma.UserGetPayload<{
+    include: {
+      currentCatalog: {
+        include: {
+          company: true;
+          theme: true;
+        };
+      };
+    };
+  }>;
 };
 
 export function MainCards({
@@ -51,12 +62,12 @@ export function MainCards({
       <Card className="bg-foreground flex flex-col lg:flex-row lg:items-center">
         <CardHeader className="flex-1">
           <CardTitle className="text-background text-2xl">
-            {user.currentCatalog.isPublished
+            {user.currentCatalog.publishedAt
               ? "Link Público"
               : "Publicar agora"}
           </CardTitle>
 
-          {user.currentCatalog.isPublished && (
+          {user.currentCatalog.publishedAt && (
             <CardDescription className="text-background flex flex-col gap-2">
               <Link
                 href={publicLink}
@@ -79,7 +90,7 @@ export function MainCards({
         </CardHeader>
 
         <CardFooter className="flex size-full items-center pr-6 sm:w-auto lg:pb-0">
-          {user.currentCatalog.isPublished ? (
+          {user.currentCatalog.publishedAt ? (
             <Button className="dark bg-foreground w-full sm:w-auto" asChild>
               <Link href={publicLink}>Acessar</Link>
             </Button>

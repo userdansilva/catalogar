@@ -34,10 +34,8 @@ export function CreateCatalogForm() {
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Catálogo criado!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Catálogo criado!");
           router.push(routes.dashboard.url);
         },
         onError: (e) => {

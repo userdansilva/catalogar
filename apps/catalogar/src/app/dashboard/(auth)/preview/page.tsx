@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { RedirectType, redirect } from "next/navigation";
 import { CatalogItems } from "@/components/catalog/catalog-items";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { CategoriesFilter } from "@/components/filters/categories-filter";
 import { ProductTypesFilter } from "@/components/filters/product-types-filter";
 import { QueryFilter } from "@/components/filters/query-filter";
@@ -31,43 +30,14 @@ export default async function Preview({
 }: {
   searchParams: Promise<SearchParams<typeof SEARCH_PARAM_NAMES>>;
 }) {
-  const [userError, userData] = await getUser();
-
-  if (userError) {
-    return <ExpectedError error={userError} />;
-  }
-
-  const user = userData.data;
+  const user = await getUser();
 
   if (!user.currentCatalog) {
     return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
   }
 
-  const [
-    [productTypesError, productTypesData],
-    [categoriesError, categoriesData],
-    [catalogItemsError, catalogItemsData],
-  ] = await Promise.all([
-    getProductTypes(),
-    getCategories(),
-    getCatalogItems(),
-  ]);
-
-  if (productTypesError) {
-    return <ExpectedError error={productTypesError} />;
-  }
-
-  if (categoriesError) {
-    return <ExpectedError error={categoriesError} />;
-  }
-
-  if (catalogItemsError) {
-    return <ExpectedError error={catalogItemsError} />;
-  }
-
-  const productTypes = productTypesData.data;
-  const categories = categoriesData.data;
-  const catalogItems = catalogItemsData.data;
+  const [{ productTypes }, { categories }, { catalogItems }] =
+    await Promise.all([getProductTypes(), getCategories(), getCatalogItems()]);
 
   const { busca, p, categoria, produto } = await searchParams;
 

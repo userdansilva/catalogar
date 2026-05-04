@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ExpectedError } from "@/components/error-handling/expected-error";
+import { notFound } from "next/navigation";
 import { UpdateCategoryForm } from "@/components/forms/update-category-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PageHeader } from "@/components/layout/page-header";
@@ -19,13 +19,11 @@ export default async function EditCategory({
 }) {
   const { id } = await params;
 
-  const [error, data] = await getCategory(id);
+  const { category } = await getCategory(id);
 
-  if (error) {
-    return <ExpectedError error={error} />;
+  if (!category) {
+    notFound();
   }
-
-  const category = data.data;
 
   return (
     <div className="space-y-6">

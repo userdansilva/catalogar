@@ -1,19 +1,12 @@
 import type { Metadata } from "next";
-import { RedirectType, redirect } from "next/navigation";
 import { CreateCatalogForm } from "@/components/forms/create-catalog-form";
 import { routes } from "@/routes";
-import { getUser } from "@/services/get-user";
-import { getSession } from "@/utils/get-session";
 
 export const metadata: Metadata = {
   title: routes.catalog.sub.createFirst.title,
 };
 
 export default async function FirstCatalog() {
-  const session = await getSession();
-
-  console.log("Session:", session);
-
   return (
     <div className="max-w-lg space-y-8">
       <div className="space-y-2">

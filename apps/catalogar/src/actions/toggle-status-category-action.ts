@@ -1,49 +1,41 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { categoryStatusToggleSchema } from "@/schemas/category";
-import { getCategory } from "@/services/get-category";
-import { putCategory } from "@/services/put-category";
-import { tags } from "@/tags";
 
 export const toggleCategoryStatusAction = authActionClientWithUser
   .inputSchema(categoryStatusToggleSchema)
   .metadata({
     actionName: "toggle-status-category",
   })
-  .action(
-    async ({
-      parsedInput: { id },
-      ctx: {
-        user: { currentCatalog },
+  .action(async ({ parsedInput: { id }, ctx: { user } }) => {
+    const existingCategory = await prisma.category.findFirst({
+      where: {
+        id,
+        catalogId: user.currentCatalog.id,
       },
-    }) => {
-      const [getCategoryError, getCategoryData] = await getCategory(id);
+    });
 
-      if (getCategoryError) {
-        throw new ExpectedError(getCategoryError);
-      }
-
-      const category = getCategoryData.data;
-
-      const [putCategoryError, putCategoryData] = await putCategory({
-        ...category,
-        isDisabled: !category.isDisabled,
-      });
-
-      if (putCategoryError) {
-        throw new ExpectedError(putCategoryError);
-      }
-
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
-      }
-
+    if (!existingCategory) {
       return {
-        category: putCategoryData.data,
-        message: putCategoryData.meta?.message,
+        error: {
+          message: "Categoría não encontrada",
+        },
       };
-    },
-  );
+    }
+
+    const category = await prisma.category.update({
+      where: {
+        id,
+        catalogId: user.currentCatalog.id,
+      },
+      data: {
+        disabledAt: existingCategory.disabledAt ? null : new Date(),
+      },
+    });
+
+    return {
+      category,
+    };
+  });

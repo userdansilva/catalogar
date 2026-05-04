@@ -13,16 +13,7 @@ export const metadata: Metadata = {
   title: routes.productTypes.title,
 };
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{
-    page?: string;
-  }>;
-}) {
-  const { page } = await searchParams;
-  const currentPage = page ? Number(page) : 1;
-
+export default async function Page() {
   return (
     <div className="space-y-6">
       <PrevButton url={routes.dashboard.url} />
@@ -39,8 +30,8 @@ export default async function Page({
         </Link>
       </Button>
 
-      <Suspense key={currentPage} fallback={<ProductTypesSkeleton />}>
-        <ProductTypesTable currentPage={currentPage} />
+      <Suspense fallback={<ProductTypesSkeleton />}>
+        <ProductTypesTable />
       </Suspense>
     </div>
   );

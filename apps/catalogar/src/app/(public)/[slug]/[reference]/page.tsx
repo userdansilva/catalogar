@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { PrevButton } from "@/components/inputs/prev-button";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
 
@@ -25,16 +24,55 @@ export default async function Page({
 
   const slug = slugWithAt.replace(ASCIIforAt, "");
 
-  const [error, data] = await getPublicCatalogBySlug(slug);
+  const catalog = await prisma.catalog.findFirst({
+    where: {
+      slug,
+      publishedAt: { not: null },
+    },
+    include: {
+      productTypes: {
+        where: {
+          disabledAt: null,
+        },
+      },
+      categories: {
+        where: {
+          disabledAt: null,
+        },
+      },
+      theme: {
+        include: {
+          logo: true,
+        },
+      },
+      company: true,
+      catalogItems: {
+        where: {
+          disabledAt: null,
+        },
+        include: {
+          productType: true,
+          categories: true,
+          images: {
+            orderBy: {
+              position: "asc",
+            },
+          },
+        },
+      },
+    },
+  });
 
-  if (error) {
-    return <ExpectedError error={error} />;
+  if (!catalog) {
+    notFound();
   }
 
-  const catalog = data.data;
+  if (!catalog.company) {
+    throw new Error("Company not found for catalog");
+  }
 
   const catalogItem = catalog.catalogItems.find(
-    (item) => item.reference === Number(reference),
+    (item) => Number(item.reference) === Number(reference),
   );
 
   if (!catalogItem) {

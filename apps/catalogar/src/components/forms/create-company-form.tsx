@@ -43,10 +43,8 @@ export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Informações salvas!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Informações salvas!");
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {

@@ -15,7 +15,16 @@ async function getUserOrCreate({
     },
     include: {
       catalogs: true,
-      currentCatalog: true,
+      currentCatalog: {
+        include: {
+          company: true,
+          theme: {
+            include: {
+              logo: true,
+            },
+          },
+        },
+      },
     },
   });
 
@@ -39,8 +48,17 @@ async function getUserOrCreate({
         where: { id: user.id },
         data: { currentCatalogId: catalog.id },
         include: {
-          currentCatalog: true,
           catalogs: true,
+          currentCatalog: {
+            include: {
+              company: true,
+              theme: {
+                include: {
+                  logo: true,
+                },
+              },
+            },
+          },
         },
       });
     });
@@ -61,8 +79,17 @@ async function getUserOrCreate({
       where: { id: user.id },
       data: { currentCatalogId: catalog.id },
       include: {
-        currentCatalog: true,
         catalogs: true,
+        currentCatalog: {
+          include: {
+            company: true,
+            theme: {
+              include: {
+                logo: true,
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -75,8 +102,17 @@ async function getUserOrCreate({
       where: { id: user.id },
       data: { currentCatalogId: user.catalogs[0].id },
       include: {
-        currentCatalog: true,
         catalogs: true,
+        currentCatalog: {
+          include: {
+            company: true,
+            theme: {
+              include: {
+                logo: true,
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -117,7 +153,19 @@ export async function getUser() {
        */
       const user = await prisma.user.findUniqueOrThrow({
         where: { email },
-        include: { currentCatalog: true, catalogs: true },
+        include: {
+          catalogs: true,
+          currentCatalog: {
+            include: {
+              company: true,
+              theme: {
+                include: {
+                  logo: true,
+                },
+              },
+            },
+          },
+        },
       });
 
       /**

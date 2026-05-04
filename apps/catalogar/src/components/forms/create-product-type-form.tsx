@@ -39,10 +39,8 @@ export function CreateProductTypeForm({
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Tipo de produto adicionado!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Tipo de produto adicionado!");
           router.push(callbackUrl || routes.productTypes.url);
         },
         onError: (e) => {

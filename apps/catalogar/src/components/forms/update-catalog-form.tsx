@@ -23,8 +23,9 @@ import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { updateCatalogAction } from "@/actions/update-catalog-action";
+import type { Catalog } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import { type Catalog, updateCatalogSchema } from "@/schemas/catalog";
+import { updateCatalogSchema } from "@/schemas/catalog";
 import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
@@ -47,15 +48,13 @@ export function UpdateCatalogForm({
         mode: "onChange",
         defaultValues: {
           name: catalog.name,
-          isPublished: catalog.isPublished,
+          isPublished: !!catalog.publishedAt,
           slug: catalog.slug ?? "",
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Alterações salvas!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Alterações salvas!");
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {

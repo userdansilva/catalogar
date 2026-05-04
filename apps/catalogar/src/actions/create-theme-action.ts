@@ -1,25 +1,40 @@
 "use server";
 
-import { ExpectedError } from "@/classes/ExpectedError";
-import { authActionClient } from "@/lib/next-safe-action";
+import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { createThemeSchema } from "@/schemas/theme";
-import { postTheme } from "@/services/post-theme";
 
-export const createThemeAction = authActionClient
+export const createThemeAction = authActionClientWithUser
   .inputSchema(createThemeSchema)
   .metadata({
     actionName: "create-theme",
   })
-  .action(async ({ parsedInput: { primaryColor, secondaryColor, logo } }) => {
-    const [error, data] = await postTheme({
-      primaryColor,
-      secondaryColor,
-      logo: logo ?? undefined,
-    });
+  .action(
+    async ({
+      parsedInput: { primaryColor, secondaryColor, logo },
+      ctx: { user },
+    }) => {
+      const theme = await prisma.theme.create({
+        data: {
+          primaryColor,
+          secondaryColor,
+          catalogId: user.currentCatalog.id,
+          logo: logo
+            ? {
+                create: {
+                  name: logo.name,
+                  url: logo.url,
+                  size: logo.sizeInBytes,
+                  width: logo.width,
+                  height: logo.height,
+                  altText: logo.altText,
+                  catalogId: user.currentCatalog.id,
+                },
+              }
+            : undefined,
+        },
+      });
 
-    if (error) {
-      throw new ExpectedError(error);
-    }
-
-    return { theme: data.data, message: data.meta?.message };
-  });
+      return { theme };
+    },
+  );

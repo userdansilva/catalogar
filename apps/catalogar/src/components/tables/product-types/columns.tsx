@@ -49,8 +49,8 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { deleteProductTypeAction } from "@/actions/delete-product-type-action";
 import { toggleProductTypeStatusAction } from "@/actions/toggle-status-product-type-action";
+import type { ProductType } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { ProductType } from "@/schemas/product-type";
 
 export const columns: ColumnDef<ProductType>[] = [
   {
@@ -63,7 +63,7 @@ export const columns: ColumnDef<ProductType>[] = [
     accessorKey: "isDisabled",
     header: "Ativo",
     cell: ({ row }) => {
-      const { isDisabled } = row.original;
+      const isDisabled = !!row.original.disabledAt;
 
       return !isDisabled ? (
         <Check className="size-4" />
@@ -99,7 +99,8 @@ export const columns: ColumnDef<ProductType>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const { id, isDisabled } = row.original;
+      const isDisabled = !!row.original.disabledAt;
+      const { id } = row.original;
 
       const schema = z.object({
         confirm: z

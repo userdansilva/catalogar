@@ -16,18 +16,29 @@ import {
 } from "@catalogar/ui/components/tooltip";
 import { Lock } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import type { User } from "@/generated/prisma/client";
+import type {
+  CatalogItem,
+  Category,
+  Prisma,
+  ProductType,
+} from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { CatalogItem } from "@/schemas/catalog-item";
-import type { Category } from "@/schemas/category";
-import type { ProductType } from "@/schemas/product-type";
 
 type NavMainClientProps = {
   productTypes: ProductType[];
   categories: Category[];
   catalogItems: CatalogItem[];
-  user: User;
+  user: Prisma.UserGetPayload<{
+    include: {
+      currentCatalog: {
+        include: {
+          company: true;
+          theme: true;
+        };
+      };
+      catalogs: true;
+    };
+  }>;
 };
 
 export function NavMainClient({
@@ -37,12 +48,6 @@ export function NavMainClient({
   catalogItems,
 }: NavMainClientProps) {
   const { setOpenMobile } = useSidebar();
-  const router = useRouter();
-
-  if (!user.currentCatalog) {
-    router.push(routes.catalog.sub.createFirst.url);
-    return;
-  }
 
   const groups = [
     {
@@ -102,7 +107,7 @@ export function NavMainClient({
       items: [
         {
           ...routes.company,
-          url: user.currentCatalog.company
+          url: user.currentCatalog?.company
             ? routes.company.url
             : routes.company.sub.new.url,
           isLocked: false,
@@ -111,7 +116,7 @@ export function NavMainClient({
         },
         {
           ...routes.theme,
-          url: user.currentCatalog.theme
+          url: user.currentCatalog?.theme
             ? routes.theme.url
             : routes.theme.sub.new.url,
           isLocked: false,

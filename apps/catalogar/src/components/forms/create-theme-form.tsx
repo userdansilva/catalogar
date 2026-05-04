@@ -19,8 +19,8 @@ import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { createThemeAction } from "@/actions/create-theme-action";
+import type { Company } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { Company } from "@/schemas/company";
 import { createThemeSchema } from "@/schemas/theme";
 import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
@@ -28,7 +28,7 @@ import { InputLogo } from "../inputs/input-logo";
 
 type CreateThemeFormProps = {
   callbackUrl?: string;
-  company?: Company;
+  company?: Company | null;
 };
 
 export function CreateThemeForm({
@@ -49,10 +49,8 @@ export function CreateThemeForm({
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Tema salvo!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Tema salvo!");
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {

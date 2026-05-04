@@ -1,52 +1,41 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { catalogItemStatusToggleSchema } from "@/schemas/catalog-item";
-import { getCatalogItem } from "@/services/get-catalog-item";
-import { putCatalogItem } from "@/services/put-catalog-item";
-import { tags } from "@/tags";
 
 export const toggleCatalogItemStatusAction = authActionClientWithUser
   .inputSchema(catalogItemStatusToggleSchema)
   .metadata({
     actionName: "toggle-catalog-item-status",
   })
-  .action(
-    async ({
-      parsedInput: { id },
-      ctx: {
-        user: { currentCatalog },
+  .action(async ({ parsedInput: { id }, ctx: { user } }) => {
+    const existingCatalogItem = await prisma.catalogItem.findFirst({
+      where: {
+        id,
+        catalogId: user.currentCatalog.id,
       },
-    }) => {
-      const [getCatalogItemError, getCatalogItemData] =
-        await getCatalogItem(id);
+    });
 
-      if (getCatalogItemError) {
-        throw new ExpectedError(getCatalogItemError);
-      }
-
-      const catalogItem = getCatalogItemData.data;
-
-      const [putCatalogItemError, putCatalogItemData] = await putCatalogItem({
-        ...catalogItem,
-        productTypeId: catalogItem.productType.id,
-        categoryIds: catalogItem.categories.map((category) => category.id),
-        isDisabled: !catalogItem.isDisabled,
-      });
-
-      if (putCatalogItemError) {
-        throw new ExpectedError(putCatalogItemError);
-      }
-
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
-      }
-
+    if (!existingCatalogItem) {
       return {
-        catalogItem: putCatalogItemData.data,
-        message: putCatalogItemData.meta?.message,
+        error: {
+          message: "Item de catálogo não encontrado",
+        },
       };
-    },
-  );
+    }
+
+    const catalogItem = await prisma.catalogItem.update({
+      where: {
+        id,
+        catalogId: user.currentCatalog.id,
+      },
+      data: {
+        disabledAt: existingCatalogItem.disabledAt ? null : new Date(),
+      },
+    });
+
+    return {
+      catalogItem,
+    };
+  });

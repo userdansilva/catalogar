@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { RedirectType, redirect } from "next/navigation";
 import { CatalogSwitcherDrawerDialog } from "@/components/catalog-switcher-drawer-dialog";
 import { CustomizationMissions } from "@/components/customization-missions";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { FirstSteps } from "@/components/first-steps";
 import { MainCards } from "@/components/main-cards";
 import { MyCatalogs } from "@/components/my-catalogs";
@@ -23,107 +21,73 @@ export default async function Home({
 }) {
   const user = await getUser();
 
-  console.log("user", user);
+  const [{ productTypes }, { categories }, { catalogItems }] =
+    await Promise.all([getProductTypes(), getCategories(), getCatalogItems()]);
 
-  return <div>Ok</div>;
+  const shouldDisplayMainMissions =
+    productTypes.length === 0 || catalogItems.length === 0;
 
-  // const [userError, userData] = await getUser();
+  const shouldDisplayCustomizationMissions =
+    !user.currentCatalog.company || !user.currentCatalog.theme;
 
-  // if (userError) {
-  //   return <ExpectedError error={userError} />;
-  // }
+  const { pular } = await searchParams;
 
-  // if (!userData.data.currentCatalog) {
-  //   return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  // }
+  return (
+    <div className="space-y-10">
+      <div>
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+          Bem-Vindo ao{" "}
+          <span className="underline underline-offset-2">Catalogar!</span>
+        </h1>
 
-  // const [
-  //   [productTypesError, productTypesData],
-  //   [categoriesError, categoriesData],
-  //   [catalogItemsError, catalogItemsData],
-  // ] = await Promise.all([
-  //   getProductTypes(),
-  //   getCategories(),
-  //   getCatalogItems(),
-  // ]);
+        {(shouldDisplayMainMissions || shouldDisplayCustomizationMissions) && (
+          <p className="leading-7 not-first:mt-6">
+            Siga as etapas abaixo para configurar o seu catálogo. Ao
+            completá-las, você poderá publicar e ter um link customizado para
+            compartilhar com seus clientes!
+          </p>
+        )}
+      </div>
 
-  // if (productTypesError) {
-  //   return <ExpectedError error={productTypesError} />;
-  // }
+      {shouldDisplayMainMissions ? (
+        <FirstSteps
+          productTypes={productTypes}
+          categories={categories}
+          catalogItems={catalogItems}
+          skipCategory={pular === "categoria"}
+        />
+      ) : (
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <p className="text-muted-foreground text-sm">
+              Catálogo selecionado
+            </p>
 
-  // if (categoriesError) {
-  //   return <ExpectedError error={categoriesError} />;
-  // }
+            <CatalogSwitcherDrawerDialog
+              catalogs={user.catalogs}
+              currentCatalog={user.currentCatalog}
+            />
+          </div>
 
-  // if (catalogItemsError) {
-  //   return <ExpectedError error={catalogItemsError} />;
-  // }
+          <MainCards
+            productTypes={productTypes}
+            categories={categories}
+            catalogItems={catalogItems}
+            user={user}
+          />
+        </div>
+      )}
 
-  // const shouldDisplayMainMissions =
-  //   productTypesData.data.length === 0 || catalogItemsData.data.length === 0;
+      {shouldDisplayCustomizationMissions && (
+        <CustomizationMissions user={user} />
+      )}
 
-  // const shouldDisplayCustomizationMissions =
-  //   !userData.data.currentCatalog.company ||
-  //   !userData.data.currentCatalog.theme;
-
-  // const { pular } = await searchParams;
-
-  // return (
-  //   <div className="space-y-10">
-  //     <div>
-  //       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-  //         Bem-Vindo ao{" "}
-  //         <span className="underline underline-offset-2">Catalogar!</span>
-  //       </h1>
-
-  //       {(shouldDisplayMainMissions || shouldDisplayCustomizationMissions) && (
-  //         <p className="leading-7 not-first:mt-6">
-  //           Siga as etapas abaixo para configurar o seu catálogo. Ao
-  //           completá-las, você poderá publicar e ter um link customizado para
-  //           compartilhar com seus clientes!
-  //         </p>
-  //       )}
-  //     </div>
-
-  //     {shouldDisplayMainMissions ? (
-  //       <FirstSteps
-  //         productTypes={productTypesData.data}
-  //         categories={categoriesData.data}
-  //         catalogItems={catalogItemsData.data}
-  //         skipCategory={pular === "categoria"}
-  //       />
-  //     ) : (
-  //       <div className="space-y-6">
-  //         <div className="space-y-2">
-  //           <p className="text-muted-foreground text-sm">
-  //             Catálogo selecionado
-  //           </p>
-
-  //           <CatalogSwitcherDrawerDialog
-  //             catalogs={userData.data.catalogs}
-  //             currentCatalog={userData.data.currentCatalog}
-  //           />
-  //         </div>
-
-  //         <MainCards
-  //           productTypes={productTypesData.data}
-  //           categories={categoriesData.data}
-  //           catalogItems={catalogItemsData.data}
-  //           user={userData.data}
-  //         />
-  //       </div>
-  //     )}
-
-  //     {shouldDisplayCustomizationMissions && (
-  //       <CustomizationMissions user={userData.data} />
-  //     )}
-
-  //     {(!shouldDisplayMainMissions || userData.data.catalogs.length > 1) && (
-  //       <MyCatalogs
-  //         catalogs={userData.data.catalogs}
-  //         currentCatalog={userData.data.currentCatalog}
-  //       />
-  //     )}
-  //   </div>
-  // );
+      {(!shouldDisplayMainMissions || user.catalogs.length > 1) && (
+        <MyCatalogs
+          catalogs={user.catalogs}
+          currentCatalog={user.currentCatalog}
+        />
+      )}
+    </div>
+  );
 }

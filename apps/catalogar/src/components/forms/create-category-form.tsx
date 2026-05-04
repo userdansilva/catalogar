@@ -47,10 +47,8 @@ export function CreateCategoryForm({ callbackUrl }: CreateCategoryFormProps) {
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Categoria adicionada!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Categoria adicionada!");
           router.push(callbackUrl || routes.categories.url);
         },
         onError: (e) => {

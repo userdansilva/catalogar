@@ -1,11 +1,19 @@
-import type { CatalogItem } from "@/schemas/catalog-item";
-import { getAuthHeaders } from "@/utils/get-auth-headers";
-import { serverFetch } from "@/utils/server-fetch";
+import prisma from "@/lib/prisma";
+import { getUser } from "./get-user";
 
-export async function getCatalogItem(id: CatalogItem["id"]) {
-  const headers = await getAuthHeaders();
+export async function getCatalogItem(id: string) {
+  const user = await getUser();
 
-  return await serverFetch<CatalogItem>(`/v1/catalog-items/${id}`, {
-    headers,
+  const catalogItem = await prisma.catalogItem.findUnique({
+    where: {
+      id,
+      catalogId: user.currentCatalog.id,
+    },
+    include: {
+      images: true,
+      categories: true,
+    },
   });
+
+  return { catalogItem };
 }

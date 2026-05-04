@@ -6,10 +6,10 @@ import {
   SidebarRail,
 } from "@catalogar/ui/components/sidebar";
 import { Suspense } from "react";
-import { CatalogSwitcherSkeleton } from "./catalog-switcher/skeleton";
 import { CatalogSwitcher } from "./catalog-switcher";
-import { NavMainSkeleton } from "./nav-main/skeleton";
+import { CatalogSwitcherSkeleton } from "./catalog-switcher/skeleton";
 import { NavMain } from "./nav-main";
+import { NavMainSkeleton } from "./nav-main/skeleton";
 import { NavUser } from "./nav-user";
 import { NavUserSkeleton } from "./nav-user/skeleton";
 

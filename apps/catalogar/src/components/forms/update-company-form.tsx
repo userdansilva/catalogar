@@ -16,8 +16,9 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { updateCompanyAction } from "@/actions/update-company-action";
+import type { Company } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import { type Company, updateCompanySchema } from "@/schemas/company";
+import { updateCompanySchema } from "@/schemas/company";
 import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
@@ -47,10 +48,8 @@ export function UpdateCompanyForm({
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Alterações salvas!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Alterações salvas!");
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {

@@ -1,8 +1,14 @@
 import Fuse from "fuse.js";
-import type { CatalogItem } from "@/schemas/catalog-item";
+import type { Prisma } from "@/generated/prisma/client";
 
 export function filterCatalogItems(
-  catalogItems: CatalogItem[],
+  catalogItems: Prisma.CatalogItemGetPayload<{
+    include: {
+      categories: true;
+      productType: true;
+      images: true;
+    };
+  }>[],
   filters: {
     query: string;
     productTypeSlug?: string;
@@ -41,14 +47,14 @@ export function filterCatalogItems(
         : true;
 
       const isProductTypeEnabled = config.hideIfProductTypeIsDisabled
-        ? !catalogItem.productType.isDisabled
+        ? !catalogItem.productType.disabledAt
         : true;
 
       if (!isProductTypeEnabled) return false;
 
       if (
         catalogItem.categories.length >= 1 &&
-        catalogItem.categories.every((category) => category.isDisabled)
+        catalogItem.categories.every((category) => category.disabledAt)
       ) {
         return false;
       }

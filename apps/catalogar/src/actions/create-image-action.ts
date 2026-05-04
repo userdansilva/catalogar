@@ -2,10 +2,9 @@
 
 import { BlockBlobClient } from "@azure/storage-blob";
 import sharp from "sharp";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClient } from "@/lib/next-safe-action";
 import { imageSchema } from "@/schemas/others";
-import { postStorageGenerateSasToken } from "@/services/post-storage-generate-sas-token";
+import { generateSasToken } from "@/utils/generate-sas-token";
 
 export const createImageAction = authActionClient
   .inputSchema(imageSchema)
@@ -16,15 +15,7 @@ export const createImageAction = authActionClient
     const arrayBuffer = await image.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const [error, data] = await postStorageGenerateSasToken({
-      fileType: "WEBP",
-    });
-
-    if (error) {
-      throw new ExpectedError(error);
-    }
-
-    const { fileName, uploadUrl, accessUrl } = data.data;
+    const { uploadUrl, accessUrl, fileName } = generateSasToken("WEBP");
 
     const optimizedImage = await sharp(buffer)
       .resize(600, 600, {

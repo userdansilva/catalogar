@@ -4,10 +4,12 @@ import { AlertCircle, Check, CircleCheckBigIcon, Lock, X } from "lucide-react";
 import Link from "next/link";
 import { RedirectType, redirect } from "next/navigation";
 import type { PropsWithChildren } from "react";
+import type {
+  CatalogItem,
+  Prisma,
+  ProductType,
+} from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { CatalogItem } from "@/schemas/catalog-item";
-import type { ProductType } from "@/schemas/product-type";
-import type { User } from "@/schemas/user";
 import { PublishCatalogForm } from "./forms/publish-catalog-form";
 
 type RequireItemProps = PropsWithChildren<{
@@ -45,7 +47,16 @@ function RequireItem({ done, children, href }: RequireItemProps) {
 }
 
 type PublishRequirementsProps = {
-  user: User;
+  user: Prisma.UserGetPayload<{
+    include: {
+      currentCatalog: {
+        include: {
+          company: true;
+          theme: true;
+        };
+      };
+    };
+  }>;
   productTypes: ProductType[];
   catalogItems: CatalogItem[];
 };

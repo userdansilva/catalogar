@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ExpectedError } from "@/components/error-handling/expected-error";
+import { notFound } from "next/navigation";
 import { UpdateCatalogItemForm } from "@/components/forms/update-catalog-item-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PageHeader } from "@/components/layout/page-header";
@@ -21,31 +21,13 @@ export default async function EditCatalogItem({
 }) {
   const { id } = await params;
 
-  const [
-    [catalogItemError, catalogItemData],
-    [productTypesError, productTypesData],
-    [categoriesError, categoriesData],
-  ] = await Promise.all([
-    getCatalogItem(id),
-    getProductTypes(),
-    getCategories(),
-  ]);
+  const [{ catalogItem }, { productTypes }, { categories }] = await Promise.all(
+    [getCatalogItem(id), getProductTypes(), getCategories()],
+  );
 
-  if (catalogItemError) {
-    return <ExpectedError error={catalogItemError} />;
+  if (!catalogItem) {
+    notFound();
   }
-
-  if (productTypesError) {
-    return <ExpectedError error={productTypesError} />;
-  }
-
-  if (categoriesError) {
-    return <ExpectedError error={categoriesError} />;
-  }
-
-  const catalogItem = catalogItemData.data;
-  const productTypes = productTypesData.data;
-  const categories = categoriesData.data;
 
   return (
     <div className="space-y-6">

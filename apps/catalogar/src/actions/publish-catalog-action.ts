@@ -1,44 +1,42 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { publishCatalogSchema } from "@/schemas/catalog";
-import { getUser } from "@/services/get-user";
-import { putCatalog } from "@/services/put-catalog";
-import { tags } from "@/tags";
 
 export const publishCatalogAction = authActionClientWithUser
   .inputSchema(publishCatalogSchema)
   .metadata({
     actionName: "publish-catalog",
   })
-  .action(async ({ parsedInput: { slug } }) => {
-    const [userError, userData] = await getUser();
-
-    if (userError) {
-      throw new ExpectedError(userError);
-    }
-
-    const { currentCatalog } = userData.data;
-
-    if (!currentCatalog) {
-      throw new Error("Catálogo atual não definido");
-    }
-
-    const [catalogError, catalogData] = await putCatalog({
-      slug,
-      name: currentCatalog.name,
-      isPublished: true,
+  .action(async ({ parsedInput: { slug }, ctx: { user } }) => {
+    const isSlugTaken = await prisma.catalog.findFirst({
+      where: {
+        slug,
+        id: {
+          not: user.currentCatalog.id,
+        },
+      },
     });
 
-    if (catalogError) {
-      throw new ExpectedError(catalogError);
+    if (isSlugTaken) {
+      return {
+        error: {
+          message: "O link já está em uso por outro catálogo.",
+        },
+      };
     }
 
-    if (currentCatalog?.isPublished && currentCatalog.slug) {
-      revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
-    }
+    const catalog = await prisma.catalog.update({
+      where: {
+        id: user.currentCatalog.id,
+      },
+      data: {
+        publishedAt: new Date(),
+      },
+    });
 
-    return { catalog: catalogData.data, message: catalogData.meta?.message };
+    return {
+      catalog,
+    };
   });

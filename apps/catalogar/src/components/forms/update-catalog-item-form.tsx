@@ -24,19 +24,20 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { updateCatalogItemAction } from "@/actions/update-catalog-item-action";
+import type { Category, Prisma, ProductType } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import {
-  type CatalogItem,
-  updateCatalogItemSchema,
-} from "@/schemas/catalog-item";
-import type { Category } from "@/schemas/category";
-import type { ProductType } from "@/schemas/product-type";
+import { updateCatalogItemSchema } from "@/schemas/catalog-item";
 import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 import { InputImages } from "../inputs/input-images";
 
 type UpdateCatalogItemFormProps = {
-  catalogItem: CatalogItem;
+  catalogItem: Prisma.CatalogItemGetPayload<{
+    include: {
+      categories: true;
+      images: true;
+    };
+  }>;
   categories: Category[];
   productTypes: ProductType[];
 };
@@ -58,18 +59,24 @@ export function UpdateCatalogItemForm({
           id: catalogItem.id,
           title: catalogItem.title,
           caption: catalogItem.caption ?? "",
-          price: catalogItem.price ?? "",
-          productTypeId: catalogItem.productType.id,
+          price: catalogItem.price ? catalogItem.price.toString() : "",
+          productTypeId: catalogItem.productTypeId,
           categoryIds: catalogItem.categories.map((category) => category.id),
-          images: catalogItem.images,
-          isDisabled: catalogItem.isDisabled,
+          images: catalogItem.images.map((image) => ({
+            fileName: image.name,
+            url: image.url,
+            sizeInBytes: Number(image.size),
+            width: image.width,
+            height: image.height,
+            altText: image.altText,
+            position: image.position,
+          })),
+          isDisabled: catalogItem.disabledAt !== null,
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Alterações salvas!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Alterações salvas!");
           router.push(routes.catalogItems.url);
         },
         onError: (e) => {

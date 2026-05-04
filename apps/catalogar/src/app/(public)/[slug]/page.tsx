@@ -1,10 +1,9 @@
 import { notFound } from "next/navigation";
 import { CatalogItems } from "@/components/catalog/catalog-items";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { CategoriesFilter } from "@/components/filters/categories-filter";
 import { ProductTypesFilter } from "@/components/filters/product-types-filter";
 import { QueryFilter } from "@/components/filters/query-filter";
-import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
+import prisma from "@/lib/prisma";
 import type { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
 
@@ -33,13 +32,48 @@ export default async function Page({
 
   const slug = slugWithAt.replace(ASCIIforAt, "");
 
-  const [error, data] = await getPublicCatalogBySlug(slug);
+  const catalog = await prisma.catalog.findFirst({
+    where: {
+      slug,
+      publishedAt: { not: null },
+    },
+    include: {
+      productTypes: {
+        where: {
+          disabledAt: null,
+        },
+      },
+      categories: {
+        where: {
+          disabledAt: null,
+        },
+      },
+      theme: {
+        include: {
+          logo: true,
+        },
+      },
+      company: true,
+      catalogItems: {
+        where: {
+          disabledAt: null,
+        },
+        include: {
+          productType: true,
+          categories: true,
+          images: {
+            orderBy: {
+              position: "asc",
+            },
+          },
+        },
+      },
+    },
+  });
 
-  if (error) {
-    return <ExpectedError error={error} />;
+  if (!catalog) {
+    return notFound();
   }
-
-  const catalog = data.data;
 
   const { busca, categoria, p, produto } = await searchParams;
 
@@ -55,8 +89,10 @@ export default async function Page({
           <QueryFilter
             mode="preview"
             currentQuery={query}
-            primaryColor={catalog.theme.primaryColor}
-            secondaryColor={catalog.theme.secondaryColor}
+            primaryColor={catalog.theme?.primaryColor || "var(--foreground)"}
+            secondaryColor={
+              catalog.theme?.secondaryColor || "var(--background)"
+            }
             searchParamNames={SEARCH_PARAM_NAMES}
           />
         </div>

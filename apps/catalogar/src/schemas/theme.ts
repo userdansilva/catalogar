@@ -16,7 +16,7 @@ export const createThemeSchema = z.object({
   secondaryColor: z.string().min(1, "Campo obrigatório"),
   logo: z
     .object({
-      fileName: z.string(),
+      name: z.string(),
       url: z.string(),
       sizeInBytes: z.number(),
       width: z.number(),

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { RedirectType, redirect } from "next/navigation";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { CreateCatalogItemForm } from "@/components/forms/create-catalog-item-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
@@ -17,30 +16,17 @@ export default async function CreateFirstCatalogItem({
 }: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
-  const [errorCatalogItems, dataCatalogItems] = await getCatalogItems();
-
-  if (errorCatalogItems) {
-    return <ExpectedError error={errorCatalogItems} />;
-  }
-
+  const { catalogItems } = await getCatalogItems();
   const { callbackUrl } = await searchParams;
 
-  if (dataCatalogItems.data.length >= 1 && !callbackUrl) {
+  if (catalogItems.length >= 1 && !callbackUrl) {
     return redirect(routes.catalogItems.url, RedirectType.replace);
   }
 
-  const [
-    [errorProductTypes, dataProductTypes],
-    [errorCategories, dataCategories],
-  ] = await Promise.all([getProductTypes(), getCategories()]);
-
-  if (errorProductTypes) {
-    return <ExpectedError error={errorProductTypes} />;
-  }
-
-  if (errorCategories) {
-    return <ExpectedError error={errorCategories} />;
-  }
+  const [{ productTypes }, { categories }] = await Promise.all([
+    getProductTypes(),
+    getCategories(),
+  ]);
 
   return (
     <div className="max-w-2xl space-y-8">
@@ -59,8 +45,8 @@ export default async function CreateFirstCatalogItem({
       </div>
 
       <CreateCatalogItemForm
-        productTypes={dataProductTypes.data}
-        categories={dataCategories.data}
+        productTypes={productTypes}
+        categories={categories}
         callbackUrl={callbackUrl}
       />
     </div>

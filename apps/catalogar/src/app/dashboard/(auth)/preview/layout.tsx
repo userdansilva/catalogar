@@ -1,25 +1,13 @@
 import { Button } from "@catalogar/ui/components/button";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { RedirectType, redirect } from "next/navigation";
 import type { PropsWithChildren } from "react";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
 
 export default async function PreviewLayout({ children }: PropsWithChildren) {
-  const [error, data] = await getUser();
-
-  if (error) {
-    return <ExpectedError error={error} />;
-  }
-
-  const user = data.data;
-
-  if (!user.currentCatalog) {
-    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
+  const user = await getUser();
 
   const { company, theme } = user.currentCatalog;
 
@@ -38,19 +26,8 @@ export default async function PreviewLayout({ children }: PropsWithChildren) {
 
       <CatalogLayout
         baseUrl={routes.preview.url}
-        company={
-          company ?? {
-            name: "Empresa",
-            mainSiteUrl: "",
-            description: "",
-          }
-        }
-        theme={
-          theme ?? {
-            primaryColor: "var(--foreground)",
-            secondaryColor: "var(--background)",
-          }
-        }
+        company={company}
+        theme={theme}
       >
         {children}
       </CatalogLayout>

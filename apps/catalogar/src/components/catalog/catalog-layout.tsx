@@ -11,25 +11,18 @@ import { ExternalLink, Forward, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { PropsWithChildren } from "react";
+import type { Company, Prisma } from "@/generated/prisma/client";
 import { Button } from "../inputs/button";
 import { ShareButton } from "../inputs/share-button";
 
 type CatalogLayoutProps = PropsWithChildren<{
   baseUrl: string;
-  company: {
-    name: string;
-    mainSiteUrl?: string;
-    description?: string;
-  };
-  theme: {
-    primaryColor: string;
-    secondaryColor: string;
-    logo?: {
-      url: string;
-      width: number;
-      height: number;
+  company: Company | null;
+  theme: Prisma.ThemeGetPayload<{
+    include: {
+      logo: true;
     };
-  };
+  }> | null;
 }>;
 
 export function CatalogLayout({
@@ -43,14 +36,14 @@ export function CatalogLayout({
       <header
         className="w-full border-b border-slate-100 py-4"
         style={{
-          background: theme.primaryColor,
-          color: theme.secondaryColor,
+          background: theme?.primaryColor || "var(--foreground)",
+          color: theme?.secondaryColor || "var(--background)",
         }}
       >
         <div className="container">
           <div className="relative flex h-7 w-full items-center justify-between">
             <Link href={baseUrl}>
-              {theme.logo ? (
+              {theme?.logo ? (
                 <Image
                   src={theme.logo.url}
                   alt="logo"
@@ -59,7 +52,9 @@ export function CatalogLayout({
                   style={{ height: 28, width: "auto" }}
                 />
               ) : (
-                <span className="text-2xl font-semibold">{company.name}</span>
+                <span className="text-2xl font-semibold">
+                  {company?.name || "Minha Empresa"}
+                </span>
               )}
             </Link>
 
@@ -68,8 +63,8 @@ export function CatalogLayout({
                 <Button
                   className="shadow-none"
                   style={{
-                    background: theme.primaryColor,
-                    color: theme.secondaryColor,
+                    background: theme?.primaryColor || "var(--foreground)",
+                    color: theme?.secondaryColor || "var(--background)",
                   }}
                 >
                   <Menu />
@@ -80,15 +75,15 @@ export function CatalogLayout({
                 <div className="mx-auto w-full max-w-xl text-center">
                   <DrawerHeader>
                     <DrawerTitle className="text-center text-4xl font-extrabold tracking-tight text-balance underline underline-offset-4">
-                      {company.name}
+                      {company?.name || "Minha Empresa"}
                     </DrawerTitle>
-                    {company.mainSiteUrl && (
+                    {company?.mainSiteUrl && (
                       <Button variant="link">
                         <a href={company.mainSiteUrl}>{company.mainSiteUrl}</a>
                         <ExternalLink />
                       </Button>
                     )}
-                    {company.description && (
+                    {company?.description && (
                       <DrawerDescription className="text-center">
                         {company.description}
                       </DrawerDescription>
@@ -97,8 +92,9 @@ export function CatalogLayout({
                   <DrawerFooter>
                     <ShareButton
                       style={{
-                        background: theme.secondaryColor,
-                        color: theme.primaryColor,
+                        background:
+                          theme?.secondaryColor || "var(--background)",
+                        color: theme?.primaryColor || "var(--foreground)",
                       }}
                     >
                       <Forward />

@@ -1,12 +1,10 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { returnValidationErrors } from "next-safe-action";
 import slugify from "slugify";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { createCategorySchema } from "@/schemas/category";
-import { postCategory } from "@/services/post-category";
-import { tags } from "@/tags";
 
 export const createCategoryAction = authActionClientWithUser
   .inputSchema(createCategorySchema)
@@ -20,25 +18,38 @@ export const createCategoryAction = authActionClientWithUser
         user: { currentCatalog },
       },
     }) => {
-      const [error, data] = await postCategory({
-        name,
-        slug: slugify(name, { lower: true }),
-        textColor,
-        backgroundColor,
-        isDisabled: false,
+      const existingCategory = await prisma.category.findFirst({
+        where: {
+          slug: slugify(name, { lower: true }),
+          catalogId: currentCatalog.id,
+        },
       });
 
-      if (error) {
-        throw new ExpectedError(error);
+      if (existingCategory) {
+        return returnValidationErrors(createCategorySchema, {
+          name: {
+            _errors: ["Já existe uma categoria com esse nome"],
+          },
+        });
       }
 
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
-      }
+      const category = await prisma.category.create({
+        data: {
+          name: name,
+          slug: slugify(name, { lower: true }),
+          textColor: textColor,
+          backgroundColor: backgroundColor,
+          disabledAt: null,
+          catalogId: currentCatalog.id,
+        },
+      });
+
+      // if (currentCatalog?.isPublished && currentCatalog.slug) {
+      //   revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
+      // }
 
       return {
-        category: data.data,
-        message: data.meta?.message,
+        category,
       };
     },
   );

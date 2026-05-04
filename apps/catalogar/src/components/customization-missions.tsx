@@ -1,10 +1,19 @@
 import { RedirectType, redirect } from "next/navigation";
+import type { Prisma } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { User } from "@/schemas/user";
 import { Mission } from "./mission";
 
 type CustomizationMissionsProps = {
-  user: User;
+  user: Prisma.UserGetPayload<{
+    include: {
+      currentCatalog: {
+        include: {
+          company: true;
+          theme: true;
+        };
+      };
+    };
+  }>;
 };
 
 export function CustomizationMissions({ user }: CustomizationMissionsProps) {

@@ -1,5 +1,3 @@
-import { RedirectType, redirect } from "next/navigation";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PublishRequirements } from "@/components/publish-requirements";
 import { routes } from "@/routes";
@@ -8,33 +6,12 @@ import { getProductTypes } from "@/services/get-product-types";
 import { getUser } from "@/services/get-user";
 
 export default async function Page() {
-  const [userError, userData] = await getUser();
+  const user = await getUser();
 
-  if (userError) {
-    return <ExpectedError error={userError} />;
-  }
-
-  const user = userData.data;
-
-  if (!user.currentCatalog) {
-    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
-
-  const [
-    [productTypesError, productTypesData],
-    [catalogItemsError, catalogItemsData],
-  ] = await Promise.all([getProductTypes(), getCatalogItems()]);
-
-  if (productTypesError) {
-    return <ExpectedError error={productTypesError} />;
-  }
-
-  if (catalogItemsError) {
-    return <ExpectedError error={catalogItemsError} />;
-  }
-
-  const productTypes = productTypesData.data;
-  const catalogItems = catalogItemsData.data;
+  const [{ productTypes }, { catalogItems }] = await Promise.all([
+    getProductTypes(),
+    getCatalogItems(),
+  ]);
 
   return (
     <div className="max-w-xl space-y-8">

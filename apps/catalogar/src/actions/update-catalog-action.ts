@@ -1,14 +1,11 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
-import { ExpectedError } from "@/classes/ExpectedError";
+import { returnValidationErrors } from "next-safe-action";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
 import { updateCatalogSchema } from "@/schemas/catalog";
-import { getUser } from "@/services/get-user";
-import { putCatalog } from "@/services/put-catalog";
-import { tags } from "@/tags";
 
 export const updateCatalogAction = authActionClientWithUser
   .inputSchema(updateCatalogSchema)
@@ -16,56 +13,57 @@ export const updateCatalogAction = authActionClientWithUser
     actionName: "update-catalog",
   })
   .action(
-    async ({
-      parsedInput: { name, isPublished, slug },
-      ctx: {
-        user: { currentCatalog },
-      },
-    }) => {
-      const [userError, userData] = await getUser();
+    async ({ parsedInput: { name, isPublished, slug }, ctx: { user } }) => {
+      const existingCatalogWithSlug = await prisma.catalog.findFirst({
+        where: {
+          slug,
+          id: {
+            not: user.currentCatalog.id,
+          },
+        },
+      });
 
-      if (userError) {
-        throw new ExpectedError(userError);
-      }
-
-      const user = userData.data;
-
-      if (!user.currentCatalog) {
-        throw new Error("Catálogo atual não definido");
+      if (existingCatalogWithSlug) {
+        return returnValidationErrors(updateCatalogSchema, {
+          slug: {
+            _errors: ["Já existe um catálogo com esse link"],
+          },
+        });
       }
 
       // Publicar pela a primeira vez
-      if (isPublished && !user.currentCatalog.isPublished) {
-        const [putCatalogError] = await putCatalog({
-          name,
-          slug,
+      if (isPublished && !user.currentCatalog.publishedAt) {
+        await prisma.catalog.update({
+          where: {
+            id: user.currentCatalog.id,
+          },
+          data: {
+            name,
+            slug,
+          },
         });
-
-        if (putCatalogError) {
-          throw new ExpectedError(putCatalogError);
-        }
 
         redirect(routes.catalog.sub.prePublish.url);
       }
 
       // Alterar normalmente (caso já tenha publicado antes)
-      const [putCatalogError, putCatalogData] = await putCatalog({
-        name,
-        isPublished,
-        slug,
+      const catalog = await prisma.catalog.update({
+        where: {
+          id: user.currentCatalog.id,
+        },
+        data: {
+          name,
+          publishedAt: isPublished ? new Date() : null,
+          slug,
+        },
       });
 
-      if (putCatalogError) {
-        throw new ExpectedError(putCatalogError);
-      }
-
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
-      }
+      // if (currentCatalog?.isPublished && currentCatalog.slug) {
+      //   revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
+      // }
 
       return {
-        catalog: putCatalogData.data,
-        message: putCatalogData.meta?.message,
+        catalog,
       };
     },
   );

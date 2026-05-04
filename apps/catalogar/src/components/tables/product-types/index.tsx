@@ -1,41 +1,15 @@
 import { RedirectType, redirect } from "next/navigation";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { routes } from "@/routes";
 import { getProductTypes } from "@/services/get-product-types";
 import { DataTable } from "../data-table";
 import { columns } from "./columns";
 
-type ProductTypesTableProps = {
-  currentPage: number;
-};
-
-export async function ProductTypesTable({
-  currentPage,
-}: ProductTypesTableProps) {
-  const [error, data] = await getProductTypes({
-    query: {
-      field: "createdAt",
-      page: currentPage.toString(),
-      perPage: "10",
-      sort: "desc",
-    },
-  });
-
-  if (error) {
-    return <ExpectedError error={error} />;
-  }
-
-  const productTypes = data.data;
+export async function ProductTypesTable() {
+  const { productTypes } = await getProductTypes();
 
   if (productTypes.length === 0) {
     redirect(routes.productTypes.sub.createFirst.url, RedirectType.replace);
   }
 
-  return (
-    <DataTable
-      columns={columns}
-      data={productTypes}
-      pagination={data.meta.pagination}
-    />
-  );
+  return <DataTable columns={columns} data={productTypes} />;
 }

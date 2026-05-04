@@ -1,12 +1,10 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { returnValidationErrors } from "next-safe-action";
 import slugify from "slugify";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { updateCategorySchema } from "@/schemas/category";
-import { putCategory } from "@/services/put-category";
-import { tags } from "@/tags";
 
 export const updateCategoryAction = authActionClientWithUser
   .inputSchema(updateCategorySchema)
@@ -16,30 +14,41 @@ export const updateCategoryAction = authActionClientWithUser
   .action(
     async ({
       parsedInput: { id, name, textColor, backgroundColor, isDisabled },
-      ctx: {
-        user: { currentCatalog },
-      },
+      ctx: { user },
     }) => {
-      const [error, data] = await putCategory({
-        id,
-        name,
-        slug: slugify(name, { lower: true }),
-        textColor,
-        backgroundColor,
-        isDisabled,
+      // Verify by slug unique
+      const existingCategory = await prisma.category.findFirst({
+        where: {
+          slug: slugify(name, { lower: true }),
+          catalogId: user.currentCatalog.id,
+          id: {
+            not: id,
+          },
+        },
       });
 
-      if (error) {
-        throw new ExpectedError(error);
+      if (existingCategory) {
+        return returnValidationErrors(updateCategorySchema, {
+          name: {
+            _errors: ["Já existe uma categoria com esse nome"],
+          },
+        });
       }
 
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
-      }
+      const category = await prisma.category.update({
+        where: {
+          id,
+          catalogId: user.currentCatalog.id,
+        },
+        data: {
+          name,
+          slug: slugify(name, { lower: true }),
+          textColor,
+          backgroundColor,
+          disabledAt: isDisabled ? new Date() : null,
+        },
+      });
 
-      return {
-        category: data.data,
-        message: data.meta?.message,
-      };
+      return { category };
     },
   );

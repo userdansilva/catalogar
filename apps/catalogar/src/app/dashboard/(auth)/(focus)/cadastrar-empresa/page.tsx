@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { RedirectType, redirect } from "next/navigation";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { CreateCompanyForm } from "@/components/forms/create-company-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
@@ -15,18 +14,7 @@ export default async function RegisterCompany({
 }: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
-  const [error, data] = await getUser();
-
-  if (error) {
-    return <ExpectedError error={error} />;
-  }
-
-  const user = data.data;
-
-  if (!user.currentCatalog) {
-    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
-
+  const user = await getUser();
   const { callbackUrl } = await searchParams;
 
   if (user.currentCatalog.company && !callbackUrl) {

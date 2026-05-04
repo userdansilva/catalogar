@@ -50,4 +50,3 @@ playwright/.cache/
 
 # Prisma
 apps/catalogar/src/generated/prisma
-apps/catalogar/java-legacy
