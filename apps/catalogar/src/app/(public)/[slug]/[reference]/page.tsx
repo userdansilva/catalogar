@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
 import { PrevButton } from "@/components/inputs/prev-button";
-import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
+import { getPublicCatalog } from "@/services/get-public-catalog";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
 
@@ -24,44 +24,7 @@ export default async function Page({
 
   const slug = slugWithAt.replace(ASCIIforAt, "");
 
-  const catalog = await prisma.catalog.findFirst({
-    where: {
-      slug,
-      publishedAt: { not: null },
-    },
-    include: {
-      productTypes: {
-        where: {
-          disabledAt: null,
-        },
-      },
-      categories: {
-        where: {
-          disabledAt: null,
-        },
-      },
-      theme: {
-        include: {
-          logo: true,
-        },
-      },
-      company: true,
-      catalogItems: {
-        where: {
-          disabledAt: null,
-        },
-        include: {
-          productType: true,
-          categories: true,
-          images: {
-            orderBy: {
-              position: "asc",
-            },
-          },
-        },
-      },
-    },
-  });
+  const { catalog } = await getPublicCatalog(slug);
 
   if (!catalog) {
     notFound();

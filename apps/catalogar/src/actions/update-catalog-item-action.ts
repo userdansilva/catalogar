@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { updateCatalogItemSchema } from "@/schemas/catalog-item";
@@ -20,12 +21,14 @@ export const updateCatalogItemAction = authActionClientWithUser
         productTypeId,
         categoryIds,
       },
-      ctx: { user },
+      ctx: {
+        user: { currentCatalog },
+      },
     }) => {
       const catalogItem = await prisma.catalogItem.update({
         where: {
           id,
-          catalogId: user.currentCatalog.id,
+          catalogId: currentCatalog.id,
         },
         data: {
           title,
@@ -39,7 +42,7 @@ export const updateCatalogItemAction = authActionClientWithUser
             deleteMany: {},
             createMany: {
               data: images.map((image) => ({
-                catalogId: user.currentCatalog.id,
+                catalogId: currentCatalog.id,
                 name: image.fileName,
                 position: image.position,
                 size: image.sizeInBytes,
@@ -52,6 +55,10 @@ export const updateCatalogItemAction = authActionClientWithUser
           },
         },
       });
+
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      }
 
       return {
         catalogItem,

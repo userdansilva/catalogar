@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { createCatalogItemSchema } from "@/schemas/catalog-item";
@@ -12,10 +13,12 @@ export const createCatalogItemAction = authActionClientWithUser
   .action(
     async ({
       parsedInput: { title, caption, productTypeId, categoryIds, images },
-      ctx: { user },
+      ctx: {
+        user: { currentCatalog },
+      },
     }) => {
       const reference = await generateUniqueReference({
-        currentCatalogId: user.currentCatalog.id,
+        currentCatalogId: currentCatalog.id,
       });
 
       const catalogItem = await prisma.catalogItem.create({
@@ -23,7 +26,7 @@ export const createCatalogItemAction = authActionClientWithUser
           title,
           caption,
           reference,
-          catalogId: user.currentCatalog.id,
+          catalogId: currentCatalog.id,
           productTypeId,
           categories: {
             connect: categoryIds.map((id) => ({ id })),
@@ -31,7 +34,7 @@ export const createCatalogItemAction = authActionClientWithUser
           images: {
             createMany: {
               data: images.map((image) => ({
-                catalogId: user.currentCatalog.id,
+                catalogId: currentCatalog.id,
                 name: image.fileName,
                 position: image.position,
                 size: image.sizeInBytes,
@@ -44,6 +47,10 @@ export const createCatalogItemAction = authActionClientWithUser
           },
         },
       });
+
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      }
 
       return {
         catalogItem,

@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { returnValidationErrors } from "next-safe-action";
 import slugify from "slugify";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
@@ -41,9 +42,9 @@ export const createProductTypeAction = authActionClientWithUser
         },
       });
 
-      // if (currentCatalog?.isPublished && currentCatalog.slug) {
-      //   revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
-      // }
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      }
 
       return {
         productType,

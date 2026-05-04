@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { updateCompanySchema } from "@/schemas/company";
@@ -34,6 +35,10 @@ export const updateCompanyAction = authActionClientWithUser
           phoneNumber,
         },
       });
+
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      }
 
       return {
         company,

@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { returnValidationErrors } from "next-safe-action";
 import slugify from "slugify";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
@@ -14,13 +15,15 @@ export const updateCategoryAction = authActionClientWithUser
   .action(
     async ({
       parsedInput: { id, name, textColor, backgroundColor, isDisabled },
-      ctx: { user },
+      ctx: {
+        user: { currentCatalog },
+      },
     }) => {
       // Verify by slug unique
       const existingCategory = await prisma.category.findFirst({
         where: {
           slug: slugify(name, { lower: true }),
-          catalogId: user.currentCatalog.id,
+          catalogId: currentCatalog.id,
           id: {
             not: id,
           },
@@ -38,7 +41,7 @@ export const updateCategoryAction = authActionClientWithUser
       const category = await prisma.category.update({
         where: {
           id,
-          catalogId: user.currentCatalog.id,
+          catalogId: currentCatalog.id,
         },
         data: {
           name,
@@ -48,6 +51,10 @@ export const updateCategoryAction = authActionClientWithUser
           disabledAt: isDisabled ? new Date() : null,
         },
       });
+
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      }
 
       return { category };
     },

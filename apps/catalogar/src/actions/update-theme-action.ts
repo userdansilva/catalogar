@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { updateThemeSchema } from "@/schemas/theme";
@@ -12,10 +13,10 @@ export const updateThemeAction = authActionClientWithUser
   .action(
     async ({
       parsedInput: { primaryColor, secondaryColor, logo },
-      ctx: { user },
+      ctx: {
+        user: { currentCatalog },
+      },
     }) => {
-      console.log("logo", logo);
-
       const theme = await prisma.theme.update({
         data: {
           primaryColor,
@@ -30,7 +31,7 @@ export const updateThemeAction = authActionClientWithUser
                     width: logo.width,
                     height: logo.height,
                     altText: logo.altText,
-                    catalogId: user.currentCatalog.id,
+                    catalogId: currentCatalog.id,
                   },
                   update: {
                     name: logo.name,
@@ -42,16 +43,16 @@ export const updateThemeAction = authActionClientWithUser
                   },
                 },
               }
-            : { delete: !!user.currentCatalog.theme?.logo },
+            : { delete: !!currentCatalog.theme?.logo },
         },
         where: {
-          catalogId: user.currentCatalog.id,
+          catalogId: currentCatalog.id,
         },
       });
 
-      // if (currentCatalog?.isPublished && currentCatalog.slug) {
-      //   revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
-      // }
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      }
 
       return { theme };
     },

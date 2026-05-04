@@ -18,7 +18,9 @@ export const createCompanyAction = authActionClientWithUser
         mainSiteUrl,
         phoneNumber,
       },
-      ctx: { user },
+      ctx: {
+        user: { currentCatalog },
+      },
     }) => {
       const company = await prisma.company.create({
         data: {
@@ -27,7 +29,7 @@ export const createCompanyAction = authActionClientWithUser
           description,
           mainSiteUrl,
           phoneNumber,
-          catalogId: user.currentCatalog.id,
+          catalogId: currentCatalog.id,
         },
       });
 

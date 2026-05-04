@@ -12,13 +12,15 @@ export const createThemeAction = authActionClientWithUser
   .action(
     async ({
       parsedInput: { primaryColor, secondaryColor, logo },
-      ctx: { user },
+      ctx: {
+        user: { currentCatalog },
+      },
     }) => {
       const theme = await prisma.theme.create({
         data: {
           primaryColor,
           secondaryColor,
-          catalogId: user.currentCatalog.id,
+          catalogId: currentCatalog.id,
           logo: logo
             ? {
                 create: {
@@ -28,7 +30,7 @@ export const createThemeAction = authActionClientWithUser
                   width: logo.width,
                   height: logo.height,
                   altText: logo.altText,
-                  catalogId: user.currentCatalog.id,
+                  catalogId: currentCatalog.id,
                 },
               }
             : undefined,

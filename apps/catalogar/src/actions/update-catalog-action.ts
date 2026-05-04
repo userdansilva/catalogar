@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { returnValidationErrors } from "next-safe-action";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
@@ -13,12 +14,17 @@ export const updateCatalogAction = authActionClientWithUser
     actionName: "update-catalog",
   })
   .action(
-    async ({ parsedInput: { name, isPublished, slug }, ctx: { user } }) => {
+    async ({
+      parsedInput: { name, isPublished, slug },
+      ctx: {
+        user: { currentCatalog },
+      },
+    }) => {
       const existingCatalogWithSlug = await prisma.catalog.findFirst({
         where: {
           slug,
           id: {
-            not: user.currentCatalog.id,
+            not: currentCatalog.id,
           },
         },
       });
@@ -32,10 +38,10 @@ export const updateCatalogAction = authActionClientWithUser
       }
 
       // Publicar pela a primeira vez
-      if (isPublished && !user.currentCatalog.publishedAt) {
+      if (isPublished && !currentCatalog.publishedAt) {
         await prisma.catalog.update({
           where: {
-            id: user.currentCatalog.id,
+            id: currentCatalog.id,
           },
           data: {
             name,
@@ -49,7 +55,7 @@ export const updateCatalogAction = authActionClientWithUser
       // Alterar normalmente (caso já tenha publicado antes)
       const catalog = await prisma.catalog.update({
         where: {
-          id: user.currentCatalog.id,
+          id: currentCatalog.id,
         },
         data: {
           name,
@@ -58,9 +64,9 @@ export const updateCatalogAction = authActionClientWithUser
         },
       });
 
-      // if (currentCatalog?.isPublished && currentCatalog.slug) {
-      //   revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
-      // }
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      }
 
       return {
         catalog,
