@@ -18,7 +18,6 @@ import { toast } from "sonner";
 import { createCompanyAction } from "@/actions/create-company-action";
 import { routes } from "@/routes";
 import { createCompanySchema } from "@/schemas/company";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
 type CreateCompanyFormProps = {
@@ -51,7 +50,7 @@ export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },

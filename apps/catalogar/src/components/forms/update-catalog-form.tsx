@@ -26,7 +26,6 @@ import { updateCatalogAction } from "@/actions/update-catalog-action";
 import type { Catalog } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import { updateCatalogSchema } from "@/schemas/catalog";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
 type UpdateCatalogFormProps = {
@@ -61,7 +60,7 @@ export function UpdateCatalogForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },

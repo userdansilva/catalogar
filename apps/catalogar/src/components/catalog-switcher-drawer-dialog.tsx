@@ -52,7 +52,6 @@ import { z } from "zod";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
 import type { Catalog } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "./inputs/button";
 
 function CatalogSwitcherCard({
@@ -215,7 +214,7 @@ export function CatalogSwitcherDrawerDialog({
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },

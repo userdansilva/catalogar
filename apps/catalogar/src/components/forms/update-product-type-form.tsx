@@ -17,7 +17,6 @@ import { updateProductTypeAction } from "@/actions/update-product-type-action";
 import type { ProductType } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import { updateProductTypeSchema } from "@/schemas/product-type";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
 type UpdateProductTypeFormProps = {
@@ -50,7 +49,7 @@ export function UpdateProductTypeForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },

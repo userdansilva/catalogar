@@ -1,21 +1,5 @@
 import { z } from "zod";
 import { validator } from "@/utils/validator";
-import { companySchema } from "./company";
-import { themeSchema } from "./theme";
-
-export const catalogSchema = z.object({
-  id: z.uuidv4(),
-  name: z.string(),
-  slug: z.string().optional(),
-  publishedAt: z.string().optional(),
-  isPublished: z.boolean(),
-  company: companySchema.optional(),
-  theme: themeSchema.optional(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
-});
-
-export type Catalog = z.infer<typeof catalogSchema>;
 
 export const createCatalogSchema = z.object({
   name: z

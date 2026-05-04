@@ -16,7 +16,6 @@ import { toast } from "sonner";
 import { createProductTypeAction } from "@/actions/create-product-type-action";
 import { routes } from "@/routes";
 import { createProductTypeSchema } from "@/schemas/product-type";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
 type CreateProductTypeFormProps = {
@@ -47,7 +46,7 @@ export function CreateProductTypeForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },

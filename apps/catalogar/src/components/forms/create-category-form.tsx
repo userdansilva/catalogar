@@ -24,7 +24,6 @@ import { toast } from "sonner";
 import { createCategoryAction } from "@/actions/create-category-action";
 import { routes } from "@/routes";
 import { createCategorySchema } from "@/schemas/category";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
 type CreateCategoryFormProps = {
@@ -55,7 +54,7 @@ export function CreateCategoryForm({ callbackUrl }: CreateCategoryFormProps) {
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },

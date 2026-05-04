@@ -26,7 +26,6 @@ import { publishCatalogAction } from "@/actions/publish-catalog-action";
 import type { Catalog } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import { publishCatalogSchema } from "@/schemas/catalog";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
 type PublishCatalogFormProps = {
@@ -57,7 +56,7 @@ export function PublishCatalogForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },

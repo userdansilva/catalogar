@@ -19,7 +19,6 @@ import { updateCompanyAction } from "@/actions/update-company-action";
 import type { Company } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import { updateCompanySchema } from "@/schemas/company";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
 type UpdateCompanyFormProps = {
@@ -56,7 +55,7 @@ export function UpdateCompanyForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },

@@ -17,7 +17,6 @@ import { toast } from "sonner";
 import { createCatalogAction } from "@/actions/create-catalog-action";
 import { routes } from "@/routes";
 import { createCatalogSchema } from "@/schemas/catalog";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
 export function CreateCatalogForm() {
@@ -42,7 +41,7 @@ export function CreateCatalogForm() {
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },

@@ -27,7 +27,6 @@ import { updateCatalogItemAction } from "@/actions/update-catalog-item-action";
 import type { Category, Prisma, ProductType } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import { updateCatalogItemSchema } from "@/schemas/catalog-item";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 import { InputImages } from "../inputs/input-images";
 
@@ -83,7 +82,7 @@ export function UpdateCatalogItemForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },

@@ -22,7 +22,6 @@ import { createThemeAction } from "@/actions/create-theme-action";
 import type { Company } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import { createThemeSchema } from "@/schemas/theme";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 import { InputLogo } from "../inputs/input-logo";
 
@@ -57,7 +56,7 @@ export function CreateThemeForm({
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },

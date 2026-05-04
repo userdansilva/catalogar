@@ -25,7 +25,6 @@ import { updateCategoryAction } from "@/actions/update-category-action";
 import type { Category } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import { updateCategorySchema } from "@/schemas/category";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
 type UpdateCategoryFormProps = {
@@ -58,7 +57,7 @@ export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },
