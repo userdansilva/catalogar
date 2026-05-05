@@ -47,6 +47,3 @@ playwright/.cache/
 
 # Turbo
 .turbo
-
-# Prisma
-apps/catalogar/src/generated/prisma
