@@ -60,15 +60,7 @@ export function InputImages({
       const { data, serverError } = await executeAsync(formData);
 
       if (serverError) {
-        toast.error(serverError.message, {
-          description: () => (
-            <ul>
-              {serverError.errors.map((error) => (
-                <li key={error.field + error.message}>{error.message}</li>
-              ))}
-            </ul>
-          ),
-        });
+        toast.error(serverError.message);
 
         return;
       }

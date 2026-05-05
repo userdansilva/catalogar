@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Alert,
   AlertDescription,
@@ -8,7 +6,11 @@ import {
 import { Button } from "@catalogar/ui/components/button";
 import { AlertCircle } from "lucide-react";
 
-export function UncaughtException({ reset }: { reset: () => void }) {
+export function UncaughtException({
+  unstable_retry,
+}: {
+  unstable_retry: () => void;
+}) {
   return (
     <Alert variant="destructive">
       <AlertCircle />
@@ -18,7 +20,7 @@ export function UncaughtException({ reset }: { reset: () => void }) {
           Nosssa equipe já foi acionada e estamos trabalhando para resolver.
         </p>
 
-        <Button onClick={() => reset()} variant="outline">
+        <Button onClick={() => unstable_retry()} variant="outline">
           Tentar novamente
         </Button>
       </AlertDescription>
