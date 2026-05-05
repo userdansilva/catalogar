@@ -1,4 +1,4 @@
-# catalogar
+# Catalogar v2
 
 ## 2.2.6
 
