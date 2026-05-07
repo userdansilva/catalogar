@@ -4,11 +4,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
-import { CircleCheckBig, ExternalLink } from "lucide-react";
+import { CircleCheckBig, ExternalLink, Forward } from "lucide-react";
 import Link from "next/link";
 import { RedirectType, redirect } from "next/navigation";
 import { Button } from "@/components/inputs/button";
 import { CopyButton } from "@/components/inputs/copy-button";
+import { ShareButton } from "@/components/inputs/share-button";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
 
@@ -50,7 +51,13 @@ export default async function Page() {
             </Link>
           </Button>
 
-          <CopyButton textToCopy={publicLink} size="sm" />
+          <div className="flex items-center gap-2 justify-center">
+            <ShareButton shareData={{ url: publicLink }}>
+              <Forward />
+              Compartilhar
+            </ShareButton>
+            <CopyButton textToCopy={publicLink} variant="outline" />
+          </div>
         </CardContent>
       </Card>
 
