@@ -48,6 +48,9 @@ export const updateThemeAction = authActionClientWithUser
         where: {
           catalogId: currentCatalog.id,
         },
+        include: {
+          logo: true,
+        },
       });
 
       if (currentCatalog.publishedAt && currentCatalog.slug) {

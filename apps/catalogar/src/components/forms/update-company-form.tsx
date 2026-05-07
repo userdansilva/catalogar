@@ -17,7 +17,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { updateCompanyAction } from "@/actions/update-company-action";
 import type { Company } from "@/generated/prisma/client";
-import { routes } from "@/routes";
 import { updateCompanySchema } from "@/schemas/company";
 import { Button } from "../inputs/button";
 
@@ -45,10 +44,21 @@ export function UpdateCompanyForm({
         },
       },
       actionProps: {
-        onSuccess: () => {
+        onSuccess: ({ data: { company } }) => {
           toast.success("Alterações salvas!");
           resetFormAndAction();
-          router.push(callbackUrl || routes.dashboard.url);
+          form.reset({
+            name: company.name,
+            description: company.description ?? "",
+            mainSiteUrl: company.mainSiteUrl ?? "",
+            phoneNumber: company.phoneNumber ?? "",
+            businessTypeDescription: company.businessTypeDescription ?? "",
+          });
+          if (callbackUrl) {
+            router.push(callbackUrl);
+          } else {
+            router.refresh();
+          }
         },
         onError: (e) => {
           const { serverError } = e.error;

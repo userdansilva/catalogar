@@ -67,7 +67,7 @@ export function PublishCatalogForm({
         <FormField
           name="slug"
           control={form.control}
-          render={({ field: { onChange, ...field } }) => (
+          render={({ field }) => (
             <FormItem className="space-y-2">
               <FormLabel>Link customizado</FormLabel>
 
@@ -83,16 +83,6 @@ export function PublishCatalogForm({
                       spellCheck="false"
                       className="rounded-l-none"
                       placeholder="minha-empresa"
-                      onChange={(e) => {
-                        e.target.value
-                          .toLowerCase()
-                          .replace(/\s+/g, "-")
-                          .replace(/[^a-z0-9-]/g, "")
-                          .replace(/-+/g, "-")
-                          .replace(/(^-)|(-$)/g, "");
-
-                        onChange(e);
-                      }}
                       disabled={form.formState.isSubmitting}
                       {...field}
                     />

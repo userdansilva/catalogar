@@ -24,7 +24,6 @@ import { Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { updateCatalogAction } from "@/actions/update-catalog-action";
 import type { Catalog } from "@/generated/prisma/client";
-import { routes } from "@/routes";
 import { updateCatalogSchema } from "@/schemas/catalog";
 import { Button } from "../inputs/button";
 
@@ -50,10 +49,27 @@ export function UpdateCatalogForm({
         },
       },
       actionProps: {
-        onSuccess: () => {
+        onSuccess: ({ data: { catalog, redirectTo }, input }) => {
           toast.success("Alterações salvas!");
           resetFormAndAction();
-          router.push(callbackUrl || routes.dashboard.url);
+
+          if (redirectTo) {
+            form.reset(input);
+            router.push(redirectTo);
+            return;
+          }
+
+          form.reset({
+            name: catalog.name,
+            isPublished: catalog.publishedAt !== null,
+            slug: catalog.slug ?? "",
+          });
+
+          if (callbackUrl) {
+            router.push(callbackUrl);
+          } else {
+            router.refresh();
+          }
         },
         onError: (e) => {
           const { serverError } = e.error;
@@ -151,7 +167,7 @@ export function UpdateCatalogForm({
         <FormField
           name="slug"
           control={form.control}
-          render={({ field: { onChange, ...field } }) => (
+          render={({ field }) => (
             <FormItem className="space-y-2">
               <FormLabel>Link customizado (Apenas catálogo público)</FormLabel>
 
@@ -166,17 +182,7 @@ export function UpdateCatalogForm({
                       autoCorrect="off"
                       spellCheck="false"
                       className="rounded-l-none"
-                      placeholder="minha-empresa"
-                      onChange={(e) => {
-                        e.target.value
-                          .toLowerCase()
-                          .replace(/\s+/g, "-")
-                          .replace(/[^a-z0-9-]/g, "")
-                          .replace(/-+/g, "-")
-                          .replace(/(^-)|(-$)/g, "");
-
-                        onChange(e);
-                      }}
+                      placeholder="minha-empresaaa"
                       disabled={form.formState.isSubmitting}
                       {...field}
                     />

@@ -4,7 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
-import { CircleCheckBig } from "lucide-react";
+import { CircleCheckBig, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { RedirectType, redirect } from "next/navigation";
 import { Button } from "@/components/inputs/button";
@@ -35,13 +35,20 @@ export default async function Page() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-center">
-          <Link
-            href={publicLink}
-            target="_blank"
-            className="text-muted-foreground block w-full max-w-[calc(100vw-80px)] truncate text-sm underline underline-offset-2"
+          <Button
+            variant="link"
+            className="underline underline-offset-2"
+            asChild
           >
-            {publicLink}
-          </Link>
+            <Link
+              href={publicLink}
+              target="_blank"
+              className="text-muted-foreground block w-full max-w-[calc(100vw-80px)] truncate text-sm underline underline-offset-2"
+            >
+              {publicLink}
+              <ExternalLink />
+            </Link>
+          </Button>
 
           <CopyButton textToCopy={publicLink} size="sm" />
         </CardContent>

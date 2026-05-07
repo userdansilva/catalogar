@@ -75,9 +75,29 @@ export function UpdateCatalogItemForm({
           },
         },
         actionProps: {
-          onSuccess: () => {
+          onSuccess: ({ data: { catalogItem } }) => {
             toast.success("Alterações salvas!");
             resetFormAndAction();
+            form.reset({
+              id: catalogItem.id,
+              title: catalogItem.title,
+              caption: catalogItem.caption ?? "",
+              price: catalogItem.price ? catalogItem.price.toString() : "",
+              productTypeId: catalogItem.productTypeId,
+              categoryIds: catalogItem.categories.map(
+                (category) => category.id,
+              ),
+              images: catalogItem.images.map((image) => ({
+                fileName: image.name,
+                url: image.url,
+                sizeInBytes: Number(image.size),
+                width: image.width,
+                height: image.height,
+                altText: image.altText,
+                position: image.position,
+              })),
+              isDisabled: catalogItem.disabledAt !== null,
+            });
             router.push(routes.catalogItems.url);
           },
           onError: (e) => {

@@ -47,9 +47,16 @@ export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
         },
       },
       actionProps: {
-        onSuccess: () => {
+        onSuccess: ({ data: { category } }) => {
           toast.success("Alterações salvas!");
           resetFormAndAction();
+          form.reset({
+            id: category.id,
+            name: category.name,
+            backgroundColor: category.backgroundColor,
+            textColor: category.textColor,
+            isDisabled: category.disabledAt !== null,
+          });
           router.push(routes.categories.url);
         },
         onError: (e) => {

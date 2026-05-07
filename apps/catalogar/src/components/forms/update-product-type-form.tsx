@@ -42,9 +42,14 @@ export function UpdateProductTypeForm({
           },
         },
         actionProps: {
-          onSuccess: () => {
+          onSuccess: ({ data: { productType } }) => {
             toast.success("Alterações salvas!");
             resetFormAndAction();
+            form.reset({
+              id: productType.id,
+              name: productType.name,
+              isDisabled: !!productType.disabledAt,
+            });
             router.push(routes.productTypes.url);
           },
           onError: (e) => {

@@ -20,7 +20,6 @@ import { Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { updateThemeAction } from "@/actions/update-theme-action";
 import type { Company, Prisma } from "@/generated/prisma/client";
-import { routes } from "@/routes";
 import { updateThemeSchema } from "@/schemas/theme";
 import { Button } from "../inputs/button";
 import { InputLogo } from "../inputs/input-logo";
@@ -49,10 +48,20 @@ export function UpdateThemeForm({
         },
       },
       actionProps: {
-        onSuccess: () => {
+        onSuccess: ({ data: { theme } }) => {
+          console.log("theme", theme);
           toast.success("Alterações salvas!");
           resetFormAndAction();
-          router.push(callbackUrl || routes.dashboard.url);
+          form.reset({
+            logo: theme.logo ?? null,
+            primaryColor: theme.primaryColor,
+            secondaryColor: theme.secondaryColor,
+          });
+          if (callbackUrl) {
+            router.push(callbackUrl);
+          } else {
+            router.refresh();
+          }
         },
         onError: (e) => {
           const { serverError } = e.error;

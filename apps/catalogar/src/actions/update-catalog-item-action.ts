@@ -54,6 +54,10 @@ export const updateCatalogItemAction = authActionClientWithUser
             },
           },
         },
+        include: {
+          categories: true,
+          images: true,
+        },
       });
 
       if (currentCatalog.publishedAt && currentCatalog.slug) {

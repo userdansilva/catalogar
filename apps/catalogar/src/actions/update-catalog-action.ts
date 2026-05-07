@@ -49,7 +49,9 @@ export const updateCatalogAction = authActionClientWithUser
           },
         });
 
-        redirect(routes.catalog.sub.prePublish.url);
+        return {
+          redirectTo: routes.catalog.sub.prePublish.url,
+        };
       }
 
       // Alterar normalmente (caso já tenha publicado antes)
