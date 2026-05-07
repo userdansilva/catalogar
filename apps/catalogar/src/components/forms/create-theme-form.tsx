@@ -46,9 +46,10 @@ export function CreateThemeForm({
         },
       },
       actionProps: {
-        onSuccess: () => {
+        onSuccess: ({ input }) => {
           toast.success("Tema salvo!");
           resetFormAndAction();
+          form.reset(input);
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {

@@ -40,9 +40,10 @@ export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
         },
       },
       actionProps: {
-        onSuccess: () => {
+        onSuccess: ({ input }) => {
           toast.success("Informações salvas!");
           resetFormAndAction();
+          form.reset(input);
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
