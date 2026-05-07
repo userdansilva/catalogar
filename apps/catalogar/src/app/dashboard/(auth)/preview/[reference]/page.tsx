@@ -1,4 +1,4 @@
-import { notFound, RedirectType, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
@@ -13,10 +13,6 @@ export default async function Page({
   params: Promise<{ reference: string }>;
 }) {
   const user = await getUser();
-
-  if (!user.currentCatalog) {
-    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
 
   const { catalogItems } = await getCatalogItems();
   const { reference } = await params;
@@ -44,14 +40,6 @@ export default async function Page({
     currentPage: 1,
   });
 
-  if (!user.currentCatalog.theme) {
-    redirect(routes.theme.sub.new.url, RedirectType.replace);
-  }
-
-  if (!user.currentCatalog.company) {
-    redirect(routes.company.sub.new.url, RedirectType.replace);
-  }
-
   return (
     <div className="max-w-7xl space-y-6 md:container">
       <PrevButton fallbackUrl={routes.preview.url} />
@@ -59,7 +47,7 @@ export default async function Page({
       <PublicCatalogItemDetail
         baseUrl={routes.preview.url}
         catalogItem={catalogItem}
-        company={user.currentCatalog.company}
+        company={user.currentCatalog.company || undefined}
         relatedCatalogItems={paginatedCatalogItems}
       />
     </div>

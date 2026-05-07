@@ -17,7 +17,7 @@ type PublicCatalogItemDetailProps = {
       productType: true;
     };
   }>;
-  company: Company;
+  company?: Company;
   unoptimized?: boolean;
   relatedCatalogItems: Prisma.CatalogItemGetPayload<{
     include: {
@@ -88,7 +88,7 @@ export function PublicCatalogItemDetail({
             />
           </div>
 
-          {company.mainSiteUrl && (
+          {company?.mainSiteUrl && (
             <div>
               <p className="font-semibold">Contato do Vendedor</p>
               <a

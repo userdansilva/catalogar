@@ -32,10 +32,6 @@ export default async function Preview({
 }) {
   const user = await getUser();
 
-  if (!user.currentCatalog) {
-    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
-
   const [{ productTypes }, { categories }, { catalogItems }] =
     await Promise.all([getProductTypes(), getCategories(), getCatalogItems()]);
 
