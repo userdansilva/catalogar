@@ -24,7 +24,7 @@ export default async function RegisterCompany({
 
   return (
     <div className="max-w-lg space-y-8">
-      <PrevButton url={routes.dashboard.url} />
+      <PrevButton fallbackUrl={routes.dashboard.url} />
 
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
@@ -32,10 +32,7 @@ export default async function RegisterCompany({
         </h2>
 
         <p className="text-muted-foreground">
-          Agora é hora de deixar seu catálogo com a identidade da sua empresa.
-          Defina as cores e adicione sua logo para que tudo fique com a cara do
-          seu negócio — mais profissional, reconhecível e alinhado com a marca.
-          Vamos lá?
+          Defina as cores e adicione sua logo.
         </p>
       </div>
 

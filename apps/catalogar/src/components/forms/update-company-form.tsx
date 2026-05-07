@@ -32,10 +32,8 @@ export function UpdateCompanyForm({
 }: UpdateCompanyFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    updateCompanyAction,
-    zodResolver(updateCompanySchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(updateCompanyAction, zodResolver(updateCompanySchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
@@ -49,6 +47,7 @@ export function UpdateCompanyForm({
       actionProps: {
         onSuccess: () => {
           toast.success("Alterações salvas!");
+          resetFormAndAction();
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
@@ -59,8 +58,7 @@ export function UpdateCompanyForm({
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>
@@ -70,7 +68,7 @@ export function UpdateCompanyForm({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome da empresa</FormLabel>
+              <FormLabel>Nome do negócio</FormLabel>
 
               <FormControl>
                 <Input
@@ -82,10 +80,7 @@ export function UpdateCompanyForm({
                 />
               </FormControl>
 
-              <FormDescription>
-                Você também pode colocar seu slogan (Ex.: Catalogar - O Melhor
-                Sistema de Catálogos).
-              </FormDescription>
+              <FormDescription>Como quer ser reconhecido?</FormDescription>
 
               <FormMessage />
             </FormItem>
@@ -97,7 +92,7 @@ export function UpdateCompanyForm({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Descrição (Opcional)</FormLabel>
+              <FormLabel>Descrição (Recomendado)</FormLabel>
 
               <FormControl>
                 <Textarea
@@ -109,7 +104,7 @@ export function UpdateCompanyForm({
               </FormControl>
 
               <FormDescription>
-                Fale brevemente sobre sua empresa. Isso ajuda seus clientes a
+                Fale brevemente sobre seu trabalho. Isso ajuda seus clientes a
                 entenderem melhor o que você vende.
               </FormDescription>
 
@@ -123,7 +118,7 @@ export function UpdateCompanyForm({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Link para contato (Opcional)</FormLabel>
+              <FormLabel>Link para contato (Recomendado)</FormLabel>
 
               <FormControl>
                 <Input

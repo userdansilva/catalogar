@@ -33,10 +33,8 @@ type CreateCategoryFormProps = {
 export function CreateCategoryForm({ callbackUrl }: CreateCategoryFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    createCategoryAction,
-    zodResolver(createCategorySchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(createCategoryAction, zodResolver(createCategorySchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
@@ -48,6 +46,7 @@ export function CreateCategoryForm({ callbackUrl }: CreateCategoryFormProps) {
       actionProps: {
         onSuccess: () => {
           toast.success("Categoria adicionada!");
+          resetFormAndAction();
           router.push(callbackUrl || routes.categories.url);
         },
         onError: (e) => {
@@ -58,8 +57,7 @@ export function CreateCategoryForm({ callbackUrl }: CreateCategoryFormProps) {
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>

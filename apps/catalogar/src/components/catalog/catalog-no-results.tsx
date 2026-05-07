@@ -1,9 +1,9 @@
 "use client";
 
-import { Search } from "lucide-react";
-import { usePathname, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { Button } from "@catalogar/ui/components/button";
+import { Search } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export function CatalogNoResults({
   query,
@@ -41,7 +41,7 @@ export function CatalogNoResults({
       <h3 className="text-foreground mb-2 text-lg font-semibold">
         Nenhum resultado encontrado
       </h3>
-      {(query || page) && (
+      {(query || (page && page > 1)) && (
         <>
           <p className="text-muted-foreground mb-6 max-w-sm text-sm">
             Nenhum item foi encontrado

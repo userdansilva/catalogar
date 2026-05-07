@@ -34,10 +34,8 @@ type UpdateCategoryFormProps = {
 export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    updateCategoryAction,
-    zodResolver(updateCategorySchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(updateCategoryAction, zodResolver(updateCategorySchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
@@ -51,6 +49,7 @@ export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
       actionProps: {
         onSuccess: () => {
           toast.success("Alterações salvas!");
+          resetFormAndAction();
           router.push(routes.categories.url);
         },
         onError: (e) => {
@@ -61,8 +60,7 @@ export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>

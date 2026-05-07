@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default async function Categories() {
   return (
     <div className="space-y-6">
-      <PrevButton url={routes.dashboard.url} />
+      <PrevButton fallbackUrl={routes.dashboard.url} />
 
       <PageHeader
         title={routes.categories.title}

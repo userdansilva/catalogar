@@ -43,39 +43,41 @@ export function CreateCatalogItemForm({
 }: CreateCatalogItemFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    createCatalogItemAction,
-    zodResolver(createCatalogItemSchema),
-    {
-      formProps: {
-        mode: "onChange",
-        defaultValues: {
-          title: "",
-          caption: "",
-          productTypeId:
-            productTypes.length === 1 && productTypes[0]?.id
-              ? productTypes[0].id
-              : "",
-          images: [],
-          price: "",
-          categoryIds: [],
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(
+      createCatalogItemAction,
+      zodResolver(createCatalogItemSchema),
+      {
+        formProps: {
+          mode: "onChange",
+          defaultValues: {
+            title: "",
+            caption: "",
+            productTypeId:
+              productTypes.length === 1 && productTypes[0]?.id
+                ? productTypes[0].id
+                : "",
+            images: [],
+            price: "",
+            categoryIds: [],
+          },
         },
-      },
-      actionProps: {
-        onSuccess: () => {
-          toast.success("Item de catálogo adicionado!");
-          router.push(callbackUrl || routes.catalogItems.url);
-        },
-        onError: (e) => {
-          const { serverError } = e.error;
+        actionProps: {
+          onSuccess: () => {
+            toast.success("Item de catálogo adicionado!");
+            resetFormAndAction();
+            router.push(callbackUrl || routes.catalogItems.url);
+          },
+          onError: (e) => {
+            const { serverError } = e.error;
 
-          if (serverError) {
-            toast.error(serverError.message);
-          }
+            if (serverError) {
+              toast.error(serverError.message);
+            }
+          },
         },
       },
-    },
-  );
+    );
 
   return (
     <Form {...form}>
@@ -156,7 +158,7 @@ export function CreateCatalogItemForm({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Legenda (Opcional)</FormLabel>
+              <FormLabel>Legenda (Recomendado)</FormLabel>
 
               <FormControl>
                 <Textarea
@@ -211,69 +213,71 @@ export function CreateCatalogItemForm({
           )}
         />
 
-        <FormField
-          name="categoryIds"
-          control={form.control}
-          render={() => (
-            <FormItem>
-              <div className="mb-4">
-                <FormLabel>Categorias (Opcional)</FormLabel>
+        {categories.length >= 1 && (
+          <FormField
+            name="categoryIds"
+            control={form.control}
+            render={() => (
+              <FormItem>
+                <div className="mb-4">
+                  <FormLabel>Categorias (Recomendado)</FormLabel>
 
-                <FormDescription>
-                  As categorias ajudam seus clientes a encontrar esse item mais
-                  facilmente pelos filtros.
-                </FormDescription>
-              </div>
-
-              {categories.length >= 1 ? (
-                <div className="flex flex-wrap gap-2">
-                  {categories
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map((category) => (
-                      <FormField
-                        key={category.id}
-                        control={form.control}
-                        name="categoryIds"
-                        render={({ field }) => (
-                          <FormItem
-                            key={category.id}
-                            className="flex flex-row items-start space-y-0 space-x-2 rounded-md border px-3 py-2"
-                          >
-                            <FormControl>
-                              <Checkbox
-                                disabled={form.formState.isSubmitting}
-                                checked={field.value?.includes(category.id)}
-                                onCheckedChange={(checked) =>
-                                  checked
-                                    ? field.onChange([
-                                        ...(field.value || []),
-                                        category.id,
-                                      ])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== category.id,
-                                        ),
-                                      )
-                                }
-                              />
-                            </FormControl>
-
-                            <FormLabel className="cursor-pointer font-normal">
-                              {category.name}
-                            </FormLabel>
-                          </FormItem>
-                        )}
-                      />
-                    ))}
+                  <FormDescription>
+                    As categorias ajudam seus clientes a encontrar esse item
+                    mais facilmente pelos filtros.
+                  </FormDescription>
                 </div>
-              ) : (
-                <div className="text-sm">Nenhuma categoria adicionada</div>
-              )}
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                {categories.length >= 1 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {categories
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((category) => (
+                        <FormField
+                          key={category.id}
+                          control={form.control}
+                          name="categoryIds"
+                          render={({ field }) => (
+                            <FormItem
+                              key={category.id}
+                              className="flex flex-row items-start space-y-0 space-x-2 rounded-md border px-3 py-2"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  disabled={form.formState.isSubmitting}
+                                  checked={field.value?.includes(category.id)}
+                                  onCheckedChange={(checked) =>
+                                    checked
+                                      ? field.onChange([
+                                          ...(field.value || []),
+                                          category.id,
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== category.id,
+                                          ),
+                                        )
+                                  }
+                                />
+                              </FormControl>
+
+                              <FormLabel className="cursor-pointer font-normal">
+                                {category.name}
+                              </FormLabel>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                  </div>
+                ) : (
+                  <div className="text-sm">Nenhuma categoria adicionada</div>
+                )}
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         <Button
           type="submit"

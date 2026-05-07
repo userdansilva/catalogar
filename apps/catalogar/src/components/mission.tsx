@@ -1,8 +1,8 @@
-import { Circle, CircleCheck, Lock } from "lucide-react";
-import Link from "next/link";
 import { Badge } from "@catalogar/ui/components/badge";
 import { Button } from "@catalogar/ui/components/button";
 import { cn } from "@catalogar/ui/lib/utils";
+import { Circle, CircleCheck, Lock } from "lucide-react";
+import Link from "next/link";
 import { routes } from "@/routes";
 
 export function Mission({
@@ -11,12 +11,14 @@ export function Mission({
   status = "PENDING",
   href,
   isOptional,
+  callbackUrl,
 }: {
   title: string;
   description: string;
   status: "COMPLETE" | "CURRENT" | "PENDING";
   href: string;
   isOptional?: boolean;
+  callbackUrl?: string;
 }) {
   const isComplete = status === "COMPLETE";
   const isCurrent = status === "CURRENT";
@@ -68,7 +70,7 @@ export function Mission({
               href={{
                 pathname: href,
                 query: {
-                  callbackUrl: routes.dashboard.url,
+                  callbackUrl: callbackUrl || routes.dashboard.url,
                 },
               }}
               prefetch

@@ -24,7 +24,7 @@ export default async function NewCatalogItem({
 
   return (
     <div className="space-y-6">
-      <PrevButton url={routes.catalogItems.url} />
+      <PrevButton fallbackUrl={routes.catalogItems.url} />
 
       <PageHeader title={routes.catalogItems.sub.new.title} />
 

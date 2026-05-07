@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
+import { returnValidationErrors } from "next-safe-action";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { publishCatalogSchema } from "@/schemas/catalog";
@@ -27,11 +28,11 @@ export const publishCatalogAction = authActionClientWithUser
       });
 
       if (isSlugTaken) {
-        return {
-          error: {
-            message: "O link já está em uso por outro catálogo.",
+        return returnValidationErrors(publishCatalogSchema, {
+          slug: {
+            _errors: ["O link já está em uso por outro catálogo."],
           },
-        };
+        });
       }
 
       const catalog = await prisma.catalog.update({
@@ -40,6 +41,7 @@ export const publishCatalogAction = authActionClientWithUser
         },
         data: {
           publishedAt: new Date(),
+          slug,
         },
       });
 

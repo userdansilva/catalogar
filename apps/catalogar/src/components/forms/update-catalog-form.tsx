@@ -39,21 +39,20 @@ export function UpdateCatalogForm({
 }: UpdateCatalogFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    updateCatalogAction,
-    zodResolver(updateCatalogSchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(updateCatalogAction, zodResolver(updateCatalogSchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
           name: catalog.name,
-          isPublished: !!catalog.publishedAt,
+          isPublished: catalog.publishedAt !== null,
           slug: catalog.slug ?? "",
         },
       },
       actionProps: {
         onSuccess: () => {
           toast.success("Alterações salvas!");
+          resetFormAndAction();
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
@@ -64,8 +63,7 @@ export function UpdateCatalogForm({
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>

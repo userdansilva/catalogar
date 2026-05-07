@@ -22,10 +22,8 @@ import { Button } from "../inputs/button";
 export function CreateCatalogForm() {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    createCatalogAction,
-    zodResolver(createCatalogSchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(createCatalogAction, zodResolver(createCatalogSchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
@@ -35,6 +33,7 @@ export function CreateCatalogForm() {
       actionProps: {
         onSuccess: () => {
           toast.success("Catálogo criado!");
+          resetFormAndAction();
           router.push(routes.dashboard.url);
         },
         onError: (e) => {
@@ -45,8 +44,7 @@ export function CreateCatalogForm() {
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>

@@ -5,7 +5,7 @@ import { routes } from "@/routes";
 export default function MyCatalogsLayout({ children }: PropsWithChildren) {
   return (
     <div className="space-y-6">
-      <PrevButton url={routes.dashboard.url} />
+      <PrevButton fallbackUrl={routes.dashboard.url} />
       {children}
     </div>
   );

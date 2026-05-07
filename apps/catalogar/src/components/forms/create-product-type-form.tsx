@@ -27,31 +27,33 @@ export function CreateProductTypeForm({
 }: CreateProductTypeFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    createProductTypeAction,
-    zodResolver(createProductTypeSchema),
-    {
-      formProps: {
-        mode: "onChange",
-        defaultValues: {
-          name: "",
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(
+      createProductTypeAction,
+      zodResolver(createProductTypeSchema),
+      {
+        formProps: {
+          mode: "onChange",
+          defaultValues: {
+            name: "",
+          },
         },
-      },
-      actionProps: {
-        onSuccess: () => {
-          toast.success("Tipo de produto adicionado!");
-          router.push(callbackUrl || routes.productTypes.url);
-        },
-        onError: (e) => {
-          const { serverError } = e.error;
+        actionProps: {
+          onSuccess: () => {
+            toast.success("Tipo de produto adicionado!");
+            resetFormAndAction();
+            router.replace(callbackUrl || routes.productTypes.url);
+          },
+          onError: (e) => {
+            const { serverError } = e.error;
 
-          if (serverError) {
-            toast.error(serverError.message);
-          }
+            if (serverError) {
+              toast.error(serverError.message);
+            }
+          },
         },
       },
-    },
-  );
+    );
 
   return (
     <Form {...form}>

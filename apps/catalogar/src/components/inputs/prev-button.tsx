@@ -1,14 +1,24 @@
-import { ChevronLeft } from "lucide-react";
-import { Button } from "@catalogar/ui/components/button";
-import Link from "next/link";
+"use client";
 
-export function PrevButton({ url }: { url: string }) {
+import { Button } from "@catalogar/ui/components/button";
+import { ChevronLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+export function PrevButton({ fallbackUrl }: { fallbackUrl: string }) {
+  const router = useRouter();
+
+  const goBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push(fallbackUrl);
+    }
+  };
+
   return (
-    <Button variant="link" className="pl-0" asChild>
-      <Link href={url}>
-        <ChevronLeft />
-        Voltar
-      </Link>
+    <Button variant="link" className="pl-0" onClick={goBack}>
+      <ChevronLeft />
+      Voltar
     </Button>
   );
 }

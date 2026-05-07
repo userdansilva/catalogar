@@ -23,18 +23,16 @@ export default async function RegisterCompany({
 
   return (
     <div className="max-w-lg space-y-8">
-      <PrevButton url={routes.dashboard.url} />
+      <PrevButton fallbackUrl={routes.dashboard.url} />
 
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
-          Vamos cadastrar sua <span className="font-bold">Empresa</span>
+          Vamos cadastrar seu <span className="font-bold">Negócio</span>
         </h2>
 
         <p className="text-muted-foreground">
           As informações abaixo ajudam seus clientes — e futuros clientes — a
-          conhecer melhor sua empresa. Tudo isso será exibido no seu catálogo e
-          vai facilitar o contato, além de fortalecer a conexão com seu público.
-          Bora começar?
+          conhecer melhor seu trabalho.
         </p>
       </div>
 

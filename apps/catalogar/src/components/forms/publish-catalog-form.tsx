@@ -37,10 +37,8 @@ export function PublishCatalogForm({
 }: PublishCatalogFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    publishCatalogAction,
-    zodResolver(publishCatalogSchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(publishCatalogAction, zodResolver(publishCatalogSchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
@@ -50,6 +48,7 @@ export function PublishCatalogForm({
       actionProps: {
         onSuccess: () => {
           toast.success("Catálogo Publicado!!");
+          resetFormAndAction();
           router.push(routes.catalog.sub.published.url);
         },
         onError: (e) => {
@@ -60,8 +59,7 @@ export function PublishCatalogForm({
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>
@@ -113,9 +111,7 @@ export function PublishCatalogForm({
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">
-              Seu link depois de publicar
-            </CardTitle>
+            <CardTitle className="text-base">Seu link customizado</CardTitle>
 
             <CardDescription>
               <Watch

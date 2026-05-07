@@ -27,7 +27,7 @@ export default async function EditProductType({
 
   return (
     <div className="space-y-6">
-      <PrevButton url={routes.productTypes.url} />
+      <PrevButton fallbackUrl={routes.productTypes.url} />
 
       <PageHeader
         title={productType.name}

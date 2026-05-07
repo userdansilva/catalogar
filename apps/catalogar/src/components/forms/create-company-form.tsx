@@ -27,10 +27,8 @@ type CreateCompanyFormProps = {
 export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    createCompanyAction,
-    zodResolver(createCompanySchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(createCompanyAction, zodResolver(createCompanySchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
@@ -44,6 +42,7 @@ export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
       actionProps: {
         onSuccess: () => {
           toast.success("Informações salvas!");
+          resetFormAndAction();
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
@@ -54,8 +53,7 @@ export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>
@@ -65,7 +63,7 @@ export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome da empresa</FormLabel>
+              <FormLabel>Nome do negócio</FormLabel>
 
               <FormControl>
                 <Input
@@ -77,10 +75,7 @@ export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
                 />
               </FormControl>
 
-              <FormDescription>
-                Você também pode colocar seu slogan (Ex.: Catalogar - O Melhor
-                Sistema de Catálogos).
-              </FormDescription>
+              <FormDescription>Como quer ser reconhecido?</FormDescription>
 
               <FormMessage />
             </FormItem>
@@ -92,7 +87,7 @@ export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Descrição (Opcional)</FormLabel>
+              <FormLabel>Descrição (Recomendado)</FormLabel>
 
               <FormControl>
                 <Textarea
@@ -104,7 +99,7 @@ export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
               </FormControl>
 
               <FormDescription>
-                Fale brevemente sobre sua empresa. Isso ajuda seus clientes a
+                Fale brevemente sobre seu trabalho. Isso ajuda seus clientes a
                 entenderem melhor o que você vende.
               </FormDescription>
 
@@ -118,7 +113,7 @@ export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Link para contato (Opcional)</FormLabel>
+              <FormLabel>Link para contato (Recomendado)</FormLabel>
 
               <FormControl>
                 <Input
@@ -132,9 +127,9 @@ export function CreateCompanyForm({ callbackUrl }: CreateCompanyFormProps) {
               </FormControl>
 
               <FormDescription>
-                Qual o link do seu site? Caso ainda não tenha um site, você pode
-                usar o link do Instagram, Linktree ou qualquer outro link que
-                ajude seus clientes a entrar em contato.
+                Qual o link do seu site? Caso ainda não tenha, você pode usar o
+                link do Instagram, Linktree ou qualquer outro link que ajude
+                seus clientes a entrar em contato.
               </FormDescription>
 
               <FormMessage />

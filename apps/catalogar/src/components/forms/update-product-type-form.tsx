@@ -28,33 +28,35 @@ export function UpdateProductTypeForm({
 }: UpdateProductTypeFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    updateProductTypeAction,
-    zodResolver(updateProductTypeSchema),
-    {
-      formProps: {
-        mode: "onChange",
-        defaultValues: {
-          id: productType.id,
-          name: productType.name,
-          isDisabled: !!productType.disabledAt,
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(
+      updateProductTypeAction,
+      zodResolver(updateProductTypeSchema),
+      {
+        formProps: {
+          mode: "onChange",
+          defaultValues: {
+            id: productType.id,
+            name: productType.name,
+            isDisabled: !!productType.disabledAt,
+          },
         },
-      },
-      actionProps: {
-        onSuccess: () => {
-          toast.success("Alterações salvas!");
-          router.push(routes.productTypes.url);
-        },
-        onError: (e) => {
-          const { serverError } = e.error;
+        actionProps: {
+          onSuccess: () => {
+            toast.success("Alterações salvas!");
+            resetFormAndAction();
+            router.push(routes.productTypes.url);
+          },
+          onError: (e) => {
+            const { serverError } = e.error;
 
-          if (serverError) {
-            toast.error(serverError.message);
-          }
+            if (serverError) {
+              toast.error(serverError.message);
+            }
+          },
         },
       },
-    },
-  );
+    );
 
   return (
     <Form {...form}>

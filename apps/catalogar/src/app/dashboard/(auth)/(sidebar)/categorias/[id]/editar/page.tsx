@@ -27,7 +27,7 @@ export default async function EditCategory({
 
   return (
     <div className="space-y-6">
-      <PrevButton url={routes.categories.url} />
+      <PrevButton fallbackUrl={routes.categories.url} />
 
       <PageHeader
         title={category.name}

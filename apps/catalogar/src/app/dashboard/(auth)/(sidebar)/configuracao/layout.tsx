@@ -6,7 +6,7 @@ import { routes } from "@/routes";
 export default function ConfigLayout({ children }: PropsWithChildren) {
   return (
     <div className="space-y-6">
-      <PrevButton url={routes.dashboard.url} />
+      <PrevButton fallbackUrl={routes.dashboard.url} />
 
       <PageHeader
         title={routes.config.title}

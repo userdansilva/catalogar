@@ -17,7 +17,7 @@ export default async function NewCategory({
 
   return (
     <div className="space-y-6">
-      <PrevButton url={routes.categories.url} />
+      <PrevButton fallbackUrl={routes.categories.url} />
 
       <PageHeader
         title={routes.categories.sub.new.title}

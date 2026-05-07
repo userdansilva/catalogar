@@ -1,11 +1,11 @@
 import {
   Book,
   Building2,
+  Eye,
   Filter,
   House,
   List,
   Palette,
-  PanelsTopLeft,
   Settings,
 } from "lucide-react";
 
@@ -43,8 +43,8 @@ export const routes = {
     url: "/dashboard",
   },
   preview: {
-    title: "Pré-visualização",
-    icon: PanelsTopLeft,
+    title: "Preview",
+    icon: Eye,
     url: "/dashboard/preview",
     sub: {
       catalogItemDetail: {

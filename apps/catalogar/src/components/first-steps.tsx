@@ -84,6 +84,7 @@ export function FirstSteps({
         ao tipo de produto que criou."
         status={catalogItemMissionStatus}
         href={routes.catalogItems.sub.createFirst.url}
+        callbackUrl={routes.catalogItems.url}
       />
     </div>
   );

@@ -19,8 +19,8 @@ model User {
   name        String
   email       String   @unique
   phoneNumber String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(3)
 
   catalogs         Catalog[]
   currentCatalogId String?   @unique
@@ -175,7 +175,7 @@ model CatalogItem {
   catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
 
   productTypeId String
-  productType   ProductType @relation(fields: [productTypeId], references: [id])
+  productType   ProductType @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
 
   categories Category[]
   images     CatalogItemImage[]
