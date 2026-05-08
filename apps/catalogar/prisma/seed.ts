@@ -283,7 +283,6 @@ async function main() {
                 if (!file) throw new Error("No File", file);
 
                 return {
-                  id: catalogItemImage.image_id,
                   catalogId: catalogItem.catalog_id,
                   position: parseInt(catalogItemImage.position, 10),
                   name: file.name,
