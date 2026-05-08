@@ -21,11 +21,11 @@ import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
+import type { Catalog } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { Catalog } from "@/schemas/catalog";
 
 type CatalogSwitcherClientProps = {
-  catalogs: Array<Catalog>;
+  catalogs: Catalog[];
   currentCatalog: Catalog;
 };
 
@@ -55,7 +55,7 @@ export function CatalogSwitcherClient({
                   {currentCatalog.name}
                 </span>
                 <span className="truncate text-xs">
-                  {currentCatalog.isPublished ? "Público" : "Privado"}
+                  {currentCatalog.publishedAt ? "Público" : "Privado"}
                 </span>
               </div>
 

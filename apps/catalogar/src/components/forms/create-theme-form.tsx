@@ -19,16 +19,15 @@ import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { createThemeAction } from "@/actions/create-theme-action";
+import type { Company } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { Company } from "@/schemas/company";
 import { createThemeSchema } from "@/schemas/theme";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 import { InputLogo } from "../inputs/input-logo";
 
 type CreateThemeFormProps = {
   callbackUrl?: string;
-  company?: Company;
+  company?: Company | null;
 };
 
 export function CreateThemeForm({
@@ -37,10 +36,8 @@ export function CreateThemeForm({
 }: CreateThemeFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    createThemeAction,
-    zodResolver(createThemeSchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(createThemeAction, zodResolver(createThemeSchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
@@ -49,22 +46,21 @@ export function CreateThemeForm({
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Tema salvo!", {
-            description: res.data.message,
-          });
+        onSuccess: ({ input }) => {
+          toast.success("Tema salvo!");
+          resetFormAndAction();
+          form.reset(input);
           router.push(callbackUrl || routes.dashboard.url);
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>
@@ -74,7 +70,7 @@ export function CreateThemeForm({
           control={form.control}
           render={({ field: { onChange, value } }) => (
             <FormItem>
-              <FormLabel>Logo da empresa (Opcional)</FormLabel>
+              <FormLabel>Logo (Recomendado)</FormLabel>
 
               <FormControl>
                 <InputLogo
@@ -85,31 +81,7 @@ export function CreateThemeForm({
               </FormControl>
 
               <FormDescription>
-                <span className="block">
-                  Formatos: SVG (melhor qualidade), PNG sem fundo ou JPG. (Dica:
-                  Use{" "}
-                  <a
-                    href="https://convertio.co/pt/"
-                    target="_blank"
-                    className="underline underline-offset-2"
-                    rel="noopener"
-                  >
-                    Convertio.co
-                  </a>{" "}
-                  para alterar o formato).
-                </span>
-                <span className="block">
-                  Tamanho máximo: 1MB. (Dica: Use{" "}
-                  <a
-                    href="https://tinypng.com/"
-                    target="_blank"
-                    className="underline underline-offset-2"
-                    rel="noopener"
-                  >
-                    TinyPNG
-                  </a>{" "}
-                  para otimizar imagem).
-                </span>
+                Dica: use SVG para melhor qualidade, PNG sem fundo, ou JPG.
               </FormDescription>
 
               <FormMessage />

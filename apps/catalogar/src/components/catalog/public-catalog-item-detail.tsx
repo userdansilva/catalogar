@@ -4,17 +4,28 @@ import { Forward } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { CarouselImages } from "@/components/catalog/carousel-images";
-import type { CatalogItem } from "@/schemas/catalog-item";
-import type { Company } from "@/schemas/company";
+import type { Company, Prisma } from "@/generated/prisma/client";
 import { CopyButton } from "../inputs/copy-button";
 import { ShareButton } from "../inputs/share-button";
 
 type PublicCatalogItemDetailProps = {
   baseUrl: string;
-  catalogItem: CatalogItem;
-  company: Company;
+  catalogItem: Prisma.CatalogItemGetPayload<{
+    include: {
+      images: true;
+      categories: true;
+      productType: true;
+    };
+  }>;
+  company?: Company;
   unoptimized?: boolean;
-  relatedCatalogItems: CatalogItem[];
+  relatedCatalogItems: Prisma.CatalogItemGetPayload<{
+    include: {
+      images: true;
+      categories: true;
+      productType: true;
+    };
+  }>[];
 };
 
 export function PublicCatalogItemDetail({
@@ -77,7 +88,7 @@ export function PublicCatalogItemDetail({
             />
           </div>
 
-          {company.mainSiteUrl && (
+          {company?.mainSiteUrl && (
             <div>
               <p className="font-semibold">Contato do Vendedor</p>
               <a

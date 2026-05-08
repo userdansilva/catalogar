@@ -1,15 +1,13 @@
-import { Plus } from "lucide-react";
+import { Separator } from "@catalogar/ui/components/separator";
+import { Plus, SquareArrowOutUpRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { RedirectType, redirect } from "next/navigation";
 import { CatalogItems } from "@/components/catalog/catalog-items";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { CategoriesFilter } from "@/components/filters/categories-filter";
 import { ProductTypesFilter } from "@/components/filters/product-types-filter";
 import { QueryFilter } from "@/components/filters/query-filter";
 import { Button } from "@/components/inputs/button";
 import { PrevButton } from "@/components/inputs/prev-button";
-import { PageHeader } from "@/components/layout/page-header";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
 import { getCategories } from "@/services/get-categories";
@@ -35,33 +33,12 @@ export default async function Page({
 }: {
   searchParams: Promise<SearchParams<typeof SEARCH_PARAM_NAMES>>;
 }) {
-  const [catalogItemsError, catalogItemsData] = await getCatalogItems();
+  const { catalogItems } = await getCatalogItems();
 
-  if (catalogItemsError) {
-    return <ExpectedError error={catalogItemsError} />;
-  }
-
-  const catalogItems = catalogItemsData.data;
-
-  if (catalogItems.length === 0) {
-    redirect(routes.catalogItems.sub.createFirst.url, RedirectType.replace);
-  }
-
-  const [
-    [productTypesError, productTypesData],
-    [categoriesError, categoriesData],
-  ] = await Promise.all([getProductTypes(), getCategories()]);
-
-  if (productTypesError) {
-    return <ExpectedError error={productTypesError} />;
-  }
-
-  if (categoriesError) {
-    return <ExpectedError error={categoriesError} />;
-  }
-
-  const productTypes = productTypesData.data;
-  const categories = categoriesData.data;
+  const [{ productTypes }, { categories }] = await Promise.all([
+    getProductTypes(),
+    getCategories(),
+  ]);
 
   const { categoria, p, produto, busca } = await searchParams;
 
@@ -72,12 +49,34 @@ export default async function Page({
 
   return (
     <div className="space-y-6">
-      <PrevButton url={routes.dashboard.url} />
+      <PrevButton fallbackUrl={routes.dashboard.url} />
 
-      <PageHeader
-        title={routes.catalogItems.title}
-        description="Aqui estão os itens do seu catálogo. Adicione, edite, oculte itens temporários ou exclua as que não usa mais."
-      />
+      <div className="space-y-6">
+        <div className="flex gap-4 flex-row">
+          <h2 className="text-2xl font-bold tracking-tight">
+            {routes.catalogItems.title}
+          </h2>
+
+          <Button
+            variant="link"
+            className="underline underline-offset-2"
+            asChild
+          >
+            <Link
+              href={{
+                pathname: routes.preview.url,
+                query: {
+                  callbackUrl: routes.catalogItems.url,
+                },
+              }}
+            >
+              <SquareArrowOutUpRight /> Acessar Preview
+            </Link>
+          </Button>
+        </div>
+
+        <Separator />
+      </div>
 
       <Button asChild size="lg">
         <Link href={routes.catalogItems.sub.new.url}>

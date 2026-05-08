@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { RedirectType, redirect } from "next/navigation";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { UpdateCatalogForm } from "@/components/forms/update-catalog-form";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
@@ -14,17 +12,7 @@ export default async function Settings({
 }: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
-  const [error, data] = await getUser();
-
-  if (error) {
-    return <ExpectedError error={error} />;
-  }
-
-  const currentCatalog = data.data.currentCatalog;
-
-  if (!currentCatalog) {
-    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
+  const user = await getUser();
 
   const { callbackUrl } = await searchParams;
 
@@ -32,7 +20,10 @@ export default async function Settings({
     <div className="space-y-6">
       <h3 className="text-lg font-semibold">Catálogo</h3>
 
-      <UpdateCatalogForm catalog={currentCatalog} callbackUrl={callbackUrl} />
+      <UpdateCatalogForm
+        catalog={user.currentCatalog}
+        callbackUrl={callbackUrl}
+      />
     </div>
   );
 }

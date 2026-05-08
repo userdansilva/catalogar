@@ -17,16 +17,13 @@ import { toast } from "sonner";
 import { createCatalogAction } from "@/actions/create-catalog-action";
 import { routes } from "@/routes";
 import { createCatalogSchema } from "@/schemas/catalog";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
 export function CreateCatalogForm() {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    createCatalogAction,
-    zodResolver(createCatalogSchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(createCatalogAction, zodResolver(createCatalogSchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
@@ -34,22 +31,20 @@ export function CreateCatalogForm() {
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Catálogo criado!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Catálogo criado!");
+          resetFormAndAction();
           router.push(routes.dashboard.url);
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>

@@ -24,7 +24,6 @@ import { toast } from "sonner";
 import { createCategoryAction } from "@/actions/create-category-action";
 import { routes } from "@/routes";
 import { createCategorySchema } from "@/schemas/category";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
 type CreateCategoryFormProps = {
@@ -34,10 +33,8 @@ type CreateCategoryFormProps = {
 export function CreateCategoryForm({ callbackUrl }: CreateCategoryFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    createCategoryAction,
-    zodResolver(createCategorySchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(createCategoryAction, zodResolver(createCategorySchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
@@ -47,22 +44,20 @@ export function CreateCategoryForm({ callbackUrl }: CreateCategoryFormProps) {
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Categoria adicionada!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Categoria adicionada!");
+          resetFormAndAction();
           router.push(callbackUrl || routes.categories.url);
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>

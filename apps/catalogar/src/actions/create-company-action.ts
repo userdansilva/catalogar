@@ -1,21 +1,40 @@
 "use server";
 
-import { ExpectedError } from "@/classes/ExpectedError";
-import { authActionClient } from "@/lib/next-safe-action";
+import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { createCompanySchema } from "@/schemas/company";
-import { postCompany } from "@/services/post-company";
 
-export const createCompanyAction = authActionClient
+export const createCompanyAction = authActionClientWithUser
   .inputSchema(createCompanySchema)
   .metadata({
     actionName: "create-company",
   })
-  .action(async ({ parsedInput }) => {
-    const [error, data] = await postCompany(parsedInput);
+  .action(
+    async ({
+      parsedInput: {
+        name,
+        businessTypeDescription,
+        description,
+        mainSiteUrl,
+        phoneNumber,
+      },
+      ctx: {
+        user: { currentCatalog },
+      },
+    }) => {
+      const company = await prisma.company.create({
+        data: {
+          name,
+          businessTypeDescription,
+          description,
+          mainSiteUrl,
+          phoneNumber,
+          catalogId: currentCatalog.id,
+        },
+      });
 
-    if (error) {
-      throw new ExpectedError(error);
-    }
-
-    return { company: data.data, message: data.meta?.message };
-  });
+      return {
+        company,
+      };
+    },
+  );

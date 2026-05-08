@@ -22,9 +22,9 @@ import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { updateCategoryAction } from "@/actions/update-category-action";
+import type { Category } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import { type Category, updateCategorySchema } from "@/schemas/category";
-import { toastServerError } from "@/utils/toast-server-error";
+import { updateCategorySchema } from "@/schemas/category";
 import { Button } from "../inputs/button";
 
 type UpdateCategoryFormProps = {
@@ -34,10 +34,8 @@ type UpdateCategoryFormProps = {
 export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    updateCategoryAction,
-    zodResolver(updateCategorySchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(updateCategoryAction, zodResolver(updateCategorySchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
@@ -45,13 +43,19 @@ export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
           name: category.name,
           backgroundColor: category.backgroundColor,
           textColor: category.textColor,
-          isDisabled: category.isDisabled,
+          isDisabled: category.disabledAt !== null,
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Alterações salvas!", {
-            description: res.data.message,
+        onSuccess: ({ data: { category } }) => {
+          toast.success("Alterações salvas!");
+          resetFormAndAction();
+          form.reset({
+            id: category.id,
+            name: category.name,
+            backgroundColor: category.backgroundColor,
+            textColor: category.textColor,
+            isDisabled: category.disabledAt !== null,
           });
           router.push(routes.categories.url);
         },
@@ -59,12 +63,11 @@ export function UpdateCategoryForm({ category }: UpdateCategoryFormProps) {
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>

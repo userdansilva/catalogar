@@ -1,4 +1,4 @@
-import type { CatalogItem } from "@/schemas/catalog-item";
+import type { Prisma } from "@/generated/prisma/client";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
 import { CatalogNoResults } from "./catalog-no-results";
@@ -8,7 +8,13 @@ import { PublicCatalogItem } from "./public-catalog-item";
 
 type CatalogItemsProps = {
   query?: string;
-  catalogItems: CatalogItem[];
+  catalogItems: Prisma.CatalogItemGetPayload<{
+    include: {
+      categories: true;
+      images: true;
+      productType: true;
+    };
+  }>[];
   productTypeSlug?: string;
   categorySlug?: string;
   currentPage?: number;

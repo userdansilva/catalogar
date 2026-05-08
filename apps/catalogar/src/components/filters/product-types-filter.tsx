@@ -18,7 +18,7 @@ import { cn } from "@catalogar/ui/lib/utils";
 import { Check, ChevronsUpDown, List } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import type { ProductType } from "@/schemas/product-type";
+import type { ProductType } from "@/generated/prisma/client";
 
 type ProductTypesFilterProps = {
   productTypes: ProductType[];
@@ -110,7 +110,7 @@ export function ProductTypesFilter({
                     >
                       <Link
                         href={searchUrl(productType.slug)}
-                        className={cn(productType.isDisabled && "line-through")}
+                        className={cn(productType.disabledAt && "line-through")}
                       >
                         {productType.name}
                         <Check
@@ -133,7 +133,7 @@ export function ProductTypesFilter({
   }
 
   if (
-    productTypes.filter((productType) => !productType.isDisabled).length === 0
+    productTypes.filter((productType) => !productType.disabledAt).length === 0
   ) {
     return null;
   }
@@ -150,7 +150,7 @@ export function ProductTypesFilter({
         </Button>
 
         {productTypes
-          .filter((productType) => !productType.isDisabled)
+          .filter((productType) => !productType.disabledAt)
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((productType) => {
             const isSelected = currentProductTypeSlug === productType.slug;

@@ -4,10 +4,10 @@ import { useEffect } from "react";
 
 export default function GlobalError({
   error,
-  reset,
+  unstable_retry,
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
+  unstable_retry: () => void;
 }) {
   useEffect(() => {
     console.error(error);
@@ -16,9 +16,9 @@ export default function GlobalError({
   return (
     <html lang="pt-BR">
       <body>
-        <h2>Something went wrong!</h2>
-        <button onClick={() => reset()} type="button">
-          Try again
+        <h2>Alogo deu errado!</h2>
+        <button onClick={() => unstable_retry()} type="button">
+          Tebtar novamente
         </button>
       </body>
     </html>

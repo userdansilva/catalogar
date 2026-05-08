@@ -13,8 +13,8 @@ import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
+import type { Catalog } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { Catalog } from "@/schemas/catalog";
 import { Button } from "./inputs/button";
 
 type MyCatalogsProps = {
@@ -58,7 +58,7 @@ export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
               <Card key={catalog.id}>
                 <CardHeader className="relative">
                   <CardDescription>
-                    {catalog.isPublished ? "Público" : "Privado"}
+                    {catalog.publishedAt ? "Público" : "Privado"}
                   </CardDescription>
 
                   <CardTitle className="text-2xl">{catalog.name}</CardTitle>

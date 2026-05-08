@@ -3,10 +3,9 @@
 import path from "node:path";
 import { BlockBlobClient } from "@azure/storage-blob";
 import sharp from "sharp";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClient } from "@/lib/next-safe-action";
 import { imageSchema } from "@/schemas/others";
-import { postStorageGenerateSasToken } from "@/services/post-storage-generate-sas-token";
+import { generateSasToken } from "@/utils/generate-sas-token";
 import { getFileType } from "@/utils/get-file-type";
 
 export const createLogoAction = authActionClient
@@ -21,13 +20,7 @@ export const createLogoAction = authActionClient
     const fileExt = path.parse(image.name).ext;
     const fileType = getFileType(fileExt);
 
-    const [error, data] = await postStorageGenerateSasToken({
-      fileType,
-    });
-
-    if (error) {
-      throw new ExpectedError(error);
-    }
+    const { accessUrl, uploadUrl } = generateSasToken(fileType);
 
     const resizedImage = await sharp(buffer)
       .resize({
@@ -37,13 +30,11 @@ export const createLogoAction = authActionClient
 
     const metadata = await sharp(resizedImage).metadata();
 
-    const { uploadUrl, accessUrl } = data.data;
-
     const blockBlobClient = new BlockBlobClient(uploadUrl);
     await blockBlobClient.uploadData(resizedImage);
 
     return {
-      fileName: originalFileName,
+      name: originalFileName,
       url: accessUrl,
       sizeInBytes: resizedImage.length,
       width: metadata.width || 0,

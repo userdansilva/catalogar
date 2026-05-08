@@ -1,44 +1,56 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { ExpectedError } from "@/classes/ExpectedError";
+import { returnValidationErrors } from "next-safe-action";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { publishCatalogSchema } from "@/schemas/catalog";
-import { getUser } from "@/services/get-user";
-import { putCatalog } from "@/services/put-catalog";
-import { tags } from "@/tags";
 
 export const publishCatalogAction = authActionClientWithUser
   .inputSchema(publishCatalogSchema)
   .metadata({
     actionName: "publish-catalog",
   })
-  .action(async ({ parsedInput: { slug } }) => {
-    const [userError, userData] = await getUser();
+  .action(
+    async ({
+      parsedInput: { slug },
+      ctx: {
+        user: { currentCatalog },
+      },
+    }) => {
+      const isSlugTaken = await prisma.catalog.findFirst({
+        where: {
+          slug,
+          id: {
+            not: currentCatalog.id,
+          },
+        },
+      });
 
-    if (userError) {
-      throw new ExpectedError(userError);
-    }
+      if (isSlugTaken) {
+        return returnValidationErrors(publishCatalogSchema, {
+          slug: {
+            _errors: ["O link já está em uso por outro catálogo."],
+          },
+        });
+      }
 
-    const { currentCatalog } = userData.data;
+      const catalog = await prisma.catalog.update({
+        where: {
+          id: currentCatalog.id,
+        },
+        data: {
+          publishedAt: new Date(),
+          slug,
+        },
+      });
 
-    if (!currentCatalog) {
-      throw new Error("Catálogo atual não definido");
-    }
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      }
 
-    const [catalogError, catalogData] = await putCatalog({
-      slug,
-      name: currentCatalog.name,
-      isPublished: true,
-    });
-
-    if (catalogError) {
-      throw new ExpectedError(catalogError);
-    }
-
-    if (currentCatalog?.isPublished && currentCatalog.slug) {
-      revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
-    }
-
-    return { catalog: catalogData.data, message: catalogData.meta?.message };
-  });
+      return {
+        catalog,
+      };
+    },
+  );

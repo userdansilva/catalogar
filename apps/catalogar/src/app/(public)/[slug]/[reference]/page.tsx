@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
-import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
+import { getPublicCatalog } from "@/services/get-public-catalog";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
 
@@ -25,16 +24,18 @@ export default async function Page({
 
   const slug = slugWithAt.replace(ASCIIforAt, "");
 
-  const [error, data] = await getPublicCatalogBySlug(slug);
+  const { catalog } = await getPublicCatalog(slug);
 
-  if (error) {
-    return <ExpectedError error={error} />;
+  if (!catalog) {
+    notFound();
   }
 
-  const catalog = data.data;
+  if (!catalog.company) {
+    throw new Error("Company not found for catalog");
+  }
 
   const catalogItem = catalog.catalogItems.find(
-    (item) => item.reference === Number(reference),
+    (item) => Number(item.reference) === Number(reference),
   );
 
   if (!catalogItem) {
@@ -58,7 +59,7 @@ export default async function Page({
 
   return (
     <div className="max-w-7xl space-y-6 md:container">
-      <PrevButton url={routes.public.url(slug)} />
+      <PrevButton fallbackUrl={routes.public.url(slug)} />
 
       <PublicCatalogItemDetail
         baseUrl={routes.public.url(slug)}

@@ -1,6 +1,5 @@
-import { notFound, RedirectType, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
 import { getCatalogItems } from "@/services/get-catalog-items";
@@ -13,30 +12,13 @@ export default async function Page({
 }: {
   params: Promise<{ reference: string }>;
 }) {
-  const [userError, userData] = await getUser();
+  const user = await getUser();
 
-  if (userError) {
-    return <ExpectedError error={userError} />;
-  }
-
-  const user = userData.data;
-
-  if (!user.currentCatalog) {
-    return redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
-
-  const [catalogItemsError, catalogItemsData] = await getCatalogItems();
-
-  if (catalogItemsError) {
-    return <ExpectedError error={catalogItemsError} />;
-  }
-
-  const catalogItems = catalogItemsData.data;
-
+  const { catalogItems } = await getCatalogItems();
   const { reference } = await params;
 
   const catalogItem = catalogItems.find(
-    (item) => item.reference === Number(reference),
+    (item) => Number(item.reference) === Number(reference),
   );
 
   if (!catalogItem) {
@@ -58,22 +40,14 @@ export default async function Page({
     currentPage: 1,
   });
 
-  if (!user.currentCatalog.theme) {
-    redirect(routes.theme.sub.new.url, RedirectType.replace);
-  }
-
-  if (!user.currentCatalog.company) {
-    redirect(routes.company.sub.new.url, RedirectType.replace);
-  }
-
   return (
     <div className="max-w-7xl space-y-6 md:container">
-      <PrevButton url={routes.public.url(routes.preview.url)} />
+      <PrevButton fallbackUrl={routes.preview.url} />
 
       <PublicCatalogItemDetail
         baseUrl={routes.preview.url}
         catalogItem={catalogItem}
-        company={user.currentCatalog.company}
+        company={user.currentCatalog.company || undefined}
         relatedCatalogItems={paginatedCatalogItems}
       />
     </div>

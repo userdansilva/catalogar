@@ -1,24 +1,22 @@
-import z from "zod";
-import type { CatalogItem } from "@/schemas/catalog-item";
-import { getAuthHeaders } from "@/utils/get-auth-headers";
-import { serverFetch } from "@/utils/server-fetch";
+import prisma from "@/lib/prisma";
+import { getUser } from "./get-user";
 
-const querySchema = z.object({
-  field: z.enum(["name", "createdAt"]).optional(),
-  sort: z.enum(["asc", "desc"]).optional(),
-});
+export async function getCatalogItems() {
+  const user = await getUser();
 
-type QueryParams = z.infer<typeof querySchema>;
-
-type GetCatalogItemsParams = {
-  query?: QueryParams;
-};
-
-export async function getCatalogItems({ query }: GetCatalogItemsParams = {}) {
-  const headers = await getAuthHeaders();
-
-  return await serverFetch<CatalogItem[]>("/v1/catalog-items", {
-    query,
-    headers,
+  const catalogItems = await prisma.catalogItem.findMany({
+    where: {
+      catalogId: user.currentCatalog.id,
+    },
+    include: {
+      categories: true,
+      productType: true,
+      images: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
+
+  return { catalogItems };
 }

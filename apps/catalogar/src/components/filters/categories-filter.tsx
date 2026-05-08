@@ -18,7 +18,7 @@ import { cn } from "@catalogar/ui/lib/utils";
 import { Check, ChevronsUpDown, Filter } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import type { Category } from "@/schemas/category";
+import type { Category } from "@/generated/prisma/client";
 
 type CategoriesFilterProps = {
   categories: Category[];
@@ -107,7 +107,7 @@ export function CategoriesFilter({
                     >
                       <Link
                         href={getSearchUrl(category.slug)}
-                        className={cn(category.isDisabled && "line-through")}
+                        className={cn(category.disabledAt && "line-through")}
                       >
                         {category.name}
                         <Check
@@ -129,7 +129,7 @@ export function CategoriesFilter({
     );
   }
 
-  if (categories.filter((category) => !category.isDisabled).length === 0) {
+  if (categories.filter((category) => !category.disabledAt).length === 0) {
     return null;
   }
 
@@ -145,7 +145,7 @@ export function CategoriesFilter({
       </Button>
 
       {categories
-        .filter((category) => !category.isDisabled)
+        .filter((category) => !category.disabledAt)
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((category) => {
           const isSelected = currentCategorySlug === category.slug;

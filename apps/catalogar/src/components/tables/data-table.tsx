@@ -1,14 +1,6 @@
 "use client";
 
 import {
-  type ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { usePathname, useSearchParams } from "next/navigation";
-import clsx from "clsx";
-import {
   Pagination,
   PaginationContent,
   PaginationItem,
@@ -23,46 +15,28 @@ import {
   TableHeader,
   TableRow,
 } from "@catalogar/ui/components/table";
-import type { Pagination as TPagination } from "@/types/api-response";
+import {
+  type ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import clsx from "clsx";
 
 type DataTableProps<TData, TValues> = {
   columns: ColumnDef<TData, TValues>[];
   data: TData[];
-  pagination: TPagination;
 };
 
 export function DataTable<TData, TValues>({
   columns,
   data,
-  pagination,
 }: DataTableProps<TData, TValues>) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-
-  const getPaginatedUrl = (page: number) => {
-    const params = new URLSearchParams(searchParams);
-
-    if (page && page > 1) {
-      params.set("page", page.toString());
-    } else {
-      params.delete("page");
-    }
-
-    return `${pathname}?${params.toString()}`;
-  };
-
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
-    pageCount: pagination.totalPages,
-    initialState: {
-      pagination: {
-        pageIndex: pagination.currentPage - 1,
-        pageSize: pagination.perPage,
-      },
-    },
   });
 
   return (
@@ -127,26 +101,6 @@ export function DataTable<TData, TValues>({
           </TableBody>
         </Table>
       </div>
-
-      <Pagination className="justify-end">
-        <PaginationContent>
-          {table.getCanPreviousPage() && (
-            <PaginationItem>
-              <PaginationPrevious
-                href={getPaginatedUrl(pagination.currentPage - 1)}
-              />
-            </PaginationItem>
-          )}
-
-          {table.getCanNextPage() && (
-            <PaginationItem>
-              <PaginationNext
-                href={getPaginatedUrl(pagination.currentPage + 1)}
-              />
-            </PaginationItem>
-          )}
-        </PaginationContent>
-      </Pagination>
     </div>
   );
 }

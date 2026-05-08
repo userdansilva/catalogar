@@ -15,7 +15,7 @@ import type { PropsWithChildren } from "react";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { routes } from "@/routes";
 
-export default function DashboardLayout({ children }: PropsWithChildren) {
+export default async function DashboardLayout({ children }: PropsWithChildren) {
   return (
     <SidebarProvider>
       <AppSidebar />

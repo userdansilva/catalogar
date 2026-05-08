@@ -13,19 +13,10 @@ export const metadata: Metadata = {
   title: routes.categories.title,
 };
 
-export default async function Categories({
-  searchParams,
-}: {
-  searchParams: Promise<{
-    page?: string;
-  }>;
-}) {
-  const { page } = await searchParams;
-  const currentPage = page ? Number(page) : 1;
-
+export default async function Categories() {
   return (
     <div className="space-y-6">
-      <PrevButton url={routes.dashboard.url} />
+      <PrevButton fallbackUrl={routes.dashboard.url} />
 
       <PageHeader
         title={routes.categories.title}
@@ -39,8 +30,8 @@ export default async function Categories({
         </Link>
       </Button>
 
-      <Suspense key={currentPage} fallback={<CategoriesSkeleton />}>
-        <CategoriesTable currentPage={currentPage} />
+      <Suspense fallback={<CategoriesSkeleton />}>
+        <CategoriesTable />
       </Suspense>
     </div>
   );

@@ -1,11 +1,15 @@
-import type { ProductType } from "@/schemas/product-type";
-import { getAuthHeaders } from "@/utils/get-auth-headers";
-import { serverFetch } from "@/utils/server-fetch";
+import prisma from "@/lib/prisma";
+import { getUser } from "./get-user";
 
-export async function getProductType(id: ProductType["id"]) {
-  const headers = await getAuthHeaders();
+export async function getProductType(id: string) {
+  const user = await getUser();
 
-  return await serverFetch<ProductType>(`/v1/product-types/${id}`, {
-    headers,
+  const productType = await prisma.productType.findFirst({
+    where: {
+      id,
+      catalogId: user.currentCatalog.id,
+    },
   });
+
+  return { productType };
 }

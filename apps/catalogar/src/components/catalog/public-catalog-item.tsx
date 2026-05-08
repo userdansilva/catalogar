@@ -6,10 +6,15 @@ import { Images } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { CatalogItem } from "@/schemas/catalog-item";
+import type { Prisma } from "@/generated/prisma/client";
 
 type PublicCatalogItemProps = {
-  catalogItem: CatalogItem;
+  catalogItem: Prisma.CatalogItemGetPayload<{
+    include: {
+      categories: true;
+      images: true;
+    };
+  }>;
   unoptimized?: boolean;
 };
 
@@ -21,7 +26,7 @@ export function PublicCatalogItem({
 
   return (
     <Link
-      className={cn("space-y-2", catalogItem.isDisabled && "opacity-60")}
+      className={cn("space-y-2", catalogItem.disabledAt && "opacity-60")}
       href={`${pathname}/${catalogItem.reference}`}
       prefetch={!unoptimized}
     >
@@ -45,7 +50,7 @@ export function PublicCatalogItem({
 
       <div className="flex flex-wrap gap-1">
         {catalogItem.categories
-          .filter((category) => !category.isDisabled)
+          .filter((category) => !category.disabledAt)
           .map((category) => (
             <Badge
               key={category.id}
@@ -64,7 +69,7 @@ export function PublicCatalogItem({
         <div
           className={cn(
             "text-base font-semibold",
-            catalogItem.isDisabled && "line-through",
+            catalogItem.disabledAt && "line-through",
           )}
         >
           {catalogItem.title}

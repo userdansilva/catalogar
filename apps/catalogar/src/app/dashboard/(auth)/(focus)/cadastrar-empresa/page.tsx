@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { RedirectType, redirect } from "next/navigation";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { CreateCompanyForm } from "@/components/forms/create-company-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
@@ -15,18 +14,7 @@ export default async function RegisterCompany({
 }: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
-  const [error, data] = await getUser();
-
-  if (error) {
-    return <ExpectedError error={error} />;
-  }
-
-  const user = data.data;
-
-  if (!user.currentCatalog) {
-    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
-
+  const user = await getUser();
   const { callbackUrl } = await searchParams;
 
   if (user.currentCatalog.company && !callbackUrl) {
@@ -35,18 +23,16 @@ export default async function RegisterCompany({
 
   return (
     <div className="max-w-lg space-y-8">
-      <PrevButton url={routes.dashboard.url} />
+      <PrevButton fallbackUrl={routes.dashboard.url} />
 
       <div className="space-y-2">
         <h2 className="text-2xl tracking-tight">
-          Vamos cadastrar sua <span className="font-bold">Empresa</span>
+          Vamos cadastrar seu <span className="font-bold">Negócio</span>
         </h2>
 
         <p className="text-muted-foreground">
           As informações abaixo ajudam seus clientes — e futuros clientes — a
-          conhecer melhor sua empresa. Tudo isso será exibido no seu catálogo e
-          vai facilitar o contato, além de fortalecer a conexão com seu público.
-          Bora começar?
+          conhecer melhor seu trabalho.
         </p>
       </div>
 

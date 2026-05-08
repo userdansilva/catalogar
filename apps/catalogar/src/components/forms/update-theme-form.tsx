@@ -19,10 +19,8 @@ import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { updateThemeAction } from "@/actions/update-theme-action";
-import { routes } from "@/routes";
-import type { Company } from "@/schemas/company";
-import { type Theme, updateThemeSchema } from "@/schemas/theme";
-import { toastServerError } from "@/utils/toast-server-error";
+import type { Company, Prisma } from "@/generated/prisma/client";
+import { updateThemeSchema } from "@/schemas/theme";
 import { Button } from "../inputs/button";
 import { InputLogo } from "../inputs/input-logo";
 
@@ -31,16 +29,16 @@ export function UpdateThemeForm({
   company,
   callbackUrl,
 }: {
-  theme: Theme;
-  company?: Company;
+  theme: Prisma.ThemeGetPayload<{
+    include: { logo: true };
+  }>;
+  company?: Company | null;
   callbackUrl?: string;
 }) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    updateThemeAction,
-    zodResolver(updateThemeSchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(updateThemeAction, zodResolver(updateThemeSchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
@@ -50,22 +48,30 @@ export function UpdateThemeForm({
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Alterações salvas!", {
-            description: res.data.message,
+        onSuccess: ({ data: { theme } }) => {
+          console.log("theme", theme);
+          toast.success("Alterações salvas!");
+          resetFormAndAction();
+          form.reset({
+            logo: theme.logo ?? null,
+            primaryColor: theme.primaryColor,
+            secondaryColor: theme.secondaryColor,
           });
-          router.push(callbackUrl || routes.dashboard.url);
+          if (callbackUrl) {
+            router.push(callbackUrl);
+          } else {
+            router.refresh();
+          }
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>
@@ -75,7 +81,7 @@ export function UpdateThemeForm({
           control={form.control}
           render={({ field: { onChange, value } }) => (
             <FormItem>
-              <FormLabel>Logo da empresa (Opcional)</FormLabel>
+              <FormLabel>Logo (Recomendado)</FormLabel>
 
               <FormControl>
                 <InputLogo
@@ -86,31 +92,7 @@ export function UpdateThemeForm({
               </FormControl>
 
               <FormDescription>
-                <span className="block">
-                  Formatos: SVG (melhor qualidade), PNG sem fundo ou JPG. (Dica:
-                  Use{" "}
-                  <a
-                    href="https://convertio.co/pt/"
-                    target="_blank"
-                    className="underline underline-offset-2"
-                    rel="noopener"
-                  >
-                    Convertio.co
-                  </a>{" "}
-                  para alterar o formato).
-                </span>
-                <span className="block">
-                  Tamanho máximo: 1MB. (Dica: Use{" "}
-                  <a
-                    href="https://tinypng.com/"
-                    target="_blank"
-                    className="underline underline-offset-2"
-                    rel="noopener"
-                  >
-                    TinyPNG
-                  </a>{" "}
-                  para otimizar imagem).
-                </span>
+                Dica: use SVG para melhor qualidade, ou PNG sem fundo, ou JPG.
               </FormDescription>
 
               <FormMessage />

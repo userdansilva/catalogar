@@ -16,7 +16,7 @@ import { createLogoAction } from "@/actions/create-logo-action";
 import { Button } from "./button";
 
 type Logo = {
-  fileName: string;
+  name: string;
   url: string;
   sizeInBytes: number;
   width: number;
@@ -62,7 +62,7 @@ export function InputLogo({
 
     if (res?.data) {
       onChange({
-        fileName: res.data.fileName,
+        name: res.data.name,
         url: res.data.url,
         sizeInBytes: res.data.sizeInBytes,
         width: res.data.width,
@@ -82,9 +82,9 @@ export function InputLogo({
   return (
     <>
       <div>
-        {value?.fileName ? (
+        {value?.name ? (
           <div className="flex items-center space-x-4 rounded-md border p-4">
-            <div className="mr-3 flex-1 truncate text-sm">{value.fileName}</div>
+            <div className="mr-3 flex-1 truncate text-sm">{value.name}</div>
 
             <AlertDialog>
               <AlertDialogTrigger asChild>

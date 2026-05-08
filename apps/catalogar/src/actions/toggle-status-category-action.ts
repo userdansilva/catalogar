@@ -1,12 +1,9 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { categoryStatusToggleSchema } from "@/schemas/category";
-import { getCategory } from "@/services/get-category";
-import { putCategory } from "@/services/put-category";
-import { tags } from "@/tags";
 
 export const toggleCategoryStatusAction = authActionClientWithUser
   .inputSchema(categoryStatusToggleSchema)
@@ -20,30 +17,37 @@ export const toggleCategoryStatusAction = authActionClientWithUser
         user: { currentCatalog },
       },
     }) => {
-      const [getCategoryError, getCategoryData] = await getCategory(id);
-
-      if (getCategoryError) {
-        throw new ExpectedError(getCategoryError);
-      }
-
-      const category = getCategoryData.data;
-
-      const [putCategoryError, putCategoryData] = await putCategory({
-        ...category,
-        isDisabled: !category.isDisabled,
+      const existingCategory = await prisma.category.findFirst({
+        where: {
+          id,
+          catalogId: currentCatalog.id,
+        },
       });
 
-      if (putCategoryError) {
-        throw new ExpectedError(putCategoryError);
+      if (!existingCategory) {
+        return {
+          error: {
+            message: "Categoría não encontrada",
+          },
+        };
       }
 
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
+      const category = await prisma.category.update({
+        where: {
+          id,
+          catalogId: currentCatalog.id,
+        },
+        data: {
+          disabledAt: existingCategory.disabledAt ? null : new Date(),
+        },
+      });
+
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
       }
 
       return {
-        category: putCategoryData.data,
-        message: putCategoryData.meta?.message,
+        category,
       };
     },
   );

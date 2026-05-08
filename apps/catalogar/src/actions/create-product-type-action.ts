@@ -1,12 +1,11 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
+import { returnValidationErrors } from "next-safe-action";
 import slugify from "slugify";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { createProductTypeSchema } from "@/schemas/product-type";
-import { postProductType } from "@/services/post-product-type";
-import { tags } from "@/tags";
 
 export const createProductTypeAction = authActionClientWithUser
   .inputSchema(createProductTypeSchema)
@@ -20,23 +19,35 @@ export const createProductTypeAction = authActionClientWithUser
         user: { currentCatalog },
       },
     }) => {
-      const [error, data] = await postProductType({
-        name,
-        slug: slugify(name, { lower: true }),
-        isDisabled: false,
+      const existingProductType = await prisma.productType.findFirst({
+        where: {
+          slug: slugify(name, { lower: true }),
+          catalogId: currentCatalog.id,
+        },
       });
 
-      if (error) {
-        throw new ExpectedError(error);
+      if (existingProductType) {
+        return returnValidationErrors(createProductTypeSchema, {
+          name: {
+            _errors: ["Já existe um tipo de produto com esse nome"],
+          },
+        });
       }
 
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
+      const productType = await prisma.productType.create({
+        data: {
+          name,
+          slug: slugify(name, { lower: true }),
+          catalogId: currentCatalog.id,
+        },
+      });
+
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
       }
 
       return {
-        productType: data.data,
-        message: data.meta?.message,
+        productType,
       };
     },
   );

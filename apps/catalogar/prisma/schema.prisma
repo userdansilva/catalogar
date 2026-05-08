@@ -1,0 +1,205 @@
+// Catalogar - Prisma Schema
+// Generated from Java Legacy API entities
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// =====================
+// User Management
+// =====================
+
+model User {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  phoneNumber String?
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(3)
+
+  catalogs         Catalog[]
+  currentCatalogId String?   @unique
+  currentCatalog   Catalog?  @relation("UserCurrentCatalog", fields: [currentCatalogId], references: [id])
+
+  @@map("users")
+}
+
+// =====================
+// Catalog Management
+// =====================
+
+model Catalog {
+  id          String    @id @default(uuid())
+  name        String
+  slug        String?   @unique
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  userId        String
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currentOfUser User?  @relation("UserCurrentCatalog")
+
+  company           Company?
+  theme             Theme?
+  productTypes      ProductType[]
+  categories        Category[]
+  catalogItems      CatalogItem[]
+  themeLogos        ThemeLogo[]
+  catalogItemImages CatalogItemImage[]
+
+  @@map("catalogs")
+}
+
+// =====================
+// Company Information
+// =====================
+
+model Company {
+  id                      String   @id @default(uuid())
+  name                    String
+  description             String?
+  mainSiteUrl             String?
+  phoneNumber             String?
+  businessTypeDescription String?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  catalogId String  @unique
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
+
+  @@map("companies")
+}
+
+// =====================
+// Theme Configuration
+// =====================
+
+model Theme {
+  id             String   @id @default(uuid())
+  primaryColor   String
+  secondaryColor String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  catalogId String  @unique
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
+
+  logoId String? @unique
+  logo   ThemeLogo?  @relation("ThemeLogo")
+
+  @@map("themes")
+}
+
+model ThemeLogo {
+  id        String   @id @default(uuid())
+  name      String
+  url       String   @unique
+  size      BigInt
+  createdAt DateTime @default(now())
+  width     Int
+  height    Int
+  altText   String
+
+  themeId String @unique
+  theme   Theme @relation("ThemeLogo", fields: [themeId], references: [id], onDelete: Cascade)
+
+  catalogId String
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
+
+  @@map("theme_logos")
+}
+
+// =====================
+// Product Types
+// =====================
+
+model ProductType {
+  id         String    @id @default(uuid())
+  name       String
+  slug       String
+  disabledAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  catalogId String
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
+
+  catalogItems CatalogItem[]
+
+  @@map("product_types")
+}
+
+// =====================
+// Categories
+// =====================
+
+model Category {
+  id              String    @id @default(uuid())
+  name            String
+  slug            String
+  textColor       String
+  backgroundColor String
+  disabledAt      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  catalogId String
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
+
+  catalogItems CatalogItem[]
+
+  @@map("categories")
+}
+
+// =====================
+// Catalog Items
+// =====================
+
+model CatalogItem {
+  id         String    @id @default(uuid())
+  title      String
+  caption    String?
+  price      Decimal?
+  reference  BigInt
+  disabledAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  catalogId String
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
+
+  productTypeId String
+  productType   ProductType @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
+
+  categories Category[]
+  images     CatalogItemImage[]
+
+  @@map("catalog_items")
+}
+
+
+model CatalogItemImage {
+  id        String   @id @default(uuid())
+  name      String
+  url       String   @unique
+  size      BigInt
+  createdAt DateTime @default(now())
+  width     Int
+  height    Int
+  altText   String
+  position  Int
+
+  catalogItemId String
+  catalogItem   CatalogItem @relation(fields: [catalogItemId], references: [id], onDelete: Cascade)
+
+  catalogId String
+  catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
+
+  @@map("catalog_item_images")
+}

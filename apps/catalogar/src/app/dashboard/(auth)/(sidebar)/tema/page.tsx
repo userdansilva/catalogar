@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { RedirectType, redirect } from "next/navigation";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { UpdateThemeForm } from "@/components/forms/update-theme-form";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
@@ -16,19 +15,9 @@ export default async function Theme({
     callbackUrl?: string;
   }>;
 }) {
-  const [error, data] = await getUser();
+  const user = await getUser();
 
-  if (error) {
-    return <ExpectedError error={error} />;
-  }
-
-  const currentCatalog = data.data.currentCatalog;
-
-  if (!currentCatalog) {
-    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
-
-  if (!currentCatalog.theme) {
+  if (!user.currentCatalog.theme) {
     return redirect(routes.theme.sub.new.url, RedirectType.replace);
   }
 
@@ -36,8 +25,8 @@ export default async function Theme({
 
   return (
     <UpdateThemeForm
-      theme={currentCatalog.theme}
-      company={currentCatalog.company}
+      theme={user.currentCatalog.theme}
+      company={user.currentCatalog.company}
       callbackUrl={callbackUrl}
     />
   );

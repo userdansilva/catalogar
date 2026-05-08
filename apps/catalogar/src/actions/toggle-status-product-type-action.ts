@@ -1,12 +1,9 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { productTypeStatusToggleSchema } from "@/schemas/product-type";
-import { getProductType } from "@/services/get-product-type";
-import { putProductType } from "@/services/put-product-type";
-import { tags } from "@/tags";
 
 export const toggleProductTypeStatusAction = authActionClientWithUser
   .inputSchema(productTypeStatusToggleSchema)
@@ -20,31 +17,37 @@ export const toggleProductTypeStatusAction = authActionClientWithUser
         user: { currentCatalog },
       },
     }) => {
-      const [getProductTypeError, getProductTypeData] =
-        await getProductType(id);
-
-      if (getProductTypeError) {
-        throw new ExpectedError(getProductTypeError);
-      }
-
-      const productType = getProductTypeData.data;
-
-      const [putProdutTypeError, putProductTypeData] = await putProductType({
-        ...productType,
-        isDisabled: !productType.isDisabled,
+      const existingProductType = await prisma.productType.findFirst({
+        where: {
+          id,
+          catalogId: currentCatalog.id,
+        },
       });
 
-      if (putProdutTypeError) {
-        throw new ExpectedError(putProdutTypeError);
+      if (!existingProductType) {
+        return {
+          error: {
+            message: "Tipo de produto não encontrado",
+          },
+        };
       }
 
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
+      const productType = await prisma.productType.update({
+        where: {
+          id,
+          catalogId: currentCatalog.id,
+        },
+        data: {
+          disabledAt: existingProductType.disabledAt ? null : new Date(),
+        },
+      });
+
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
       }
 
       return {
-        productType: putProductTypeData.data,
-        message: putProductTypeData.meta?.message,
+        productType,
       };
     },
   );

@@ -1,11 +1,9 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { deleteSchema } from "@/schemas/others";
-import { deleteCategory } from "@/services/delete-category";
-import { tags } from "@/tags";
 
 export const deleteCategoryAction = authActionClientWithUser
   .inputSchema(deleteSchema)
@@ -19,14 +17,15 @@ export const deleteCategoryAction = authActionClientWithUser
         user: { currentCatalog },
       },
     }) => {
-      const [error] = await deleteCategory(id);
+      await prisma.category.delete({
+        where: {
+          id,
+          catalogId: currentCatalog.id,
+        },
+      });
 
-      if (error) {
-        throw new ExpectedError(error);
-      }
-
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
       }
     },
   );

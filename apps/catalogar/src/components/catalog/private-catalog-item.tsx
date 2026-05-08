@@ -20,12 +20,18 @@ import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
 import { deleteCatalogItemAction } from "@/actions/delete-catalog-item-action";
 import { toggleCatalogItemStatusAction } from "@/actions/toggle-catalog-item-status-action";
+import type { Prisma } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { CatalogItem } from "@/schemas/catalog-item";
 import { CarouselImages } from "./carousel-images";
 
 type PrivateCatalogItemProps = {
-  catalogItem: CatalogItem;
+  catalogItem: Prisma.CatalogItemGetPayload<{
+    include: {
+      categories: true;
+      images: true;
+      productType: true;
+    };
+  }>;
 };
 
 export function PrivateCatalogItem({ catalogItem }: PrivateCatalogItemProps) {
@@ -43,8 +49,8 @@ export function PrivateCatalogItem({ catalogItem }: PrivateCatalogItemProps) {
         await executeToggleStatusAsync({ id: catalogItem.id });
       },
       {
-        loading: `${catalogItem.isDisabled ? "Ativando" : "Ocultando"}  item de catálogo...`,
-        success: `Item de catálogo ${catalogItem.isDisabled ? "ativado" : "ocultado"} com sucesso!`,
+        loading: `${catalogItem.disabledAt ? "Ativando" : "Ocultando"}  item de catálogo...`,
+        success: `Item de catálogo ${catalogItem.disabledAt ? "ativado" : "ocultado"} com sucesso!`,
       },
     );
 
@@ -61,13 +67,13 @@ export function PrivateCatalogItem({ catalogItem }: PrivateCatalogItemProps) {
 
   return (
     <div className="flex flex-col space-y-2">
-      <div className={cn(catalogItem.isDisabled && "opacity-60")}>
+      <div className={cn(catalogItem.disabledAt && "opacity-60")}>
         <CarouselImages images={catalogItem.images} unoptimized />
       </div>
 
       <div className="flex flex-wrap gap-1">
         {catalogItem.categories
-          .filter((category) => !category.isDisabled)
+          .filter((category) => !category.disabledAt)
           .map((category) => (
             <Badge
               key={category.id}
@@ -86,7 +92,7 @@ export function PrivateCatalogItem({ catalogItem }: PrivateCatalogItemProps) {
         <div
           className={cn(
             "text-base font-semibold",
-            catalogItem.isDisabled && "line-through",
+            catalogItem.disabledAt && "line-through",
           )}
         >
           {catalogItem.title}
@@ -103,7 +109,7 @@ export function PrivateCatalogItem({ catalogItem }: PrivateCatalogItemProps) {
         </Button>
 
         <AlertDialog>
-          {catalogItem.isDisabled ? (
+          {catalogItem.disabledAt ? (
             <Button size="sm" variant="outline" onClick={handleToggleStatus}>
               <CloudUpload />
               Ativar

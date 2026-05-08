@@ -50,9 +50,8 @@ import { type UseFormReturn, Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { switchCatalogAction } from "@/actions/switch-catalog-action";
+import type { Catalog } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { Catalog } from "@/schemas/catalog";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "./inputs/button";
 
 function CatalogSwitcherCard({
@@ -65,7 +64,7 @@ function CatalogSwitcherCard({
     <Card className="flex flex-row items-center">
       <CardHeader className="flex-1">
         <CardDescription className="text-xs">
-          <span>{currentCatalog.isPublished ? "Público" : "Privado"}</span>
+          <span>{currentCatalog.publishedAt ? "Público" : "Privado"}</span>
           {currentCatalog.slug && (
             <span className="text-muted-foreground">{` @${currentCatalog.slug}`}</span>
           )}
@@ -130,7 +129,7 @@ function CatalogSwitcherForm({
                                 </FormLabel>
                                 <CardDescription className="text-xs">
                                   <span>
-                                    {catalog.isPublished
+                                    {catalog.publishedAt
                                       ? "Público"
                                       : "Privado"}
                                   </span>
@@ -215,7 +214,7 @@ export function CatalogSwitcherDrawerDialog({
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },
@@ -254,7 +253,7 @@ export function CatalogSwitcherDrawerDialog({
             </DrawerClose>
             <Watch
               control={form.control}
-              names={["id"]}
+              name={["id"]}
               render={([id]) =>
                 id === "adicionar" ? (
                   <Button asChild>
@@ -309,7 +308,7 @@ export function CatalogSwitcherDrawerDialog({
           </DialogClose>
           <Watch
             control={form.control}
-            names={["id"]}
+            name={["id"]}
             render={([id]) =>
               id === "adicionar" ? (
                 <Button asChild>

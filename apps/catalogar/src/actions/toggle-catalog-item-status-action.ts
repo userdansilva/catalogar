@@ -1,12 +1,9 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { catalogItemStatusToggleSchema } from "@/schemas/catalog-item";
-import { getCatalogItem } from "@/services/get-catalog-item";
-import { putCatalogItem } from "@/services/put-catalog-item";
-import { tags } from "@/tags";
 
 export const toggleCatalogItemStatusAction = authActionClientWithUser
   .inputSchema(catalogItemStatusToggleSchema)
@@ -20,33 +17,37 @@ export const toggleCatalogItemStatusAction = authActionClientWithUser
         user: { currentCatalog },
       },
     }) => {
-      const [getCatalogItemError, getCatalogItemData] =
-        await getCatalogItem(id);
-
-      if (getCatalogItemError) {
-        throw new ExpectedError(getCatalogItemError);
-      }
-
-      const catalogItem = getCatalogItemData.data;
-
-      const [putCatalogItemError, putCatalogItemData] = await putCatalogItem({
-        ...catalogItem,
-        productTypeId: catalogItem.productType.id,
-        categoryIds: catalogItem.categories.map((category) => category.id),
-        isDisabled: !catalogItem.isDisabled,
+      const existingCatalogItem = await prisma.catalogItem.findFirst({
+        where: {
+          id,
+          catalogId: currentCatalog.id,
+        },
       });
 
-      if (putCatalogItemError) {
-        throw new ExpectedError(putCatalogItemError);
+      if (!existingCatalogItem) {
+        return {
+          error: {
+            message: "Item de catálogo não encontrado",
+          },
+        };
       }
 
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
+      const catalogItem = await prisma.catalogItem.update({
+        where: {
+          id,
+          catalogId: currentCatalog.id,
+        },
+        data: {
+          disabledAt: existingCatalogItem.disabledAt ? null : new Date(),
+        },
+      });
+
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
       }
 
       return {
-        catalogItem: putCatalogItemData.data,
-        message: putCatalogItemData.meta?.message,
+        catalogItem,
       };
     },
   );

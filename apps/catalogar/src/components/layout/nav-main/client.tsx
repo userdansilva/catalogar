@@ -16,18 +16,30 @@ import {
 } from "@catalogar/ui/components/tooltip";
 import { Lock } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import type {
+  CatalogItem,
+  Category,
+  Prisma,
+  ProductType,
+} from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import type { CatalogItem } from "@/schemas/catalog-item";
-import type { Category } from "@/schemas/category";
-import type { ProductType } from "@/schemas/product-type";
-import type { User } from "@/schemas/user";
 
 type NavMainClientProps = {
   productTypes: ProductType[];
   categories: Category[];
   catalogItems: CatalogItem[];
-  user: User;
+  user: Prisma.UserGetPayload<{
+    include: {
+      currentCatalog: {
+        include: {
+          company: true;
+          theme: true;
+        };
+      };
+      catalogs: true;
+    };
+  }>;
 };
 
 export function NavMainClient({
@@ -37,12 +49,7 @@ export function NavMainClient({
   catalogItems,
 }: NavMainClientProps) {
   const { setOpenMobile } = useSidebar();
-  const router = useRouter();
-
-  if (!user.currentCatalog) {
-    router.push(routes.catalog.sub.createFirst.url);
-    return;
-  }
+  const pathname = usePathname();
 
   const groups = [
     {
@@ -52,7 +59,7 @@ export function NavMainClient({
           ...routes.dashboard,
           isLocked: false,
           lockReason: "",
-          isActive: true,
+          isActive: pathname === routes.dashboard.url,
         },
         {
           ...routes.productTypes,
@@ -62,7 +69,7 @@ export function NavMainClient({
               : routes.productTypes.url,
           isLocked: false,
           lockReason: "",
-          isActive: false,
+          isActive: pathname.startsWith(routes.productTypes.url),
         },
         {
           ...routes.categories,
@@ -72,7 +79,7 @@ export function NavMainClient({
               : routes.categories.url,
           isLocked: false,
           lockReason: "",
-          isActive: false,
+          isActive: pathname.startsWith(routes.categories.url),
         },
         {
           ...routes.catalogItems,
@@ -82,7 +89,7 @@ export function NavMainClient({
               : routes.catalogItems.url,
           isLocked: productTypes.length === 0,
           lockReason: "Adicione um tipo de produto para desbloquear o Catálogo",
-          isActive: false,
+          isActive: pathname.startsWith(routes.catalogItems.url),
         },
       ],
     },
@@ -93,7 +100,7 @@ export function NavMainClient({
           ...routes.preview,
           isLocked: catalogItems.length === 0,
           lockReason: "Adicione um item no Catálogo para desbloquear o Preview",
-          isActive: false,
+          isActive: pathname.startsWith(routes.preview.url),
         },
       ],
     },
@@ -102,27 +109,27 @@ export function NavMainClient({
       items: [
         {
           ...routes.company,
-          url: user.currentCatalog.company
+          url: user.currentCatalog?.company
             ? routes.company.url
             : routes.company.sub.new.url,
           isLocked: false,
           lockReason: "",
-          isActive: false,
+          isActive: pathname.startsWith(routes.company.url),
         },
         {
           ...routes.theme,
-          url: user.currentCatalog.theme
+          url: user.currentCatalog?.theme
             ? routes.theme.url
             : routes.theme.sub.new.url,
           isLocked: false,
           lockReason: "",
-          isActive: false,
+          isActive: pathname.startsWith(routes.theme.url),
         },
         {
           ...routes.config,
           isLocked: false,
           lockReason: "",
-          isActive: false,
+          isActive: pathname.startsWith(routes.config.url),
         },
       ],
     },
@@ -151,7 +158,11 @@ export function NavMainClient({
                   </TooltipContent>
                 </Tooltip>
               ) : (
-                <SidebarMenuButton asChild tooltip={item.title}>
+                <SidebarMenuButton
+                  asChild
+                  tooltip={item.title}
+                  isActive={item.isActive}
+                >
                   <Link href={item.url} onClick={() => setOpenMobile(false)}>
                     <item.icon />
                     <span>{item.title}</span>

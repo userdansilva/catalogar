@@ -23,9 +23,9 @@ import { useRouter } from "next/navigation";
 import { Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { publishCatalogAction } from "@/actions/publish-catalog-action";
+import type { Catalog } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import { type Catalog, publishCatalogSchema } from "@/schemas/catalog";
-import { toastServerError } from "@/utils/toast-server-error";
+import { publishCatalogSchema } from "@/schemas/catalog";
 import { Button } from "../inputs/button";
 
 type PublishCatalogFormProps = {
@@ -37,10 +37,8 @@ export function PublishCatalogForm({
 }: PublishCatalogFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    publishCatalogAction,
-    zodResolver(publishCatalogSchema),
-    {
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(publishCatalogAction, zodResolver(publishCatalogSchema), {
       formProps: {
         mode: "onChange",
         defaultValues: {
@@ -48,22 +46,20 @@ export function PublishCatalogForm({
         },
       },
       actionProps: {
-        onSuccess: (res) => {
-          toast.success("Catálogo Publicado!!", {
-            description: res.data.message,
-          });
+        onSuccess: () => {
+          toast.success("Catálogo Publicado!!");
+          resetFormAndAction();
           router.push(routes.catalog.sub.published.url);
         },
         onError: (e) => {
           const { serverError } = e.error;
 
           if (serverError) {
-            toastServerError(serverError);
+            toast.error(serverError.message);
           }
         },
       },
-    },
-  );
+    });
 
   return (
     <Form {...form}>
@@ -71,7 +67,7 @@ export function PublishCatalogForm({
         <FormField
           name="slug"
           control={form.control}
-          render={({ field: { onChange, ...field } }) => (
+          render={({ field }) => (
             <FormItem className="space-y-2">
               <FormLabel>Link customizado</FormLabel>
 
@@ -87,16 +83,6 @@ export function PublishCatalogForm({
                       spellCheck="false"
                       className="rounded-l-none"
                       placeholder="minha-empresa"
-                      onChange={(e) => {
-                        e.target.value
-                          .toLowerCase()
-                          .replace(/\s+/g, "-")
-                          .replace(/[^a-z0-9-]/g, "")
-                          .replace(/-+/g, "-")
-                          .replace(/(^-)|(-$)/g, "");
-
-                        onChange(e);
-                      }}
                       disabled={form.formState.isSubmitting}
                       {...field}
                     />
@@ -115,14 +101,12 @@ export function PublishCatalogForm({
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">
-              Seu link depois de publicar
-            </CardTitle>
+            <CardTitle className="text-base">Seu link customizado</CardTitle>
 
             <CardDescription>
               <Watch
                 control={form.control}
-                names={["slug"]}
+                name={["slug"]}
                 render={([slug]) =>
                   slug
                     ? `${process.env.NEXT_PUBLIC_BASE_URL}/@${slug}`

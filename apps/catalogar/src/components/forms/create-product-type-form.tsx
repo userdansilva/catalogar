@@ -16,7 +16,6 @@ import { toast } from "sonner";
 import { createProductTypeAction } from "@/actions/create-product-type-action";
 import { routes } from "@/routes";
 import { createProductTypeSchema } from "@/schemas/product-type";
-import { toastServerError } from "@/utils/toast-server-error";
 import { Button } from "../inputs/button";
 
 type CreateProductTypeFormProps = {
@@ -28,33 +27,33 @@ export function CreateProductTypeForm({
 }: CreateProductTypeFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    createProductTypeAction,
-    zodResolver(createProductTypeSchema),
-    {
-      formProps: {
-        mode: "onChange",
-        defaultValues: {
-          name: "",
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(
+      createProductTypeAction,
+      zodResolver(createProductTypeSchema),
+      {
+        formProps: {
+          mode: "onChange",
+          defaultValues: {
+            name: "",
+          },
         },
-      },
-      actionProps: {
-        onSuccess: (res) => {
-          toast.success("Tipo de produto adicionado!", {
-            description: res.data.message,
-          });
-          router.push(callbackUrl || routes.productTypes.url);
-        },
-        onError: (e) => {
-          const { serverError } = e.error;
+        actionProps: {
+          onSuccess: () => {
+            toast.success("Tipo de produto adicionado!");
+            resetFormAndAction();
+            router.replace(callbackUrl || routes.productTypes.url);
+          },
+          onError: (e) => {
+            const { serverError } = e.error;
 
-          if (serverError) {
-            toastServerError(serverError);
-          }
+            if (serverError) {
+              toast.error(serverError.message);
+            }
+          },
         },
       },
-    },
-  );
+    );
 
   return (
     <Form {...form}>

@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
 import type { PropsWithChildren } from "react";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
-import { ExpectedError } from "@/components/error-handling/expected-error";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getPublicCatalogBySlug } from "@/services/get-public-catalog-by-slug";
 
 const ASCIIforAt = "%40"; // @
 
@@ -21,13 +20,24 @@ export default async function Layout({
 
   const slug = fullSlug.replace(ASCIIforAt, "");
 
-  const [error, data] = await getPublicCatalogBySlug(slug);
+  const catalog = await prisma.catalog.findFirst({
+    where: {
+      slug,
+      publishedAt: { not: null },
+    },
+    include: {
+      theme: {
+        include: {
+          logo: true,
+        },
+      },
+      company: true,
+    },
+  });
 
-  if (error) {
-    return <ExpectedError error={error} />;
+  if (!catalog) {
+    notFound();
   }
-
-  const catalog = data.data;
 
   return (
     <CatalogLayout

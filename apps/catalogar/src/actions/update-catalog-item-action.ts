@@ -1,11 +1,9 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { ExpectedError } from "@/classes/ExpectedError";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
+import prisma from "@/lib/prisma";
 import { updateCatalogItemSchema } from "@/schemas/catalog-item";
-import { putCatalogItem } from "@/services/put-catalog-item";
-import { tags } from "@/tags";
 
 export const updateCatalogItemAction = authActionClientWithUser
   .inputSchema(updateCatalogItemSchema)
@@ -14,24 +12,60 @@ export const updateCatalogItemAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput,
+      parsedInput: {
+        id,
+        title,
+        images,
+        isDisabled,
+        caption,
+        productTypeId,
+        categoryIds,
+      },
       ctx: {
         user: { currentCatalog },
       },
     }) => {
-      const [error, data] = await putCatalogItem(parsedInput);
+      const catalogItem = await prisma.catalogItem.update({
+        where: {
+          id,
+          catalogId: currentCatalog.id,
+        },
+        data: {
+          title,
+          caption,
+          productTypeId,
+          categories: {
+            set: categoryIds.map((id) => ({ id })),
+          },
+          disabledAt: isDisabled ? new Date() : null,
+          images: {
+            deleteMany: {},
+            createMany: {
+              data: images.map((image) => ({
+                catalogId: currentCatalog.id,
+                name: image.fileName,
+                position: image.position,
+                size: image.sizeInBytes,
+                width: image.width,
+                height: image.height,
+                altText: image.altText,
+                url: image.url,
+              })),
+            },
+          },
+        },
+        include: {
+          categories: true,
+          images: true,
+        },
+      });
 
-      if (error) {
-        throw new ExpectedError(error);
-      }
-
-      if (currentCatalog?.isPublished && currentCatalog.slug) {
-        revalidateTag(tags.publicCatalog.getBySlug(currentCatalog.slug), "max");
+      if (currentCatalog.publishedAt && currentCatalog.slug) {
+        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
       }
 
       return {
-        catalogItem: data.data,
-        message: data.meta?.message,
+        catalogItem,
       };
     },
   );

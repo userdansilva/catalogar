@@ -4,27 +4,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@catalogar/ui/components/card";
-import { CircleCheckBig } from "lucide-react";
+import { CircleCheckBig, ExternalLink, Forward } from "lucide-react";
 import Link from "next/link";
 import { RedirectType, redirect } from "next/navigation";
-import { ExpectedError } from "@/components/error-handling/expected-error";
 import { Button } from "@/components/inputs/button";
 import { CopyButton } from "@/components/inputs/copy-button";
+import { ShareButton } from "@/components/inputs/share-button";
 import { routes } from "@/routes";
 import { getUser } from "@/services/get-user";
 
 export default async function Page() {
-  const [error, data] = await getUser();
-
-  if (error) {
-    return <ExpectedError error={error} />;
-  }
-
-  const user = data.data;
-
-  if (!user.currentCatalog) {
-    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
+  const user = await getUser();
 
   if (!user.currentCatalog.slug) {
     redirect(routes.dashboard.url, RedirectType.replace);
@@ -46,15 +36,28 @@ export default async function Page() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-center">
-          <Link
-            href={publicLink}
-            target="_blank"
-            className="text-muted-foreground block w-full max-w-[calc(100vw-80px)] truncate text-sm underline underline-offset-2"
+          <Button
+            variant="link"
+            className="underline underline-offset-2"
+            asChild
           >
-            {publicLink}
-          </Link>
+            <Link
+              href={publicLink}
+              target="_blank"
+              className="text-muted-foreground block w-full max-w-[calc(100vw-80px)] truncate text-sm underline underline-offset-2"
+            >
+              {publicLink}
+              <ExternalLink />
+            </Link>
+          </Button>
 
-          <CopyButton textToCopy={publicLink} size="sm" />
+          <div className="flex items-center gap-2 justify-center">
+            <ShareButton shareData={{ url: publicLink }}>
+              <Forward />
+              Compartilhar
+            </ShareButton>
+            <CopyButton textToCopy={publicLink} variant="outline" />
+          </div>
         </CardContent>
       </Card>
 

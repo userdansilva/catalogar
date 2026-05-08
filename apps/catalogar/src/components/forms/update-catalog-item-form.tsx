@@ -24,19 +24,19 @@ import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hoo
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { updateCatalogItemAction } from "@/actions/update-catalog-item-action";
+import type { Category, Prisma, ProductType } from "@/generated/prisma/client";
 import { routes } from "@/routes";
-import {
-  type CatalogItem,
-  updateCatalogItemSchema,
-} from "@/schemas/catalog-item";
-import type { Category } from "@/schemas/category";
-import type { ProductType } from "@/schemas/product-type";
-import { toastServerError } from "@/utils/toast-server-error";
+import { updateCatalogItemSchema } from "@/schemas/catalog-item";
 import { Button } from "../inputs/button";
 import { InputImages } from "../inputs/input-images";
 
 type UpdateCatalogItemFormProps = {
-  catalogItem: CatalogItem;
+  catalogItem: Prisma.CatalogItemGetPayload<{
+    include: {
+      categories: true;
+      images: true;
+    };
+  }>;
   categories: Category[];
   productTypes: ProductType[];
 };
@@ -48,40 +48,68 @@ export function UpdateCatalogItemForm({
 }: UpdateCatalogItemFormProps) {
   const router = useRouter();
 
-  const { form, handleSubmitWithAction } = useHookFormAction(
-    updateCatalogItemAction,
-    zodResolver(updateCatalogItemSchema),
-    {
-      formProps: {
-        mode: "onChange",
-        defaultValues: {
-          id: catalogItem.id,
-          title: catalogItem.title,
-          caption: catalogItem.caption ?? "",
-          price: catalogItem.price ?? "",
-          productTypeId: catalogItem.productType.id,
-          categoryIds: catalogItem.categories.map((category) => category.id),
-          images: catalogItem.images,
-          isDisabled: catalogItem.isDisabled,
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(
+      updateCatalogItemAction,
+      zodResolver(updateCatalogItemSchema),
+      {
+        formProps: {
+          mode: "onChange",
+          defaultValues: {
+            id: catalogItem.id,
+            title: catalogItem.title,
+            caption: catalogItem.caption ?? "",
+            price: catalogItem.price ? catalogItem.price.toString() : "",
+            productTypeId: catalogItem.productTypeId,
+            categoryIds: catalogItem.categories.map((category) => category.id),
+            images: catalogItem.images.map((image) => ({
+              fileName: image.name,
+              url: image.url,
+              sizeInBytes: Number(image.size),
+              width: image.width,
+              height: image.height,
+              altText: image.altText,
+              position: image.position,
+            })),
+            isDisabled: catalogItem.disabledAt !== null,
+          },
         },
-      },
-      actionProps: {
-        onSuccess: (res) => {
-          toast.success("Alterações salvas!", {
-            description: res.data.message,
-          });
-          router.push(routes.catalogItems.url);
-        },
-        onError: (e) => {
-          const { serverError } = e.error;
+        actionProps: {
+          onSuccess: ({ data: { catalogItem } }) => {
+            toast.success("Alterações salvas!");
+            resetFormAndAction();
+            form.reset({
+              id: catalogItem.id,
+              title: catalogItem.title,
+              caption: catalogItem.caption ?? "",
+              price: catalogItem.price ? catalogItem.price.toString() : "",
+              productTypeId: catalogItem.productTypeId,
+              categoryIds: catalogItem.categories.map(
+                (category) => category.id,
+              ),
+              images: catalogItem.images.map((image) => ({
+                fileName: image.name,
+                url: image.url,
+                sizeInBytes: Number(image.size),
+                width: image.width,
+                height: image.height,
+                altText: image.altText,
+                position: image.position,
+              })),
+              isDisabled: catalogItem.disabledAt !== null,
+            });
+            router.push(routes.catalogItems.url);
+          },
+          onError: (e) => {
+            const { serverError } = e.error;
 
-          if (serverError) {
-            toastServerError(serverError);
-          }
+            if (serverError) {
+              toast.error(serverError.message);
+            }
+          },
         },
       },
-    },
-  );
+    );
 
   return (
     <Form {...form}>
@@ -162,7 +190,7 @@ export function UpdateCatalogItemForm({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Legenda (Opcional)</FormLabel>
+              <FormLabel>Legenda (Recomendado)</FormLabel>
 
               <FormControl>
                 <Textarea
@@ -217,69 +245,71 @@ export function UpdateCatalogItemForm({
           )}
         />
 
-        <FormField
-          name="categoryIds"
-          control={form.control}
-          render={() => (
-            <FormItem>
-              <div className="mb-4">
-                <FormLabel>Categorias (Opcional)</FormLabel>
+        {categories.length >= 1 && (
+          <FormField
+            name="categoryIds"
+            control={form.control}
+            render={() => (
+              <FormItem>
+                <div className="mb-4">
+                  <FormLabel>Categorias (Recomendado)</FormLabel>
 
-                <FormDescription>
-                  As categorias ajudam seus clientes a encontrar esse item mais
-                  facilmente pelos filtros.
-                </FormDescription>
-              </div>
-
-              {categories.length >= 1 ? (
-                <div className="flex flex-wrap gap-2">
-                  {categories
-                    .sort((a, b) => a.name.localeCompare(b.name))
-                    .map((category) => (
-                      <FormField
-                        key={category.id}
-                        control={form.control}
-                        name="categoryIds"
-                        render={({ field }) => (
-                          <FormItem
-                            key={category.id}
-                            className="flex flex-row items-start space-y-0 space-x-2 rounded-md border px-3 py-2"
-                          >
-                            <FormControl>
-                              <Checkbox
-                                disabled={form.formState.isSubmitting}
-                                checked={field.value?.includes(category.id)}
-                                onCheckedChange={(checked) =>
-                                  checked
-                                    ? field.onChange([
-                                        ...(field.value || []),
-                                        category.id,
-                                      ])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                          (value) => value !== category.id,
-                                        ),
-                                      )
-                                }
-                              />
-                            </FormControl>
-
-                            <FormLabel className="cursor-pointer font-normal">
-                              {category.name}
-                            </FormLabel>
-                          </FormItem>
-                        )}
-                      />
-                    ))}
+                  <FormDescription>
+                    As categorias ajudam seus clientes a encontrar esse item
+                    mais facilmente pelos filtros.
+                  </FormDescription>
                 </div>
-              ) : (
-                <div className="text-sm">Nenhuma categoria adicionada</div>
-              )}
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                {categories.length >= 1 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {categories
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((category) => (
+                        <FormField
+                          key={category.id}
+                          control={form.control}
+                          name="categoryIds"
+                          render={({ field }) => (
+                            <FormItem
+                              key={category.id}
+                              className="flex flex-row items-start space-y-0 space-x-2 rounded-md border px-3 py-2"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  disabled={form.formState.isSubmitting}
+                                  checked={field.value?.includes(category.id)}
+                                  onCheckedChange={(checked) =>
+                                    checked
+                                      ? field.onChange([
+                                          ...(field.value || []),
+                                          category.id,
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== category.id,
+                                          ),
+                                        )
+                                  }
+                                />
+                              </FormControl>
+
+                              <FormLabel className="cursor-pointer font-normal">
+                                {category.name}
+                              </FormLabel>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                  </div>
+                ) : (
+                  <div className="text-sm">Nenhuma categoria adicionada</div>
+                )}
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         <Button
           type="submit"
