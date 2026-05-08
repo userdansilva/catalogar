@@ -1,5 +1,11 @@
 # @catalogar/ui
 
+## 1.1.3
+
+### Patch Changes
+
+- 5235ecc: chore: atualização de pacotes
+
 ## 1.1.2
 
 ### Patch Changes

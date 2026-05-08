@@ -1,5 +1,13 @@
 # Catalogar v2
 
+## 2.2.7
+
+### Patch Changes
+
+- 5235ecc: chore: migração para prisma
+- Updated dependencies [5235ecc]
+  - @catalogar/ui@1.1.3
+
 ## 2.2.6
 
 ### Patch Changes
