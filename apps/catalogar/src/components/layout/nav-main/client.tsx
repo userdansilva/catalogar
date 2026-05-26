@@ -28,7 +28,9 @@ import { routes } from "@/routes";
 type NavMainClientProps = {
   productTypes: ProductType[];
   categories: Category[];
-  catalogItems: CatalogItem[];
+  catalogItems: (Omit<CatalogItem, "price"> & {
+    price: number | null;
+  })[];
   user: Prisma.UserGetPayload<{
     include: {
       currentCatalog: {

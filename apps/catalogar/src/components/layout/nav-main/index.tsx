@@ -15,7 +15,10 @@ export async function NavMain() {
       user={user}
       productTypes={productTypes}
       categories={categories}
-      catalogItems={catalogItems}
+      catalogItems={catalogItems.map((item) => ({
+        ...item,
+        price: item.price ? Number(item.price) : null,
+      }))}
     />
   );
 }
