@@ -1,4 +1,3 @@
-import { Badge } from "@catalogar/ui/components/badge";
 import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
 import { Forward } from "lucide-react";
 import Image from "next/image";
@@ -7,16 +6,23 @@ import { CarouselImages } from "@/components/catalog/carousel-images";
 import type { Company, Prisma } from "@/generated/prisma/client";
 import { CopyButton } from "../inputs/copy-button";
 import { ShareButton } from "../inputs/share-button";
+import { CategoriesDisplay } from "./categories-display";
+import { PriceDisplay } from "./price-display";
+import { TitleDisplay } from "./title-display";
+
+type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
+  include: {
+    images: true;
+    categories: true;
+    productType: true;
+  };
+}>;
 
 type PublicCatalogItemDetailProps = {
   baseUrl: string;
-  catalogItem: Prisma.CatalogItemGetPayload<{
-    include: {
-      images: true;
-      categories: true;
-      productType: true;
-    };
-  }>;
+  catalogItem: Omit<CatalogItemRaw, "price"> & {
+    price: number | null;
+  };
   company?: Company;
   unoptimized?: boolean;
   relatedCatalogItems: Prisma.CatalogItemGetPayload<{
@@ -37,30 +43,23 @@ export function PublicCatalogItemDetail({
 }: PublicCatalogItemDetailProps) {
   return (
     <div className="flex flex-col space-y-10">
-      <div className="flex flex-col gap-10 lg:flex-row">
+      <div className="flex flex-col gap-4 lg:flex-row">
         <CarouselImages images={catalogItem.images} unoptimized={unoptimized} />
 
-        <div className="space-y-6 px-4 md:px-0">
-          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight">
-            {catalogItem.title}
-          </h1>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <TitleDisplay
+              title={catalogItem.title}
+              isDisabled={!!catalogItem.disabledAt}
+              className="text-lg"
+            />
 
-          {catalogItem.categories.length >= 1 && (
-            <div className="flex flex-wrap gap-1">
-              {catalogItem.categories.map((category) => (
-                <Badge
-                  key={category.id}
-                  style={{
-                    color: category.textColor,
-                    background: category.backgroundColor,
-                  }}
-                  className="px-1 shadow-none"
-                >
-                  {category.name}
-                </Badge>
-              ))}
-            </div>
-          )}
+            {catalogItem.categories.length > 0 && (
+              <CategoriesDisplay categories={catalogItem.categories} />
+            )}
+          </div>
+
+          {catalogItem.price && <PriceDisplay price={catalogItem.price} />}
 
           {catalogItem.caption && (
             <p className="leading-7">{catalogItem.caption}</p>
@@ -72,11 +71,11 @@ export function PublicCatalogItemDetail({
           </ShareButton>
 
           <p className="leading-7">
-            <span className="font-semibold">Produto: </span>
+            <span className="font-semibold text-sm">Produto: </span>
             {catalogItem.productType.name}
           </p>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-sm">
             <p className="leading-7">
               <span className="font-semibold">Código: </span>
               {catalogItem.reference}
@@ -89,7 +88,7 @@ export function PublicCatalogItemDetail({
           </div>
 
           {company?.mainSiteUrl && (
-            <div>
+            <div className="text-sm">
               <p className="font-semibold">Contato do Vendedor</p>
               <a
                 href={company.mainSiteUrl}
@@ -105,7 +104,7 @@ export function PublicCatalogItemDetail({
 
       {relatedCatalogItems.length >= 1 && (
         <div className="w-full max-w-screen space-y-4">
-          <div className="px-4 font-semibold md:px-0">Relacionados</div>
+          <div className="font-semibold">Relacionados</div>
 
           <ScrollArea className="whitespace-nowrap">
             <div className="flex gap-2 px-4 md:px-0">

@@ -1,20 +1,26 @@
 "use client";
 
-import { Badge } from "@catalogar/ui/components/badge";
 import { cn } from "@catalogar/ui/lib/utils";
 import { Images } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Prisma } from "@/generated/prisma/client";
+import { CategoriesDisplay } from "./categories-display";
+import { PriceDisplay } from "./price-display";
+import { TitleDisplay } from "./title-display";
+
+type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
+  include: {
+    categories: true;
+    images: true;
+  };
+}>;
 
 type PublicCatalogItemProps = {
-  catalogItem: Prisma.CatalogItemGetPayload<{
-    include: {
-      categories: true;
-      images: true;
-    };
-  }>;
+  catalogItem: Omit<CatalogItemRaw, "price"> & {
+    price: number | null;
+  };
   unoptimized?: boolean;
 };
 
@@ -48,32 +54,18 @@ export function PublicCatalogItem({
         )}
       </div>
 
-      <div className="flex flex-wrap gap-1">
-        {catalogItem.categories
-          .filter((category) => !category.disabledAt)
-          .map((category) => (
-            <Badge
-              key={category.id}
-              style={{
-                color: category.textColor,
-                background: category.backgroundColor,
-              }}
-              className="px-1 shadow-none"
-            >
-              {category.name}
-            </Badge>
-          ))}
-      </div>
+      {catalogItem.categories.length > 0 && (
+        <CategoriesDisplay categories={catalogItem.categories} />
+      )}
 
       <div>
-        <div
-          className={cn(
-            "text-base font-semibold",
-            catalogItem.disabledAt && "line-through",
-          )}
-        >
-          {catalogItem.title}
-        </div>
+        <TitleDisplay
+          title={catalogItem.title}
+          isDisabled={!!catalogItem.disabledAt}
+        />
+
+        {catalogItem.price && <PriceDisplay price={catalogItem.price} />}
+
         <div className="text-muted-foreground text-xs">{`Código: ${catalogItem.reference}`}</div>
       </div>
     </Link>

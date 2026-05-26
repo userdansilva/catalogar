@@ -20,6 +20,7 @@ export const updateCatalogItemAction = authActionClientWithUser
         caption,
         productTypeId,
         categoryIds,
+        price,
       },
       ctx: {
         user: { currentCatalog },
@@ -33,6 +34,7 @@ export const updateCatalogItemAction = authActionClientWithUser
         data: {
           title,
           caption,
+          price: price ? price.replace(",", ".") : null,
           productTypeId,
           categories: {
             set: categoryIds.map((id) => ({ id })),

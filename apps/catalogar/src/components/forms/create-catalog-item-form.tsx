@@ -180,6 +180,29 @@ export function CreateCatalogItemForm({
         />
 
         <FormField
+          name="price"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Preço (Opcional)</FormLabel>
+
+              <FormControl>
+                <Input
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  placeholder="Ex: 99,90"
+                  disabled={form.formState.isSubmitting}
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
           name="productTypeId"
           control={form.control}
           render={({ field }) => (

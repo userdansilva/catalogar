@@ -11,7 +11,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@catalogar/ui/components/alert-dialog";
-import { Badge } from "@catalogar/ui/components/badge";
 import { Button } from "@catalogar/ui/components/button";
 import { cn } from "@catalogar/ui/lib/utils";
 import { CloudUpload, EyeOff, Pencil, Trash } from "lucide-react";
@@ -23,15 +22,22 @@ import { toggleCatalogItemStatusAction } from "@/actions/toggle-catalog-item-sta
 import type { Prisma } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import { CarouselImages } from "./carousel-images";
+import { CategoriesDisplay } from "./categories-display";
+import { PriceDisplay } from "./price-display";
+import { TitleDisplay } from "./title-display";
+
+type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
+  include: {
+    categories: true;
+    images: true;
+    productType: true;
+  };
+}>;
 
 type PrivateCatalogItemProps = {
-  catalogItem: Prisma.CatalogItemGetPayload<{
-    include: {
-      categories: true;
-      images: true;
-      productType: true;
-    };
-  }>;
+  catalogItem: Omit<CatalogItemRaw, "price"> & {
+    price: number | null;
+  };
 };
 
 export function PrivateCatalogItem({ catalogItem }: PrivateCatalogItemProps) {
@@ -71,32 +77,18 @@ export function PrivateCatalogItem({ catalogItem }: PrivateCatalogItemProps) {
         <CarouselImages images={catalogItem.images} unoptimized />
       </div>
 
-      <div className="flex flex-wrap gap-1">
-        {catalogItem.categories
-          .filter((category) => !category.disabledAt)
-          .map((category) => (
-            <Badge
-              key={category.id}
-              style={{
-                color: category.textColor,
-                background: category.backgroundColor,
-              }}
-              className="px-1 shadow-none"
-            >
-              {category.name}
-            </Badge>
-          ))}
-      </div>
+      {catalogItem.categories.length > 0 && (
+        <CategoriesDisplay categories={catalogItem.categories} />
+      )}
 
       <div className="flex-1">
-        <div
-          className={cn(
-            "text-base font-semibold",
-            catalogItem.disabledAt && "line-through",
-          )}
-        >
-          {catalogItem.title}
-        </div>
+        <TitleDisplay
+          title={catalogItem.title}
+          isDisabled={!!catalogItem.disabledAt}
+        />
+
+        {catalogItem.price && <PriceDisplay price={catalogItem.price} />}
+
         <div className="text-muted-foreground text-xs">{`Código: ${catalogItem.reference}`}</div>
       </div>
 

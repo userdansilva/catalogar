@@ -69,21 +69,26 @@ export function CatalogItems({
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {paginatedCatalogItems.map((catalogItem) =>
-          isPublic ? (
+      <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {paginatedCatalogItems.map((catalogItem) => {
+          const catalogItemFormatted = {
+            ...catalogItem,
+            price: catalogItem.price ? catalogItem.price.toNumber() : null,
+          };
+
+          return isPublic ? (
             <PublicCatalogItem
               key={catalogItem.id}
-              catalogItem={catalogItem}
+              catalogItem={catalogItemFormatted}
               unoptimized={unoptimized}
             />
           ) : (
             <PrivateCatalogItem
               key={catalogItem.id}
-              catalogItem={catalogItem}
+              catalogItem={catalogItemFormatted}
             />
-          ),
-        )}
+          );
+        })}
       </div>
 
       {catalogItemsTotal > perPage && (

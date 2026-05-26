@@ -19,7 +19,11 @@ export const createCatalogItemSchema = z.object({
       }),
     )
     .min(1, "É necessário adicionar, no mínimo, uma imagem"),
-  price: z.string(),
+  price: z
+    .string()
+    .refine((val) => val === "" || /^\d+([.,]\d{1,2})?$/.test(val), {
+      message: "Preço inválido",
+    }),
   categoryIds: z.array(z.uuidv4()),
 });
 

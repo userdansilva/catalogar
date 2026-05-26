@@ -12,7 +12,7 @@ export const createCatalogItemAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput: { title, caption, productTypeId, categoryIds, images },
+      parsedInput: { title, caption, productTypeId, categoryIds, images, price },
       ctx: {
         user: { currentCatalog },
       },
@@ -25,6 +25,7 @@ export const createCatalogItemAction = authActionClientWithUser
         data: {
           title,
           caption,
+          price: price ? price.replace(",", ".") : null,
           reference,
           catalogId: currentCatalog.id,
           productTypeId,
