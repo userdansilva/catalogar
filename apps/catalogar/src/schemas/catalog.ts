@@ -18,5 +18,6 @@ export const publishCatalogSchema = z.object({
 
 export const updateCatalogSchema = createCatalogSchema.extend({
   isPublished: z.boolean(),
+  isCartEnabled: z.boolean(),
   slug: z.union([z.literal(""), publishCatalogSchema.shape.slug]),
 });

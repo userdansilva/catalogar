@@ -15,7 +15,7 @@ export const updateCatalogAction = authActionClientWithUser
   })
   .action(
     async ({
-      parsedInput: { name, isPublished, slug },
+      parsedInput: { name, isPublished, isCartEnabled, slug },
       ctx: {
         user: { currentCatalog },
       },
@@ -46,6 +46,7 @@ export const updateCatalogAction = authActionClientWithUser
           data: {
             name,
             slug,
+            isCartEnabled,
           },
         });
 
@@ -62,6 +63,7 @@ export const updateCatalogAction = authActionClientWithUser
         data: {
           name,
           publishedAt: isPublished ? new Date() : null,
+          isCartEnabled,
           slug,
         },
       });

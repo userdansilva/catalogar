@@ -17,10 +17,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@catalogar/ui/components/select";
+import { Switch } from "@catalogar/ui/components/switch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useRouter } from "next/navigation";
-import { Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { updateCatalogAction } from "@/actions/update-catalog-action";
 import type { Catalog } from "@/generated/prisma/client";
@@ -45,6 +45,7 @@ export function UpdateCatalogForm({
         defaultValues: {
           name: catalog.name,
           isPublished: catalog.publishedAt !== null,
+          isCartEnabled: catalog.isCartEnabled,
           slug: catalog.slug ?? "",
         },
       },
@@ -62,6 +63,7 @@ export function UpdateCatalogForm({
           form.reset({
             name: catalog.name,
             isPublished: catalog.publishedAt !== null,
+            isCartEnabled: catalog.isCartEnabled,
             slug: catalog.slug ?? "",
           });
 
@@ -194,6 +196,29 @@ export function UpdateCatalogForm({
                 Apenas letras minúsculas, números e hífens são permitidos
               </FormDescription>
 
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="isCartEnabled"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="flex items-center justify-between gap-4">
+              <div>
+                <FormLabel>Habilitar carrinho</FormLabel>
+                <FormDescription>
+                  Permite que clientes adicionem itens ao carrinho.
+                </FormDescription>
+              </div>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  disabled={form.formState.isSubmitting}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
