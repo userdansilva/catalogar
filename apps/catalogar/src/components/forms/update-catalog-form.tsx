@@ -21,6 +21,7 @@ import { Switch } from "@catalogar/ui/components/switch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useRouter } from "next/navigation";
+import { Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { updateCatalogAction } from "@/actions/update-catalog-action";
 import type { Catalog } from "@/generated/prisma/client";
