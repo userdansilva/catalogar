@@ -95,6 +95,7 @@ export const CatalogScalarFieldEnum = {
   id: 'id',
   name: 'name',
   slug: 'slug',
+  isCartEnabled: 'isCartEnabled',
   publishedAt: 'publishedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
