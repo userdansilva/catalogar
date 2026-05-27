@@ -38,9 +38,10 @@ export default function RootLayout({
           defaultTheme="light"
           disableTransitionOnChange
         >
-          <main>{children}</main>
-          <Toaster duration={3_000} position="top-center" />
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>
+            <main>{children}</main>
+            <Toaster duration={3_000} position="top-center" />
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>
