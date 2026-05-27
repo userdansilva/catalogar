@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "@catalogar/ui/globals.css";
 import { Toaster } from "@catalogar/ui/components/sonner";
+import { TooltipProvider } from "@catalogar/ui/components/tooltip";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -39,6 +40,7 @@ export default function RootLayout({
         >
           <main>{children}</main>
           <Toaster duration={3_000} position="top-center" />
+          <TooltipProvider>{children}</TooltipProvider>
         </ThemeProvider>
       </body>
     </html>
