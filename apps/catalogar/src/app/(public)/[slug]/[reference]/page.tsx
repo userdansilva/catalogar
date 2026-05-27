@@ -63,9 +63,15 @@ export default async function Page({
 
       <PublicCatalogItemDetail
         baseUrl={routes.public.url(slug)}
-        catalogItem={catalogItem}
+        catalogItem={{
+          ...catalogItem,
+          price: catalogItem.price ? Number(catalogItem.price) : null,
+        }}
         company={catalog.company}
-        relatedCatalogItems={paginatedCatalogItems}
+        relatedCatalogItems={paginatedCatalogItems.map((item) => ({
+          ...item,
+          price: item.price ? Number(item.price) : null,
+        }))}
       />
     </div>
   );

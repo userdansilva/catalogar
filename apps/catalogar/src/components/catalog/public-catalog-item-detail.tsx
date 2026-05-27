@@ -25,13 +25,9 @@ type PublicCatalogItemDetailProps = {
   };
   company?: Company;
   unoptimized?: boolean;
-  relatedCatalogItems: Prisma.CatalogItemGetPayload<{
-    include: {
-      images: true;
-      categories: true;
-      productType: true;
-    };
-  }>[];
+  relatedCatalogItems: (Omit<CatalogItemRaw, "price"> & {
+    price: number | null;
+  })[];
 };
 
 export function PublicCatalogItemDetail({

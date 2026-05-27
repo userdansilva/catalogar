@@ -44,6 +44,7 @@ export default async function Layout({
       baseUrl={routes.public.url(slug)}
       company={catalog.company}
       theme={catalog.theme}
+      slug={slug}
     >
       {children}
     </CatalogLayout>
