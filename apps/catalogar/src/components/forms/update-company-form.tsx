@@ -1,5 +1,12 @@
 "use client";
 
+function formatPhone(value: string) {
+  const digits = value.replace(/\D/g, "").slice(0, 11);
+  if (digits.length <= 2) return `(${digits}`;
+  if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+}
+
 import {
   Form,
   FormControl,
@@ -146,6 +153,31 @@ export function UpdateCompanyForm({
                 usar o link do Instagram, Linktree ou qualquer outro link que
                 ajude seus clientes a entrar em contato.
               </FormDescription>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="phoneNumber"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Whatsapp (Recomendado)</FormLabel>
+
+              <FormControl>
+                <Input
+                  placeholder="Ex.: (11) 91234-5678"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  inputMode="numeric"
+                  disabled={form.formState.isSubmitting}
+                  {...field}
+                  onChange={(e) => field.onChange(formatPhone(e.target.value))}
+                />
+              </FormControl>
 
               <FormMessage />
             </FormItem>

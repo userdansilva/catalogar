@@ -10,7 +10,10 @@ export const createCompanySchema = z.object({
     }),
     z.literal(""),
   ]),
-  phoneNumber: z.string(),
+  phoneNumber: z.union([
+    z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Número inválido"),
+    z.literal(""),
+  ]),
   businessTypeDescription: z.string(),
 });
 
