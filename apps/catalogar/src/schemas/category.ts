@@ -17,4 +17,5 @@ export const categoryStatusToggleSchema = z.object({
   id: z.uuidv4({
     error: "Campo obrigatório",
   }),
+  isDisabled: z.boolean(),
 });

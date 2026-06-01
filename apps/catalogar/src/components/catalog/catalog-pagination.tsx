@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
 import {
   Pagination,
   PaginationContent,
@@ -9,6 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@catalogar/ui/components/pagination";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export function CatalogPagination({
   totalItems,

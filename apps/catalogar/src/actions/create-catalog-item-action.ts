@@ -1,24 +1,31 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { createCatalogItemSchema } from "@/schemas/catalog-item";
 
-export const createCatalogItemAction = authActionClientWithUser
+export const createCatalogItemAction = authActionClient
   .inputSchema(createCatalogItemSchema)
   .metadata({
     actionName: "create-catalog-item",
   })
   .action(
     async ({
-      parsedInput: { title, caption, productTypeId, categoryIds, images, price },
+      parsedInput: {
+        title,
+        caption,
+        productTypeId,
+        categoryIds,
+        images,
+        price,
+      },
       ctx: {
-        user: { currentCatalog },
+        session: { user },
       },
     }) => {
       const reference = await generateUniqueReference({
-        currentCatalogId: currentCatalog.id,
+        currentCatalogId: user.currentCatalogId,
       });
 
       const catalogItem = await prisma.catalogItem.create({
@@ -27,7 +34,7 @@ export const createCatalogItemAction = authActionClientWithUser
           caption,
           price: price ? price.replace(",", ".") : null,
           reference,
-          catalogId: currentCatalog.id,
+          catalogId: user.currentCatalogId,
           productTypeId,
           categories: {
             connect: categoryIds.map((id) => ({ id })),
@@ -35,7 +42,7 @@ export const createCatalogItemAction = authActionClientWithUser
           images: {
             createMany: {
               data: images.map((image) => ({
-                catalogId: currentCatalog.id,
+                catalogId: user.currentCatalogId,
                 name: image.fileName,
                 position: image.position,
                 size: image.sizeInBytes,
@@ -47,14 +54,20 @@ export const createCatalogItemAction = authActionClientWithUser
             },
           },
         },
+        include: {
+          catalog: true,
+        },
       });
 
-      if (currentCatalog.publishedAt && currentCatalog.slug) {
-        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      if (catalogItem.catalog.publishedAt && catalogItem.catalog.slug) {
+        revalidateTag(`public-catalog-${catalogItem.catalog.slug}`, "max");
       }
 
       return {
-        catalogItem,
+        catalogItem: {
+          ...catalogItem,
+          price: catalogItem.price?.toString() ?? null,
+        },
       };
     },
   );

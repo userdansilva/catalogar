@@ -30,13 +30,20 @@ import { updateCatalogItemSchema } from "@/schemas/catalog-item";
 import { Button } from "../inputs/button";
 import { InputImages } from "../inputs/input-images";
 
+type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
+  include: {
+    categories: true;
+    productType: true;
+    images: true;
+  };
+}>;
+
+type CatalogItem = Omit<CatalogItemRaw, "price"> & {
+  price: string | null;
+};
+
 type UpdateCatalogItemFormProps = {
-  catalogItem: Prisma.CatalogItemGetPayload<{
-    include: {
-      categories: true;
-      images: true;
-    };
-  }>;
+  catalogItem: CatalogItem;
   categories: Category[];
   productTypes: ProductType[];
 };
@@ -59,7 +66,7 @@ export function UpdateCatalogItemForm({
             id: catalogItem.id,
             title: catalogItem.title,
             caption: catalogItem.caption ?? "",
-            price: catalogItem.price ? catalogItem.price.toString() : "",
+            price: catalogItem.price ?? "",
             productTypeId: catalogItem.productTypeId,
             categoryIds: catalogItem.categories.map((category) => category.id),
             images: catalogItem.images.map((image) => ({

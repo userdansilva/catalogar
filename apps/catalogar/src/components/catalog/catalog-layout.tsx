@@ -1,6 +1,17 @@
 "use client";
 
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@catalogar/ui/components/alert-dialog";
+import {
   Drawer,
   DrawerContent,
   DrawerDescription,
@@ -9,7 +20,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@catalogar/ui/components/drawer";
-import { ExternalLink, Forward, Info, ShoppingCart } from "lucide-react";
+import { ExternalLink, Info, Share2, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { PropsWithChildren } from "react";
@@ -26,7 +37,7 @@ type CatalogLayoutProps = PropsWithChildren<{
       logo: true;
     };
   }> | null;
-  slug: string;
+  slug?: string;
 }>;
 
 export function CatalogLayout({
@@ -104,7 +115,7 @@ export function CatalogLayout({
                           color: theme?.primaryColor || "var(--foreground)",
                         }}
                       >
-                        <Forward />
+                        <Share2 />
                         Compartilhar Catálogo
                       </ShareButton>
                     </DrawerFooter>
@@ -112,21 +123,49 @@ export function CatalogLayout({
                 </DrawerContent>
               </Drawer>
 
-              <Button
-                className="shadow-none relative"
-                style={{
-                  background: theme?.primaryColor || "var(--foreground)",
-                  color: theme?.secondaryColor || "var(--background)",
-                }}
-                asChild
-              >
-                <Link href={routes.public.sub.cart.url(slug)}>
-                  <div className="size-4 text-xs absolute top-0 -right-2">
-                    2
-                  </div>
-                  <ShoppingCart />
-                </Link>
-              </Button>
+              {!slug ? (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      className="shadow-none"
+                      style={{
+                        background: theme?.primaryColor || "var(--foreground)",
+                        color: theme?.secondaryColor || "var(--background)",
+                      }}
+                    >
+                      <ShoppingCart />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Ops!</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Carrinho não é habilitado no modo preview.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Fechar</AlertDialogCancel>
+                      <AlertDialogAction>Entendido</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              ) : (
+                <Button
+                  className="shadow-none relative"
+                  style={{
+                    background: theme?.primaryColor || "var(--foreground)",
+                    color: theme?.secondaryColor || "var(--background)",
+                  }}
+                  asChild
+                >
+                  <Link href={routes.public.sub.cart.url(slug)}>
+                    <div className="size-4 text-xs absolute top-0 -right-2">
+                      2
+                    </div>
+                    <ShoppingCart />
+                  </Link>
+                </Button>
+              )}
             </div>
           </div>
         </div>

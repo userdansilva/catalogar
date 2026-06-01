@@ -36,7 +36,7 @@ type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
 
 type PrivateCatalogItemProps = {
   catalogItem: Omit<CatalogItemRaw, "price"> & {
-    price: number | null;
+    price: string | null;
   };
 };
 
@@ -52,7 +52,10 @@ export function PrivateCatalogItem({ catalogItem }: PrivateCatalogItemProps) {
   const handleToggleStatus = () =>
     toast.promise(
       async () => {
-        await executeToggleStatusAsync({ id: catalogItem.id });
+        await executeToggleStatusAsync({
+          id: catalogItem.id,
+          isDisabled: !catalogItem.disabledAt,
+        });
       },
       {
         loading: `${catalogItem.disabledAt ? "Ativando" : "Ocultando"}  item de catálogo...`,

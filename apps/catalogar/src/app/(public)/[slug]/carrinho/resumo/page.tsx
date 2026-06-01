@@ -66,7 +66,7 @@ export default async function CartPage({
 
                 <CardContent className="px-4 ">
                   <div>
-                    <PriceDisplay price={123.45} />
+                    <PriceDisplay price="123.45" />
                     <p className="text-sm">Quantidade: 1</p>
                   </div>
                 </CardContent>
@@ -99,7 +99,7 @@ export default async function CartPage({
       <div className="fixed bottom-0 flex flex-row items-end justify-between inset-x-0 p-4 pt-2 border-t z-10 bg-background">
         <div>
           <span className="text-xs">Total</span>
-          <PriceDisplay price={123.45} />
+          <PriceDisplay price="123.45" />
         </div>
         <Button size="lg">Finalizar no Whatsapp</Button>
       </div>

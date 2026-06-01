@@ -1,49 +1,37 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { categoryStatusToggleSchema } from "@/schemas/category";
 
-export const toggleCategoryStatusAction = authActionClientWithUser
+export const toggleCategoryStatusAction = authActionClient
   .inputSchema(categoryStatusToggleSchema)
   .metadata({
     actionName: "toggle-status-category",
   })
   .action(
     async ({
-      parsedInput: { id },
+      parsedInput: { id, isDisabled },
       ctx: {
-        user: { currentCatalog },
+        session: { user },
       },
     }) => {
-      const existingCategory = await prisma.category.findFirst({
-        where: {
-          id,
-          catalogId: currentCatalog.id,
-        },
-      });
-
-      if (!existingCategory) {
-        return {
-          error: {
-            message: "Categoría não encontrada",
-          },
-        };
-      }
-
       const category = await prisma.category.update({
         where: {
           id,
-          catalogId: currentCatalog.id,
+          catalogId: user.currentCatalogId,
         },
         data: {
-          disabledAt: existingCategory.disabledAt ? null : new Date(),
+          disabledAt: isDisabled ? new Date() : null,
+        },
+        include: {
+          catalog: true,
         },
       });
 
-      if (currentCatalog.publishedAt && currentCatalog.slug) {
-        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      if (category.catalog.publishedAt && category.catalog.slug) {
+        revalidateTag(`public-catalog-${category.catalog.slug}`, "max");
       }
 
       return {

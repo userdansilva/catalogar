@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { RedirectType, redirect } from "next/navigation";
 import { CreateCatalogItemForm } from "@/components/forms/create-catalog-item-form";
 import { PrevButton } from "@/components/inputs/prev-button";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getCatalogItems } from "@/services/get-catalog-items";
-import { getCategories } from "@/services/get-categories";
-import { getProductTypes } from "@/services/get-product-types";
+import { getSession } from "@/utils/get-session";
 
 export const metadata: Metadata = {
   title: routes.catalogItems.sub.createFirst.title,
@@ -16,17 +15,25 @@ export default async function CreateFirstCatalogItem({
 }: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
-  const { catalogItems } = await getCatalogItems();
+  const session = await getSession();
+
+  const currentCatalog = await prisma.catalog.findUniqueOrThrow({
+    where: {
+      id: session.user.currentCatalogId,
+    },
+    include: {
+      catalogItems: true,
+      productTypes: true,
+      categories: true,
+    },
+  });
+
+  const { catalogItems, categories, productTypes } = currentCatalog;
   const { callbackUrl } = await searchParams;
 
   if (catalogItems.length >= 1 && !callbackUrl) {
     return redirect(routes.catalogItems.url, RedirectType.replace);
   }
-
-  const [{ productTypes }, { categories }] = await Promise.all([
-    getProductTypes(),
-    getCategories(),
-  ]);
 
   return (
     <div className="max-w-2xl space-y-8">

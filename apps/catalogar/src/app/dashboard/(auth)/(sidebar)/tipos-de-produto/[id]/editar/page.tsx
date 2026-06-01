@@ -3,8 +3,9 @@ import { notFound } from "next/navigation";
 import { UpdateProductTypeForm } from "@/components/forms/update-product-type-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PageHeader } from "@/components/layout/page-header";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getProductType } from "@/services/get-product-type";
+import { getSession } from "@/utils/get-session";
 
 export const metadata: Metadata = {
   title: routes.productTypes.sub.edit.title,
@@ -17,9 +18,16 @@ export default async function EditProductType({
     id: string;
   }>;
 }) {
+  const session = await getSession();
+
   const { id } = await params;
 
-  const { productType } = await getProductType(id);
+  const productType = await prisma.productType.findUnique({
+    where: {
+      id,
+      catalogId: session.user.currentCatalogId,
+    },
+  });
 
   if (!productType) {
     notFound();

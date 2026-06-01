@@ -131,7 +131,10 @@ export const columns: ColumnDef<ProductType>[] = [
 
       const handleToggleStatus = () => {
         const promise = new Promise<void>((res, rej) => {
-          executeToggleStatusAsync({ id }).then((result) => {
+          executeToggleStatusAsync({
+            id,
+            isDisabled: !row.original.disabledAt,
+          }).then((result) => {
             if (result.serverError) {
               rej(result.serverError.message);
             }

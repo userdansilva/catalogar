@@ -3,11 +3,11 @@
 import { revalidateTag } from "next/cache";
 import { returnValidationErrors } from "next-safe-action";
 import slugify from "slugify";
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { createProductTypeSchema } from "@/schemas/product-type";
 
-export const createProductTypeAction = authActionClientWithUser
+export const createProductTypeAction = authActionClient
   .inputSchema(createProductTypeSchema)
   .metadata({
     actionName: "create-product-type",
@@ -16,13 +16,13 @@ export const createProductTypeAction = authActionClientWithUser
     async ({
       parsedInput: { name },
       ctx: {
-        user: { currentCatalog },
+        session: { user },
       },
     }) => {
       const existingProductType = await prisma.productType.findFirst({
         where: {
           slug: slugify(name, { lower: true }),
-          catalogId: currentCatalog.id,
+          catalogId: user.currentCatalogId,
         },
       });
 
@@ -38,12 +38,15 @@ export const createProductTypeAction = authActionClientWithUser
         data: {
           name,
           slug: slugify(name, { lower: true }),
-          catalogId: currentCatalog.id,
+          catalogId: user.currentCatalogId,
+        },
+        include: {
+          catalog: true,
         },
       });
 
-      if (currentCatalog.publishedAt && currentCatalog.slug) {
-        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      if (productType.catalog.publishedAt && productType.catalog.slug) {
+        revalidateTag(`public-catalog-${productType.catalog.slug}`, "max");
       }
 
       return {

@@ -1,6 +1,7 @@
 import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
-import { getUser } from "@/services/get-user";
+import { getSession } from "@/utils/get-session";
+import prisma from "./prisma";
 
 export const authActionClient = createSafeActionClient({
   defineMetadataSchema: () =>
@@ -12,11 +13,19 @@ export const authActionClient = createSafeActionClient({
       message: "Ops! Algo deu errado. Por favor, tente novamente",
     };
   },
+}).use(async ({ next }) => {
+  const session = await getSession();
+
+  return next({ ctx: { session } });
 });
 
 export const authActionClientWithUser = authActionClient.use(
-  async ({ next }) => {
-    const user = await getUser();
+  async ({ next, ctx: { session } }) => {
+    const user = await prisma.user.findUniqueOrThrow({
+      where: {
+        email: session.user.email,
+      },
+    });
 
     return next({ ctx: { user } });
   },

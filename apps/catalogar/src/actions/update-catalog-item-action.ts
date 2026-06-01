@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { updateCatalogItemSchema } from "@/schemas/catalog-item";
 
-export const updateCatalogItemAction = authActionClientWithUser
+export const updateCatalogItemAction = authActionClient
   .inputSchema(updateCatalogItemSchema)
   .metadata({
     actionName: "update-catalog-item",
@@ -23,13 +23,13 @@ export const updateCatalogItemAction = authActionClientWithUser
         price,
       },
       ctx: {
-        user: { currentCatalog },
+        session: { user },
       },
     }) => {
       const catalogItem = await prisma.catalogItem.update({
         where: {
           id,
-          catalogId: currentCatalog.id,
+          catalogId: user.currentCatalogId,
         },
         data: {
           title,
@@ -44,7 +44,7 @@ export const updateCatalogItemAction = authActionClientWithUser
             deleteMany: {},
             createMany: {
               data: images.map((image) => ({
-                catalogId: currentCatalog.id,
+                catalogId: user.currentCatalogId,
                 name: image.fileName,
                 position: image.position,
                 size: image.sizeInBytes,
@@ -59,15 +59,19 @@ export const updateCatalogItemAction = authActionClientWithUser
         include: {
           categories: true,
           images: true,
+          catalog: true,
         },
       });
 
-      if (currentCatalog.publishedAt && currentCatalog.slug) {
-        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      if (catalogItem.catalog.publishedAt && catalogItem.catalog.slug) {
+        revalidateTag(`public-catalog-${catalogItem.catalog.slug}`, "max");
       }
 
       return {
-        catalogItem,
+        catalogItem: {
+          ...catalogItem,
+          price: catalogItem.price?.toString() ?? null,
+        },
       };
     },
   );

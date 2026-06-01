@@ -1,13 +1,26 @@
 import type { PropsWithChildren } from "react";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
 import { PreviewToolsBar } from "@/components/preview-tools-bar";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getUser } from "@/services/get-user";
+import { getSession } from "@/utils/get-session";
 
 export default async function PreviewLayout({ children }: PropsWithChildren) {
-  const user = await getUser();
+  const session = await getSession();
 
-  const { company, theme } = user.currentCatalog;
+  const { company, theme } = await prisma.catalog.findUniqueOrThrow({
+    where: {
+      id: session.user.currentCatalogId,
+    },
+    include: {
+      company: true,
+      theme: {
+        include: {
+          logo: true,
+        },
+      },
+    },
+  });
 
   return (
     <div>

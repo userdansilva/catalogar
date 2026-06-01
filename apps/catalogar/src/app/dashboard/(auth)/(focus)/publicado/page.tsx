@@ -10,17 +10,24 @@ import { RedirectType, redirect } from "next/navigation";
 import { Button } from "@/components/inputs/button";
 import { CopyButton } from "@/components/inputs/copy-button";
 import { ShareButton } from "@/components/inputs/share-button";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getUser } from "@/services/get-user";
+import { getSession } from "@/utils/get-session";
 
 export default async function Page() {
-  const user = await getUser();
+  const session = await getSession();
 
-  if (!user.currentCatalog.slug) {
+  const currentCatalog = await prisma.catalog.findUniqueOrThrow({
+    where: {
+      id: session.user.currentCatalogId,
+    },
+  });
+
+  if (!currentCatalog.slug) {
     redirect(routes.dashboard.url, RedirectType.replace);
   }
 
-  const publicLink = `${process.env.NEXT_PUBLIC_BASE_URL}/@${user.currentCatalog.slug}`;
+  const publicLink = `${process.env.NEXT_PUBLIC_BASE_URL}/@${currentCatalog.slug}`;
 
   return (
     <div className="flex max-w-lg flex-col items-center gap-10">

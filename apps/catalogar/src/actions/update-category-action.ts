@@ -3,11 +3,11 @@
 import { revalidateTag } from "next/cache";
 import { returnValidationErrors } from "next-safe-action";
 import slugify from "slugify";
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { updateCategorySchema } from "@/schemas/category";
 
-export const updateCategoryAction = authActionClientWithUser
+export const updateCategoryAction = authActionClient
   .inputSchema(updateCategorySchema)
   .metadata({
     actionName: "update-category",
@@ -16,14 +16,14 @@ export const updateCategoryAction = authActionClientWithUser
     async ({
       parsedInput: { id, name, textColor, backgroundColor, isDisabled },
       ctx: {
-        user: { currentCatalog },
+        session: { user },
       },
     }) => {
       // Verify by slug unique
       const existingCategory = await prisma.category.findFirst({
         where: {
           slug: slugify(name, { lower: true }),
-          catalogId: currentCatalog.id,
+          catalogId: user.currentCatalogId,
           id: {
             not: id,
           },
@@ -41,7 +41,7 @@ export const updateCategoryAction = authActionClientWithUser
       const category = await prisma.category.update({
         where: {
           id,
-          catalogId: currentCatalog.id,
+          catalogId: user.currentCatalogId,
         },
         data: {
           name,
@@ -50,10 +50,13 @@ export const updateCategoryAction = authActionClientWithUser
           backgroundColor,
           disabledAt: isDisabled ? new Date() : null,
         },
+        include: {
+          catalog: true,
+        },
       });
 
-      if (currentCatalog.publishedAt && currentCatalog.slug) {
-        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      if (category.catalog.publishedAt && category.catalog.slug) {
+        revalidateTag(`public-catalog-${category.catalog.slug}`, "max");
       }
 
       return { category };

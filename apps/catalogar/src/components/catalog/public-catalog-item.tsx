@@ -19,7 +19,7 @@ type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
 
 type PublicCatalogItemProps = {
   catalogItem: Omit<CatalogItemRaw, "price"> & {
-    price: number | null;
+    price: string | null;
   };
   unoptimized?: boolean;
 };

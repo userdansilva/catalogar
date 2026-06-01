@@ -1,7 +1,21 @@
+import { Button } from "@catalogar/ui/components/button";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@catalogar/ui/components/drawer";
 import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
-import { Forward } from "lucide-react";
+import {
+  ExternalLink,
+  Forward,
+  MessageCircleMore,
+  ShoppingCart,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import whatsapp from "@/assets/images/whatsapp.svg";
 import { CarouselImages } from "@/components/catalog/carousel-images";
 import type { Company, Prisma } from "@/generated/prisma/client";
 import { CopyButton } from "../inputs/copy-button";
@@ -21,12 +35,12 @@ type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
 type PublicCatalogItemDetailProps = {
   baseUrl: string;
   catalogItem: Omit<CatalogItemRaw, "price"> & {
-    price: number | null;
+    price: string | null;
   };
   company?: Company;
   unoptimized?: boolean;
   relatedCatalogItems: (Omit<CatalogItemRaw, "price"> & {
-    price: number | null;
+    price: string | null;
   })[];
 };
 
@@ -61,10 +75,12 @@ export function PublicCatalogItemDetail({
             <p className="leading-7">{catalogItem.caption}</p>
           )}
 
-          <ShareButton>
-            <Forward />
-            Compartilhar
-          </ShareButton>
+          <div>
+            <ShareButton>
+              <Forward />
+              Compartilhar
+            </ShareButton>
+          </div>
 
           <p className="leading-7">
             <span className="font-semibold text-sm">Produto: </span>
@@ -89,7 +105,7 @@ export function PublicCatalogItemDetail({
               <a
                 href={company.mainSiteUrl}
                 className="underline underline-offset-2"
-                target="_blank"
+                target="_blank" rel="noopener"
               >
                 {company.mainSiteUrl}
               </a>
@@ -125,6 +141,60 @@ export function PublicCatalogItemDetail({
           </ScrollArea>
         </div>
       )}
+
+      <div className="fixed bottom-0 inset-x-0 flex flex-row bg-background shadow-lg">
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button
+              className="rounded-none bg-emerald-500 text-white"
+              size="lg"
+              variant="ghost"
+            >
+              <MessageCircleMore />
+              Falar com Vendedor
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerTitle className="text-center text-4xl font-extrabold tracking-tight text-balance underline underline-offset-4 mb-2">
+              {company?.name || "Minha Empresa"}
+            </DrawerTitle>
+            {company?.description && (
+              <DrawerDescription className="text-center">
+                {company.description}
+              </DrawerDescription>
+            )}
+            <div className="flex flex-col gap-2 mb-10 mx-4">
+              {company?.mainSiteUrl && (
+                <Button variant="ghost" asChild size="lg">
+                  <a href={company.mainSiteUrl} target="_blank" rel="noopener">
+                    {company.mainSiteUrl}
+                    <ExternalLink />
+                  </a>
+                </Button>
+              )}
+
+              {company?.phoneNumber && (
+                <Button className="bg-[#25D366]" asChild size="lg">
+                  <a
+                    href={`https://wa.me/${company.phoneNumber.replace(/\D/g, "")}`}
+                  >
+                    <Image
+                      src={whatsapp}
+                      alt="Logo WhatsApp"
+                      className="size-4 fill-blue-600"
+                    />
+                    {company.phoneNumber}
+                  </a>
+                </Button>
+              )}
+            </div>
+          </DrawerContent>
+        </Drawer>
+        <Button className="rounded-none flex-1" size="lg">
+          Adicionar
+          <ShoppingCart />
+        </Button>
+      </div>
     </div>
   );
 }

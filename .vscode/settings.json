@@ -10,5 +10,11 @@
     "other": "on",
     "comments": "off",
     "strings": "on"
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": true
   }
 }

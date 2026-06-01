@@ -1,14 +1,13 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
 import { returnValidationErrors } from "next-safe-action";
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
 import { updateCatalogSchema } from "@/schemas/catalog";
 
-export const updateCatalogAction = authActionClientWithUser
+export const updateCatalogAction = authActionClient
   .inputSchema(updateCatalogSchema)
   .metadata({
     actionName: "update-catalog",
@@ -17,14 +16,14 @@ export const updateCatalogAction = authActionClientWithUser
     async ({
       parsedInput: { name, isPublished, isCartEnabled, slug },
       ctx: {
-        user: { currentCatalog },
+        session: { user },
       },
     }) => {
       const existingCatalogWithSlug = await prisma.catalog.findFirst({
         where: {
           slug,
           id: {
-            not: currentCatalog.id,
+            not: user.currentCatalogId,
           },
         },
       });
@@ -36,6 +35,12 @@ export const updateCatalogAction = authActionClientWithUser
           },
         });
       }
+
+      const currentCatalog = await prisma.catalog.findUniqueOrThrow({
+        where: {
+          id: user.currentCatalogId,
+        },
+      });
 
       // Publicar pela a primeira vez
       if (isPublished && !currentCatalog.publishedAt) {
@@ -58,7 +63,7 @@ export const updateCatalogAction = authActionClientWithUser
       // Alterar normalmente (caso já tenha publicado antes)
       const catalog = await prisma.catalog.update({
         where: {
-          id: currentCatalog.id,
+          id: user.currentCatalogId,
         },
         data: {
           name,
@@ -68,8 +73,8 @@ export const updateCatalogAction = authActionClientWithUser
         },
       });
 
-      if (currentCatalog.publishedAt && currentCatalog.slug) {
-        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      if (catalog.publishedAt && catalog.slug) {
+        revalidateTag(`public-catalog-${catalog.slug}`, "max");
       }
 
       return {

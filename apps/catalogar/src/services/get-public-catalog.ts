@@ -48,5 +48,14 @@ export async function getPublicCatalog(slug: string) {
     },
   });
 
-  return { catalog };
+  const normalizedCatalog = {
+    ...catalog,
+    catalogItems:
+      catalog?.catalogItems.map((catalogItem) => ({
+        ...catalogItem,
+        price: catalogItem.price ? catalogItem.price.toString() : null,
+      })) || [],
+  };
+
+  return { catalog: normalizedCatalog };
 }

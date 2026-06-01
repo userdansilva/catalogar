@@ -29,7 +29,7 @@ type NavMainClientProps = {
   productTypes: ProductType[];
   categories: Category[];
   catalogItems: (Omit<CatalogItem, "price"> & {
-    price: number | null;
+    price: string | null;
   })[];
   user: Prisma.UserGetPayload<{
     include: {
@@ -39,7 +39,6 @@ type NavMainClientProps = {
           theme: true;
         };
       };
-      catalogs: true;
     };
   }>;
 };

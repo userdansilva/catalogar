@@ -4,11 +4,9 @@ import { CustomizationMissions } from "@/components/customization-missions";
 import { FirstSteps } from "@/components/first-steps";
 import { MainCards } from "@/components/main-cards";
 import { MyCatalogs } from "@/components/my-catalogs";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getCatalogItems } from "@/services/get-catalog-items";
-import { getCategories } from "@/services/get-categories";
-import { getProductTypes } from "@/services/get-product-types";
-import { getUser } from "@/services/get-user";
+import { getSession } from "@/utils/get-session";
 
 export const metadata: Metadata = {
   title: routes.dashboard.title,
@@ -19,16 +17,35 @@ export default async function Home({
 }: {
   searchParams: Promise<{ pular?: string }>;
 }) {
-  const user = await getUser();
+  const session = await getSession();
 
-  const [{ productTypes }, { categories }, { catalogItems }] =
-    await Promise.all([getProductTypes(), getCategories(), getCatalogItems()]);
+  const user = await prisma.user.findUniqueOrThrow({
+    where: { email: session.user.email },
+    include: {
+      currentCatalog: {
+        include: {
+          company: true,
+          theme: true,
+          productTypes: true,
+          categories: true,
+          catalogItems: true,
+        },
+      },
+      catalogs: true,
+    },
+  });
+
+  if (!user.currentCatalog) {
+    throw new Error("Current Catalog Undefined");
+  }
+
+  const { productTypes, categories, catalogItems, company, theme } =
+    user.currentCatalog;
 
   const shouldDisplayMainMissions =
     productTypes.length === 0 || catalogItems.length === 0;
 
-  const shouldDisplayCustomizationMissions =
-    !user.currentCatalog.company || !user.currentCatalog.theme;
+  const shouldDisplayCustomizationMissions = !company || !theme;
 
   const { pular } = await searchParams;
 
@@ -51,9 +68,9 @@ export default async function Home({
 
       {shouldDisplayMainMissions ? (
         <FirstSteps
-          productTypes={productTypes}
-          categories={categories}
-          catalogItems={catalogItems}
+          productTypes={user.currentCatalog.productTypes}
+          categories={user.currentCatalog.categories}
+          catalogItems={user.currentCatalog.catalogItems}
           skipCategory={pular === "categoria"}
         />
       ) : (

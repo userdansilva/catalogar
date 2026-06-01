@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { RedirectType, redirect } from "next/navigation";
 import { CreateThemeForm } from "@/components/forms/create-theme-form";
 import { PrevButton } from "@/components/inputs/prev-button";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getUser } from "@/services/get-user";
+import { getSession } from "@/utils/get-session";
 
 export const metadata: Metadata = {
   title: routes.theme.sub.new.title,
@@ -14,11 +15,21 @@ export default async function RegisterCompany({
 }: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
-  const user = await getUser();
+  const session = await getSession();
+
+  const { theme, company } = await prisma.catalog.findUniqueOrThrow({
+    where: {
+      id: session.user.currentCatalogId,
+    },
+    include: {
+      theme: true,
+      company: true,
+    },
+  });
 
   const { callbackUrl } = await searchParams;
 
-  if (user.currentCatalog.theme && !callbackUrl) {
+  if (theme && !callbackUrl) {
     return redirect(routes.dashboard.url, RedirectType.replace);
   }
 
@@ -36,10 +47,7 @@ export default async function RegisterCompany({
         </p>
       </div>
 
-      <CreateThemeForm
-        company={user.currentCatalog.company}
-        callbackUrl={callbackUrl}
-      />
+      <CreateThemeForm company={company} callbackUrl={callbackUrl} />
     </div>
   );
 }

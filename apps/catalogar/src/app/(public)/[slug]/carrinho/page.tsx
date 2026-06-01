@@ -50,7 +50,7 @@ export default async function CartPage({
 
               <CardContent className="px-4 space-y-3">
                 <div>
-                  <PriceDisplay price={123.45} />
+                  <PriceDisplay price="123.45" />
                   <p className="text-sm">Quantidade: 1</p>
                 </div>
                 <div className="flex flex-row items-center gap-2">
@@ -71,7 +71,7 @@ export default async function CartPage({
       <div className="fixed bottom-0 flex flex-row items-end justify-between inset-x-0 p-4 pt-2 border-t">
         <div>
           <span className="text-xs">Total</span>
-          <PriceDisplay price={123.45} />
+          <PriceDisplay price="123.45" />
         </div>
         <Button size="lg" asChild>
           <Link href={routes.public.sub.cartSummary.url(slug)}>
