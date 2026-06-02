@@ -24,17 +24,17 @@ export async function NavMain() {
     throw new Error("Current catalog not found for the user.");
   }
 
-  const { productTypes, categories, catalogItems } = user.currentCatalog;
+  const { catalogItems, ...currentCatalog } = user.currentCatalog;
 
   return (
     <NavMainClient
-      user={user}
-      productTypes={productTypes}
-      categories={categories}
-      catalogItems={catalogItems.map((item) => ({
-        ...item,
-        price: item.price?.toString() ?? null,
-      }))}
+      currentCatalog={{
+        ...currentCatalog,
+        catalogItems: catalogItems.map((item) => ({
+          ...item,
+          price: item.price?.toString() ?? null,
+        })),
+      }}
     />
   );
 }

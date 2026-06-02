@@ -39,8 +39,14 @@ export default async function Home({
     throw new Error("Current Catalog Undefined");
   }
 
-  const { productTypes, categories, catalogItems, company, theme } =
-    user.currentCatalog;
+  const {
+    productTypes,
+    categories,
+    catalogItems,
+    company,
+    theme,
+    ...currentCatalog
+  } = user.currentCatalog;
 
   const shouldDisplayMainMissions =
     productTypes.length === 0 || catalogItems.length === 0;
@@ -70,7 +76,10 @@ export default async function Home({
         <FirstSteps
           productTypes={user.currentCatalog.productTypes}
           categories={user.currentCatalog.categories}
-          catalogItems={user.currentCatalog.catalogItems}
+          catalogItems={catalogItems.map((catalogItem) => ({
+            ...catalogItem,
+            price: catalogItem.price?.toString() ?? null,
+          }))}
           skipCategory={pular === "categoria"}
         />
       ) : (
@@ -82,14 +91,17 @@ export default async function Home({
 
             <CatalogSwitcherDrawerDialog
               catalogs={user.catalogs}
-              currentCatalog={user.currentCatalog}
+              currentCatalog={currentCatalog}
             />
           </div>
 
           <MainCards
             productTypes={productTypes}
             categories={categories}
-            catalogItems={catalogItems}
+            catalogItems={catalogItems.map((catalogItem) => ({
+              ...catalogItem,
+              price: catalogItem.price?.toString() ?? null,
+            }))}
             user={user}
           />
         </div>
@@ -100,10 +112,7 @@ export default async function Home({
       )}
 
       {(!shouldDisplayMainMissions || user.catalogs.length > 1) && (
-        <MyCatalogs
-          catalogs={user.catalogs}
-          currentCatalog={user.currentCatalog}
-        />
+        <MyCatalogs catalogs={user.catalogs} currentCatalog={currentCatalog} />
       )}
     </div>
   );

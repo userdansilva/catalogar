@@ -32,7 +32,9 @@ import { CopyButton } from "./inputs/copy-button";
 type MainCardsProps = {
   productTypes: ProductType[];
   categories: Category[];
-  catalogItems: CatalogItem[];
+  catalogItems: (Omit<CatalogItem, "price"> & {
+    price: string | null;
+  })[];
   user: Prisma.UserGetPayload<{
     include: {
       currentCatalog: {

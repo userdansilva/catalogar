@@ -16,7 +16,9 @@ export function FirstSteps({
 }: {
   productTypes: ProductType[];
   categories: Category[];
-  catalogItems: CatalogItem[];
+  catalogItems: (Omit<CatalogItem, "price"> & {
+    price: string | null;
+  })[];
   skipCategory?: boolean;
 }) {
   const productTypeAmount = productTypes.length;

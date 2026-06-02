@@ -17,38 +17,25 @@ import {
 import { Lock } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type {
-  CatalogItem,
-  Category,
-  Prisma,
-  ProductType,
-} from "@/generated/prisma/client";
+import type { CatalogItem, Prisma } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 
 type NavMainClientProps = {
-  productTypes: ProductType[];
-  categories: Category[];
-  catalogItems: (Omit<CatalogItem, "price"> & {
-    price: string | null;
-  })[];
-  user: Prisma.UserGetPayload<{
+  currentCatalog: Prisma.CatalogGetPayload<{
     include: {
-      currentCatalog: {
-        include: {
-          company: true;
-          theme: true;
-        };
-      };
+      company: true;
+      theme: true;
+      categories: true;
+      productTypes: true;
     };
-  }>;
+  }> & {
+    catalogItems: (Omit<CatalogItem, "price"> & {
+      price: string | null;
+    })[];
+  };
 };
 
-export function NavMainClient({
-  user,
-  productTypes,
-  categories,
-  catalogItems,
-}: NavMainClientProps) {
+export function NavMainClient({ currentCatalog }: NavMainClientProps) {
   const { setOpenMobile } = useSidebar();
   const pathname = usePathname();
 
@@ -65,7 +52,7 @@ export function NavMainClient({
         {
           ...routes.productTypes,
           url:
-            productTypes.length === 0
+            currentCatalog.productTypes.length === 0
               ? routes.productTypes.sub.createFirst.url
               : routes.productTypes.url,
           isLocked: false,
@@ -75,7 +62,7 @@ export function NavMainClient({
         {
           ...routes.categories,
           url:
-            categories.length === 0
+            currentCatalog.categories.length === 0
               ? routes.categories.sub.createFirst.url
               : routes.categories.url,
           isLocked: false,
@@ -85,10 +72,10 @@ export function NavMainClient({
         {
           ...routes.catalogItems,
           url:
-            catalogItems.length === 0
+            currentCatalog.catalogItems.length === 0
               ? routes.catalogItems.sub.createFirst.url
               : routes.catalogItems.url,
-          isLocked: productTypes.length === 0,
+          isLocked: currentCatalog.productTypes.length === 0,
           lockReason: "Adicione um tipo de produto para desbloquear o Catálogo",
           isActive: pathname.startsWith(routes.catalogItems.url),
         },
@@ -99,7 +86,7 @@ export function NavMainClient({
       items: [
         {
           ...routes.preview,
-          isLocked: catalogItems.length === 0,
+          isLocked: currentCatalog.catalogItems.length === 0,
           lockReason: "Adicione um item no Catálogo para desbloquear o Preview",
           isActive: pathname.startsWith(routes.preview.url),
         },
@@ -110,7 +97,7 @@ export function NavMainClient({
       items: [
         {
           ...routes.company,
-          url: user.currentCatalog?.company
+          url: currentCatalog.company
             ? routes.company.url
             : routes.company.sub.new.url,
           isLocked: false,
@@ -119,7 +106,7 @@ export function NavMainClient({
         },
         {
           ...routes.theme,
-          url: user.currentCatalog?.theme
+          url: currentCatalog.theme
             ? routes.theme.url
             : routes.theme.sub.new.url,
           isLocked: false,

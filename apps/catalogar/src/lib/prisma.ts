@@ -13,19 +13,6 @@ const prisma =
   globalForPrisma.prisma ||
   new PrismaClient({
     adapter,
-  }).$extends({
-    result: {
-      catalogItem: {
-        price: {
-          needs: {
-            price: true,
-          },
-          compute(data) {
-            return data.price ? data.price.toString() : null;
-          },
-        },
-      },
-    },
   });
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
