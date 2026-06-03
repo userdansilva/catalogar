@@ -9,8 +9,8 @@ import {
 import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
 import {
   ExternalLink,
-  Forward,
   MessageCircleMore,
+  Share2,
   ShoppingCart,
 } from "lucide-react";
 import Image from "next/image";
@@ -77,7 +77,7 @@ export function PublicCatalogItemDetail({
 
           <div>
             <ShareButton>
-              <Forward />
+              <Share2 />
               Compartilhar
             </ShareButton>
           </div>
@@ -99,18 +99,63 @@ export function PublicCatalogItemDetail({
             />
           </div>
 
-          {company?.mainSiteUrl && (
-            <div className="text-sm">
-              <p className="font-semibold">Contato do Vendedor</p>
-              <a
-                href={company.mainSiteUrl}
-                className="underline underline-offset-2"
-                target="_blank" rel="noopener"
-              >
-                {company.mainSiteUrl}
-              </a>
-            </div>
-          )}
+          <div className="fixed bottom-0 inset-x-0 flex flex-row bg-background shadow-lg z-10 lg:relative lg:bg-transparent lg:shadow-none">
+            <Drawer>
+              <DrawerTrigger asChild>
+                <Button
+                  className="rounded-none bg-emerald-500 text-white lg:rounded-l-lg"
+                  size="lg"
+                  variant="ghost"
+                >
+                  <MessageCircleMore />
+                  Falar com Vendedor
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerTitle className="text-center text-4xl font-extrabold tracking-tight text-balance underline underline-offset-4 mb-2">
+                  {company?.name || "Minha Empresa"}
+                </DrawerTitle>
+                {company?.description && (
+                  <DrawerDescription className="text-center">
+                    {company.description}
+                  </DrawerDescription>
+                )}
+                <div className="flex flex-col gap-2 mb-10 mx-4">
+                  {company?.mainSiteUrl && (
+                    <Button variant="ghost" asChild size="lg">
+                      <a
+                        href={company.mainSiteUrl}
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        {company.mainSiteUrl}
+                        <ExternalLink />
+                      </a>
+                    </Button>
+                  )}
+
+                  {company?.phoneNumber && (
+                    <Button className="bg-[#25D366]" asChild size="lg">
+                      <a
+                        href={`https://wa.me/${company.phoneNumber.replace(/\D/g, "")}`}
+                      >
+                        <Image
+                          src={whatsapp}
+                          alt="Logo WhatsApp"
+                          className="size-4 fill-blue-600"
+                        />
+                        {company.phoneNumber}
+                      </a>
+                    </Button>
+                  )}
+                </div>
+              </DrawerContent>
+            </Drawer>
+            <Button className="rounded-none flex-1 lg:rounded-r-lg" size="lg">
+              Adicionar
+              <ShoppingCart />
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -141,60 +186,6 @@ export function PublicCatalogItemDetail({
           </ScrollArea>
         </div>
       )}
-
-      <div className="fixed bottom-0 inset-x-0 flex flex-row bg-background shadow-lg">
-        <Drawer>
-          <DrawerTrigger asChild>
-            <Button
-              className="rounded-none bg-emerald-500 text-white"
-              size="lg"
-              variant="ghost"
-            >
-              <MessageCircleMore />
-              Falar com Vendedor
-            </Button>
-          </DrawerTrigger>
-          <DrawerContent>
-            <DrawerTitle className="text-center text-4xl font-extrabold tracking-tight text-balance underline underline-offset-4 mb-2">
-              {company?.name || "Minha Empresa"}
-            </DrawerTitle>
-            {company?.description && (
-              <DrawerDescription className="text-center">
-                {company.description}
-              </DrawerDescription>
-            )}
-            <div className="flex flex-col gap-2 mb-10 mx-4">
-              {company?.mainSiteUrl && (
-                <Button variant="ghost" asChild size="lg">
-                  <a href={company.mainSiteUrl} target="_blank" rel="noopener">
-                    {company.mainSiteUrl}
-                    <ExternalLink />
-                  </a>
-                </Button>
-              )}
-
-              {company?.phoneNumber && (
-                <Button className="bg-[#25D366]" asChild size="lg">
-                  <a
-                    href={`https://wa.me/${company.phoneNumber.replace(/\D/g, "")}`}
-                  >
-                    <Image
-                      src={whatsapp}
-                      alt="Logo WhatsApp"
-                      className="size-4 fill-blue-600"
-                    />
-                    {company.phoneNumber}
-                  </a>
-                </Button>
-              )}
-            </div>
-          </DrawerContent>
-        </Drawer>
-        <Button className="rounded-none flex-1" size="lg">
-          Adicionar
-          <ShoppingCart />
-        </Button>
-      </div>
     </div>
   );
 }

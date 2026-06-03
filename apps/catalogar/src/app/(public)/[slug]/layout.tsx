@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import type { PropsWithChildren } from "react";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
-import { routes } from "@/routes";
 import { getPublicCatalog } from "@/services/get-public-catalog";
 
 const ASCIIforAt = "%40"; // @
@@ -22,22 +21,9 @@ export default async function Layout({
 
   const { catalog } = await getPublicCatalog(slug);
 
-  if (!catalog) {
-    notFound();
-  }
-
   if (!catalog.company || !catalog.theme) {
     throw new Error("Company or theme not found for catalog");
   }
 
-  return (
-    <CatalogLayout
-      baseUrl={routes.public.url(slug)}
-      company={catalog.company}
-      theme={catalog.theme}
-      slug={slug}
-    >
-      {children}
-    </CatalogLayout>
-  );
+  return <CatalogLayout catalog={catalog}>{children}</CatalogLayout>;
 }

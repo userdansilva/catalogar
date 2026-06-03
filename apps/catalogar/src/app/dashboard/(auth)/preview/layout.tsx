@@ -2,13 +2,12 @@ import type { PropsWithChildren } from "react";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
 import { PreviewToolsBar } from "@/components/preview-tools-bar";
 import prisma from "@/lib/prisma";
-import { routes } from "@/routes";
 import { getSession } from "@/utils/get-session";
 
 export default async function PreviewLayout({ children }: PropsWithChildren) {
   const session = await getSession();
 
-  const { company, theme } = await prisma.catalog.findUniqueOrThrow({
+  const catalog = await prisma.catalog.findUniqueOrThrow({
     where: {
       id: session.user.currentCatalogId,
     },
@@ -24,13 +23,9 @@ export default async function PreviewLayout({ children }: PropsWithChildren) {
 
   return (
     <div>
-      <PreviewToolsBar company={company} theme={theme} />
+      <PreviewToolsBar company={catalog.company} theme={catalog.theme} />
 
-      <CatalogLayout
-        baseUrl={routes.preview.url}
-        company={company}
-        theme={theme}
-      >
+      <CatalogLayout catalog={catalog} isPreview>
         {children}
       </CatalogLayout>
     </div>

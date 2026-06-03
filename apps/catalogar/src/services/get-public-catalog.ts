@@ -5,7 +5,7 @@ export async function getPublicCatalog(slug: string) {
   "use cache";
   cacheTag(`public-catalog-${slug}`);
 
-  const catalog = await prisma.catalog.findFirst({
+  const catalog = await prisma.catalog.findUniqueOrThrow({
     where: {
       slug,
       publishedAt: { not: null },

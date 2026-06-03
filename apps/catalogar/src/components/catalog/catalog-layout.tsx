@@ -24,29 +24,30 @@ import { ExternalLink, Info, Share2, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { PropsWithChildren } from "react";
-import type { Company, Prisma } from "@/generated/prisma/client";
+import type { Prisma } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import { Button } from "../inputs/button";
 import { ShareButton } from "../inputs/share-button";
 
-type CatalogLayoutProps = PropsWithChildren<{
-  baseUrl: string;
-  company: Company | null;
-  theme: Prisma.ThemeGetPayload<{
-    include: {
-      logo: true;
-    };
-  }> | null;
-  slug?: string;
-}>;
-
 export function CatalogLayout({
   children,
-  baseUrl,
-  company,
-  theme,
-  slug,
-}: CatalogLayoutProps) {
+  catalog,
+  isPreview,
+}: PropsWithChildren<{
+  catalog: Prisma.CatalogGetPayload<{
+    include: {
+      company: true;
+      theme: {
+        include: {
+          logo: true;
+        };
+      };
+    };
+  }>;
+  isPreview?: boolean;
+}>) {
+  const { company, theme, slug } = catalog;
+
   return (
     <div>
       <header
@@ -58,7 +59,11 @@ export function CatalogLayout({
       >
         <div className="container">
           <div className="relative flex h-7 w-full items-center justify-between">
-            <Link href={baseUrl}>
+            <Link
+              href={
+                isPreview ? routes.preview.url : routes.public.url(slug || "")
+              }
+            >
               {theme?.logo ? (
                 <Image
                   src={theme.logo.url}
@@ -123,49 +128,51 @@ export function CatalogLayout({
                 </DrawerContent>
               </Drawer>
 
-              {!slug ? (
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button
-                      className="shadow-none"
-                      style={{
-                        background: theme?.primaryColor || "var(--foreground)",
-                        color: theme?.secondaryColor || "var(--background)",
-                      }}
-                    >
+              {catalog.isCartEnabled &&
+                (!slug ? (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        className="shadow-none"
+                        style={{
+                          background:
+                            theme?.primaryColor || "var(--foreground)",
+                          color: theme?.secondaryColor || "var(--background)",
+                        }}
+                      >
+                        <ShoppingCart />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Ops!</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Carrinho não é habilitado no modo preview.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Fechar</AlertDialogCancel>
+                        <AlertDialogAction>Entendido</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                ) : (
+                  <Button
+                    className="shadow-none relative"
+                    style={{
+                      background: theme?.primaryColor || "var(--foreground)",
+                      color: theme?.secondaryColor || "var(--background)",
+                    }}
+                    asChild
+                  >
+                    <Link href={routes.public.sub.cart.url(slug)}>
+                      <div className="size-4 text-xs absolute top-0 -right-2">
+                        2
+                      </div>
                       <ShoppingCart />
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Ops!</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Carrinho não é habilitado no modo preview.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Fechar</AlertDialogCancel>
-                      <AlertDialogAction>Entendido</AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              ) : (
-                <Button
-                  className="shadow-none relative"
-                  style={{
-                    background: theme?.primaryColor || "var(--foreground)",
-                    color: theme?.secondaryColor || "var(--background)",
-                  }}
-                  asChild
-                >
-                  <Link href={routes.public.sub.cart.url(slug)}>
-                    <div className="size-4 text-xs absolute top-0 -right-2">
-                      2
-                    </div>
-                    <ShoppingCart />
-                  </Link>
-                </Button>
-              )}
+                    </Link>
+                  </Button>
+                ))}
             </div>
           </div>
         </div>
