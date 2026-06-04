@@ -7,6 +7,7 @@ on:
     paths:
       - apps/catalogar/**
       - packages/**
+      - .github/workflows
 
 jobs:
   deploy:
@@ -71,7 +72,7 @@ jobs:
       - name: Run Prisma migrations
         run: |
           set -a && source .vercel/.env.production.local && set +a
-          pnpm --filter catalogar dlx prisma migrate deploy
+          pnpm --filter catalogar exec prisma migrate deploy
 
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}

@@ -71,7 +71,7 @@ jobs:
       - name: Run Prisma migrations
         run: |
           set -a && source .vercel/.env.staging.local && set +a
-          pnpm --filter catalogar dlx prisma migrate deploy
+          pnpm --filter catalogar exec prisma migrate deploy
 
       - name: Build with Turbo
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
