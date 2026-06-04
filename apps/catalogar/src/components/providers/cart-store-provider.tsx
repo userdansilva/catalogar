@@ -13,10 +13,14 @@ export const CartStoreContext = createContext<CartStoreApi | undefined>(
 
 export interface CartStoreProviderProps {
   children: ReactNode;
+  slug: string;
 }
 
-export const CartStoreProvider = ({ children }: CartStoreProviderProps) => {
-  const [store] = useState(() => createCartStore());
+export const CartStoreProvider = ({
+  children,
+  slug,
+}: CartStoreProviderProps) => {
+  const [store] = useState(() => createCartStore({ items: [], slug }));
   return (
     <CartStoreContext.Provider value={store}>
       {children}

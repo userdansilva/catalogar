@@ -27,7 +27,7 @@ export default async function Layout({
   }
 
   return (
-    <CartStoreProvider>
+    <CartStoreProvider slug={slug}>
       <CatalogLayout catalog={catalog}>{children}</CatalogLayout>
     </CartStoreProvider>
   );

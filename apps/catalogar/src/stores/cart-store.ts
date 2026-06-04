@@ -6,6 +6,7 @@ export type CartState = {
     reference: number;
     amount: number;
   }[];
+  slug: string;
 };
 
 export type CartActions = {
@@ -16,11 +17,7 @@ export type CartActions = {
 
 export type CartStore = CartState & CartActions;
 
-export const defaultInitState: CartState = {
-  items: [],
-};
-
-export const createCartStore = (initState: CartState = defaultInitState) => {
+export const createCartStore = (initState: CartState) => {
   return createStore<CartStore>()(
     persist(
       (set) => ({
@@ -75,7 +72,7 @@ export const createCartStore = (initState: CartState = defaultInitState) => {
         clearCart: () => set(() => ({ items: [] })),
       }),
       {
-        name: "cart-storage",
+        name: `cart-storage-${initState.slug}`,
       },
     ),
   );
