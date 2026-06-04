@@ -68,11 +68,6 @@ jobs:
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=staging --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Run Prisma migrations
-        run: |
-          set -a && source .vercel/.env.staging.local && set +a
-          pnpm --filter catalogar exec prisma migrate deploy
-
       - name: Build with Turbo
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
