@@ -28,6 +28,7 @@ import type { Prisma } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import { Button } from "../inputs/button";
 import { ShareButton } from "../inputs/share-button";
+import { useCartStore } from "../providers/cart-store-provider";
 
 export function CatalogLayout({
   children,
@@ -46,6 +47,7 @@ export function CatalogLayout({
   }>;
   isPreview?: boolean;
 }>) {
+  const { items } = useCartStore((state) => state);
   const { company, theme, slug } = catalog;
 
   return (
@@ -166,9 +168,11 @@ export function CatalogLayout({
                     asChild
                   >
                     <Link href={routes.public.sub.cart.url(slug)}>
-                      <div className="size-4 text-xs absolute top-0 -right-2">
-                        2
-                      </div>
+                      {items.length > 0 && (
+                        <div className="size-4 text-xs absolute top-0 -right-2">
+                          {items.length}
+                        </div>
+                      )}
                       <ShoppingCart />
                     </Link>
                   </Button>

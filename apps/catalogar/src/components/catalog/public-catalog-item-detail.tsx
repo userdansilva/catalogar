@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@catalogar/ui/components/button";
 import {
   Drawer,
@@ -7,6 +9,7 @@ import {
   DrawerTrigger,
 } from "@catalogar/ui/components/drawer";
 import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
+import { cn } from "@catalogar/ui/lib/utils";
 import {
   ExternalLink,
   MessageCircleMore,
@@ -15,11 +18,13 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "sonner";
 import whatsapp from "@/assets/images/whatsapp.svg";
 import { CarouselImages } from "@/components/catalog/carousel-images";
-import type { Company, Prisma } from "@/generated/prisma/client";
+import type { Catalog, Company, Prisma } from "@/generated/prisma/client";
 import { CopyButton } from "../inputs/copy-button";
 import { ShareButton } from "../inputs/share-button";
+import { useCartStore } from "../providers/cart-store-provider";
 import { CategoriesDisplay } from "./categories-display";
 import { PriceDisplay } from "./price-display";
 import { TitleDisplay } from "./title-display";
@@ -42,6 +47,7 @@ type PublicCatalogItemDetailProps = {
   relatedCatalogItems: (Omit<CatalogItemRaw, "price"> & {
     price: string | null;
   })[];
+  catalog: Catalog;
 };
 
 export function PublicCatalogItemDetail({
@@ -50,9 +56,12 @@ export function PublicCatalogItemDetail({
   company,
   unoptimized,
   relatedCatalogItems,
+  catalog,
 }: PublicCatalogItemDetailProps) {
+  const { addItem } = useCartStore((state) => state);
+
   return (
-    <div className="flex flex-col space-y-10">
+    <div className="flex flex-col space-y-10 mb-10">
       <div className="flex flex-col gap-4 lg:flex-row">
         <CarouselImages images={catalogItem.images} unoptimized={unoptimized} />
 
@@ -103,7 +112,10 @@ export function PublicCatalogItemDetail({
             <Drawer>
               <DrawerTrigger asChild>
                 <Button
-                  className="rounded-none bg-emerald-500 text-white lg:rounded-l-lg"
+                  className={cn(
+                    "rounded-none bg-emerald-500 text-white lg:rounded-l-lg",
+                    !catalog.isCartEnabled && "flex-1",
+                  )}
                   size="lg"
                   variant="ghost"
                 >
@@ -138,6 +150,8 @@ export function PublicCatalogItemDetail({
                     <Button className="bg-[#25D366]" asChild size="lg">
                       <a
                         href={`https://wa.me/${company.phoneNumber.replace(/\D/g, "")}`}
+                        target="_blank"
+                        rel="noopener"
                       >
                         <Image
                           src={whatsapp}
@@ -151,10 +165,19 @@ export function PublicCatalogItemDetail({
                 </div>
               </DrawerContent>
             </Drawer>
-            <Button className="rounded-none flex-1 lg:rounded-r-lg" size="lg">
-              Adicionar
-              <ShoppingCart />
-            </Button>
+            {catalog.isCartEnabled && (
+              <Button
+                className="rounded-none flex-1 lg:rounded-r-lg"
+                size="lg"
+                onClick={() => {
+                  addItem(Number(catalogItem.reference));
+                  toast.success("Adicionado ao carrinho");
+                }}
+              >
+                Adicionar
+                <ShoppingCart />
+              </Button>
+            )}
           </div>
         </div>
       </div>

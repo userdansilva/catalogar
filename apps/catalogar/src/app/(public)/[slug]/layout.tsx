@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import type { PropsWithChildren } from "react";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
+import { CartStoreProvider } from "@/components/providers/cart-store-provider";
 import { getPublicCatalog } from "@/services/get-public-catalog";
 
 const ASCIIforAt = "%40"; // @
@@ -25,5 +26,9 @@ export default async function Layout({
     throw new Error("Company or theme not found for catalog");
   }
 
-  return <CatalogLayout catalog={catalog}>{children}</CatalogLayout>;
+  return (
+    <CartStoreProvider>
+      <CatalogLayout catalog={catalog}>{children}</CatalogLayout>
+    </CartStoreProvider>
+  );
 }
