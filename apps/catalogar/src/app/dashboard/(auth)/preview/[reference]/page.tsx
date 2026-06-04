@@ -14,21 +14,22 @@ export default async function Page({
 }) {
   const session = await getSession();
 
-  const { catalogItems, company } = await prisma.catalog.findUniqueOrThrow({
-    where: {
-      id: session.user.currentCatalogId,
-    },
-    include: {
-      catalogItems: {
-        include: {
-          categories: true,
-          productType: true,
-          images: true,
-        },
+  const { catalogItems, company, ...catalog } =
+    await prisma.catalog.findUniqueOrThrow({
+      where: {
+        id: session.user.currentCatalogId,
       },
-      company: true,
-    },
-  });
+      include: {
+        catalogItems: {
+          include: {
+            categories: true,
+            productType: true,
+            images: true,
+          },
+        },
+        company: true,
+      },
+    });
 
   const { reference } = await params;
 
@@ -63,6 +64,7 @@ export default async function Page({
       <PrevButton fallbackUrl={routes.preview.url} />
 
       <PublicCatalogItemDetail
+        catalog={catalog}
         baseUrl={routes.preview.url}
         catalogItem={{
           ...catalogItem,
