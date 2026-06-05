@@ -10,10 +10,6 @@ export async function proxy(request: NextRequest) {
     return authRes;
   }
 
-  if (pathname === "/") {
-    return NextResponse.redirect(new URL("/dashboard", request.nextUrl.origin));
-  }
-
   if (pathname.startsWith("/dashboard")) {
     const session = await auth0.getSession();
 
