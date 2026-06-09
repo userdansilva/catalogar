@@ -11,8 +11,7 @@
     "test:watch": "jest --watch",
     "e2e:ui": "playwright test --ui",
     "check-types": "tsc --noEmit",
-    "format": "biome format --write",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build"
+    "format": "biome format --write"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4.20.0",
