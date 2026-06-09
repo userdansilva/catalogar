@@ -19,6 +19,7 @@
     "@catalogar/ui": "workspace:*",
     "@hookform/resolvers": "^5.2.2",
     "@next-safe-action/adapter-react-hook-form": "^2.0.6",
+    "@prisma/adapter-neon": "^7.8.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "@tanstack/react-table": "^8.21.3",
