@@ -69,6 +69,7 @@ jobs:
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Run Prisma migrations
+        working-directory: apps/catalogar
         run: |
           # .vercel/.env.preview.local is written by `vercel pull`
           # Export every non-comment line as an env var so Prisma can read DATABASE_URL
