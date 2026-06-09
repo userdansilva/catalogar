@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma migrate deploy && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "biome lint --write",
     "test": "jest",
     "test:watch": "jest --watch",
     "e2e:ui": "playwright test --ui",
     "check-types": "tsc --noEmit",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4.20.0",
