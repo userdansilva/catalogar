@@ -73,6 +73,18 @@ jobs:
           echo "=== Keys present (no values) ==="
           grep -oE '^[A-Z_]+' .vercel/.env.preview.local || echo "(file empty or missing)"
 
+      - name: Load env vars into GitHub environment
+        run: |
+          while IFS= read -r line; do
+            [[ "$line" =~ ^#.*$ || -z "$line" ]] && continue
+            # strip surrounding quotes from value
+            key="${line%%=*}"
+            value="${line#*=}"
+            value="${value%\"}"
+            value="${value#\"}"
+            echo "$key=$value" >> $GITHUB_ENV
+          done < .vercel/.env.preview.local
+
       - name: Run Prisma migrations
         working-directory: apps/catalogar
         run: |
