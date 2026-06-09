@@ -68,11 +68,12 @@ jobs:
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Load env vars into Actions environment
-        run: grep -v '^#' .vercel/.env.preview.local | grep -v '^$' >> $GITHUB_ENV
-      
       - name: Run Prisma migrations
-        run: pnpm --filter catalogar exec prisma migrate deploy
+        run: |
+          vercel env run \
+            --environment=preview \
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            -- pnpm --filter catalogar exec prisma migrate deploy
 
       - name: Build with Turbo
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
