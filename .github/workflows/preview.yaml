@@ -76,12 +76,8 @@ jobs:
       - name: Run Prisma migrations
         working-directory: apps/catalogar
         run: |
-          # .vercel/.env.preview.local is written by `vercel pull`
-          # Export every non-comment line as an env var so Prisma can read DATABASE_URL
-          set -a
-          source "$GITHUB_WORKSPACE/.vercel/.env.preview.local"
-          set +a
-
+          echo "DATABASE_URL is set: ${{ env.DATABASE_URL != '' }}"
+          printenv | grep -i database | sed 's/=.*/=***/'
           pnpm exec prisma migrate deploy
 
       - name: Build with Turbo
