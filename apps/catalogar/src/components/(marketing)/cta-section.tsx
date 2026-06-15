@@ -10,7 +10,7 @@ export function CTASection() {
             Pronto para vender mais?
           </h2>
           <p className="text-lg md:text-xl opacity-90 max-w-xl mx-auto">
-            Junte-se a milhares de empreendedores que já usam o Catalogar para
+            Junte-se a vários empreendedores que já usam o Catalogar para
             aumentar suas vendas.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

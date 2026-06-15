@@ -23,6 +23,8 @@ export default async function CartPage({
 
   const { catalog } = await getPublicCatalog(slug);
 
+  console.log(catalog.company);
+
   if (
     !catalog.company ||
     !catalog.isCartEnabled ||

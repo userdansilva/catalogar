@@ -2,7 +2,7 @@ export function Footer() {
   return (
     <footer className="border-t py-12 bg-card">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-3 gap-8">
           {/* Brand */}
           <div className="md:col-span-2 space-y-4">
             <a href="/" className="flex items-center gap-2">
@@ -19,51 +19,16 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Links */}
-          <div className="space-y-4">
-            <h4 className="font-semibold">Produto</h4>
-            <nav className="flex flex-col gap-2">
-              <a
-                href="#Recursos"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Recursos
-              </a>
-              <a
-                href="#Preços"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Preços
-              </a>
-              <a
-                href="#Exemplos"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Exemplos
-              </a>
-            </nav>
-          </div>
-
-          <div className="space-y-4">
+<div className="space-y-4">
             <h4 className="font-semibold">Suporte</h4>
             <nav className="flex flex-col gap-2">
               <a
-                href="#Central de ajuda"
+                href="https://wa.me/5577988847504"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                Central de ajuda
-              </a>
-              <a
-                href="#Contato"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Contato
-              </a>
-              <a
-                href="#Termos de uso"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Termos de uso
+                WhatsApp
               </a>
             </nav>
           </div>

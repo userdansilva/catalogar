@@ -47,8 +47,8 @@ export function FeaturesSection() {
               className="group relative p-6 rounded-2xl border bg-background hover:shadow-lg transition-all duration-300"
             >
               <div className="mb-4">
-                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                  <feature.icon className="w-6 h-6 text-accent" />
+                <div className="w-12 h-12 rounded-xl bg-accent-foreground/10 flex items-center justify-center">
+                  <feature.icon className="size-6 text-accent-foreground" />
                 </div>
               </div>
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>

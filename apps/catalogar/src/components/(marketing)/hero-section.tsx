@@ -11,7 +11,9 @@ export function HeroSection() {
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-balance leading-tight">
                 Crie seu catálogo.{" "}
-                <span className="text-accent">Venda mais.</span>
+                <span className="bg-foreground px-2 text-background">
+                  Venda mais.
+                </span>
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed">
                 O jeito mais simples de criar catálogos de produtos online.
@@ -56,7 +58,7 @@ export function HeroSection() {
                 </div>
                 <div className="flex-1 mx-4">
                   <div className="bg-background rounded-md px-3 py-1.5 text-sm text-muted-foreground text-center">
-                    catalogar.app/sua-loja
+                    catalogar.com.br/@sua-loja
                   </div>
                 </div>
               </div>

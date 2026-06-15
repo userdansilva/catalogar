@@ -22,26 +22,7 @@ export function Header() {
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            <a
-              href="#recursos"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Recursos
-            </a>
-            <a
-              href="#como-funciona"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Como funciona
-            </a>
-            <a
-              href="#precos"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Preços
-            </a>
-          </nav>
+          <nav className="hidden md:flex items-center gap-8"></nav>
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-4">
@@ -70,25 +51,7 @@ export function Header() {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t">
             <nav className="flex flex-col gap-4">
-              <a
-                href="#recursos"
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Recursos
-              </a>
-              <a
-                href="#como-funciona"
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Como funciona
-              </a>
-              <a
-                href="#precos"
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Preços
-              </a>
-              <div className="flex flex-col gap-2 pt-4 border-t">
+              <div className="flex flex-col gap-2">
                 <Button variant="ghost" className="justify-start">
                   Entrar
                 </Button>
