@@ -64,6 +64,7 @@ model Catalog {
 model Company {
   id                      String   @id @default(uuid())
   name                    String
+  slogan                  String?
   description             String?
   mainSiteUrl             String?
   phoneNumber             String?

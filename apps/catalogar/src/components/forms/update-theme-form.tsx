@@ -2,21 +2,18 @@
 
 import { Card, CardContent } from "@catalogar/ui/components/card";
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@catalogar/ui/components/form";
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@catalogar/ui/components/field";
 import { Input } from "@catalogar/ui/components/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Watch } from "react-hook-form";
+import { Controller, Watch } from "react-hook-form";
 import { toast } from "sonner";
 import { updateThemeAction } from "@/actions/update-theme-action";
 import type { Company, Prisma } from "@/generated/prisma/client";
@@ -53,7 +50,7 @@ export function UpdateThemeForm({
           toast.success("Alterações salvas!");
           resetFormAndAction();
           form.reset({
-            logo: theme.logo ?? null,
+            logo: theme.logo,
             primaryColor: theme.primaryColor,
             secondaryColor: theme.secondaryColor,
           });
@@ -74,137 +71,128 @@ export function UpdateThemeForm({
     });
 
   return (
-    <Form {...form}>
-      <form onSubmit={handleSubmitWithAction} className="space-y-8">
-        <FormField
-          name="logo"
+    <form onSubmit={handleSubmitWithAction} className="space-y-8">
+      <Controller
+        name="logo"
+        control={form.control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Logo (Recomendado)</FieldLabel>
+            <InputLogo
+              onChange={field.onChange}
+              value={field.value}
+              disabled={form.formState.isSubmitting}
+            />
+            <FieldDescription>
+              Dica: use SVG para melhor qualidade, ou PNG sem fundo, ou JPG.
+            </FieldDescription>
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
+
+      <div className="space-y-2">
+        <span className="text-sm font-medium">Pré-visualização</span>
+
+        <Watch
           control={form.control}
-          render={({ field: { onChange, value } }) => (
-            <FormItem>
-              <FormLabel>Logo (Recomendado)</FormLabel>
-
-              <FormControl>
-                <InputLogo
-                  onChange={onChange}
-                  value={value}
-                  disabled={form.formState.isSubmitting}
-                />
-              </FormControl>
-
-              <FormDescription>
-                Dica: use SVG para melhor qualidade, ou PNG sem fundo, ou JPG.
-              </FormDescription>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className="space-y-2">
-          <span className="text-sm font-medium">Pré-visualização</span>
-
-          <Watch
-            control={form.control}
-            names={["logo", "primaryColor", "secondaryColor"]}
-            render={([logo, primaryColor, secondaryColor]) => (
-              <Card
-                style={{
-                  color: secondaryColor,
-                  background: primaryColor,
-                }}
-                className="flex flex-row items-center gap-4 rounded-sm p-4"
-              >
-                {logo?.width && logo.height && logo.url ? (
-                  <CardContent className="h-7 flex-1">
+          name={["logo", "primaryColor", "secondaryColor"]}
+          render={([logo, primaryColor, secondaryColor]) => (
+            <Card
+              style={{
+                color: secondaryColor,
+                background: primaryColor,
+              }}
+              className="flex flex-row items-center gap-4 rounded-sm py-1 px-4"
+            >
+              <div className="flex-1 flex items-center h-18">
+                {logo?.width && logo.height && logo.url && (
+                  <CardContent className="items-center size-16 flex relative mr-3">
                     <Image
                       src={logo.url}
                       alt="logo"
-                      height={logo.height}
-                      width={logo.width}
-                      style={{ height: 28, width: "auto" }}
+                      fill
+                      className="object-contain"
                       unoptimized
                     />
                   </CardContent>
-                ) : (
-                  <span className="flex-1 font-semibold">
-                    {company ? company.name : "SUA LOGO"}
-                  </span>
                 )}
 
-                <Button variant="ghost">
+                <div className="flex flex-col -space-y-0.5">
+                  <div className="font-semibold text-lg">
+                    {company?.name ?? "Nome da Loja"}
+                  </div>
+                  {company?.slogan && (
+                    <div className="text-xs leading-tight line-clamp-2">
+                      {company.slogan}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <Button variant="ghost" asChild>
+                <div>
                   <Menu className="size-4" />
                   Menu
-                </Button>
-              </Card>
-            )}
-          />
+                </div>
+              </Button>
+            </Card>
+          )}
+        />
 
-          <span className="text-muted-foreground text-[0.8rem]">
-            Aqui você tem uma ideia de como a logo e as cores vão aparecer no
-            seu catálogo.
-          </span>
-        </div>
+        <span className="text-muted-foreground text-[0.8rem]">
+          Aqui você tem uma ideia de como a logo, nome, slogan e as cores vão
+          aparecer no seu catálogo.
+        </span>
+      </div>
 
-        <div className="grid grid-cols-2 gap-8">
-          <FormField
-            name="primaryColor"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cor de fundo</FormLabel>
+      <div className="grid grid-cols-2 gap-8">
+        <Controller
+          name="primaryColor"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Cor de fundo</FieldLabel>
+              <Input
+                id={field.name}
+                aria-invalid={fieldState.invalid}
+                disabled={form.formState.isSubmitting}
+                type="color"
+                className="w-full"
+                {...field}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-                <FormControl>
-                  <Input
-                    type="color"
-                    className="w-full"
-                    disabled={form.formState.isSubmitting}
-                    {...field}
-                  />
-                </FormControl>
+        <Controller
+          name="secondaryColor"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Cor do texto</FieldLabel>
+              <Input
+                id={field.name}
+                aria-invalid={fieldState.invalid}
+                disabled={form.formState.isSubmitting}
+                type="color"
+                className="w-full"
+                {...field}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+      </div>
 
-                <FormDescription>
-                  Escolha uma cor que ajude a destacar sua logo.
-                </FormDescription>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            name="secondaryColor"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cor do texto</FormLabel>
-
-                <FormControl>
-                  <Input
-                    type="color"
-                    className="w-full"
-                    disabled={form.formState.isSubmitting}
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormDescription>
-                  Escolha uma cor que se destaque na cor de fundo.
-                </FormDescription>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <Button
-          type="submit"
-          disabled={form.formState.isSubmitting}
-          loading={form.formState.isSubmitting}
-        >
-          Salvar alterações
-        </Button>
-      </form>
-    </Form>
+      <Button
+        type="submit"
+        disabled={form.formState.isSubmitting}
+        loading={form.formState.isSubmitting}
+      >
+        Salvar alterações
+      </Button>
+    </form>
   );
 }

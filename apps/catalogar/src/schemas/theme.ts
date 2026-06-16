@@ -7,7 +7,7 @@ export const createThemeSchema = z.object({
     .object({
       name: z.string(),
       url: z.string(),
-      sizeInBytes: z.number(),
+      size: z.bigint(),
       width: z.number(),
       height: z.number(),
       altText: z.string(),

@@ -11,7 +11,7 @@ export const createCatalogItemSchema = z.object({
       z.object({
         fileName: z.string(),
         url: z.string(),
-        sizeInBytes: z.number(),
+        size: z.number(),
         width: z.number(),
         height: z.number(),
         altText: z.string(),

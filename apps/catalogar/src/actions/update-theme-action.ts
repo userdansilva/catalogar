@@ -27,7 +27,7 @@ export const updateThemeAction = authActionClient
                   create: {
                     name: logo.name,
                     url: logo.url,
-                    size: logo.sizeInBytes,
+                    size: logo.size,
                     width: logo.width,
                     height: logo.height,
                     altText: logo.altText,
@@ -36,7 +36,7 @@ export const updateThemeAction = authActionClient
                   update: {
                     name: logo.name,
                     url: logo.url,
-                    size: logo.sizeInBytes,
+                    size: logo.size,
                     width: logo.width,
                     height: logo.height,
                     altText: logo.altText,

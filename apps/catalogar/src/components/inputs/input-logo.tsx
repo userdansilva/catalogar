@@ -18,7 +18,7 @@ import { Button } from "./button";
 type Logo = {
   name: string;
   url: string;
-  sizeInBytes: number;
+  size: bigint;
   width: number;
   height: number;
   altText: string;
@@ -64,7 +64,7 @@ export function InputLogo({
       onChange({
         name: res.data.name,
         url: res.data.url,
-        sizeInBytes: res.data.sizeInBytes,
+        size: BigInt(res.data.size),
         width: res.data.width,
         height: res.data.height,
         altText: "",
@@ -81,48 +81,46 @@ export function InputLogo({
 
   return (
     <>
-      <div>
-        {value?.name ? (
-          <div className="flex items-center space-x-4 rounded-md border p-4">
-            <div className="mr-3 flex-1 truncate text-sm">{value.name}</div>
+      {value?.name ? (
+        <div className="flex flex-row items-center justify-between rounded-md border p-4 w-full">
+          <div className="mr-3 text-sm">{value.name}</div>
 
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="destructive" size="sm" disabled={disabled}>
-                  Remover
-                  <Trash className="ml-1 size-3" />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    Tem certeza que quer remover a imagem?
-                  </AlertDialogTitle>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleRemove}>
-                    Sim! Quero remover
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
-        ) : (
-          <Button
-            variant="outline"
-            type="button"
-            loading={isExecuting}
-            disabled={isExecuting || disabled}
-            onClick={() => {
-              inputFileRef.current?.click();
-            }}
-          >
-            <ImageUp className="mr-2 size-4" />
-            Carregar imagem
-          </Button>
-        )}
-      </div>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" size="sm" disabled={disabled}>
+                Remover
+                <Trash />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Tem certeza que quer remover a imagem?
+                </AlertDialogTitle>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction onClick={handleRemove}>
+                  Sim! Quero remover
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      ) : (
+        <Button
+          variant="outline"
+          type="button"
+          loading={isExecuting}
+          disabled={isExecuting || disabled}
+          onClick={() => {
+            inputFileRef.current?.click();
+          }}
+        >
+          <ImageUp className="mr-2 size-4" />
+          Carregar imagem
+        </Button>
+      )}
 
       <input
         type="file"

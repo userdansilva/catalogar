@@ -15,14 +15,10 @@ type FormValues = z.infer<typeof queryFilterSchema>;
 export function QueryFilter({
   currentQuery,
   mode,
-  primaryColor,
-  secondaryColor,
   searchParamNames,
 }: {
   currentQuery?: string;
   mode: "preview" | "dashboard";
-  primaryColor?: string;
-  secondaryColor?: string;
   searchParamNames: {
     query: string;
     page: string;
@@ -132,10 +128,6 @@ export function QueryFilter({
             type="submit"
             size="sm"
             className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full shadow-none"
-            style={{
-              background: secondaryColor,
-              color: primaryColor,
-            }}
           >
             Buscar
           </Button>

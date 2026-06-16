@@ -20,7 +20,7 @@ import { Button } from "./button";
 type Image = {
   fileName: string;
   url: string;
-  sizeInBytes: number;
+  size: number;
   width: number;
   height: number;
   altText: string;
@@ -72,7 +72,7 @@ export function InputImages({
         {
           fileName: data.fileName,
           url: data.url,
-          sizeInBytes: data.sizeInBytes,
+          size: data.size,
           width: data.width,
           height: data.height,
           altText: "",

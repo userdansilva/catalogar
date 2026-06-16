@@ -52,10 +52,6 @@ export default async function Page({
           <QueryFilter
             mode="preview"
             currentQuery={query}
-            primaryColor={catalog.theme?.primaryColor || "var(--foreground)"}
-            secondaryColor={
-              catalog.theme?.secondaryColor || "var(--background)"
-            }
             searchParamNames={SEARCH_PARAM_NAMES}
           />
         </div>

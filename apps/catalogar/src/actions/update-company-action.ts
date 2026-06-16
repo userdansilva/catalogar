@@ -12,13 +12,7 @@ export const updateCompanyAction = authActionClient
   })
   .action(
     async ({
-      parsedInput: {
-        name,
-        businessTypeDescription,
-        description,
-        mainSiteUrl,
-        phoneNumber,
-      },
+      parsedInput: data,
       ctx: {
         session: { user },
       },
@@ -27,13 +21,7 @@ export const updateCompanyAction = authActionClient
         where: {
           catalogId: user.currentCatalogId,
         },
-        data: {
-          name,
-          businessTypeDescription,
-          description,
-          mainSiteUrl,
-          phoneNumber,
-        },
+        data,
         include: {
           catalog: true,
         },

@@ -36,7 +36,7 @@ export const createLogoAction = authActionClient
     return {
       name: originalFileName,
       url: accessUrl,
-      sizeInBytes: resizedImage.length,
+      size: resizedImage.length,
       width: metadata.width || 0,
       height: metadata.height || 0,
     };

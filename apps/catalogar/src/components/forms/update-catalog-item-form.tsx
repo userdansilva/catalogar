@@ -72,7 +72,7 @@ export function UpdateCatalogItemForm({
             images: catalogItem.images.map((image) => ({
               fileName: image.name,
               url: image.url,
-              sizeInBytes: Number(image.size),
+              size: Number(image.size),
               width: image.width,
               height: image.height,
               altText: image.altText,
@@ -97,7 +97,7 @@ export function UpdateCatalogItemForm({
               images: catalogItem.images.map((image) => ({
                 fileName: image.name,
                 url: image.url,
-                sizeInBytes: Number(image.size),
+                size: Number(image.size),
                 width: image.width,
                 height: image.height,
                 altText: image.altText,

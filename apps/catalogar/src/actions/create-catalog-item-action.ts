@@ -45,7 +45,7 @@ export const createCatalogItemAction = authActionClient
                 catalogId: user.currentCatalogId,
                 name: image.fileName,
                 position: image.position,
-                size: image.sizeInBytes,
+                size: image.size,
                 width: image.width,
                 height: image.height,
                 altText: image.altText,

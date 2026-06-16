@@ -1147,6 +1147,7 @@ export type CatalogScalarFieldEnum = (typeof CatalogScalarFieldEnum)[keyof typeo
 export const CompanyScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  slogan: 'slogan',
   description: 'description',
   mainSiteUrl: 'mainSiteUrl',
   phoneNumber: 'phoneNumber',
