@@ -29,7 +29,7 @@ export default async function Preview({
 }) {
   const session = await getSession();
 
-  const { catalogItems, categories, productTypes, theme } =
+  const { catalogItems, categories, productTypes } =
     await prisma.catalog.findUniqueOrThrow({
       where: {
         id: session.user.currentCatalogId,
@@ -44,7 +44,6 @@ export default async function Preview({
             productType: true,
           },
         },
-        theme: true,
       },
     });
 
@@ -62,8 +61,6 @@ export default async function Preview({
           <QueryFilter
             mode="preview"
             currentQuery={query}
-            primaryColor={theme?.primaryColor}
-            secondaryColor={theme?.secondaryColor}
             searchParamNames={SEARCH_PARAM_NAMES}
           />
         </div>

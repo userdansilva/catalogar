@@ -46,7 +46,6 @@ export function UpdateThemeForm({
       },
       actionProps: {
         onSuccess: ({ data: { theme } }) => {
-          console.log("theme", theme);
           toast.success("Alterações salvas!");
           resetFormAndAction();
           form.reset({

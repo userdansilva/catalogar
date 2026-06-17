@@ -66,6 +66,7 @@ export function CreateCatalogItemForm({
           onSuccess: () => {
             toast.success("Item de catálogo adicionado!");
             resetFormAndAction();
+            form.reset();
             router.push(callbackUrl || routes.catalogItems.url);
           },
           onError: (e) => {
