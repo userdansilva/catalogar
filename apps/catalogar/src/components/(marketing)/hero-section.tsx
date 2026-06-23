@@ -40,7 +40,7 @@ export function HeroSection() {
                 className="text-base px-8 py-6 border-2"
                 asChild
               >
-                <Link href="/@77pipas">
+                <Link href="/@catalogar">
                   <Play className="mr-2 h-5 w-5" />
                   Ver demonstração
                 </Link>
