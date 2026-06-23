@@ -3,7 +3,7 @@ name: Preview Deployment - Catalogar
 on:
   push:
     branches:
-      - release/*
+      - dev
     paths:
       - apps/catalogar/**
       - packages/**
