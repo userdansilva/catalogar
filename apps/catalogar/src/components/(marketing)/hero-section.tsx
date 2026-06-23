@@ -80,7 +80,7 @@ export function HeroSection() {
                     <div>
                       <p className="font-semibold">Loja Exemplo</p>
                       <p className="text-sm text-muted-foreground">
-                        Roupas e Acessórios
+                        Pipas e Acessórios
                       </p>
                     </div>
                   </div>
