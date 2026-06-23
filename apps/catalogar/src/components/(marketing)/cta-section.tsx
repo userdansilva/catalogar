@@ -17,9 +17,12 @@ export function CTASection() {
             <Button
               size="lg"
               className="text-base px-8 py-6 bg-accent hover:bg-accent/90 text-accent-foreground"
+              asChild
             >
-              Criar meu catálogo grátis
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <a href="/auth/login">
+                Criar meu catálogo grátis
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </a>
             </Button>
           </div>
           <p className="text-sm opacity-70">

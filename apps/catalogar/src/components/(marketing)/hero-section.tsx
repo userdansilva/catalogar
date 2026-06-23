@@ -1,5 +1,6 @@
 import { Button } from "@catalogar/ui/components/button";
 import { ArrowRight, Play } from "lucide-react";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
@@ -26,17 +27,23 @@ export function HeroSection() {
               <Button
                 size="lg"
                 className="text-base px-8 py-6 bg-primary hover:bg-primary/90"
+                asChild
               >
-                Criar catálogo grátis
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <a href="/auth/login">
+                  Criar catálogo grátis
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </a>
               </Button>
               <Button
                 variant="outline"
                 size="lg"
                 className="text-base px-8 py-6 border-2"
+                asChild
               >
-                <Play className="mr-2 h-5 w-5" />
-                Ver demonstração
+                <Link href="/@77pipas">
+                  <Play className="mr-2 h-5 w-5" />
+                  Ver demonstração
+                </Link>
               </Button>
             </div>
 

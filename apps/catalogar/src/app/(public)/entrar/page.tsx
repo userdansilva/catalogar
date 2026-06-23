@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "@catalogar/ui/components/button";
+import Image from "next/image";
 import logo from "@/assets/images/logo.svg";
 
 export default function SignInOrRegister() {

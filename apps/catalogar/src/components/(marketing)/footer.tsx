@@ -19,7 +19,7 @@ export function Footer() {
             </p>
           </div>
 
-<div className="space-y-4">
+          <div className="space-y-4">
             <h4 className="font-semibold">Suporte</h4>
             <nav className="flex flex-col gap-2">
               <a
@@ -38,7 +38,7 @@ export function Footer() {
           <p className="text-sm text-muted-foreground">
             © 2026 Catalogar. Todos os direitos reservados.
           </p>
-          <div className="flex gap-4">
+          {/* <div className="flex gap-4">
             <a
               href="#Privacidade"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -51,7 +51,7 @@ export function Footer() {
             >
               Termos
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>
