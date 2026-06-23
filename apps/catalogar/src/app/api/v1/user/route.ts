@@ -15,16 +15,7 @@ async function getUserOrCreate({
     },
     include: {
       catalogs: true,
-      currentCatalog: {
-        include: {
-          company: true,
-          theme: {
-            include: {
-              logo: true,
-            },
-          },
-        },
-      },
+      currentCatalog: true,
     },
   });
 
