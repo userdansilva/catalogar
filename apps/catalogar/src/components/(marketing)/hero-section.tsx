@@ -1,6 +1,11 @@
 import { Button } from "@catalogar/ui/components/button";
 import { ArrowRight, Play } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import carretilhaIcon from "@/assets/icons/carretilha-icon.svg";
+import linhaIcon from "@/assets/icons/linha-icon.svg";
+import pipaIcon from "@/assets/icons/pipa-icon.svg";
+import velosterIcon from "@/assets/icons/veloster-icon.svg";
 
 export function HeroSection() {
   return (
@@ -74,8 +79,10 @@ export function HeroSection() {
               <div className="p-6 bg-background">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                      <span className="text-accent font-bold text-lg">L</span>
+                    <div className="w-12 h-12 rounded-full bg-accent-foreground/5 flex items-center justify-center">
+                      <span className="text-accent-foreground/40 font-bold text-lg">
+                        L
+                      </span>
                     </div>
                     <div>
                       <p className="font-semibold">Loja Exemplo</p>
@@ -86,25 +93,50 @@ export function HeroSection() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div
-                        key={i}
-                        className="rounded-lg border bg-muted/30 overflow-hidden"
-                      >
-                        <div className="aspect-square bg-muted flex items-center justify-center">
-                          <div className="w-12 h-12 rounded-lg bg-muted-foreground/10" />
-                        </div>
-                        <div className="p-3 space-y-1">
-                          <div className="h-3 bg-muted-foreground/10 rounded w-3/4" />
-                          <div className="h-4 bg-accent/20 rounded w-1/2" />
-                        </div>
+                    <div className="rounded-lg border bg-muted/30 overflow-hidden">
+                      <div className="aspect-square bg-muted flex items-center justify-center">
+                        <Image src={pipaIcon} alt="Pipa Icon" />
                       </div>
-                    ))}
+                      <div className="p-3 space-y-1">
+                        <div className="h-3 bg-muted-foreground/10 rounded w-3/4" />
+                        <div className="h-4 bg-accent/20 rounded w-1/2" />
+                      </div>
+                    </div>
+
+                    <div className="rounded-lg border bg-muted/30 overflow-hidden">
+                      <div className="aspect-square bg-muted flex items-center justify-center">
+                        <Image src={carretilhaIcon} alt="Carretilha Icon" />
+                      </div>
+                      <div className="p-3 space-y-1">
+                        <div className="h-3 bg-muted-foreground/10 rounded w-3/4" />
+                        <div className="h-4 bg-accent/20 rounded w-1/2" />
+                      </div>
+                    </div>
+
+                    <div className="rounded-lg border bg-muted/30 overflow-hidden">
+                      <div className="aspect-square bg-muted flex items-center justify-center">
+                        <Image src={linhaIcon} alt="Linha Icon" />
+                      </div>
+                      <div className="p-3 space-y-1">
+                        <div className="h-3 bg-muted-foreground/10 rounded w-3/4" />
+                        <div className="h-4 bg-accent/20 rounded w-1/2" />
+                      </div>
+                    </div>
+
+                    <div className="rounded-lg border bg-muted/30 overflow-hidden">
+                      <div className="aspect-square bg-muted flex items-center justify-center">
+                        <Image src={velosterIcon} alt="Veloster Icon" />
+                      </div>
+                      <div className="p-3 space-y-1">
+                        <div className="h-3 bg-muted-foreground/10 rounded w-3/4" />
+                        <div className="h-4 bg-accent/20 rounded w-1/2" />
+                      </div>
+                    </div>
                   </div>
 
                   <div className="flex gap-2 pt-2">
-                    <div className="flex-1 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
-                      <span className="text-sm text-accent font-medium">
+                    <div className="flex-1 h-10 rounded-lg bg-accent-foreground/5 flex items-center justify-center">
+                      <span className="text-sm text-accent-foreground/40 font-medium">
                         Ver carrinho (3)
                       </span>
                     </div>
