@@ -1,14 +1,18 @@
 import Fuse from "fuse.js";
 import type { Prisma } from "@/generated/prisma/client";
 
+type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
+  include: {
+    categories: true;
+    images: true;
+    productType: true;
+  };
+}>;
+
 export function filterCatalogItems(
-  catalogItems: Prisma.CatalogItemGetPayload<{
-    include: {
-      categories: true;
-      productType: true;
-      images: true;
-    };
-  }>[],
+  catalogItems: (Omit<CatalogItemRaw, "price"> & {
+    price: string | null;
+  })[],
   filters: {
     query: string;
     productTypeSlug?: string;

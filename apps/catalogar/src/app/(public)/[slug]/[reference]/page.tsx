@@ -34,7 +34,9 @@ export default async function Page({
     throw new Error("Company not found for catalog");
   }
 
-  const catalogItem = catalog.catalogItems.find(
+  const { catalogItems, company, ...currentCatalog } = catalog;
+
+  const catalogItem = catalogItems.find(
     (item) => Number(item.reference) === Number(reference),
   );
 
@@ -43,7 +45,7 @@ export default async function Page({
   }
 
   const relatedCatalogItems = filterCatalogItems(
-    catalog.catalogItems,
+    catalogItems,
     {
       query: `${catalogItem.categories.map((category) => category.name).toString()}, ${catalogItem.productType.name}`,
     },
@@ -64,8 +66,9 @@ export default async function Page({
       <PublicCatalogItemDetail
         baseUrl={routes.public.url(slug)}
         catalogItem={catalogItem}
-        company={catalog.company}
+        company={company}
         relatedCatalogItems={paginatedCatalogItems}
+        catalog={currentCatalog}
       />
     </div>
   );

@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
-import { RedirectType, redirect } from "next/navigation";
 import { CatalogItems } from "@/components/catalog/catalog-items";
 import { CategoriesFilter } from "@/components/filters/categories-filter";
 import { ProductTypesFilter } from "@/components/filters/product-types-filter";
 import { QueryFilter } from "@/components/filters/query-filter";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getCatalogItems } from "@/services/get-catalog-items";
-import { getCategories } from "@/services/get-categories";
-import { getProductTypes } from "@/services/get-product-types";
-import { getUser } from "@/services/get-user";
 import type { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
+import { getSession } from "@/utils/get-session";
 
 export const metadata: Metadata = {
   title: routes.preview.title,
@@ -30,10 +27,25 @@ export default async function Preview({
 }: {
   searchParams: Promise<SearchParams<typeof SEARCH_PARAM_NAMES>>;
 }) {
-  const user = await getUser();
+  const session = await getSession();
 
-  const [{ productTypes }, { categories }, { catalogItems }] =
-    await Promise.all([getProductTypes(), getCategories(), getCatalogItems()]);
+  const { catalogItems, categories, productTypes } =
+    await prisma.catalog.findUniqueOrThrow({
+      where: {
+        id: session.user.currentCatalogId,
+      },
+      include: {
+        productTypes: true,
+        categories: true,
+        catalogItems: {
+          include: {
+            categories: true,
+            images: true,
+            productType: true,
+          },
+        },
+      },
+    });
 
   const { busca, p, categoria, produto } = await searchParams;
 
@@ -49,8 +61,6 @@ export default async function Preview({
           <QueryFilter
             mode="preview"
             currentQuery={query}
-            primaryColor={user.currentCatalog.theme?.primaryColor}
-            secondaryColor={user.currentCatalog.theme?.secondaryColor}
             searchParamNames={SEARCH_PARAM_NAMES}
           />
         </div>
@@ -76,7 +86,10 @@ export default async function Preview({
 
       <CatalogItems
         query={query}
-        catalogItems={catalogItems}
+        catalogItems={catalogItems.map((catalogItem) => ({
+          ...catalogItem,
+          price: catalogItem.price?.toString() ?? null,
+        }))}
         productTypeSlug={productTypeSlug}
         categorySlug={categorySlug}
         currentPage={currentPage}

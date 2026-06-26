@@ -1,8 +1,8 @@
 "use client";
 
+import { Button } from "@catalogar/ui/components/button";
 import { Check, Copy } from "lucide-react";
 import { type ComponentProps, forwardRef, useState } from "react";
-import { Button } from "@catalogar/ui/components/button";
 
 type CopyButtonProps = Omit<
   ComponentProps<typeof Button>,

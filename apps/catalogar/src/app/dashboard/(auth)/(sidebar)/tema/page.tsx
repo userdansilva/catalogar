@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { RedirectType, redirect } from "next/navigation";
 import { UpdateThemeForm } from "@/components/forms/update-theme-form";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getUser } from "@/services/get-user";
+import { getSession } from "@/utils/get-session";
 
 export const metadata: Metadata = {
   title: routes.theme.title,
@@ -15,9 +16,23 @@ export default async function Theme({
     callbackUrl?: string;
   }>;
 }) {
-  const user = await getUser();
+  const session = await getSession();
 
-  if (!user.currentCatalog.theme) {
+  const { company, theme } = await prisma.catalog.findUniqueOrThrow({
+    where: {
+      id: session.user.currentCatalogId,
+    },
+    include: {
+      theme: {
+        include: {
+          logo: true,
+        },
+      },
+      company: true,
+    },
+  });
+
+  if (!theme) {
     return redirect(routes.theme.sub.new.url, RedirectType.replace);
   }
 
@@ -25,8 +40,8 @@ export default async function Theme({
 
   return (
     <UpdateThemeForm
-      theme={user.currentCatalog.theme}
-      company={user.currentCatalog.company}
+      theme={theme}
+      company={company}
       callbackUrl={callbackUrl}
     />
   );

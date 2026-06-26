@@ -1,17 +1,23 @@
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PublishRequirements } from "@/components/publish-requirements";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getCatalogItems } from "@/services/get-catalog-items";
-import { getProductTypes } from "@/services/get-product-types";
-import { getUser } from "@/services/get-user";
+import { getSession } from "@/utils/get-session";
 
 export default async function Page() {
-  const user = await getUser();
+  const session = await getSession();
 
-  const [{ productTypes }, { catalogItems }] = await Promise.all([
-    getProductTypes(),
-    getCatalogItems(),
-  ]);
+  const currentCatalog = await prisma.catalog.findUniqueOrThrow({
+    where: {
+      id: session.user.currentCatalogId,
+    },
+    include: {
+      company: true,
+      theme: true,
+      productTypes: true,
+      catalogItems: true,
+    },
+  });
 
   return (
     <div className="max-w-xl space-y-8">
@@ -28,11 +34,7 @@ export default async function Page() {
         </p>
       </div>
 
-      <PublishRequirements
-        user={user}
-        productTypes={productTypes}
-        catalogItems={catalogItems}
-      />
+      <PublishRequirements currentCatalog={currentCatalog} />
     </div>
   );
 }

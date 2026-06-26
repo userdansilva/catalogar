@@ -13,6 +13,16 @@ export const routes = {
   public: {
     title: "Catálogo",
     url: (slug: string) => `/@${slug}`,
+    sub: {
+      cart: {
+        title: "Carrinho",
+        url: (slug: string) => `/@${slug}/carrinho`,
+      },
+      cartSummary: {
+        title: "Resumo do Carrinho",
+        url: (slug: string) => `/@${slug}/carrinho/resumo`,
+      },
+    },
   },
   catalog: {
     title: "Catálogo",

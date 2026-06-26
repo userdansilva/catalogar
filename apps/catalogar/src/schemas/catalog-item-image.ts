@@ -4,7 +4,7 @@ export const catalogItemImageSchema = z.object({
   id: z.uuidv4(),
   fileName: z.string(),
   url: z.string(),
-  sizeInBytes: z.number(),
+  size: z.number(),
   width: z.number(),
   height: z.number(),
   altText: z.string().optional(),

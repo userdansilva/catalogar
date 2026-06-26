@@ -1,4 +1,5 @@
-import { Auth0Client } from "@auth0/nextjs-auth0/server";
+import { Auth0Client, filterDefaultIdTokenClaims } from "@auth0/nextjs-auth0/server";
+import prisma from "@/lib/prisma";
 
 export const auth0 = new Auth0Client({
   domain: process.env.AUTH0_DOMAIN,
@@ -26,4 +27,20 @@ export const auth0 = new Auth0Client({
     },
   },
   signInReturnToPath: "/dashboard",
+  beforeSessionSaved: async (session) => {
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      select: { currentCatalogId: true },
+    });
+
+    return {
+      ...session,
+      user: {
+        ...filterDefaultIdTokenClaims(session.user),
+        name: session.user.name,
+        email: session.user.email,
+        currentCatalogId: user?.currentCatalogId
+      }
+    }
+  },
 });

@@ -1,8 +1,8 @@
-import { getUser } from "@/services/get-user";
+import { getSession } from "@/utils/get-session";
 import { NavUserClient } from "./client";
 
 export async function NavUser() {
-  const user = await getUser();
+  const session = await getSession();
 
-  return <NavUserClient user={user} />;
+  return <NavUserClient user={session.user} />;
 }

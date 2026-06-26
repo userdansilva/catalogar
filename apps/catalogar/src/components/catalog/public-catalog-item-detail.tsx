@@ -1,31 +1,53 @@
-import { Badge } from "@catalogar/ui/components/badge";
+"use client";
+
+import { Button } from "@catalogar/ui/components/button";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@catalogar/ui/components/drawer";
 import { ScrollArea, ScrollBar } from "@catalogar/ui/components/scroll-area";
-import { Forward } from "lucide-react";
+import { cn } from "@catalogar/ui/lib/utils";
+import {
+  ExternalLink,
+  MessageCircleMore,
+  Share2,
+  ShoppingCart,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "sonner";
+import whatsapp from "@/assets/images/whatsapp.svg";
 import { CarouselImages } from "@/components/catalog/carousel-images";
-import type { Company, Prisma } from "@/generated/prisma/client";
+import type { Catalog, Company, Prisma } from "@/generated/prisma/client";
 import { CopyButton } from "../inputs/copy-button";
 import { ShareButton } from "../inputs/share-button";
+import { useCartStore } from "../providers/cart-store-provider";
+import { CategoriesDisplay } from "./categories-display";
+import { PriceDisplay } from "./price-display";
+import { TitleDisplay } from "./title-display";
+
+type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
+  include: {
+    images: true;
+    categories: true;
+    productType: true;
+  };
+}>;
 
 type PublicCatalogItemDetailProps = {
   baseUrl: string;
-  catalogItem: Prisma.CatalogItemGetPayload<{
-    include: {
-      images: true;
-      categories: true;
-      productType: true;
-    };
-  }>;
+  catalogItem: Omit<CatalogItemRaw, "price"> & {
+    price: string | null;
+  };
   company?: Company;
   unoptimized?: boolean;
-  relatedCatalogItems: Prisma.CatalogItemGetPayload<{
-    include: {
-      images: true;
-      categories: true;
-      productType: true;
-    };
-  }>[];
+  relatedCatalogItems: (Omit<CatalogItemRaw, "price"> & {
+    price: string | null;
+  })[];
+  catalog: Catalog;
 };
 
 export function PublicCatalogItemDetail({
@@ -34,49 +56,47 @@ export function PublicCatalogItemDetail({
   company,
   unoptimized,
   relatedCatalogItems,
+  catalog,
 }: PublicCatalogItemDetailProps) {
+  const { addItem } = useCartStore((state) => state);
+
   return (
-    <div className="flex flex-col space-y-10">
-      <div className="flex flex-col gap-10 lg:flex-row">
+    <div className="flex flex-col space-y-10 mb-10">
+      <div className="flex flex-col gap-4 lg:flex-row">
         <CarouselImages images={catalogItem.images} unoptimized={unoptimized} />
 
-        <div className="space-y-6 px-4 md:px-0">
-          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight">
-            {catalogItem.title}
-          </h1>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <TitleDisplay
+              title={catalogItem.title}
+              isDisabled={!!catalogItem.disabledAt}
+              className="text-lg"
+            />
 
-          {catalogItem.categories.length >= 1 && (
-            <div className="flex flex-wrap gap-1">
-              {catalogItem.categories.map((category) => (
-                <Badge
-                  key={category.id}
-                  style={{
-                    color: category.textColor,
-                    background: category.backgroundColor,
-                  }}
-                  className="px-1 shadow-none"
-                >
-                  {category.name}
-                </Badge>
-              ))}
-            </div>
-          )}
+            {catalogItem.categories.length > 0 && (
+              <CategoriesDisplay categories={catalogItem.categories} />
+            )}
+          </div>
+
+          {catalogItem.price && <PriceDisplay price={catalogItem.price} />}
 
           {catalogItem.caption && (
             <p className="leading-7">{catalogItem.caption}</p>
           )}
 
-          <ShareButton>
-            <Forward />
-            Compartilhar
-          </ShareButton>
+          <div>
+            <ShareButton>
+              <Share2 />
+              Compartilhar
+            </ShareButton>
+          </div>
 
           <p className="leading-7">
-            <span className="font-semibold">Produto: </span>
+            <span className="font-semibold text-sm">Produto: </span>
             {catalogItem.productType.name}
           </p>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-sm">
             <p className="leading-7">
               <span className="font-semibold">Código: </span>
               {catalogItem.reference}
@@ -88,24 +108,83 @@ export function PublicCatalogItemDetail({
             />
           </div>
 
-          {company?.mainSiteUrl && (
-            <div>
-              <p className="font-semibold">Contato do Vendedor</p>
-              <a
-                href={company.mainSiteUrl}
-                className="underline underline-offset-2"
-                target="_blank"
+          <div className="fixed bottom-0 inset-x-0 flex flex-row bg-background shadow-lg z-10 lg:relative lg:bg-transparent lg:shadow-none">
+            <Drawer>
+              <DrawerTrigger asChild>
+                <Button
+                  className={cn(
+                    "rounded-none bg-emerald-500 text-white lg:rounded-l-lg",
+                    !catalog.isCartEnabled && "flex-1 lg:rounded-r-lg",
+                  )}
+                  size="lg"
+                  variant="ghost"
+                >
+                  <MessageCircleMore />
+                  Falar com Vendedor
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerTitle className="text-center text-4xl font-extrabold tracking-tight text-balance underline underline-offset-4 mb-2">
+                  {company?.name || "Minha Empresa"}
+                </DrawerTitle>
+                {company?.description && (
+                  <DrawerDescription className="text-center">
+                    {company.description}
+                  </DrawerDescription>
+                )}
+                <div className="flex flex-col gap-2 mb-10 mx-4">
+                  {company?.mainSiteUrl && (
+                    <Button variant="ghost" asChild size="lg">
+                      <a
+                        href={company.mainSiteUrl}
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        {company.mainSiteUrl}
+                        <ExternalLink />
+                      </a>
+                    </Button>
+                  )}
+
+                  {company?.phoneNumber && (
+                    <Button className="bg-[#25D366]" asChild size="lg">
+                      <a
+                        href={`https://wa.me/${company.phoneNumber.replace(/\D/g, "")}`}
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        <Image
+                          src={whatsapp}
+                          alt="Logo WhatsApp"
+                          className="size-4 fill-blue-600"
+                        />
+                        {company.phoneNumber}
+                      </a>
+                    </Button>
+                  )}
+                </div>
+              </DrawerContent>
+            </Drawer>
+            {catalog.isCartEnabled && (
+              <Button
+                className="rounded-none flex-1 lg:rounded-r-lg"
+                size="lg"
+                onClick={() => {
+                  addItem(Number(catalogItem.reference));
+                  toast.success("Adicionado ao carrinho");
+                }}
               >
-                {company.mainSiteUrl}
-              </a>
-            </div>
-          )}
+                Adicionar
+                <ShoppingCart />
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 
       {relatedCatalogItems.length >= 1 && (
         <div className="w-full max-w-screen space-y-4">
-          <div className="px-4 font-semibold md:px-0">Relacionados</div>
+          <div className="font-semibold">Relacionados</div>
 
           <ScrollArea className="whitespace-nowrap">
             <div className="flex gap-2 px-4 md:px-0">

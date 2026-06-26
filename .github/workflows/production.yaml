@@ -7,6 +7,7 @@ on:
     paths:
       - apps/catalogar/**
       - packages/**
+      - .github/workflows
 
 jobs:
   deploy:

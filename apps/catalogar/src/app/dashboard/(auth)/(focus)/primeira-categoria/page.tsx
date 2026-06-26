@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { RedirectType, redirect } from "next/navigation";
 import { CreateCategoryForm } from "@/components/forms/create-category-form";
 import { PrevButton } from "@/components/inputs/prev-button";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getCategories } from "@/services/get-categories";
+import { getSession } from "@/utils/get-session";
 
 export const metadata: Metadata = {
   title: routes.categories.sub.createFirst.title,
@@ -14,10 +15,17 @@ export default async function CreateFirstCategory({
 }: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
-  const { callbackUrl } = await searchParams;
-  const { categories } = await getCategories();
+  const session = await getSession();
 
-  if (categories.length >= 1 && !callbackUrl) {
+  const categoriesCount = await prisma.category.count({
+    where: {
+      catalogId: session.user.currentCatalogId,
+    },
+  });
+
+  const { callbackUrl } = await searchParams;
+
+  if (categoriesCount >= 1 && !callbackUrl) {
     return redirect(routes.categories.url, RedirectType.replace);
   }
 

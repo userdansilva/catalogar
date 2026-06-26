@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { RedirectType, redirect } from "next/navigation";
 import { CreateCompanyForm } from "@/components/forms/create-company-form";
 import { PrevButton } from "@/components/inputs/prev-button";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getUser } from "@/services/get-user";
+import { getSession } from "@/utils/get-session";
 
 export const metadata: Metadata = {
   title: routes.company.sub.new.title,
@@ -14,10 +15,17 @@ export default async function RegisterCompany({
 }: {
   searchParams: Promise<{ callbackUrl?: string }>;
 }) {
-  const user = await getUser();
+  const session = await getSession();
+
+  const company = await prisma.company.findUnique({
+    where: {
+      catalogId: session.user.currentCatalogId,
+    },
+  });
+
   const { callbackUrl } = await searchParams;
 
-  if (user.currentCatalog.company && !callbackUrl) {
+  if (company && !callbackUrl) {
     return redirect(routes.dashboard.url, RedirectType.replace);
   }
 

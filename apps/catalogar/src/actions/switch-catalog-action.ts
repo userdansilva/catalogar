@@ -1,33 +1,32 @@
 "use server";
 
+import { filterDefaultIdTokenClaims } from "@auth0/nextjs-auth0/server";
 import { z } from "zod";
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { auth0 } from "@/lib/auth0";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 
-export const switchCatalogAction = authActionClientWithUser
+export const switchCatalogAction = authActionClient
   .inputSchema(z.object({ id: z.string() }))
   .metadata({
     actionName: "switch-catalog-action",
   })
-  .action(async ({ parsedInput: { id }, ctx: { user } }) => {
-    const catalog = await prisma.catalog.findUnique({
+  .action(async ({ parsedInput: { id }, ctx: { session } }) => {
+    await prisma.user.update({
       where: {
-        id,
-        userId: user.id,
+        email: session.user.email,
+      },
+      data: {
+        currentCatalogId: id,
       },
     });
 
-    if (!catalog) {
-      return {
-        error: "Catálogo não encontrado",
-      };
-    }
-
-    await prisma.user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
+    await auth0.updateSession({
+      ...session,
+      user: {
+        ...filterDefaultIdTokenClaims(session.user),
+        name: session.user.name,
+        email: session.user.email,
         currentCatalogId: id,
       },
     });

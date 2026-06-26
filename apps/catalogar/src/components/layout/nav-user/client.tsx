@@ -18,10 +18,16 @@ import {
 } from "@catalogar/ui/components/sidebar";
 import { Book, ChevronsUpDown, LogOut } from "lucide-react";
 import Link from "next/link";
-import type { User } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 
-export function NavUserClient({ user }: { user: User }) {
+export function NavUserClient({
+  user,
+}: {
+  user: {
+    name: string;
+    email: string;
+  };
+}) {
   const { isMobile } = useSidebar();
 
   const initials = user.name

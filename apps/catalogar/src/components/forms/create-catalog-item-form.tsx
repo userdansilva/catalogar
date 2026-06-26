@@ -66,6 +66,7 @@ export function CreateCatalogItemForm({
           onSuccess: () => {
             toast.success("Item de catálogo adicionado!");
             resetFormAndAction();
+            form.reset();
             router.push(callbackUrl || routes.catalogItems.url);
           },
           onError: (e) => {
@@ -173,6 +174,29 @@ export function CreateCatalogItemForm({
                 Aproveite para incluir palavras-chave que ajude seus clientes a
                 encontrarem esse item mais facilmente.
               </FormDescription>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="price"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Preço (Opcional)</FormLabel>
+
+              <FormControl>
+                <Input
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  placeholder="Ex: 99,90"
+                  disabled={form.formState.isSubmitting}
+                  {...field}
+                />
+              </FormControl>
 
               <FormMessage />
             </FormItem>

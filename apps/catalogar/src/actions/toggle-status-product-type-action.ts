@@ -1,49 +1,37 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { productTypeStatusToggleSchema } from "@/schemas/product-type";
 
-export const toggleProductTypeStatusAction = authActionClientWithUser
+export const toggleProductTypeStatusAction = authActionClient
   .inputSchema(productTypeStatusToggleSchema)
   .metadata({
     actionName: "switch-product-type-enable",
   })
   .action(
     async ({
-      parsedInput: { id },
+      parsedInput: { id, isDisabled },
       ctx: {
-        user: { currentCatalog },
+        session: { user },
       },
     }) => {
-      const existingProductType = await prisma.productType.findFirst({
-        where: {
-          id,
-          catalogId: currentCatalog.id,
-        },
-      });
-
-      if (!existingProductType) {
-        return {
-          error: {
-            message: "Tipo de produto não encontrado",
-          },
-        };
-      }
-
       const productType = await prisma.productType.update({
         where: {
           id,
-          catalogId: currentCatalog.id,
+          catalogId: user.currentCatalogId,
         },
         data: {
-          disabledAt: existingProductType.disabledAt ? null : new Date(),
+          disabledAt: isDisabled ? new Date() : null,
+        },
+        include: {
+          catalog: true,
         },
       });
 
-      if (currentCatalog.publishedAt && currentCatalog.slug) {
-        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      if (productType.catalog.publishedAt && productType.catalog.slug) {
+        revalidateTag(`public-catalog-${productType.catalog.slug}`, "max");
       }
 
       return {

@@ -36,7 +36,7 @@ export const createImageAction = authActionClient
     return {
       fileName,
       url: accessUrl,
-      sizeInBytes: optimizedImage.length,
+      size: optimizedImage.length,
       width: 600,
       height: 600,
     };

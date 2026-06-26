@@ -28,6 +28,7 @@ export type CatalogMinAggregateOutputType = {
   id: string | null
   name: string | null
   slug: string | null
+  isCartEnabled: boolean | null
   publishedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -38,6 +39,7 @@ export type CatalogMaxAggregateOutputType = {
   id: string | null
   name: string | null
   slug: string | null
+  isCartEnabled: boolean | null
   publishedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -48,6 +50,7 @@ export type CatalogCountAggregateOutputType = {
   id: number
   name: number
   slug: number
+  isCartEnabled: number
   publishedAt: number
   createdAt: number
   updatedAt: number
@@ -60,6 +63,7 @@ export type CatalogMinAggregateInputType = {
   id?: true
   name?: true
   slug?: true
+  isCartEnabled?: true
   publishedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -70,6 +74,7 @@ export type CatalogMaxAggregateInputType = {
   id?: true
   name?: true
   slug?: true
+  isCartEnabled?: true
   publishedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -80,6 +85,7 @@ export type CatalogCountAggregateInputType = {
   id?: true
   name?: true
   slug?: true
+  isCartEnabled?: true
   publishedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -163,6 +169,7 @@ export type CatalogGroupByOutputType = {
   id: string
   name: string
   slug: string | null
+  isCartEnabled: boolean
   publishedAt: Date | null
   createdAt: Date
   updatedAt: Date
@@ -194,6 +201,7 @@ export type CatalogWhereInput = {
   id?: Prisma.StringFilter<"Catalog"> | string
   name?: Prisma.StringFilter<"Catalog"> | string
   slug?: Prisma.StringNullableFilter<"Catalog"> | string | null
+  isCartEnabled?: Prisma.BoolFilter<"Catalog"> | boolean
   publishedAt?: Prisma.DateTimeNullableFilter<"Catalog"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Catalog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Catalog"> | Date | string
@@ -213,6 +221,7 @@ export type CatalogOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrderInput | Prisma.SortOrder
+  isCartEnabled?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -235,6 +244,7 @@ export type CatalogWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CatalogWhereInput[]
   NOT?: Prisma.CatalogWhereInput | Prisma.CatalogWhereInput[]
   name?: Prisma.StringFilter<"Catalog"> | string
+  isCartEnabled?: Prisma.BoolFilter<"Catalog"> | boolean
   publishedAt?: Prisma.DateTimeNullableFilter<"Catalog"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Catalog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Catalog"> | Date | string
@@ -254,6 +264,7 @@ export type CatalogOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrderInput | Prisma.SortOrder
+  isCartEnabled?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -270,6 +281,7 @@ export type CatalogScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Catalog"> | string
   name?: Prisma.StringWithAggregatesFilter<"Catalog"> | string
   slug?: Prisma.StringNullableWithAggregatesFilter<"Catalog"> | string | null
+  isCartEnabled?: Prisma.BoolWithAggregatesFilter<"Catalog"> | boolean
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Catalog"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Catalog"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Catalog"> | Date | string
@@ -280,6 +292,7 @@ export type CatalogCreateInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -298,6 +311,7 @@ export type CatalogUncheckedCreateInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -316,6 +330,7 @@ export type CatalogUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -334,6 +349,7 @@ export type CatalogUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -352,6 +368,7 @@ export type CatalogCreateManyInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -362,6 +379,7 @@ export type CatalogUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -371,6 +389,7 @@ export type CatalogUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -396,6 +415,7 @@ export type CatalogCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
+  isCartEnabled?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -406,6 +426,7 @@ export type CatalogMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
+  isCartEnabled?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -416,6 +437,7 @@ export type CatalogMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
+  isCartEnabled?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -483,6 +505,10 @@ export type CatalogUncheckedUpdateManyWithoutUserNestedInput = {
   update?: Prisma.CatalogUpdateWithWhereUniqueWithoutUserInput | Prisma.CatalogUpdateWithWhereUniqueWithoutUserInput[]
   updateMany?: Prisma.CatalogUpdateManyWithWhereWithoutUserInput | Prisma.CatalogUpdateManyWithWhereWithoutUserInput[]
   deleteMany?: Prisma.CatalogScalarWhereInput | Prisma.CatalogScalarWhereInput[]
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -591,6 +617,7 @@ export type CatalogCreateWithoutUserInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -608,6 +635,7 @@ export type CatalogUncheckedCreateWithoutUserInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -635,6 +663,7 @@ export type CatalogCreateWithoutCurrentOfUserInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -652,6 +681,7 @@ export type CatalogUncheckedCreateWithoutCurrentOfUserInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -693,6 +723,7 @@ export type CatalogScalarWhereInput = {
   id?: Prisma.StringFilter<"Catalog"> | string
   name?: Prisma.StringFilter<"Catalog"> | string
   slug?: Prisma.StringNullableFilter<"Catalog"> | string | null
+  isCartEnabled?: Prisma.BoolFilter<"Catalog"> | boolean
   publishedAt?: Prisma.DateTimeNullableFilter<"Catalog"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Catalog"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Catalog"> | Date | string
@@ -714,6 +745,7 @@ export type CatalogUpdateWithoutCurrentOfUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -731,6 +763,7 @@ export type CatalogUncheckedUpdateWithoutCurrentOfUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -748,6 +781,7 @@ export type CatalogCreateWithoutCompanyInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -765,6 +799,7 @@ export type CatalogUncheckedCreateWithoutCompanyInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -798,6 +833,7 @@ export type CatalogUpdateWithoutCompanyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -815,6 +851,7 @@ export type CatalogUncheckedUpdateWithoutCompanyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -832,6 +869,7 @@ export type CatalogCreateWithoutThemeInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -849,6 +887,7 @@ export type CatalogUncheckedCreateWithoutThemeInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -882,6 +921,7 @@ export type CatalogUpdateWithoutThemeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -899,6 +939,7 @@ export type CatalogUncheckedUpdateWithoutThemeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -916,6 +957,7 @@ export type CatalogCreateWithoutThemeLogosInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -933,6 +975,7 @@ export type CatalogUncheckedCreateWithoutThemeLogosInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -966,6 +1009,7 @@ export type CatalogUpdateWithoutThemeLogosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -983,6 +1027,7 @@ export type CatalogUncheckedUpdateWithoutThemeLogosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1000,6 +1045,7 @@ export type CatalogCreateWithoutProductTypesInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1017,6 +1063,7 @@ export type CatalogUncheckedCreateWithoutProductTypesInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1050,6 +1097,7 @@ export type CatalogUpdateWithoutProductTypesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1067,6 +1115,7 @@ export type CatalogUncheckedUpdateWithoutProductTypesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1084,6 +1133,7 @@ export type CatalogCreateWithoutCategoriesInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1101,6 +1151,7 @@ export type CatalogUncheckedCreateWithoutCategoriesInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1134,6 +1185,7 @@ export type CatalogUpdateWithoutCategoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1151,6 +1203,7 @@ export type CatalogUncheckedUpdateWithoutCategoriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1168,6 +1221,7 @@ export type CatalogCreateWithoutCatalogItemsInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1185,6 +1239,7 @@ export type CatalogUncheckedCreateWithoutCatalogItemsInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1218,6 +1273,7 @@ export type CatalogUpdateWithoutCatalogItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1235,6 +1291,7 @@ export type CatalogUncheckedUpdateWithoutCatalogItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1252,6 +1309,7 @@ export type CatalogCreateWithoutCatalogItemImagesInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1269,6 +1327,7 @@ export type CatalogUncheckedCreateWithoutCatalogItemImagesInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1302,6 +1361,7 @@ export type CatalogUpdateWithoutCatalogItemImagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1319,6 +1379,7 @@ export type CatalogUncheckedUpdateWithoutCatalogItemImagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1336,6 +1397,7 @@ export type CatalogCreateManyUserInput = {
   id?: string
   name: string
   slug?: string | null
+  isCartEnabled?: boolean
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1345,6 +1407,7 @@ export type CatalogUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1362,6 +1425,7 @@ export type CatalogUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1379,6 +1443,7 @@ export type CatalogUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCartEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1455,6 +1520,7 @@ export type CatalogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   name?: boolean
   slug?: boolean
+  isCartEnabled?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1475,6 +1541,7 @@ export type CatalogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   name?: boolean
   slug?: boolean
+  isCartEnabled?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1486,6 +1553,7 @@ export type CatalogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   name?: boolean
   slug?: boolean
+  isCartEnabled?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1497,13 +1565,14 @@ export type CatalogSelectScalar = {
   id?: boolean
   name?: boolean
   slug?: boolean
+  isCartEnabled?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
 }
 
-export type CatalogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "publishedAt" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["catalog"]>
+export type CatalogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "isCartEnabled" | "publishedAt" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["catalog"]>
 export type CatalogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   currentOfUser?: boolean | Prisma.Catalog$currentOfUserArgs<ExtArgs>
@@ -1540,6 +1609,7 @@ export type $CatalogPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     name: string
     slug: string | null
+    isCartEnabled: boolean
     publishedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -1979,6 +2049,7 @@ export interface CatalogFieldRefs {
   readonly id: Prisma.FieldRef<"Catalog", 'String'>
   readonly name: Prisma.FieldRef<"Catalog", 'String'>
   readonly slug: Prisma.FieldRef<"Catalog", 'String'>
+  readonly isCartEnabled: Prisma.FieldRef<"Catalog", 'Boolean'>
   readonly publishedAt: Prisma.FieldRef<"Catalog", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Catalog", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Catalog", 'DateTime'>

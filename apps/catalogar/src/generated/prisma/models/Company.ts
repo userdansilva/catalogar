@@ -27,6 +27,7 @@ export type AggregateCompany = {
 export type CompanyMinAggregateOutputType = {
   id: string | null
   name: string | null
+  slogan: string | null
   description: string | null
   mainSiteUrl: string | null
   phoneNumber: string | null
@@ -39,6 +40,7 @@ export type CompanyMinAggregateOutputType = {
 export type CompanyMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  slogan: string | null
   description: string | null
   mainSiteUrl: string | null
   phoneNumber: string | null
@@ -51,6 +53,7 @@ export type CompanyMaxAggregateOutputType = {
 export type CompanyCountAggregateOutputType = {
   id: number
   name: number
+  slogan: number
   description: number
   mainSiteUrl: number
   phoneNumber: number
@@ -65,6 +68,7 @@ export type CompanyCountAggregateOutputType = {
 export type CompanyMinAggregateInputType = {
   id?: true
   name?: true
+  slogan?: true
   description?: true
   mainSiteUrl?: true
   phoneNumber?: true
@@ -77,6 +81,7 @@ export type CompanyMinAggregateInputType = {
 export type CompanyMaxAggregateInputType = {
   id?: true
   name?: true
+  slogan?: true
   description?: true
   mainSiteUrl?: true
   phoneNumber?: true
@@ -89,6 +94,7 @@ export type CompanyMaxAggregateInputType = {
 export type CompanyCountAggregateInputType = {
   id?: true
   name?: true
+  slogan?: true
   description?: true
   mainSiteUrl?: true
   phoneNumber?: true
@@ -174,6 +180,7 @@ export type CompanyGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type CompanyGroupByOutputType = {
   id: string
   name: string
+  slogan: string | null
   description: string | null
   mainSiteUrl: string | null
   phoneNumber: string | null
@@ -207,6 +214,7 @@ export type CompanyWhereInput = {
   NOT?: Prisma.CompanyWhereInput | Prisma.CompanyWhereInput[]
   id?: Prisma.StringFilter<"Company"> | string
   name?: Prisma.StringFilter<"Company"> | string
+  slogan?: Prisma.StringNullableFilter<"Company"> | string | null
   description?: Prisma.StringNullableFilter<"Company"> | string | null
   mainSiteUrl?: Prisma.StringNullableFilter<"Company"> | string | null
   phoneNumber?: Prisma.StringNullableFilter<"Company"> | string | null
@@ -220,6 +228,7 @@ export type CompanyWhereInput = {
 export type CompanyOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  slogan?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   mainSiteUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   phoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -237,6 +246,7 @@ export type CompanyWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CompanyWhereInput[]
   NOT?: Prisma.CompanyWhereInput | Prisma.CompanyWhereInput[]
   name?: Prisma.StringFilter<"Company"> | string
+  slogan?: Prisma.StringNullableFilter<"Company"> | string | null
   description?: Prisma.StringNullableFilter<"Company"> | string | null
   mainSiteUrl?: Prisma.StringNullableFilter<"Company"> | string | null
   phoneNumber?: Prisma.StringNullableFilter<"Company"> | string | null
@@ -249,6 +259,7 @@ export type CompanyWhereUniqueInput = Prisma.AtLeast<{
 export type CompanyOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  slogan?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   mainSiteUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   phoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -267,6 +278,7 @@ export type CompanyScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CompanyScalarWhereWithAggregatesInput | Prisma.CompanyScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Company"> | string
   name?: Prisma.StringWithAggregatesFilter<"Company"> | string
+  slogan?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
   mainSiteUrl?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
   phoneNumber?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
@@ -279,6 +291,7 @@ export type CompanyScalarWhereWithAggregatesInput = {
 export type CompanyCreateInput = {
   id?: string
   name: string
+  slogan?: string | null
   description?: string | null
   mainSiteUrl?: string | null
   phoneNumber?: string | null
@@ -291,6 +304,7 @@ export type CompanyCreateInput = {
 export type CompanyUncheckedCreateInput = {
   id?: string
   name: string
+  slogan?: string | null
   description?: string | null
   mainSiteUrl?: string | null
   phoneNumber?: string | null
@@ -303,6 +317,7 @@ export type CompanyUncheckedCreateInput = {
 export type CompanyUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slogan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mainSiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -315,6 +330,7 @@ export type CompanyUpdateInput = {
 export type CompanyUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slogan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mainSiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -327,6 +343,7 @@ export type CompanyUncheckedUpdateInput = {
 export type CompanyCreateManyInput = {
   id?: string
   name: string
+  slogan?: string | null
   description?: string | null
   mainSiteUrl?: string | null
   phoneNumber?: string | null
@@ -339,6 +356,7 @@ export type CompanyCreateManyInput = {
 export type CompanyUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slogan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mainSiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -350,6 +368,7 @@ export type CompanyUpdateManyMutationInput = {
 export type CompanyUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slogan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mainSiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -367,6 +386,7 @@ export type CompanyNullableScalarRelationFilter = {
 export type CompanyCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  slogan?: Prisma.SortOrder
   description?: Prisma.SortOrder
   mainSiteUrl?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
@@ -379,6 +399,7 @@ export type CompanyCountOrderByAggregateInput = {
 export type CompanyMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  slogan?: Prisma.SortOrder
   description?: Prisma.SortOrder
   mainSiteUrl?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
@@ -391,6 +412,7 @@ export type CompanyMaxOrderByAggregateInput = {
 export type CompanyMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  slogan?: Prisma.SortOrder
   description?: Prisma.SortOrder
   mainSiteUrl?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
@@ -435,6 +457,7 @@ export type CompanyUncheckedUpdateOneWithoutCatalogNestedInput = {
 export type CompanyCreateWithoutCatalogInput = {
   id?: string
   name: string
+  slogan?: string | null
   description?: string | null
   mainSiteUrl?: string | null
   phoneNumber?: string | null
@@ -446,6 +469,7 @@ export type CompanyCreateWithoutCatalogInput = {
 export type CompanyUncheckedCreateWithoutCatalogInput = {
   id?: string
   name: string
+  slogan?: string | null
   description?: string | null
   mainSiteUrl?: string | null
   phoneNumber?: string | null
@@ -473,6 +497,7 @@ export type CompanyUpdateToOneWithWhereWithoutCatalogInput = {
 export type CompanyUpdateWithoutCatalogInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slogan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mainSiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -484,6 +509,7 @@ export type CompanyUpdateWithoutCatalogInput = {
 export type CompanyUncheckedUpdateWithoutCatalogInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  slogan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mainSiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -497,6 +523,7 @@ export type CompanyUncheckedUpdateWithoutCatalogInput = {
 export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  slogan?: boolean
   description?: boolean
   mainSiteUrl?: boolean
   phoneNumber?: boolean
@@ -510,6 +537,7 @@ export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type CompanySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  slogan?: boolean
   description?: boolean
   mainSiteUrl?: boolean
   phoneNumber?: boolean
@@ -523,6 +551,7 @@ export type CompanySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type CompanySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  slogan?: boolean
   description?: boolean
   mainSiteUrl?: boolean
   phoneNumber?: boolean
@@ -536,6 +565,7 @@ export type CompanySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type CompanySelectScalar = {
   id?: boolean
   name?: boolean
+  slogan?: boolean
   description?: boolean
   mainSiteUrl?: boolean
   phoneNumber?: boolean
@@ -545,7 +575,7 @@ export type CompanySelectScalar = {
   catalogId?: boolean
 }
 
-export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "mainSiteUrl" | "phoneNumber" | "businessTypeDescription" | "createdAt" | "updatedAt" | "catalogId", ExtArgs["result"]["company"]>
+export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slogan" | "description" | "mainSiteUrl" | "phoneNumber" | "businessTypeDescription" | "createdAt" | "updatedAt" | "catalogId", ExtArgs["result"]["company"]>
 export type CompanyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   catalog?: boolean | Prisma.CatalogDefaultArgs<ExtArgs>
 }
@@ -564,6 +594,7 @@ export type $CompanyPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    slogan: string | null
     description: string | null
     mainSiteUrl: string | null
     phoneNumber: string | null
@@ -997,6 +1028,7 @@ export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends runtime.
 export interface CompanyFieldRefs {
   readonly id: Prisma.FieldRef<"Company", 'String'>
   readonly name: Prisma.FieldRef<"Company", 'String'>
+  readonly slogan: Prisma.FieldRef<"Company", 'String'>
   readonly description: Prisma.FieldRef<"Company", 'String'>
   readonly mainSiteUrl: Prisma.FieldRef<"Company", 'String'>
   readonly phoneNumber: Prisma.FieldRef<"Company", 'String'>

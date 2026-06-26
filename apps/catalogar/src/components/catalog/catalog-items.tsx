@@ -6,15 +6,19 @@ import { CatalogPagination } from "./catalog-pagination";
 import { PrivateCatalogItem } from "./private-catalog-item";
 import { PublicCatalogItem } from "./public-catalog-item";
 
+type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
+  include: {
+    categories: true;
+    images: true;
+    productType: true;
+  };
+}>;
+
 type CatalogItemsProps = {
   query?: string;
-  catalogItems: Prisma.CatalogItemGetPayload<{
-    include: {
-      categories: true;
-      images: true;
-      productType: true;
-    };
-  }>[];
+  catalogItems: (Omit<CatalogItemRaw, "price"> & {
+    price: string | null;
+  })[];
   productTypeSlug?: string;
   categorySlug?: string;
   currentPage?: number;
@@ -69,9 +73,9 @@ export function CatalogItems({
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {paginatedCatalogItems.map((catalogItem) =>
-          isPublic ? (
+      <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {paginatedCatalogItems.map((catalogItem) => {
+          return isPublic ? (
             <PublicCatalogItem
               key={catalogItem.id}
               catalogItem={catalogItem}
@@ -82,8 +86,8 @@ export function CatalogItems({
               key={catalogItem.id}
               catalogItem={catalogItem}
             />
-          ),
-        )}
+          );
+        })}
       </div>
 
       {catalogItemsTotal > perPage && (

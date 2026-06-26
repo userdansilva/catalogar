@@ -11,7 +11,7 @@ export const createCatalogItemSchema = z.object({
       z.object({
         fileName: z.string(),
         url: z.string(),
-        sizeInBytes: z.number(),
+        size: z.number(),
         width: z.number(),
         height: z.number(),
         altText: z.string(),
@@ -19,7 +19,11 @@ export const createCatalogItemSchema = z.object({
       }),
     )
     .min(1, "É necessário adicionar, no mínimo, uma imagem"),
-  price: z.string(),
+  price: z
+    .string()
+    .refine((val) => val === "" || /^\d+([.,]\d{1,2})?$/.test(val), {
+      message: "Preço inválido",
+    }),
   categoryIds: z.array(z.uuidv4()),
 });
 
@@ -34,4 +38,5 @@ export const catalogItemStatusToggleSchema = z.object({
   id: z.uuidv4({
     error: "Campo obrigatório",
   }),
+  isDisabled: z.boolean(),
 });

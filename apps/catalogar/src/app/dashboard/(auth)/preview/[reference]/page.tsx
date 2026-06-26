@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
 import { PrevButton } from "@/components/inputs/prev-button";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getCatalogItems } from "@/services/get-catalog-items";
-import { getUser } from "@/services/get-user";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
+import { getSession } from "@/utils/get-session";
 import { paginate } from "@/utils/paginate";
 
 export default async function Page({
@@ -12,9 +12,25 @@ export default async function Page({
 }: {
   params: Promise<{ reference: string }>;
 }) {
-  const user = await getUser();
+  const session = await getSession();
 
-  const { catalogItems } = await getCatalogItems();
+  const { catalogItems, company, ...catalog } =
+    await prisma.catalog.findUniqueOrThrow({
+      where: {
+        id: session.user.currentCatalogId,
+      },
+      include: {
+        catalogItems: {
+          include: {
+            categories: true,
+            productType: true,
+            images: true,
+          },
+        },
+        company: true,
+      },
+    });
+
   const { reference } = await params;
 
   const catalogItem = catalogItems.find(
@@ -26,7 +42,10 @@ export default async function Page({
   }
 
   const relatedCatalogItems = filterCatalogItems(
-    catalogItems,
+    catalogItems.map((item) => ({
+      ...item,
+      price: item.price?.toString() ?? null,
+    })),
     {
       query: `${catalogItem.categories.map((category) => category.name).toString()}, ${catalogItem.productType.name}`,
     },
@@ -45,10 +64,17 @@ export default async function Page({
       <PrevButton fallbackUrl={routes.preview.url} />
 
       <PublicCatalogItemDetail
+        catalog={catalog}
         baseUrl={routes.preview.url}
-        catalogItem={catalogItem}
-        company={user.currentCatalog.company || undefined}
-        relatedCatalogItems={paginatedCatalogItems}
+        catalogItem={{
+          ...catalogItem,
+          price: catalogItem.price?.toString() ?? null,
+        }}
+        company={company || undefined}
+        relatedCatalogItems={paginatedCatalogItems.map((item) => ({
+          ...item,
+          price: catalogItem.price?.toString() ?? null,
+        }))}
       />
     </div>
   );

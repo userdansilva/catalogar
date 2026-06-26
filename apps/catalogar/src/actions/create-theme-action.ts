@@ -1,10 +1,10 @@
 "use server";
 
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { createThemeSchema } from "@/schemas/theme";
 
-export const createThemeAction = authActionClientWithUser
+export const createThemeAction = authActionClient
   .inputSchema(createThemeSchema)
   .metadata({
     actionName: "create-theme",
@@ -13,24 +13,24 @@ export const createThemeAction = authActionClientWithUser
     async ({
       parsedInput: { primaryColor, secondaryColor, logo },
       ctx: {
-        user: { currentCatalog },
+        session: { user },
       },
     }) => {
       const theme = await prisma.theme.create({
         data: {
           primaryColor,
           secondaryColor,
-          catalogId: currentCatalog.id,
+          catalogId: user.currentCatalogId,
           logo: logo
             ? {
                 create: {
                   name: logo.name,
                   url: logo.url,
-                  size: logo.sizeInBytes,
+                  size: logo.size,
                   width: logo.width,
                   height: logo.height,
                   altText: logo.altText,
-                  catalogId: currentCatalog.id,
+                  catalogId: user.currentCatalogId,
                 },
               }
             : undefined,

@@ -1,5 +1,7 @@
 "use server";
 
+import { filterDefaultIdTokenClaims } from "@auth0/nextjs-auth0/server";
+import { auth0 } from "@/lib/auth0";
 import { authActionClientWithUser } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { createCatalogSchema } from "@/schemas/catalog";
@@ -9,7 +11,7 @@ export const createCatalogAction = authActionClientWithUser
   .metadata({
     actionName: "create-catalog",
   })
-  .action(async ({ parsedInput: { name }, ctx: { user } }) => {
+  .action(async ({ parsedInput: { name }, ctx: { user, session } }) => {
     const catalog = await prisma.catalog.create({
       data: {
         name,
@@ -23,6 +25,16 @@ export const createCatalogAction = authActionClientWithUser
         id: user.id,
       },
       data: {
+        currentCatalogId: catalog.id,
+      },
+    });
+
+    await auth0.updateSession({
+      ...session,
+      user: {
+        ...filterDefaultIdTokenClaims(session.user),
+        name: session.user.name,
+        email: session.user.email,
         currentCatalogId: catalog.id,
       },
     });

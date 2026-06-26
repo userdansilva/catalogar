@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import type { PropsWithChildren } from "react";
 import { CatalogLayout } from "@/components/catalog/catalog-layout";
-import prisma from "@/lib/prisma";
-import { routes } from "@/routes";
+import { CartStoreProvider } from "@/components/providers/cart-store-provider";
+import { getPublicCatalog } from "@/services/get-public-catalog";
 
 const ASCIIforAt = "%40"; // @
 
@@ -20,32 +20,15 @@ export default async function Layout({
 
   const slug = fullSlug.replace(ASCIIforAt, "");
 
-  const catalog = await prisma.catalog.findFirst({
-    where: {
-      slug,
-      publishedAt: { not: null },
-    },
-    include: {
-      theme: {
-        include: {
-          logo: true,
-        },
-      },
-      company: true,
-    },
-  });
+  const { catalog } = await getPublicCatalog(slug);
 
-  if (!catalog) {
-    notFound();
+  if (!catalog.company || !catalog.theme) {
+    throw new Error("Company or theme not found for catalog");
   }
 
   return (
-    <CatalogLayout
-      baseUrl={routes.public.url(slug)}
-      company={catalog.company}
-      theme={catalog.theme}
-    >
-      {children}
-    </CatalogLayout>
+    <CartStoreProvider slug={slug}>
+      <CatalogLayout catalog={catalog}>{children}</CatalogLayout>
+    </CartStoreProvider>
   );
 }

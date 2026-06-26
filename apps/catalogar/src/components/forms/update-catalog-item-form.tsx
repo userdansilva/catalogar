@@ -30,13 +30,20 @@ import { updateCatalogItemSchema } from "@/schemas/catalog-item";
 import { Button } from "../inputs/button";
 import { InputImages } from "../inputs/input-images";
 
+type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
+  include: {
+    categories: true;
+    productType: true;
+    images: true;
+  };
+}>;
+
+type CatalogItem = Omit<CatalogItemRaw, "price"> & {
+  price: string | null;
+};
+
 type UpdateCatalogItemFormProps = {
-  catalogItem: Prisma.CatalogItemGetPayload<{
-    include: {
-      categories: true;
-      images: true;
-    };
-  }>;
+  catalogItem: CatalogItem;
   categories: Category[];
   productTypes: ProductType[];
 };
@@ -59,13 +66,13 @@ export function UpdateCatalogItemForm({
             id: catalogItem.id,
             title: catalogItem.title,
             caption: catalogItem.caption ?? "",
-            price: catalogItem.price ? catalogItem.price.toString() : "",
+            price: catalogItem.price ?? "",
             productTypeId: catalogItem.productTypeId,
             categoryIds: catalogItem.categories.map((category) => category.id),
             images: catalogItem.images.map((image) => ({
               fileName: image.name,
               url: image.url,
-              sizeInBytes: Number(image.size),
+              size: Number(image.size),
               width: image.width,
               height: image.height,
               altText: image.altText,
@@ -90,7 +97,7 @@ export function UpdateCatalogItemForm({
               images: catalogItem.images.map((image) => ({
                 fileName: image.name,
                 url: image.url,
-                sizeInBytes: Number(image.size),
+                size: Number(image.size),
                 width: image.width,
                 height: image.height,
                 altText: image.altText,
@@ -205,6 +212,29 @@ export function UpdateCatalogItemForm({
                 Aproveite para incluir palavras-chave que ajude seus clientes a
                 encontrarem esse item mais facilmente.
               </FormDescription>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="price"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Preço (Opcional)</FormLabel>
+
+              <FormControl>
+                <Input
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck="false"
+                  placeholder="Ex: 99,90"
+                  disabled={form.formState.isSubmitting}
+                  {...field}
+                />
+              </FormControl>
 
               <FormMessage />
             </FormItem>

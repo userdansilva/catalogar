@@ -6,13 +6,8 @@ import {
 import { Button } from "@catalogar/ui/components/button";
 import { AlertCircle, Check, CircleCheckBigIcon, Lock, X } from "lucide-react";
 import Link from "next/link";
-import { RedirectType, redirect } from "next/navigation";
 import type { PropsWithChildren } from "react";
-import type {
-  CatalogItem,
-  Prisma,
-  ProductType,
-} from "@/generated/prisma/client";
+import type { Prisma } from "@/generated/prisma/client";
 import { routes } from "@/routes";
 import { PublishCatalogForm } from "./forms/publish-catalog-form";
 
@@ -50,35 +45,25 @@ function RequireItem({ done, children, href }: RequireItemProps) {
   );
 }
 
-type PublishRequirementsProps = {
-  user: Prisma.UserGetPayload<{
+export function PublishRequirements({
+  currentCatalog,
+}: {
+  currentCatalog: Prisma.CatalogGetPayload<{
     include: {
-      currentCatalog: {
-        include: {
-          company: true;
-          theme: true;
-        };
-      };
+      company: true;
+      theme: true;
+      productTypes: true;
+      catalogItems: true;
     };
   }>;
-  productTypes: ProductType[];
-  catalogItems: CatalogItem[];
-};
-
-export function PublishRequirements({
-  user,
-  productTypes,
-  catalogItems,
-}: PublishRequirementsProps) {
-  if (!user.currentCatalog) {
-    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
-  }
+}) {
+  const { catalogItems, company, theme, productTypes } = currentCatalog;
 
   const isRequerimentsDone =
     productTypes.length >= 1 &&
     catalogItems.length >= 1 &&
-    !!user.currentCatalog.company &&
-    !!user.currentCatalog.theme;
+    !!company &&
+    !!theme;
 
   return (
     <div className="space-y-6">
@@ -114,22 +99,16 @@ export function PublishRequirements({
         >
           Adicione um item de catálogo
         </RequireItem>
-        <RequireItem
-          done={!!user.currentCatalog.company}
-          href={routes.company.sub.new.url}
-        >
+        <RequireItem done={!!company} href={routes.company.sub.new.url}>
           Adicione informações da empresa
         </RequireItem>
-        <RequireItem
-          done={!!user.currentCatalog.theme}
-          href={routes.theme.sub.new.url}
-        >
+        <RequireItem done={!!theme} href={routes.theme.sub.new.url}>
           Adicione o tema ao catálogo
         </RequireItem>
       </ul>
 
       {isRequerimentsDone ? (
-        <PublishCatalogForm currentCatalog={user.currentCatalog} />
+        <PublishCatalogForm currentCatalog={currentCatalog} />
       ) : (
         <Button className="w-full" size="lg" disabled>
           <Lock />

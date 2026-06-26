@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { updateThemeSchema } from "@/schemas/theme";
 
-export const updateThemeAction = authActionClientWithUser
+export const updateThemeAction = authActionClient
   .inputSchema(updateThemeSchema)
   .metadata({
     actionName: "update-theme",
@@ -14,7 +14,7 @@ export const updateThemeAction = authActionClientWithUser
     async ({
       parsedInput: { primaryColor, secondaryColor, logo },
       ctx: {
-        user: { currentCatalog },
+        session: { user },
       },
     }) => {
       const theme = await prisma.theme.update({
@@ -27,34 +27,35 @@ export const updateThemeAction = authActionClientWithUser
                   create: {
                     name: logo.name,
                     url: logo.url,
-                    size: logo.sizeInBytes,
+                    size: logo.size,
                     width: logo.width,
                     height: logo.height,
                     altText: logo.altText,
-                    catalogId: currentCatalog.id,
+                    catalogId: user.currentCatalogId,
                   },
                   update: {
                     name: logo.name,
                     url: logo.url,
-                    size: logo.sizeInBytes,
+                    size: logo.size,
                     width: logo.width,
                     height: logo.height,
                     altText: logo.altText,
                   },
                 },
               }
-            : { delete: !!currentCatalog.theme?.logo },
+            : { delete: true },
         },
         where: {
-          catalogId: currentCatalog.id,
+          catalogId: user.currentCatalogId,
         },
         include: {
           logo: true,
+          catalog: true,
         },
       });
 
-      if (currentCatalog.publishedAt && currentCatalog.slug) {
-        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      if (theme.catalog.publishedAt && theme.catalog.slug) {
+        revalidateTag(`public-catalog-${theme.catalog.slug}`, "max");
       }
 
       return { theme };

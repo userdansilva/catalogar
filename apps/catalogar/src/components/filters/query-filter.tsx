@@ -1,13 +1,13 @@
 "use client";
 
+import { Button } from "@catalogar/ui/components/button";
+import { Form, FormField } from "@catalogar/ui/components/form";
+import { Input } from "@catalogar/ui/components/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Search, X } from "lucide-react";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
-import { Input } from "@catalogar/ui/components/input";
-import { Form, FormField } from "@catalogar/ui/components/form";
-import { Button } from "@catalogar/ui/components/button";
 import { queryFilterSchema } from "@/schemas/others";
 
 type FormValues = z.infer<typeof queryFilterSchema>;
@@ -15,14 +15,10 @@ type FormValues = z.infer<typeof queryFilterSchema>;
 export function QueryFilter({
   currentQuery,
   mode,
-  primaryColor,
-  secondaryColor,
   searchParamNames,
 }: {
   currentQuery?: string;
   mode: "preview" | "dashboard";
-  primaryColor?: string;
-  secondaryColor?: string;
   searchParamNames: {
     query: string;
     page: string;
@@ -132,10 +128,6 @@ export function QueryFilter({
             type="submit"
             size="sm"
             className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full shadow-none"
-            style={{
-              background: secondaryColor,
-              color: primaryColor,
-            }}
           >
             Buscar
           </Button>

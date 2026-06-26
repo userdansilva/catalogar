@@ -5,7 +5,7 @@ export async function getPublicCatalog(slug: string) {
   "use cache";
   cacheTag(`public-catalog-${slug}`);
 
-  const catalog = await prisma.catalog.findFirst({
+  const catalog = await prisma.catalog.findUniqueOrThrow({
     where: {
       slug,
       publishedAt: { not: null },
@@ -48,5 +48,14 @@ export async function getPublicCatalog(slug: string) {
     },
   });
 
-  return { catalog };
+  const normalizedCatalog = {
+    ...catalog,
+    catalogItems:
+      catalog?.catalogItems.map((catalogItem) => ({
+        ...catalogItem,
+        price: catalogItem.price ? catalogItem.price.toString() : null,
+      })) || [],
+  };
+
+  return { catalog: normalizedCatalog };
 }

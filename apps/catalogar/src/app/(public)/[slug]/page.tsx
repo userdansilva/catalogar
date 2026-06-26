@@ -3,7 +3,7 @@ import { CatalogItems } from "@/components/catalog/catalog-items";
 import { CategoriesFilter } from "@/components/filters/categories-filter";
 import { ProductTypesFilter } from "@/components/filters/product-types-filter";
 import { QueryFilter } from "@/components/filters/query-filter";
-import prisma from "@/lib/prisma";
+import { getPublicCatalog } from "@/services/get-public-catalog";
 import type { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
 
@@ -32,44 +32,7 @@ export default async function Page({
 
   const slug = slugWithAt.replace(ASCIIforAt, "");
 
-  const catalog = await prisma.catalog.findFirst({
-    where: {
-      slug,
-      publishedAt: { not: null },
-    },
-    include: {
-      productTypes: {
-        where: {
-          disabledAt: null,
-        },
-      },
-      categories: {
-        where: {
-          disabledAt: null,
-        },
-      },
-      theme: {
-        include: {
-          logo: true,
-        },
-      },
-      company: true,
-      catalogItems: {
-        where: {
-          disabledAt: null,
-        },
-        include: {
-          productType: true,
-          categories: true,
-          images: {
-            orderBy: {
-              position: "asc",
-            },
-          },
-        },
-      },
-    },
-  });
+  const { catalog } = await getPublicCatalog(slug);
 
   if (!catalog) {
     return notFound();
@@ -89,15 +52,11 @@ export default async function Page({
           <QueryFilter
             mode="preview"
             currentQuery={query}
-            primaryColor={catalog.theme?.primaryColor || "var(--foreground)"}
-            secondaryColor={
-              catalog.theme?.secondaryColor || "var(--background)"
-            }
             searchParamNames={SEARCH_PARAM_NAMES}
           />
         </div>
 
-        {catalog.productTypes.length >= 2 && (
+        {catalog.productTypes && catalog.productTypes.length >= 2 && (
           <ProductTypesFilter
             mode="preview"
             productTypes={catalog.productTypes}
@@ -106,7 +65,7 @@ export default async function Page({
           />
         )}
 
-        {catalog.categories.length >= 2 && (
+        {catalog.categories && catalog.categories.length >= 2 && (
           <CategoriesFilter
             mode="preview"
             categories={catalog.categories}

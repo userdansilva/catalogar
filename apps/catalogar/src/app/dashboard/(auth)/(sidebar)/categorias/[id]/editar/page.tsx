@@ -3,8 +3,9 @@ import { notFound } from "next/navigation";
 import { UpdateCategoryForm } from "@/components/forms/update-category-form";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { PageHeader } from "@/components/layout/page-header";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getCategory } from "@/services/get-category";
+import { getSession } from "@/utils/get-session";
 
 export const metadata: Metadata = {
   title: routes.categories.sub.edit.title,
@@ -17,9 +18,15 @@ export default async function EditCategory({
     id: string;
   }>;
 }) {
+  const session = await getSession();
   const { id } = await params;
 
-  const { category } = await getCategory(id);
+  const category = await prisma.category.findUnique({
+    where: {
+      id,
+      catalogId: session.user.currentCatalogId,
+    },
+  });
 
   if (!category) {
     notFound();

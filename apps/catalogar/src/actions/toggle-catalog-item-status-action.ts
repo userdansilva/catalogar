@@ -1,49 +1,37 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { catalogItemStatusToggleSchema } from "@/schemas/catalog-item";
 
-export const toggleCatalogItemStatusAction = authActionClientWithUser
+export const toggleCatalogItemStatusAction = authActionClient
   .inputSchema(catalogItemStatusToggleSchema)
   .metadata({
     actionName: "toggle-catalog-item-status",
   })
   .action(
     async ({
-      parsedInput: { id },
+      parsedInput: { id, isDisabled },
       ctx: {
-        user: { currentCatalog },
+        session: { user },
       },
     }) => {
-      const existingCatalogItem = await prisma.catalogItem.findFirst({
-        where: {
-          id,
-          catalogId: currentCatalog.id,
-        },
-      });
-
-      if (!existingCatalogItem) {
-        return {
-          error: {
-            message: "Item de catálogo não encontrado",
-          },
-        };
-      }
-
       const catalogItem = await prisma.catalogItem.update({
         where: {
           id,
-          catalogId: currentCatalog.id,
+          catalogId: user.currentCatalogId,
         },
         data: {
-          disabledAt: existingCatalogItem.disabledAt ? null : new Date(),
+          disabledAt: isDisabled ? new Date() : null,
+        },
+        include: {
+          catalog: true,
         },
       });
 
-      if (currentCatalog.publishedAt && currentCatalog.slug) {
-        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      if (catalogItem.catalog.publishedAt && catalogItem.catalog.slug) {
+        revalidateTag(`public-catalog-${catalogItem.catalog.slug}`, "max");
       }
 
       return {

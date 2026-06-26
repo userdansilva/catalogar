@@ -2,11 +2,11 @@
 
 import { revalidateTag } from "next/cache";
 import { returnValidationErrors } from "next-safe-action";
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { publishCatalogSchema } from "@/schemas/catalog";
 
-export const publishCatalogAction = authActionClientWithUser
+export const publishCatalogAction = authActionClient
   .inputSchema(publishCatalogSchema)
   .metadata({
     actionName: "publish-catalog",
@@ -15,14 +15,14 @@ export const publishCatalogAction = authActionClientWithUser
     async ({
       parsedInput: { slug },
       ctx: {
-        user: { currentCatalog },
+        session: { user },
       },
     }) => {
       const isSlugTaken = await prisma.catalog.findFirst({
         where: {
           slug,
           id: {
-            not: currentCatalog.id,
+            not: user.currentCatalogId,
           },
         },
       });
@@ -37,7 +37,7 @@ export const publishCatalogAction = authActionClientWithUser
 
       const catalog = await prisma.catalog.update({
         where: {
-          id: currentCatalog.id,
+          id: user.currentCatalogId,
         },
         data: {
           publishedAt: new Date(),
@@ -45,8 +45,8 @@ export const publishCatalogAction = authActionClientWithUser
         },
       });
 
-      if (currentCatalog.publishedAt && currentCatalog.slug) {
-        revalidateTag(`public-catalog-${currentCatalog.slug}`, "max");
+      if (catalog.publishedAt && catalog.slug) {
+        revalidateTag(`public-catalog-${catalog.slug}`, "max");
       }
 
       return {

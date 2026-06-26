@@ -8,12 +8,11 @@ import { ProductTypesFilter } from "@/components/filters/product-types-filter";
 import { QueryFilter } from "@/components/filters/query-filter";
 import { Button } from "@/components/inputs/button";
 import { PrevButton } from "@/components/inputs/prev-button";
+import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
-import { getCatalogItems } from "@/services/get-catalog-items";
-import { getCategories } from "@/services/get-categories";
-import { getProductTypes } from "@/services/get-product-types";
 import type { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
+import { getSession } from "@/utils/get-session";
 
 export const metadata: Metadata = {
   title: routes.catalogItems.title,
@@ -33,12 +32,25 @@ export default async function Page({
 }: {
   searchParams: Promise<SearchParams<typeof SEARCH_PARAM_NAMES>>;
 }) {
-  const { catalogItems } = await getCatalogItems();
+  const session = await getSession();
 
-  const [{ productTypes }, { categories }] = await Promise.all([
-    getProductTypes(),
-    getCategories(),
-  ]);
+  const { catalogItems, productTypes, categories } =
+    await prisma.catalog.findUniqueOrThrow({
+      where: {
+        id: session.user.currentCatalogId,
+      },
+      include: {
+        productTypes: true,
+        categories: true,
+        catalogItems: {
+          include: {
+            categories: true,
+            productType: true,
+            images: true,
+          },
+        },
+      },
+    });
 
   const { categoria, p, produto, busca } = await searchParams;
 
@@ -111,7 +123,10 @@ export default async function Page({
 
       <CatalogItems
         query={query}
-        catalogItems={catalogItems}
+        catalogItems={catalogItems.map((catalogItem) => ({
+          ...catalogItem,
+          price: catalogItem.price?.toString() ?? null,
+        }))}
         productTypeSlug={productTypeSlug}
         categorySlug={categorySlug}
         currentPage={currentPage}

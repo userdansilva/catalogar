@@ -1,10 +1,10 @@
 "use server";
 
-import { authActionClientWithUser } from "@/lib/next-safe-action";
+import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { createCompanySchema } from "@/schemas/company";
 
-export const createCompanyAction = authActionClientWithUser
+export const createCompanyAction = authActionClient
   .inputSchema(createCompanySchema)
   .metadata({
     actionName: "create-company",
@@ -19,7 +19,7 @@ export const createCompanyAction = authActionClientWithUser
         phoneNumber,
       },
       ctx: {
-        user: { currentCatalog },
+        session: { user },
       },
     }) => {
       const company = await prisma.company.create({
@@ -29,7 +29,7 @@ export const createCompanyAction = authActionClientWithUser
           description,
           mainSiteUrl,
           phoneNumber,
-          catalogId: currentCatalog.id,
+          catalogId: user.currentCatalogId,
         },
       });
 

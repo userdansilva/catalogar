@@ -1,6 +1,6 @@
-import { Prisma } from "@/generated/prisma/client";
+import { NextResponse } from "next/server";
+import { z } from "zod";
 import prisma from "@/lib/prisma";
-import { getSession } from "@/utils/get-session";
 
 async function getUserOrCreate({
   name,
@@ -15,22 +15,10 @@ async function getUserOrCreate({
     },
     include: {
       catalogs: true,
-      currentCatalog: {
-        include: {
-          company: true,
-          theme: {
-            include: {
-              logo: true,
-            },
-          },
-        },
-      },
+      currentCatalog: true,
     },
   });
 
-  /**
-   * Cria o usuário e o catálogo inicial
-   */
   if (!user) {
     return prisma.$transaction(async (tx) => {
       const user = await tx.user.create({
@@ -64,9 +52,6 @@ async function getUserOrCreate({
     });
   }
 
-  /**
-   * Cria o catálogo inicial para usuário existente, caso não tenha nenhum catálogo cadastrado
-   */
   if (user.catalogs.length === 0) {
     const catalog = await prisma.catalog.create({
       data: {
@@ -94,9 +79,6 @@ async function getUserOrCreate({
     });
   }
 
-  /**
-   * Caso usuário tenha catálogo mas não tenha um catálogo atual definido, define o primeiro catálogo como atual
-   */
   if (!user.currentCatalog && user.catalogs[0]) {
     return prisma.user.update({
       where: { id: user.id },
@@ -117,67 +99,44 @@ async function getUserOrCreate({
     });
   }
 
-  /**
-   * Retorna o usuário com seus catálogos e catálogo atual, caso já existam
-   */
   return user;
 }
 
-export async function getUser() {
-  const session = await getSession();
+const syncBodySchema = z.object({
+  name: z.string().min(1),
+  email: z.email(),
+});
 
-  const { name, email } = session.user;
-
-  if (!email || !name) {
-    throw new Error("[Internal Error]: User email and name are required");
+export async function POST(request: Request) {
+  const secret = request.headers.get("x-sync-secret");
+  if (!secret || secret !== process.env.AUTH0_SYNC_SECRET) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const parsed = syncBodySchema.safeParse(
+    await request.json().catch(() => ({})),
+  );
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: z.flattenError(parsed.error).fieldErrors },
+      { status: 400 },
+    );
+  }
+
+  const { name, email } = parsed.data;
 
   try {
     const user = await getUserOrCreate({ name, email });
 
-    /**
-     * Apenas para tipagem
-     */
     if (!user.currentCatalog) {
       throw new Error("[Internal Error][TS]: User has not a current catalog");
     }
 
-    return { ...user, currentCatalog: user.currentCatalog };
-  } catch (err) {
-    if (
-      err instanceof Prisma.PrismaClientKnownRequestError &&
-      err.code === "P2002"
-    ) {
-      /**
-       *  Usuário já existe (unique constraint), retorna o existente
-       */
-      const user = await prisma.user.findUniqueOrThrow({
-        where: { email },
-        include: {
-          catalogs: true,
-          currentCatalog: {
-            include: {
-              company: true,
-              theme: {
-                include: {
-                  logo: true,
-                },
-              },
-            },
-          },
-        },
-      });
+    return NextResponse.json({ ...user, currentCatalog: user.currentCatalog });
+  } catch (error) {
+    console.error(error);
 
-      /**
-       * Apenas para tipagem
-       */
-      if (!user.currentCatalog) {
-        throw new Error("[Internal Error][TS]: User has not a current catalog");
-      }
-
-      return { ...user, currentCatalog: user.currentCatalog };
-    }
-
-    throw err;
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

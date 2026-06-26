@@ -34,12 +34,13 @@ model User {
 // =====================
 
 model Catalog {
-  id          String    @id @default(uuid())
-  name        String
-  slug        String?   @unique
-  publishedAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id            String    @id @default(uuid())
+  name          String
+  slug          String?   @unique
+  isCartEnabled Boolean   @default(false)
+  publishedAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   userId        String
   user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -63,6 +64,7 @@ model Catalog {
 model Company {
   id                      String   @id @default(uuid())
   name                    String
+  slogan                  String?
   description             String?
   mainSiteUrl             String?
   phoneNumber             String?
@@ -90,8 +92,8 @@ model Theme {
   catalogId String  @unique
   catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
 
-  logoId String? @unique
-  logo   ThemeLogo?  @relation("ThemeLogo")
+  logoId String?    @unique
+  logo   ThemeLogo? @relation("ThemeLogo")
 
   @@map("themes")
 }
@@ -107,7 +109,7 @@ model ThemeLogo {
   altText   String
 
   themeId String @unique
-  theme   Theme @relation("ThemeLogo", fields: [themeId], references: [id], onDelete: Cascade)
+  theme   Theme  @relation("ThemeLogo", fields: [themeId], references: [id], onDelete: Cascade)
 
   catalogId String
   catalog   Catalog @relation(fields: [catalogId], references: [id], onDelete: Cascade)
@@ -182,7 +184,6 @@ model CatalogItem {
 
   @@map("catalog_items")
 }
-
 
 model CatalogItemImage {
   id        String   @id @default(uuid())

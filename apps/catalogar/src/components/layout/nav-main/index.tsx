@@ -1,21 +1,40 @@
-import { getCatalogItems } from "@/services/get-catalog-items";
-import { getCategories } from "@/services/get-categories";
-import { getProductTypes } from "@/services/get-product-types";
-import { getUser } from "@/services/get-user";
+import prisma from "@/lib/prisma";
+import { getSession } from "@/utils/get-session";
 import { NavMainClient } from "./client";
 
 export async function NavMain() {
-  const user = await getUser();
+  const session = await getSession();
 
-  const [{ productTypes }, { categories }, { catalogItems }] =
-    await Promise.all([getProductTypes(), getCategories(), getCatalogItems()]);
+  const user = await prisma.user.findUniqueOrThrow({
+    where: { email: session.user.email },
+    include: {
+      currentCatalog: {
+        include: {
+          company: true,
+          theme: true,
+          productTypes: true,
+          categories: true,
+          catalogItems: true,
+        },
+      },
+    },
+  });
+
+  if (!user.currentCatalog) {
+    throw new Error("Current catalog not found for the user.");
+  }
+
+  const { catalogItems, ...currentCatalog } = user.currentCatalog;
 
   return (
     <NavMainClient
-      user={user}
-      productTypes={productTypes}
-      categories={categories}
-      catalogItems={catalogItems}
+      currentCatalog={{
+        ...currentCatalog,
+        catalogItems: catalogItems.map((item) => ({
+          ...item,
+          price: item.price?.toString() ?? null,
+        })),
+      }}
     />
   );
 }

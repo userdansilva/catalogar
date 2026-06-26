@@ -1,13 +1,6 @@
 "use client";
 
 import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationNext,
-  PaginationPrevious,
-} from "@catalogar/ui/components/pagination";
-import {
   Table,
   TableBody,
   TableCell,
