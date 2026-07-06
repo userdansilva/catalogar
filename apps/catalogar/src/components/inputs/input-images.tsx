@@ -46,9 +46,9 @@ export function InputImages({
 
       if (!file) throw new Error();
 
-      if ((file.size || 0) > 1.1 * 1024 * 1024) {
+      if ((file.size || 0) > 5.1 * 1024 * 1024) {
         toast.warning("Imagem muito pesada", {
-          description: "Tamanho máximo é de 1MB",
+          description: "Tamanho máximo é de 5MB",
         });
 
         return;

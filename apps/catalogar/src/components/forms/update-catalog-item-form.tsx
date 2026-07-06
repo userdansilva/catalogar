@@ -152,7 +152,7 @@ export function UpdateCatalogItemForm({
                   para alterar o formato).
                 </li>
                 <li>
-                  Tamanho máximo: 1MB. (Dica: Use{" "}
+                  Tamanho máximo: 5MB. (Dica: Use{" "}
                   <a
                     href="https://tinyjpg.com/"
                     target="_blank"
