@@ -76,7 +76,7 @@ jobs:
           source "$GITHUB_WORKSPACE/.vercel/.env.preview.local"
           set +a
 
-          pnpm exec prisma migrate deploy
+          pnpm turbo migrate-deploy
 
       - name: Build with Turbo
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}

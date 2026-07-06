@@ -18,6 +18,9 @@
     "dev": {
       "persistent": true,
       "cache": false
+    },
+    "migrate-deploy": {
+      "dependsOn": ["^migrate-deploy"]
     }
   }
 }
