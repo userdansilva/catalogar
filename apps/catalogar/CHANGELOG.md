@@ -1,5 +1,11 @@
 # Catalogar v2
 
+## 2.2.9
+
+### Patch Changes
+
+- 1d27cdc: chore: ajuste do limite body server actions
+
 ## 2.2.8
 
 ### Patch Changes
