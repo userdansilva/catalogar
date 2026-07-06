@@ -4,6 +4,9 @@ const nextConfig = {
   cacheComponents: true,
   experimental: {
     turbopackFileSystemCacheForDev: true,
+    serverActions: {
+      bodySizeLimit: "6mb",
+    }
   },
   // Next 15
   images: {
