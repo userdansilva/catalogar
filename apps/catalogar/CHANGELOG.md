@@ -1,5 +1,11 @@
 # Catalogar v2
 
+## 2.2.8
+
+### Patch Changes
+
+- 1ba31a3: chore: aumenta limite de tamanho de imagem, corrige erro na tela de detalhe do preview
+
 ## 2.2.7
 
 ### Patch Changes
