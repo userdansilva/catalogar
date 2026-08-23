@@ -1,5 +1,11 @@
 # Catalogar v2
 
+## 2.2.10
+
+### Patch Changes
+
+- bd55a9d: fix: adiciona o 55 ao link do whatsapp
+
 ## 2.2.9
 
 ### Patch Changes
