@@ -49,7 +49,7 @@ export function CartItemsSummary({
   );
 
   const whatsappUrl = company.phoneNumber
-    ? `https://wa.me/${company.phoneNumber.replace(/\D/g, "")}?text=${encodeURIComponent(
+    ? `https://wa.me/55${company.phoneNumber.replace(/\D/g, "")}?text=${encodeURIComponent(
         `Olá! Tudo bem? Gostaria de finalizar meu pedido:\n\n${selectedCatalogItems
           .map(
             (item) =>

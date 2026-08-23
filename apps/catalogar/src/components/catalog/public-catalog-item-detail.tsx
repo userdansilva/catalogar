@@ -149,7 +149,7 @@ export function PublicCatalogItemDetail({
                   {company?.phoneNumber && (
                     <Button className="bg-[#25D366]" asChild size="lg">
                       <a
-                        href={`https://wa.me/${company.phoneNumber.replace(/\D/g, "")}`}
+                        href={`https://wa.me/55${company.phoneNumber.replace(/\D/g, "")}`}
                         target="_blank"
                         rel="noopener"
                       >
