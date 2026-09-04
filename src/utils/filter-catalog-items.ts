@@ -65,7 +65,7 @@ export function filterCatalogItems(
        * desabilitada. Deve ser exibido.
        */
       const isSomeCategoryEnabled = config.hideIfCategoryIsDisabled
-        ? catalogItem.categories.length >= 1 &&
+        ? catalogItem.categories.length === 0 ||
           catalogItem.categories.some((category) => !category.disabledAt)
         : true;
 
