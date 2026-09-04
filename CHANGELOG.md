@@ -1,3 +1,9 @@
+## 3.0.0
+
+### Major Changes
+
+- abd5f9c: Catalogar 3.0
+
 ## 2.2.10
 
 ### Patch Changes
