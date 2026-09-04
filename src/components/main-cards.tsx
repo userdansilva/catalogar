@@ -1,0 +1,331 @@
+import { buttonVariants } from "@/components/ui/button";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Book,
+  Box,
+  Building2,
+  Filter,
+  List,
+  Paintbrush,
+  Palette,
+  Plus,
+  Rocket,
+  View,
+} from "lucide-react";
+import Link from "next/link";
+import { RedirectType, redirect } from "next/navigation";
+import type {
+  CatalogItem,
+  Category,
+  Prisma,
+  ProductType,
+} from "@/generated/prisma/client";
+import { routes } from "@/routes";
+import { CopyButton } from "./inputs/copy-button";
+
+type MainCardsProps = {
+  productTypes: ProductType[];
+  categories: Category[];
+  catalogItems: (Omit<CatalogItem, "price"> & {
+    price: string | null;
+  })[];
+  user: Prisma.UserGetPayload<{
+    include: {
+      currentCatalog: {
+        include: {
+          company: true;
+          theme: true;
+        };
+      };
+    };
+  }>;
+};
+
+export function MainCards({
+  productTypes,
+  categories,
+  catalogItems,
+  user,
+}: MainCardsProps) {
+  if (!user.currentCatalog) {
+    redirect(routes.catalog.sub.createFirst.url, RedirectType.replace);
+  }
+
+  const publicLink = `${process.env.NEXT_PUBLIC_BASE_URL}/@${user.currentCatalog.slug}`;
+
+  return (
+    <div className="space-y-4">
+      <Card className="dark flex flex-col lg:flex-row lg:items-center">
+        <CardHeader className="flex-1">
+          <CardTitle className="text-2xl">
+            {user.currentCatalog.publishedAt
+              ? "Link Público"
+              : "Publicar agora"}
+          </CardTitle>
+
+          {user.currentCatalog.publishedAt && (
+            <CardDescription className="flex flex-col gap-2">
+              <Link
+                href={publicLink}
+                target="_blank"
+                className="w-full max-w-[calc(100vw-80px)] truncate underline underline-offset-2"
+              >
+                {publicLink}
+              </Link>
+
+              <div>
+                <CopyButton
+                  textToCopy={publicLink}
+                  size="sm"
+                  variant="outline"
+                />
+              </div>
+            </CardDescription>
+          )}
+        </CardHeader>
+
+        <CardFooter className="flex size-full items-center pr-6 sm:w-auto lg:pb-0">
+          {user.currentCatalog.publishedAt ? (
+            <Link
+              href={publicLink}
+              className={buttonVariants({
+                className: "w-full sm:w-auto",
+              })}
+            >
+              Acessar
+            </Link>
+          ) : (
+            <Link
+              href={routes.catalog.sub.prePublish.url}
+              className={buttonVariants({
+                className: "w-full sm:w-auto",
+              })}
+            >
+              <Rocket />
+              Publicar
+            </Link>
+          )}
+        </CardFooter>
+      </Card>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Card>
+          <CardHeader className="relative">
+            <CardDescription>Meu catálogo</CardDescription>
+
+            <CardTitle className="text-2xl">
+              {user.currentCatalog.name}
+            </CardTitle>
+
+            <div className="absolute top-4 right-4">
+              <Box className="text-muted-foreground size-4" />
+            </div>
+          </CardHeader>
+
+          <CardFooter className="grid grid-cols-2 gap-2">
+            <Link
+              href={routes.catalogItems.url}
+              className={buttonVariants({
+                size: "sm",
+                className: "w-full",
+              })}
+            >
+              <Book />
+              Catálogo
+            </Link>
+            <Link
+              href={routes.preview.url}
+              className={buttonVariants({
+                size: "sm",
+                variant: "outline",
+                className: "w-full",
+              })}
+            >
+              <View />
+              Pré-visualização
+            </Link>
+          </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader className="relative">
+            <CardDescription>Personalização</CardDescription>
+
+            <CardTitle className="text-2xl">
+              {user.currentCatalog.company?.name || "Não definido"}
+            </CardTitle>
+
+            <div className="absolute top-4 right-4">
+              <Paintbrush className="text-muted-foreground size-4" />
+            </div>
+          </CardHeader>
+
+          <CardFooter className="grid grid-cols-2 gap-2">
+            <Link
+              href={{
+                pathname: routes.company.url,
+                query: {
+                  callbackUrl: routes.dashboard.url,
+                },
+              }}
+              className={buttonVariants({
+                size: "sm",
+                className: "w-full",
+              })}
+            >
+              <Building2 />
+              Empresa
+            </Link>
+            <Link
+              href={{
+                pathname: routes.theme.url,
+                query: {
+                  callbackUrl: routes.dashboard.url,
+                },
+              }}
+              className={buttonVariants({
+                size: "sm",
+                variant: "outline",
+                className: "w-full",
+              })}
+            >
+              <Palette />
+              Tema
+            </Link>
+          </CardFooter>
+        </Card>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <Card>
+          <CardHeader className="relative">
+            <CardDescription>Itens de catálogo</CardDescription>
+
+            <CardTitle className="text-2xl">{catalogItems.length}</CardTitle>
+
+            <div className="absolute top-4 right-4">
+              <Book className="text-muted-foreground size-4" />
+            </div>
+          </CardHeader>
+
+          <CardFooter className="grid grid-cols-2 gap-2">
+            <Link
+              href={routes.catalogItems.url}
+              className={buttonVariants({
+                size: "sm",
+                className: "w-full",
+              })}
+            >
+              <Book />
+              Ver todos
+            </Link>
+            <Link
+              href={{
+                pathname: routes.catalogItems.sub.new.url,
+                query: {
+                  callbackUrl: routes.dashboard.url,
+                },
+              }}
+              className={buttonVariants({
+                size: "sm",
+                variant: "outline",
+                className: "w-full",
+              })}
+            >
+              <Plus />
+              Adicionar
+            </Link>
+          </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader className="relative">
+            <CardDescription>Tipos de Produto</CardDescription>
+
+            <CardTitle className="text-2xl">{productTypes.length}</CardTitle>
+
+            <div className="absolute top-6 right-6">
+              <List className="text-muted-foreground size-4" />
+            </div>
+          </CardHeader>
+
+          <CardFooter className="grid grid-cols-2 gap-2">
+            <Link
+              href={routes.productTypes.url}
+              className={buttonVariants({
+                size: "sm",
+                className: "w-full",
+              })}
+            >
+              <List />
+              Ver todos
+            </Link>
+            <Link
+              href={{
+                pathname: routes.productTypes.sub.new.url,
+                query: {
+                  callbackUrl: routes.dashboard.url,
+                },
+              }}
+              className={buttonVariants({
+                size: "sm",
+                variant: "outline",
+                className: "w-full",
+              })}
+            >
+              <Plus />
+              Adicionar
+            </Link>
+          </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader className="relative">
+            <CardDescription>Categorias</CardDescription>
+
+            <CardTitle className="text-2xl">{categories.length}</CardTitle>
+
+            <div className="absolute top-6 right-6">
+              <Filter className="text-muted-foreground size-4" />
+            </div>
+          </CardHeader>
+
+          <CardFooter className="grid grid-cols-2 gap-2">
+            <Link
+              href={routes.categories.url}
+              className={buttonVariants({
+                size: "sm",
+                className: "w-full",
+              })}
+            >
+              <Filter />
+              Ver todas
+            </Link>
+            <Link
+              href={{
+                pathname: routes.categories.sub.new.url,
+                query: {
+                  callbackUrl: routes.dashboard.url,
+                },
+              }}
+              className={buttonVariants({
+                size: "sm",
+                variant: "outline",
+                className: "w-full",
+              })}
+            >
+              <Plus />
+              Adicionar
+            </Link>
+          </CardFooter>
+        </Card>
+      </div>
+    </div>
+  );
+}

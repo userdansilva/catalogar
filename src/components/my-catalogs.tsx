@@ -1,0 +1,131 @@
+"use client";
+
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Box, Check, Plus, Settings } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAction } from "next-safe-action/hooks";
+import { switchCatalogAction } from "@/actions/switch-catalog-action";
+import type { Catalog } from "@/generated/prisma/client";
+import { routes } from "@/routes";
+import { Button, buttonVariants } from "./ui/button";
+import { toast } from "./ui/toast";
+
+type MyCatalogsProps = {
+  catalogs: Catalog[];
+  currentCatalog: Catalog;
+};
+
+export function MyCatalogs({ catalogs, currentCatalog }: MyCatalogsProps) {
+  const router = useRouter();
+  const switchCatalog = useAction(switchCatalogAction);
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center gap-4">
+        <h2 className="flex-1 scroll-m-20 text-2xl font-bold tracking-tight first:mt-0 sm:flex-none">
+          Meus catálogos
+        </h2>
+
+        <Link
+          href={routes.catalog.sub.new.url}
+          className={buttonVariants({
+            variant: "outline",
+            size: "sm",
+          })}
+        >
+          <Plus />
+          Adicionar
+        </Link>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {catalogs
+          .toSorted((a, b) => {
+            if (a.id === currentCatalog.id) return -1;
+            if (b.id === currentCatalog.id) return 1;
+
+            return (
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
+          })
+          .map((catalog) => {
+            const isCurrentCatalog = catalog.id === currentCatalog.id;
+
+            return (
+              <Card key={catalog.id}>
+                <CardHeader className="relative">
+                  <CardDescription>
+                    {catalog.publishedAt ? "Público" : "Privado"}
+                  </CardDescription>
+
+                  <CardTitle className="text-2xl">{catalog.name}</CardTitle>
+
+                  <div className="absolute top-4 right-4">
+                    <Box className="text-muted-foreground size-4" />
+                  </div>
+                </CardHeader>
+
+                <CardFooter className="flex flex-row space-x-2">
+                  {isCurrentCatalog ? (
+                    <Button
+                      size="sm"
+                      className="flex-1"
+                      disabled
+                      variant="outline"
+                    >
+                      Selecionado (atual)
+                      <Check />
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      className="flex-1 cursor-pointer"
+                      variant="outline"
+                      onClick={() => {
+                        if (isCurrentCatalog) return;
+
+                        toast.promise(
+                          switchCatalog.executeAsync({
+                            id: catalog.id,
+                          }),
+                          {
+                            loading: "Trocando de catálogo...",
+                            success: () => {
+                              router.push(routes.dashboard.url);
+
+                              return "Catálogo atual alterado!";
+                            },
+                            error: "Ocorreu uma falha ao trocar catálogo",
+                          },
+                        );
+                      }}
+                    >
+                      Selecionar
+                    </Button>
+                  )}
+
+                  {isCurrentCatalog && (
+                    <Link
+                      href={routes.config.url}
+                      className={buttonVariants({
+                        size: "sm",
+                      })}
+                    >
+                      <Settings />
+                    </Link>
+                  )}
+                </CardFooter>
+              </Card>
+            );
+          })}
+      </div>
+    </div>
+  );
+}
