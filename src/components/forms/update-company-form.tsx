@@ -1,0 +1,204 @@
+"use client";
+
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
+import { useRouter } from "next/navigation";
+import { Controller } from "react-hook-form";
+import { updateCompanyAction } from "@/actions/update-company-action";
+import type { Company } from "@/generated/prisma/client";
+import { updateCompanySchema } from "@/schemas/company";
+import { formatPhone } from "@/utils/format-phone";
+import { Button } from "../ui/button";
+import { Spinner } from "../ui/spinner";
+import { toast } from "../ui/toast";
+
+type UpdateCompanyFormProps = {
+  company: Company;
+  callbackUrl?: string;
+};
+
+export function UpdateCompanyForm({
+  company,
+  callbackUrl,
+}: UpdateCompanyFormProps) {
+  const router = useRouter();
+
+  const { form, handleSubmitWithAction, resetFormAndAction } =
+    useHookFormAction(updateCompanyAction, zodResolver(updateCompanySchema), {
+      formProps: {
+        mode: "onChange",
+        values: {
+          name: company.name,
+          slogan: company.slogan ?? "",
+          description: company.description ?? "",
+          mainSiteUrl: company.mainSiteUrl ?? "",
+          phoneNumber: company.phoneNumber ?? "",
+          businessTypeDescription: company.businessTypeDescription ?? "",
+        },
+      },
+      actionProps: {
+        onSuccess: ({ input }) => {
+          toast.add({
+            type: "success",
+            description: "Alterações salvas!",
+          });
+          resetFormAndAction();
+          form.reset(input);
+          if (callbackUrl) {
+            router.push(callbackUrl);
+          } else {
+            router.refresh();
+          }
+        },
+        onError: (e) => {
+          const { serverError } = e.error;
+
+          if (serverError) {
+            toast.add({
+              type: "error",
+              description: serverError.message,
+            });
+          }
+        },
+      },
+    });
+
+  return (
+    <form onSubmit={handleSubmitWithAction} className="space-y-8">
+      <Controller
+        name="name"
+        control={form.control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Nome do negócio</FieldLabel>
+            <Input
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+              disabled={form.formState.isSubmitting}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
+              {...field}
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
+
+      <Controller
+        name="slogan"
+        control={form.control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Slogan (Recomendado)</FieldLabel>
+            <Input
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+              disabled={form.formState.isSubmitting}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
+              placeholder="Ex.: Melhor loja de pipas e acessórios em SP"
+              {...field}
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
+
+      <Controller
+        name="phoneNumber"
+        control={form.control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Whatsapp (Recomendado)</FieldLabel>
+            <Input
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+              disabled={form.formState.isSubmitting}
+              placeholder="Ex.: (11) 91234-5678"
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
+              inputMode="numeric"
+              {...field}
+              onChange={(e) => field.onChange(formatPhone(e.target.value))}
+            />
+            <FieldDescription>Digite apenas números</FieldDescription>
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
+
+      <Controller
+        name="description"
+        control={form.control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Descrição (Opcional)</FieldLabel>
+            <Textarea
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+              className="resize-none"
+              rows={4}
+              {...field}
+            />
+            <FieldDescription>
+              Fale brevemente sobre seu trabalho. Isso ajuda seus clientes a
+              entenderem melhor o que você vende.
+            </FieldDescription>
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
+
+      <Controller
+        name="mainSiteUrl"
+        control={form.control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>
+              Link para contato (Opcional)
+            </FieldLabel>
+            <Input
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+              disabled={form.formState.isSubmitting}
+              placeholder="Ex.: https://minha-empresa.com.br/"
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
+              {...field}
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            <FieldDescription>
+              Qual o link do seu site? Caso ainda não tenha um site, você pode
+              usar o link do Instagram, Linktree ou qualquer outro link que
+              ajude seus clientes a entrar em contato.
+            </FieldDescription>
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
+
+      <Button type="submit" disabled={form.formState.isSubmitting}>
+        {form.formState.isSubmitting ? (
+          <>
+            <Spinner data-icon="inline-start" />
+            Salvando...
+          </>
+        ) : (
+          "Salvar alterações"
+        )}
+      </Button>
+    </form>
+  );
+}
