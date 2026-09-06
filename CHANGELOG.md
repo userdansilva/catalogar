@@ -1,3 +1,9 @@
+## 3.1.0
+
+### Minor Changes
+
+- a8b889e: adiciona Analytics e Speed Insights (ambos da Vercel)
+
 ## 3.0.0
 
 ### Major Changes
