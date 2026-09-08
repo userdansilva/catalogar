@@ -1,3 +1,9 @@
+## 3.1.1
+
+### Patch Changes
+
+- 380300a: chore: remove prefetch desnecessário na lista de catálogo
+
 ## 3.1.0
 
 ### Minor Changes
