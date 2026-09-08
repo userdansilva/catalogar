@@ -34,7 +34,6 @@ export function PublicCatalogItem({
     <Link
       className={cn("space-y-2", catalogItem.disabledAt && "opacity-60")}
       href={`${pathname}/${catalogItem.reference}`}
-      prefetch={!unoptimized}
     >
       <div className="relative">
         <Image
