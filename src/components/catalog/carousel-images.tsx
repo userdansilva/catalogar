@@ -28,6 +28,7 @@ export function CarouselImages({ images, unoptimized }: CarouselImagesProps) {
   useEffect(() => {
     if (!api) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
 
@@ -70,8 +71,8 @@ export function CarouselImages({ images, unoptimized }: CarouselImagesProps) {
                   <span
                     key={id}
                     className={cn(
-                      "bg-background block size-2 rounded-full",
-                      current === i + 1 && "bg-primary",
+                      "block size-2 rounded-full bg-white",
+                      current === i + 1 && "bg-black",
                     )}
                   />
                 ),
