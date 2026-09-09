@@ -178,7 +178,7 @@ export function PublicCatalogItemDetail({
               </Drawer>
             )}
 
-            {catalog.isCartEnabled && (
+            {catalog.isCartEnabled && company?.phoneNumber && (
               <Button
                 className="flex-1 rounded-none bg-black text-white hover:bg-neutral-800 lg:rounded-r-lg"
                 size="lg"
