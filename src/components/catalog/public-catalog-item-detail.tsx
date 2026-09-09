@@ -203,12 +203,11 @@ export function PublicCatalogItemDetail({
           <div className="font-semibold">Relacionados</div>
 
           <ScrollArea className="whitespace-nowrap">
-            <div className="flex gap-2 px-4 md:px-0">
+            <div className="grid max-w-5xl grid-cols-3 gap-2 px-0 sm:grid-cols-4 md:grid-cols-6">
               {relatedCatalogItems.map((relatedCatalogItem) => (
                 <Link
                   key={relatedCatalogItem.id}
                   href={`${baseUrl}/${relatedCatalogItem.reference}`}
-                  className="size-40"
                 >
                   <Image
                     src={relatedCatalogItem.images[0]?.url || ""}

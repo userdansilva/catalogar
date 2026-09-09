@@ -47,12 +47,15 @@ export default async function Page({
   }
 
   const relatedCatalogItems = filterCatalogItems(
-    catalogItems,
+    catalogItems.filter((c) => c.id !== catalogItem.id),
     {
-      query: `${catalogItem.categories.map((category) => category.name).toString()}, ${catalogItem.productType.name}`,
+      query: "",
+      categorySlug: catalogItem.categories[0]?.slug,
+      productTypeSlug: catalogItem.productType.slug,
     },
     {
       hideIfProductTypeIsDisabled: true,
+      hideIfCategoryIsDisabled: true,
     },
   );
 
