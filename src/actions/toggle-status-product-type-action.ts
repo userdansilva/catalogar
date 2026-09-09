@@ -4,6 +4,7 @@ import { updateTag } from "next/cache";
 import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { productTypeStatusToggleSchema } from "@/schemas/product-type";
+import { trackServerEvent } from "@/lib/amplitude-server";
 
 export const toggleProductTypeStatusAction = authActionClient
   .inputSchema(productTypeStatusToggleSchema)
@@ -16,6 +17,7 @@ export const toggleProductTypeStatusAction = authActionClient
       ctx: {
         session: { user },
       },
+      metadata: { actionName },
     }) => {
       const productType = await prisma.productType.update({
         where: {
@@ -33,6 +35,8 @@ export const toggleProductTypeStatusAction = authActionClient
       if (productType.catalog.publishedAt && productType.catalog.slug) {
         updateTag(`public-catalog-${productType.catalog.slug}`);
       }
+
+      await trackServerEvent(actionName, user.email);
 
       return {
         productType,

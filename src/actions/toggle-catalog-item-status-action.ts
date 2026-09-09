@@ -4,6 +4,7 @@ import { updateTag } from "next/cache";
 import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { catalogItemStatusToggleSchema } from "@/schemas/catalog-item";
+import { trackServerEvent } from "@/lib/amplitude-server";
 
 export const toggleCatalogItemStatusAction = authActionClient
   .inputSchema(catalogItemStatusToggleSchema)
@@ -16,6 +17,7 @@ export const toggleCatalogItemStatusAction = authActionClient
       ctx: {
         session: { user },
       },
+      metadata: { actionName },
     }) => {
       const catalogItem = await prisma.catalogItem.update({
         where: {
@@ -33,6 +35,8 @@ export const toggleCatalogItemStatusAction = authActionClient
       if (catalogItem.catalog.publishedAt && catalogItem.catalog.slug) {
         updateTag(`public-catalog-${catalogItem.catalog.slug}`);
       }
+
+      await trackServerEvent(actionName, user.email);
 
       return {
         catalogItem,

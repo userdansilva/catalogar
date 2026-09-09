@@ -6,6 +6,7 @@ import slugify from "slugify";
 import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { createProductTypeSchema } from "@/schemas/product-type";
+import { trackServerEvent } from "@/lib/amplitude-server";
 
 export const createProductTypeAction = authActionClient
   .inputSchema(createProductTypeSchema)
@@ -18,6 +19,7 @@ export const createProductTypeAction = authActionClient
       ctx: {
         session: { user },
       },
+      metadata: { actionName },
     }) => {
       const existingProductType = await prisma.productType.findFirst({
         where: {
@@ -48,6 +50,10 @@ export const createProductTypeAction = authActionClient
       if (productType.catalog.publishedAt && productType.catalog.slug) {
         updateTag(`public-catalog-${productType.catalog.slug}`);
       }
+
+      await trackServerEvent(actionName, user.email, {
+        name,
+      });
 
       return {
         productType,
