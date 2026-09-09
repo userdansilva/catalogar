@@ -6,6 +6,8 @@ import { getPublicCatalog } from "@/services/get-public-catalog";
 
 const ASCIIforAt = "%40"; // @
 
+export const instant = false;
+
 export default async function Layout({
   children,
   params,

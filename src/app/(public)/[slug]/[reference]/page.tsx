@@ -8,6 +8,8 @@ import { paginate } from "@/utils/paginate";
 
 const ASCIIforAt = "%40"; // @
 
+export const instant = false;
+
 export default async function Page({
   params,
 }: {
