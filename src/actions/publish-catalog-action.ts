@@ -5,6 +5,7 @@ import { returnValidationErrors } from "next-safe-action";
 import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { publishCatalogSchema } from "@/schemas/catalog";
+import { trackServerEvent } from "@/lib/amplitude-server";
 
 export const publishCatalogAction = authActionClient
   .inputSchema(publishCatalogSchema)
@@ -17,6 +18,7 @@ export const publishCatalogAction = authActionClient
       ctx: {
         session: { user },
       },
+      metadata: { actionName },
     }) => {
       const isSlugTaken = await prisma.catalog.findFirst({
         where: {
@@ -48,6 +50,10 @@ export const publishCatalogAction = authActionClient
       if (catalog.publishedAt && catalog.slug) {
         updateTag(`public-catalog-${catalog.slug}`);
       }
+
+      await trackServerEvent(actionName, user.email, {
+        slug,
+      });
 
       return {
         catalog,

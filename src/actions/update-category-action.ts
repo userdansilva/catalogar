@@ -6,6 +6,7 @@ import slugify from "slugify";
 import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { updateCategorySchema } from "@/schemas/category";
+import { trackServerEvent } from "@/lib/amplitude-server";
 
 export const updateCategoryAction = authActionClient
   .inputSchema(updateCategorySchema)
@@ -18,6 +19,7 @@ export const updateCategoryAction = authActionClient
       ctx: {
         session: { user },
       },
+      metadata: { actionName },
     }) => {
       // Verify by slug unique
       const existingCategory = await prisma.category.findFirst({
@@ -58,6 +60,8 @@ export const updateCategoryAction = authActionClient
       if (category.catalog.publishedAt && category.catalog.slug) {
         updateTag(`public-catalog-${category.catalog.slug}`);
       }
+
+      await trackServerEvent(actionName, user.email);
 
       return { category };
     },

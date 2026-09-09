@@ -1,5 +1,6 @@
 "use server";
 
+import { trackServerEvent } from "@/lib/amplitude-server";
 import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { createCatalogItemSchema } from "@/schemas/catalog-item";
@@ -23,6 +24,7 @@ export const createCatalogItemAction = authActionClient
       ctx: {
         session: { user },
       },
+      metadata: { actionName },
     }) => {
       const reference = await generateUniqueReference({
         currentCatalogId: user.currentCatalogId,
@@ -62,6 +64,10 @@ export const createCatalogItemAction = authActionClient
       if (catalogItem.catalog.publishedAt && catalogItem.catalog.slug) {
         updateTag(`public-catalog-${catalogItem.catalog.slug}`);
       }
+
+      await trackServerEvent(actionName, user.email, {
+        title,
+      });
 
       return {
         catalogItem: {

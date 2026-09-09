@@ -1,5 +1,6 @@
 "use server";
 
+import { trackServerEvent } from "@/lib/amplitude-server";
 import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { createCompanySchema } from "@/schemas/company";
@@ -22,6 +23,7 @@ export const createCompanyAction = authActionClient
       ctx: {
         session: { user },
       },
+      metadata: { actionName },
     }) => {
       const company = await prisma.company.create({
         data: {
@@ -33,6 +35,10 @@ export const createCompanyAction = authActionClient
           phoneNumber,
           catalogId: user.currentCatalogId,
         },
+      });
+
+      await trackServerEvent(actionName, user.email, {
+        name,
       });
 
       return {

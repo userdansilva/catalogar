@@ -1,3 +1,9 @@
+## 3.1.2
+
+### Patch Changes
+
+- chore: adiciona event track nas server actions com Amplitude
+
 ## 3.1.1
 
 ### Patch Changes

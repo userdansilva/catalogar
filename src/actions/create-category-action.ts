@@ -6,6 +6,7 @@ import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { createCategorySchema } from "@/schemas/category";
 import { updateTag } from "next/cache";
+import { trackServerEvent } from "@/lib/amplitude-server";
 
 export const createCategoryAction = authActionClient
   .inputSchema(createCategorySchema)
@@ -18,6 +19,7 @@ export const createCategoryAction = authActionClient
       ctx: {
         session: { user },
       },
+      metadata: { actionName },
     }) => {
       const existingCategory = await prisma.category.findFirst({
         where: {
@@ -51,6 +53,10 @@ export const createCategoryAction = authActionClient
       if (category.catalog.publishedAt && category.catalog.slug) {
         updateTag(`public-catalog-${category.catalog.slug}`);
       }
+
+      await trackServerEvent(actionName, user.email, {
+        name,
+      });
 
       return {
         category,

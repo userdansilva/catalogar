@@ -4,6 +4,7 @@ import { updateTag } from "next/cache";
 import { authActionClient } from "@/lib/next-safe-action";
 import prisma from "@/lib/prisma";
 import { updateThemeSchema } from "@/schemas/theme";
+import { trackServerEvent } from "@/lib/amplitude-server";
 
 export const updateThemeAction = authActionClient
   .inputSchema(updateThemeSchema)
@@ -16,6 +17,7 @@ export const updateThemeAction = authActionClient
       ctx: {
         session: { user },
       },
+      metadata: { actionName },
     }) => {
       const theme = await prisma.theme.update({
         data: {
@@ -57,6 +59,8 @@ export const updateThemeAction = authActionClient
       if (theme.catalog.publishedAt && theme.catalog.slug) {
         updateTag(`public-catalog-${theme.catalog.slug}`);
       }
+
+      await trackServerEvent(actionName, user.email);
 
       return { theme };
     },
