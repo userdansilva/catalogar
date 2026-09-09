@@ -70,7 +70,8 @@ export function CatalogLayout({
                 <Image
                   src={theme.logo.url}
                   alt="logo"
-                  fill
+                  width={theme.logo.width}
+                  height={theme.logo.height}
                   className="object-contain"
                 />
               </Link>
