@@ -24,7 +24,7 @@ export const createLogoAction = authActionClient
 
     const resizedImage = await sharp(buffer)
       .resize({
-        height: 80,
+        height: 300,
       })
       .toBuffer();
 
