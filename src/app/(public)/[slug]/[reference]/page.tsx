@@ -5,19 +5,45 @@ import { routes } from "@/routes";
 import { getPublicCatalog } from "@/services/get-public-catalog";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { paginate } from "@/utils/paginate";
+import { Metadata } from "next";
 
 const ASCIIforAt = "%40"; // @
 
 export const instant = false;
 
-export default async function Page({
-  params,
-}: {
+type PageProps = {
   params: Promise<{
     reference: string;
     slug: string;
   }>;
-}) {
+};
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug: slugWithAt, reference } = await params;
+  const slug = slugWithAt.replace("@", "");
+
+  try {
+    const { catalog } = await getPublicCatalog(slug);
+    const { catalogItems, company } = catalog;
+
+    const catalogItem = catalogItems.find(
+      (item) => Number(item.reference) === Number(reference),
+    );
+
+    return {
+      title: `${catalogItem?.title} - ${company?.name}`,
+      description: catalogItem?.caption,
+    };
+  } catch {
+    return {
+      title: "Não Encontrado",
+    };
+  }
+}
+
+export default async function Page({ params }: PageProps) {
   const { slug: slugWithAt, reference } = await params;
 
   if (!slugWithAt.startsWith(ASCIIforAt)) {

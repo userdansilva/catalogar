@@ -6,6 +6,7 @@ import { QueryFilter } from "@/components/filters/query-filter";
 import { getPublicCatalog } from "@/services/get-public-catalog";
 import type { SearchParams } from "@/types/system";
 import { defineSearchParamNames } from "@/utils/define-search-param-names";
+import { Metadata } from "next";
 
 const ASCIIforAt = "%40"; // @
 const ITEMS_PER_PAGE = 16;
@@ -17,13 +18,32 @@ const SEARCH_PARAM_NAMES = defineSearchParamNames({
   productSlug: "produto",
 });
 
-export default async function Page({
-  params,
-  searchParams,
-}: {
+type PageProps = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<SearchParams<typeof SEARCH_PARAM_NAMES>>;
-}) {
+};
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug: slugWithAt } = await params;
+  const slug = slugWithAt.replace("@", "");
+
+  try {
+    const { catalog } = await getPublicCatalog(slug);
+
+    return {
+      title: `${catalog.company?.name}${catalog.company?.slogan ? `: ${catalog.company.slogan} ` : ""}`,
+      description: catalog.company?.description,
+    };
+  } catch {
+    return {
+      title: "Não Encontrado",
+    };
+  }
+}
+
+export default async function Page({ params, searchParams }: PageProps) {
   const { slug: slugWithAt } = await params;
 
   if (!slugWithAt.startsWith(ASCIIforAt)) {
