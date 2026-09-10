@@ -1,3 +1,9 @@
+## 3.1.5
+
+### Patch Changes
+
+- 19695db: chore: adiciona imagem de opengraph dinamica
+
 ## 3.1.4
 
 ### Patch Changes
