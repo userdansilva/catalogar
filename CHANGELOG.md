@@ -1,3 +1,9 @@
+## 3.1.6
+
+### Patch Changes
+
+- 464368f: fix: imagem distorcida no OG
+
 ## 3.1.5
 
 ### Patch Changes

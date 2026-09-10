@@ -41,14 +41,25 @@ export default async function Image({
             backgroundColor: catalog.theme?.primaryColor,
           }}
         >
-          <img
-            src={catalog.theme?.logo?.url}
-            height={560}
-            alt="logo"
+          <div
             style={{
-              maxWidth: "1000px",
+              width: "80%",
+              height: "80%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <img
+              src={catalog.theme.logo.url}
+              height="100%"
+              alt="logo"
+              style={{
+                maxWidth: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </div>
         </div>,
         {
           ...size,
