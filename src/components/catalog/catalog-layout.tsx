@@ -70,15 +70,16 @@ export function CatalogLayout({
                 <Image
                   src={theme.logo.url}
                   alt="logo"
-                  fill
+                  width={theme.logo.width}
+                  height={theme.logo.height}
                   className="object-contain"
                 />
               </Link>
             )}
 
-            <div className="flex flex-col -space-y-0.5">
+            <div className="flex flex-1 flex-col -space-y-0.5">
               <Link
-                className="text-lg font-semibold"
+                className="line-clamp-1 text-lg font-semibold"
                 href={
                   isPreview ? routes.preview.url : routes.public.url(slug || "")
                 }

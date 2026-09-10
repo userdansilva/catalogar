@@ -33,7 +33,10 @@ export default async function CartPage({
 
   return (
     <div className="max-w-7xl space-y-6 md:container">
-      <PrevButton fallbackUrl={routes.public.url(slug)} />
+      <PrevButton
+        fallbackUrl={routes.public.url(slug)}
+        className="text-black"
+      />
 
       <CartItems slug={slug} catalogItems={catalog.catalogItems} />
     </div>

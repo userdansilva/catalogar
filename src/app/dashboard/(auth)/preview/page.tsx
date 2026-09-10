@@ -91,7 +91,7 @@ export default async function Preview({
           />
         )}
 
-        {categories.length >= 2 && (
+        {categories.length >= 1 && (
           <CategoriesFilter
             mode="preview"
             categories={categories}

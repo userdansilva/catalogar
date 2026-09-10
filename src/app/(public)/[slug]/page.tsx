@@ -65,7 +65,7 @@ export default async function Page({
           />
         )}
 
-        {catalog.categories && catalog.categories.length >= 2 && (
+        {catalog.categories && catalog.categories.length >= 1 && (
           <CategoriesFilter
             mode="preview"
             categories={catalog.categories}

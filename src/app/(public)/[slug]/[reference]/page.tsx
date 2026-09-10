@@ -8,6 +8,8 @@ import { paginate } from "@/utils/paginate";
 
 const ASCIIforAt = "%40"; // @
 
+export const instant = false;
+
 export default async function Page({
   params,
 }: {
@@ -45,12 +47,15 @@ export default async function Page({
   }
 
   const relatedCatalogItems = filterCatalogItems(
-    catalogItems,
+    catalogItems.filter((c) => c.id !== catalogItem.id),
     {
-      query: `${catalogItem.categories.map((category) => category.name).toString()}, ${catalogItem.productType.name}`,
+      query: "",
+      categorySlug: catalogItem.categories[0]?.slug,
+      productTypeSlug: catalogItem.productType.slug,
     },
     {
       hideIfProductTypeIsDisabled: true,
+      hideIfCategoryIsDisabled: true,
     },
   );
 
@@ -61,7 +66,10 @@ export default async function Page({
 
   return (
     <div className="max-w-7xl space-y-6 md:container">
-      <PrevButton fallbackUrl={routes.public.url(slug)} />
+      <PrevButton
+        fallbackUrl={routes.public.url(slug)}
+        className="text-black"
+      />
 
       <PublicCatalogItemDetail
         baseUrl={routes.public.url(slug)}

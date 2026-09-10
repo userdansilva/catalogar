@@ -100,9 +100,12 @@ export function CartItems({
                   </CardTitle>
                 </CardHeader>
 
-                <CardContent className="space-y-3 px-4">
-                  <PriceDisplay price={catalogItem.price || ""} />
-                  <div className="flex flex-row items-center gap-2">
+                <CardContent className="px-4">
+                  {catalogItem.price && (
+                    <PriceDisplay price={catalogItem.price} />
+                  )}
+
+                  <div className="mt-3 flex flex-row items-center gap-2">
                     {catalogItem.amount === 1 ? (
                       <AlertDialog>
                         <AlertDialogTrigger
@@ -162,10 +165,14 @@ export function CartItems({
         </div>
       )}
 
-      <div className="bg-background fixed inset-x-0 bottom-0 flex flex-row items-end justify-between border-t p-4 pt-0">
+      <div className="bg-background fixed inset-x-0 bottom-0 flex min-h-18 flex-row items-end justify-between border-t p-4 pt-0">
         <div>
-          <span className="text-xs">Total</span>
-          <PriceDisplay price={String(total)} />
+          {total > 0 && (
+            <>
+              <span className="text-xs">Total</span>
+              <PriceDisplay price={String(total)} />
+            </>
+          )}
         </div>
         <Link
           href={routes.public.sub.cartSummary.url(slug)}
