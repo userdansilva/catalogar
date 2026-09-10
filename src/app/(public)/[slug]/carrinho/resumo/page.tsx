@@ -32,10 +32,13 @@ export default async function CartSummaryPage({
   }
 
   return (
-    <div className="max-w-7xl space-y-6 md:container pb-24">
-      <PrevButton fallbackUrl={routes.public.sub.cart.url(slug)} />
+    <div className="max-w-7xl space-y-6 pb-24 md:container">
+      <PrevButton
+        fallbackUrl={routes.public.sub.cart.url(slug)}
+        className="text-black"
+      />
 
-      <h1 className="font-semibold text-2xl">Resumo</h1>
+      <h1 className="text-2xl font-semibold">Resumo</h1>
 
       <CartItemsSummary
         slug={slug}
