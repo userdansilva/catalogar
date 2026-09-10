@@ -53,12 +53,16 @@ export function CartItemsSummary({
         `Olá! Tudo bem? Gostaria de finalizar meu pedido:\n\n${selectedCatalogItems
           .map(
             (item) =>
-              `*[${item.productType?.name}] ${item.title}*\nQtd: ${item.amount} | ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(item.price ?? 0))}`,
+              `*[${item.productType?.name}] ${item.title}*\nQuantidade: ${item.amount}${item.price ? ` | ${new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(item.price ?? 0))}` : `${total > 0 ? "| R$ (Não definido)" : ""}`}`,
           )
-          .join("\n\n")}\n\n*Total: ${new Intl.NumberFormat("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        }).format(Number(total))}* ✅`,
+          .join("\n\n")}${
+          total > 0
+            ? ` \n\n*Total: ${new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }).format(Number(total))}* ✅`
+            : ""
+        }`,
       )}`
     : undefined;
 
@@ -88,7 +92,9 @@ export function CartItemsSummary({
               </CardHeader>
 
               <CardContent className="px-4">
-                <PriceDisplay price={catalogItem.price || ""} />
+                {catalogItem.price && (
+                  <PriceDisplay price={catalogItem.price} />
+                )}
                 <p className="text-sm">Quantidade: {catalogItem.amount}</p>
               </CardContent>
             </div>
