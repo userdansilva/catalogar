@@ -3,16 +3,38 @@ import { CartItems } from "@/components/cart-items";
 import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
 import { getPublicCatalog } from "@/services/get-public-catalog";
+import { Metadata } from "next";
 
 const ASCIIforAt = "%40"; // @
 
-export default async function CartPage({
-  params,
-}: {
+export const instant = false;
+
+type PageProps = {
   params: Promise<{
     slug: string;
   }>;
-}) {
+};
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug: slugWithAt } = await params;
+  const slug = slugWithAt.replace("@", "");
+
+  try {
+    const { catalog } = await getPublicCatalog(slug);
+
+    return {
+      title: `Carrinho - ${catalog.company?.name}`,
+    };
+  } catch {
+    return {
+      title: "Não Encontrado",
+    };
+  }
+}
+
+export default async function Page({ params }: PageProps) {
   const { slug: slugWithAt } = await params;
 
   if (!slugWithAt.startsWith(ASCIIforAt)) {

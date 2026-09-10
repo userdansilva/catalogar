@@ -1,3 +1,11 @@
+## 3.1.4
+
+### Patch Changes
+
+- 5f589e2: fix: correção de tamanho máximo do botão adicionar
+- 0e925a1: chore: adiciona title e description (SEO), tratativa de catálogo não encontrado
+- 21be180: fix: correção na posição da logo
+
 ## 3.1.3
 
 ### Patch Changes

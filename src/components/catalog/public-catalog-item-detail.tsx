@@ -180,7 +180,7 @@ export function PublicCatalogItemDetail({
 
             {catalog.isCartEnabled && company?.phoneNumber && (
               <Button
-                className="flex-1 rounded-none bg-black text-white hover:bg-neutral-800 lg:rounded-r-lg"
+                className="flex-1 rounded-none bg-black text-white hover:bg-neutral-800 lg:max-w-48 lg:rounded-r-lg"
                 size="lg"
                 onClick={() => {
                   addItem(Number(catalogItem.reference));

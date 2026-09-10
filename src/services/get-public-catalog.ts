@@ -1,57 +1,62 @@
 import { cacheTag } from "next/cache";
 import prisma from "@/lib/prisma";
+import { notFound } from "next/navigation";
 
 export async function getPublicCatalog(slug: string) {
   "use cache";
   cacheTag(`public-catalog-${slug}`);
 
-  const catalog = await prisma.catalog.findUniqueOrThrow({
-    where: {
-      slug,
-      publishedAt: { not: null },
-    },
-    include: {
-      productTypes: {
-        where: {
-          disabledAt: null,
-        },
+  try {
+    const catalog = await prisma.catalog.findUniqueOrThrow({
+      where: {
+        slug,
+        publishedAt: { not: null },
       },
-      categories: {
-        where: {
-          disabledAt: null,
+      include: {
+        productTypes: {
+          where: {
+            disabledAt: null,
+          },
         },
-      },
-      theme: {
-        include: {
-          logo: true,
+        categories: {
+          where: {
+            disabledAt: null,
+          },
         },
-      },
-      company: true,
-      catalogItems: {
-        where: {
-          disabledAt: null,
+        theme: {
+          include: {
+            logo: true,
+          },
         },
-        include: {
-          productType: true,
-          categories: true,
-          images: {
-            orderBy: {
-              position: "asc",
+        company: true,
+        catalogItems: {
+          where: {
+            disabledAt: null,
+          },
+          include: {
+            productType: true,
+            categories: true,
+            images: {
+              orderBy: {
+                position: "asc",
+              },
             },
           },
         },
       },
-    },
-  });
+    });
 
-  const normalizedCatalog = {
-    ...catalog,
-    catalogItems:
-      catalog?.catalogItems.map((catalogItem) => ({
-        ...catalogItem,
-        price: catalogItem.price ? catalogItem.price.toString() : null,
-      })) || [],
-  };
+    const normalizedCatalog = {
+      ...catalog,
+      catalogItems:
+        catalog?.catalogItems.map((catalogItem) => ({
+          ...catalogItem,
+          price: catalogItem.price ? catalogItem.price.toString() : null,
+        })) || [],
+    };
 
-  return { catalog: normalizedCatalog };
+    return { catalog: normalizedCatalog };
+  } catch {
+    notFound();
+  }
 }
