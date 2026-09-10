@@ -65,7 +65,7 @@ export function CatalogLayout({
                 href={
                   isPreview ? routes.preview.url : routes.public.url(slug || "")
                 }
-                className="relative mr-3 size-16"
+                className="relative mr-3 flex size-16 items-center"
               >
                 <Image
                   src={theme.logo.url}
