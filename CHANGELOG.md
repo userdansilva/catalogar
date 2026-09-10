@@ -1,3 +1,18 @@
+## 3.1.3
+
+### Patch Changes
+
+- 615c159: chore: ajusta a quebra de linha de nome de empresa
+- 582b1f0: chore: melhora a busca e exibição de itens relacionados
+- c847c4c: fix: corrige cor do botão voltar na tela de detalhe
+- 8da4cfd: fix: exibe botão de adicionar ao carrinho apenas de houver whatsapp
+- 89a124d: chore: exibição de categoria mesmo quando há apenas uma
+- 1b68d21: fix: corrige warning de instant
+- 9801391: fix: corrige warning de fill sem sizes
+- ee21199: fix: corrige a cor do botão voltar no carrinho, e resumo
+- 4b610aa: chore: ajusta exibição de preço para itens sem preço, e mensagem de whatsapp ao finalizar pedido
+- d0ab418: fix: corrige cores do indicador de posição de imagens no carousel
+
 ## 3.1.2
 
 ### Patch Changes
