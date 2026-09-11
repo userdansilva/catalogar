@@ -1,3 +1,9 @@
+## 3.1.7
+
+### Patch Changes
+
+- 152f5ab: chore: adiciona OG image a home e atualiza icon
+
 ## 3.1.6
 
 ### Patch Changes
