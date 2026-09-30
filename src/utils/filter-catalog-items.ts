@@ -29,7 +29,7 @@ export function filterCatalogItems(
     const fuse = new Fuse(catalogItems, {
       keys: ["title", "caption", "productType.name", "categories.name"],
       ignoreDiacritics: true,
-      threshold: 0.5, // default
+      threshold: 0.4, // default
     });
 
     result = fuse.search(filters.query).map((_) => _.item);
