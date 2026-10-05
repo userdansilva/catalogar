@@ -118,7 +118,8 @@ export function PublicCatalogItemDetail({
                     <Button
                       className={cn(
                         "rounded-none bg-emerald-500 text-white hover:bg-emerald-400 hover:text-white lg:rounded-l-lg",
-                        !catalog.isCartEnabled && "flex-1 lg:rounded-r-lg",
+                        !catalog.isCartEnabled &&
+                          "flex-1 lg:flex-none lg:rounded-r-lg",
                       )}
                       size="lg"
                       variant="ghost"

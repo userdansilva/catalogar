@@ -129,8 +129,12 @@ export function CartItemsSummary({
       <div className="bg-background fixed inset-x-0 bottom-0 border-t">
         <div className="container flex min-h-18 w-full flex-row items-end justify-between px-4 pt-0 pb-4">
           <div>
-            <span className="text-xs">Total</span>
-            <PriceDisplay price={String(total)} />
+            {total > 0 && (
+              <>
+                <span className="text-xs">Total</span>
+                <PriceDisplay price={String(total)} />
+              </>
+            )}
           </div>
           <a
             href={whatsappUrl}
