@@ -67,7 +67,7 @@ export function PublicCatalogItemDetail({
       <div className="flex flex-col gap-4 lg:flex-row">
         <CarouselImages images={catalogItem.images} unoptimized={unoptimized} />
 
-        <div className="space-y-4">
+        <div className="container space-y-4">
           <div className="space-y-2">
             <TitleDisplay
               title={catalogItem.title}
@@ -199,7 +199,7 @@ export function PublicCatalogItemDetail({
       </div>
 
       {relatedCatalogItems.length >= 1 && (
-        <div className="w-full max-w-screen space-y-4">
+        <div className="container w-full max-w-screen space-y-4">
           <div className="font-semibold">Relacionados</div>
 
           <ScrollArea className="whitespace-nowrap">

@@ -24,7 +24,6 @@ import { Minus, Plus, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Prisma } from "@/generated/prisma/client";
-import { routes } from "@/routes";
 import { PriceDisplay } from "./catalog/price-display";
 import { TitleDisplay } from "./catalog/title-display";
 import { useCartStore } from "./providers/cart-store-provider";
@@ -35,15 +34,14 @@ type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
   };
 }>;
 
-export function CartItems({
-  slug,
-  catalogItems,
-}: {
-  slug: string;
+type CartItemsProps = {
+  basePath: string;
   catalogItems: (Omit<CatalogItemRaw, "price"> & {
     price: string | null;
   })[];
-}) {
+};
+
+export function CartItems({ basePath, catalogItems }: CartItemsProps) {
   const { addItem, items, removeItem } = useCartStore((state) => state);
 
   const seletedCatalogItems = items.map((item) => {
@@ -81,9 +79,7 @@ export function CartItems({
               className="flex flex-row gap-0 overflow-hidden py-0 shadow-none"
               key={catalogItem.id}
             >
-              <Link
-                href={`${routes.public.url(slug)}/${catalogItem.reference}`}
-              >
+              <Link href={`${basePath}/${catalogItem.reference}`}>
                 <Image
                   src={catalogItem.images?.[0]?.url || ""}
                   alt={catalogItem.title || "Imagem no Carrinho"}
@@ -165,23 +161,25 @@ export function CartItems({
         </div>
       )}
 
-      <div className="bg-background fixed inset-x-0 bottom-0 flex min-h-18 flex-row items-end justify-between border-t p-4 pt-0">
-        <div>
-          {total > 0 && (
-            <>
-              <span className="text-xs">Total</span>
-              <PriceDisplay price={String(total)} />
-            </>
-          )}
+      <div className="bg-background fixed inset-x-0 bottom-0 border-t">
+        <div className="container flex min-h-18 w-full flex-row items-end justify-between px-4 pt-0 pb-4">
+          <div>
+            {total > 0 && (
+              <>
+                <span className="text-xs">Total</span>
+                <PriceDisplay price={String(total)} />
+              </>
+            )}
+          </div>
+          <Link
+            href={`${basePath}/carrinho/resumo`}
+            className={buttonVariants({
+              size: "lg",
+            })}
+          >
+            Continuar ({items.length})
+          </Link>
         </div>
-        <Link
-          href={routes.public.sub.cartSummary.url(slug)}
-          className={buttonVariants({
-            size: "lg",
-          })}
-        >
-          Continuar ({items.length})
-        </Link>
       </div>
     </div>
   );

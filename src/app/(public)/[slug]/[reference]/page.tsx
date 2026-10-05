@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
-import { PrevButton } from "@/components/inputs/prev-button";
 import { routes } from "@/routes";
 import { getPublicCatalog } from "@/services/get-public-catalog";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
@@ -91,19 +90,12 @@ export default async function Page({ params }: PageProps) {
   });
 
   return (
-    <div className="max-w-7xl space-y-6 md:container">
-      <PrevButton
-        fallbackUrl={routes.public.url(slug)}
-        className="text-black"
-      />
-
-      <PublicCatalogItemDetail
-        baseUrl={routes.public.url(slug)}
-        catalogItem={catalogItem}
-        company={company}
-        relatedCatalogItems={paginatedCatalogItems}
-        catalog={currentCatalog}
-      />
-    </div>
+    <PublicCatalogItemDetail
+      baseUrl={routes.public.url(slug)}
+      catalogItem={catalogItem}
+      company={company}
+      relatedCatalogItems={paginatedCatalogItems}
+      catalog={currentCatalog}
+    />
   );
 }

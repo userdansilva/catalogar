@@ -41,7 +41,7 @@ export function CarouselImages({ images, unoptimized }: CarouselImagesProps) {
 
   return (
     <Carousel
-      className="group bg-background max-h-150 w-full max-w-150 overflow-hidden rounded-md"
+      className="group bg-background max-h-150 w-full max-w-150 overflow-hidden lg:rounded-lg"
       setApi={setApi}
     >
       <CarouselContent>

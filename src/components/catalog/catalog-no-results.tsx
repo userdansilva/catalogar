@@ -8,14 +8,9 @@ import { usePathname, useSearchParams } from "next/navigation";
 export function CatalogNoResults({
   query,
   page,
-  searchParamNames,
 }: {
   query?: string;
   page?: number;
-  searchParamNames: {
-    query: string;
-    page: string;
-  };
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -24,11 +19,11 @@ export function CatalogNoResults({
     const params = new URLSearchParams(searchParams);
 
     // Reset page filter
-    if (params.get(searchParamNames.page)) {
-      params.delete(searchParamNames.page);
+    if (params.get("p")) {
+      params.delete("p");
     }
 
-    params.delete(searchParamNames.query);
+    params.delete("busca");
 
     return params.size >= 1 ? `${pathname}?${params.toString()}` : pathname;
   };

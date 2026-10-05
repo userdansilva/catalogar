@@ -1,3 +1,13 @@
+## 3.2.0
+
+### Minor Changes
+
+- feature: novo sistema de busca, e layouts
+
+### Patch Changes
+
+- 1016ad0: chore: ajuste no threshold do sistema de busca
+
 ## 3.1.7
 
 ### Patch Changes

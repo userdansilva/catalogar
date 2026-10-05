@@ -82,7 +82,7 @@ export function CatalogSwitcherClient({
 
                 return (
                   <DropdownMenuItem
-                    key={catalog.name}
+                    key={catalog.id}
                     onClick={() => {
                       if (isCurrentCatalog) return;
 

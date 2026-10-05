@@ -17,6 +17,22 @@ export async function getPublicCatalog(slug: string) {
           where: {
             disabledAt: null,
           },
+          include: {
+            catalogItems: {
+              take: 1,
+              select: {
+                images: {
+                  take: 1,
+                  orderBy: {
+                    position: "asc",
+                  },
+                },
+              },
+              orderBy: {
+                createdAt: "desc",
+              },
+            },
+          },
         },
         categories: {
           where: {
@@ -56,7 +72,9 @@ export async function getPublicCatalog(slug: string) {
     };
 
     return { catalog: normalizedCatalog };
-  } catch {
+  } catch (e) {
+    console.error(e);
+
     notFound();
   }
 }

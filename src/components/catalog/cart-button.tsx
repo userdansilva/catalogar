@@ -4,23 +4,23 @@ import { buttonVariants } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import type { Prisma } from "@/generated/prisma/client";
-import { routes } from "@/routes";
 import { useCartStore } from "../providers/cart-store-provider";
 
-export function CartButton({
-  catalog,
-}: {
+type CartButtonProps = {
   catalog: Prisma.CatalogGetPayload<{
     include: {
       theme: true;
     };
   }>;
-}) {
+  basePath: string;
+};
+
+export function CartButton({ catalog, basePath }: CartButtonProps) {
   const { items } = useCartStore((state) => state);
 
   return (
     <Link
-      href={routes.public.sub.cart.url(catalog.slug ?? "")}
+      href={`${basePath}/carrinho`}
       className={buttonVariants({
         className: "relative shadow-none",
       })}

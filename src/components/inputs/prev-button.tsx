@@ -5,12 +5,9 @@ import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ComponentProps } from "react";
 
-type PrevButtonProps = Omit<
-  ComponentProps<typeof Button>,
-  "onClick" | "children"
-> & {
+type PrevButtonProps = {
   fallbackUrl: string;
-};
+} & Omit<ComponentProps<typeof Button>, "onClick" | "children">;
 
 export function PrevButton({ fallbackUrl, ...props }: PrevButtonProps) {
   const router = useRouter();
