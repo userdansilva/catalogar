@@ -162,7 +162,7 @@ export function StoreTopbar({ catalog, basePath }: StoreTopbarProps) {
             </DrawerContent>
           </Drawer>
 
-          {catalog.isCartEnabled && (
+          {catalog.isCartEnabled && catalog.company?.phoneNumber && (
             <CartButton catalog={catalog} basePath={basePath} />
           )}
         </div>
