@@ -23,7 +23,12 @@ export function StoreCartLayout({
 }: StoreCartLayoutProps) {
   return (
     <div>
-      <StoreTopbarPrev catalog={catalog} title="Carrinho" basePath={basePath} />
+      <StoreTopbarPrev
+        catalog={catalog}
+        title="Carrinho"
+        basePath={basePath}
+        shouldHideCartButton
+      />
       <main className="container pt-4 pb-24">{children}</main>
     </div>
   );

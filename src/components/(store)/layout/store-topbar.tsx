@@ -205,17 +205,27 @@ export function StoreTopbar({ catalog, basePath }: StoreTopbarProps) {
 
 type StoreTopbarPrevProps = StoreTopbarProps & {
   title: string;
+  shouldHideCartButton?: boolean;
 };
 
 export function StoreTopbarPrev({
   catalog,
   basePath,
   title,
+  shouldHideCartButton,
 }: StoreTopbarPrevProps) {
   return (
     <StoreTopbarContainer theme={catalog.theme}>
       <StorePrevButton fallbackUrl={basePath} theme={catalog.theme} />
       <span className="text-base font-semibold">{title}</span>
+
+      {catalog.isCartEnabled &&
+        catalog.company?.phoneNumber &&
+        !shouldHideCartButton && (
+          <div className="ml-auto">
+            <CartButton catalog={catalog} basePath={basePath} />
+          </div>
+        )}
     </StoreTopbarContainer>
   );
 }
