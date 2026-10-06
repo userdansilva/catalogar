@@ -14,14 +14,10 @@ export function CatalogPagination({
   totalItems,
   itemsPerPage,
   currentPage = 1,
-  searchParamNames,
 }: {
   totalItems: number;
   itemsPerPage: number;
   currentPage?: number;
-  searchParamNames: {
-    page: string;
-  };
 }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -30,9 +26,9 @@ export function CatalogPagination({
     const params = new URLSearchParams(searchParams);
 
     if (page > 1) {
-      params.set(searchParamNames.page, page.toString());
+      params.set("p", page.toString());
     } else {
-      params.delete(searchParamNames.page);
+      params.delete("p");
     }
 
     return params.size >= 1 ? `${pathname}?${params.toString()}` : pathname;

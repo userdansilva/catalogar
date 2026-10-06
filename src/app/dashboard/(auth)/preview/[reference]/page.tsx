@@ -1,11 +1,10 @@
 import { notFound } from "next/navigation";
 import { PublicCatalogItemDetail } from "@/components/catalog/public-catalog-item-detail";
-import { PrevButton } from "@/components/inputs/prev-button";
-import prisma from "@/lib/prisma";
 import { routes } from "@/routes";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { getSession } from "@/utils/get-session";
 import { paginate } from "@/utils/paginate";
+import { getPreviewCatalog } from "@/services/get-preview-catalog";
 
 export const instant = false;
 
@@ -14,26 +13,12 @@ export default async function Page({
 }: {
   params: Promise<{ reference: string }>;
 }) {
-  const session = await getSession();
-
-  const { catalogItems, company, ...catalog } =
-    await prisma.catalog.findUniqueOrThrow({
-      where: {
-        id: session.user.currentCatalogId,
-      },
-      include: {
-        catalogItems: {
-          include: {
-            categories: true,
-            productType: true,
-            images: true,
-          },
-        },
-        company: true,
-      },
-    });
-
   const { reference } = await params;
+
+  const session = await getSession();
+  const { catalog } = await getPreviewCatalog(session.user.currentCatalogId);
+
+  const { catalogItems, company, ...currentCatalog } = catalog;
 
   const catalogItem = catalogItems.find(
     (item) => Number(item.reference) === Number(reference),
@@ -44,15 +29,15 @@ export default async function Page({
   }
 
   const relatedCatalogItems = filterCatalogItems(
-    catalogItems.map((item) => ({
-      ...item,
-      price: item.price?.toString() ?? null,
-    })),
+    catalogItems.filter((c) => c.id !== catalogItem.id),
     {
-      query: `${catalogItem.categories.map((category) => category.name).toString()}, ${catalogItem.productType.name}`,
+      query: "",
+      categorySlug: catalogItem.categories[0]?.slug,
+      productTypeSlug: catalogItem.productType.slug,
     },
     {
       hideIfProductTypeIsDisabled: true,
+      hideIfCategoryIsDisabled: true,
     },
   );
 
@@ -62,22 +47,13 @@ export default async function Page({
   });
 
   return (
-    <div className="max-w-7xl space-y-6 md:container">
-      <PrevButton fallbackUrl={routes.preview.url} className="text-black" />
-
-      <PublicCatalogItemDetail
-        catalog={catalog}
-        baseUrl={routes.preview.url}
-        catalogItem={{
-          ...catalogItem,
-          price: catalogItem.price?.toString() ?? null,
-        }}
-        company={company || undefined}
-        relatedCatalogItems={paginatedCatalogItems.map((item) => ({
-          ...item,
-          price: catalogItem.price?.toString() ?? null,
-        }))}
-      />
-    </div>
+    <PublicCatalogItemDetail
+      baseUrl={routes.preview.url}
+      catalogItem={catalogItem}
+      company={company || undefined}
+      relatedCatalogItems={paginatedCatalogItems}
+      catalog={currentCatalog}
+      unoptimized
+    />
   );
 }

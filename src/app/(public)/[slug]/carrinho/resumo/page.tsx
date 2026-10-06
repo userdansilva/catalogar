@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
 import { CartItemsSummary } from "@/components/cart-items-summary";
-import { PrevButton } from "@/components/inputs/prev-button";
-import { routes } from "@/routes";
 import { getPublicCatalog } from "@/services/get-public-catalog";
 import { Metadata } from "next";
+import { routes } from "@/routes";
 
 const ASCIIforAt = "%40"; // @
 
@@ -45,28 +44,15 @@ export default async function Page({ params }: PageProps) {
 
   const { catalog } = await getPublicCatalog(slug);
 
-  if (
-    !catalog.company ||
-    !catalog.isCartEnabled ||
-    !catalog.company.phoneNumber
-  ) {
+  if (!catalog.isCartEnabled || !catalog.company?.phoneNumber) {
     notFound();
   }
 
   return (
-    <div className="max-w-7xl space-y-6 pb-24 md:container">
-      <PrevButton
-        fallbackUrl={routes.public.sub.cart.url(slug)}
-        className="text-black"
-      />
-
-      <h1 className="text-2xl font-semibold">Resumo</h1>
-
-      <CartItemsSummary
-        slug={slug}
-        catalogItems={catalog.catalogItems}
-        company={catalog.company}
-      />
-    </div>
+    <CartItemsSummary
+      basePath={routes.public.url(slug)}
+      catalogItems={catalog.catalogItems}
+      company={catalog.company}
+    />
   );
 }

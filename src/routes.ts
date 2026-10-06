@@ -22,6 +22,27 @@ export const routes = {
         title: "Resumo do Carrinho",
         url: (slug: string) => `/@${slug}/carrinho/resumo`,
       },
+      catalogItemDetail: {
+        url: (slug: string, reference: number) => `/@${slug}/${reference}`,
+      },
+      search: {
+        title: "Busca",
+        url: (slug: string) => `/@${slug}/busca`,
+      },
+      searchCategory: {
+        title: "Busca",
+        url: (slug: string, categorySlug: string) =>
+          `/@${slug}/busca/categoria/${categorySlug}`,
+      },
+      searchProductType: {
+        title: "Busca",
+        url: (slug: string, productTypeSlug: string) =>
+          `/@${slug}/busca/produto/${productTypeSlug}`,
+      },
+      menu: {
+        title: "Menu",
+        url: (slug: string) => `/@${slug}/menu`,
+      },
     },
   },
   catalog: {
@@ -59,6 +80,28 @@ export const routes = {
     sub: {
       catalogItemDetail: {
         url: (reference: number) => `/dashboard/preview/${reference}`,
+      },
+      search: {
+        title: "Busca",
+        url: "/dashboard/preview/busca",
+      },
+      menu: {
+        title: "Menu",
+        url: "/dashboard/preview/menu",
+      },
+      cart: {
+        title: "Carrinho",
+        url: "/dashboard/preview/carrinho",
+      },
+      searchCategory: {
+        title: "Busca",
+        url: (categorySlug: string) =>
+          `/dashboard/preview/busca/categoria/${categorySlug}`,
+      },
+      searchProductType: {
+        title: "Busca",
+        url: (productTypeSlug: string) =>
+          `/dashboard/preview/busca/produto/${productTypeSlug}`,
       },
     },
   },

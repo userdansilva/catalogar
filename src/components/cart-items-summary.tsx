@@ -11,7 +11,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import type { Company, Prisma } from "@/generated/prisma/client";
-import { routes } from "@/routes";
 import { PriceDisplay } from "./catalog/price-display";
 import { TitleDisplay } from "./catalog/title-display";
 import { useCartStore } from "./providers/cart-store-provider";
@@ -23,17 +22,19 @@ type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
   };
 }>;
 
-export function CartItemsSummary({
-  slug,
-  catalogItems,
-  company,
-}: {
-  slug: string;
+type CartItemsSummaryProps = {
+  basePath: string;
   catalogItems: (Omit<CatalogItemRaw, "price"> & {
     price: string | null;
   })[];
   company: Company;
-}) {
+};
+
+export function CartItemsSummary({
+  basePath,
+  catalogItems,
+  company,
+}: CartItemsSummaryProps) {
   const { items } = useCartStore((state) => state);
 
   const selectedCatalogItems = items.map((item) => {
@@ -67,14 +68,16 @@ export function CartItemsSummary({
     : undefined;
 
   return (
-    <>
+    <div className="space-y-6">
+      <h1 className="text-2xl font-semibold">Resumo</h1>
+
       <div className="flex flex-col gap-2">
         {selectedCatalogItems.map((catalogItem) => (
           <Card
             className="flex flex-row gap-0 overflow-hidden py-0 shadow-none"
             key={catalogItem.id}
           >
-            <Link href={`${routes.public.url(slug)}/${catalogItem.reference}`}>
+            <Link href={`${basePath}/${catalogItem.reference}`}>
               <Image
                 src={catalogItem.images?.[0]?.url || ""}
                 alt={catalogItem.title || "Imagem no Carrinho"}
@@ -123,22 +126,28 @@ export function CartItemsSummary({
         </CardHeader>
       </Card>
 
-      <div className="bg-background fixed inset-x-0 bottom-0 z-10 flex flex-row items-end justify-between border-t p-4 pt-2">
-        <div>
-          <span className="text-xs">Total</span>
-          <PriceDisplay price={String(total)} />
+      <div className="bg-background fixed inset-x-0 bottom-0 border-t">
+        <div className="container flex min-h-18 w-full flex-row items-end justify-between px-4 pt-0 pb-4">
+          <div>
+            {total > 0 && (
+              <>
+                <span className="text-xs">Total</span>
+                <PriceDisplay price={String(total)} />
+              </>
+            )}
+          </div>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonVariants({
+              size: "lg",
+            })}
+          >
+            Finalizar no Whatsapp
+          </a>
         </div>
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={buttonVariants({
-            size: "lg",
-          })}
-        >
-          Finalizar no Whatsapp
-        </a>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,10 +1,7 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { Images } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import type { Prisma } from "@/generated/prisma/client";
 import { CategoriesDisplay } from "./categories-display";
 import { PriceDisplay } from "./price-display";
@@ -22,18 +19,18 @@ type PublicCatalogItemProps = {
     price: string | null;
   };
   unoptimized?: boolean;
+  basePath: string;
 };
 
 export function PublicCatalogItem({
   catalogItem,
   unoptimized,
+  basePath,
 }: PublicCatalogItemProps) {
-  const pathname = usePathname();
-
   return (
     <Link
       className={cn("space-y-2", catalogItem.disabledAt && "opacity-60")}
-      href={`${pathname}/${catalogItem.reference}`}
+      href={`${basePath}/${catalogItem.reference}`}
     >
       <div className="relative">
         <Image

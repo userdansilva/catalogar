@@ -67,7 +67,7 @@ export function PublicCatalogItemDetail({
       <div className="flex flex-col gap-4 lg:flex-row">
         <CarouselImages images={catalogItem.images} unoptimized={unoptimized} />
 
-        <div className="space-y-4">
+        <div className="container space-y-4">
           <div className="space-y-2">
             <TitleDisplay
               title={catalogItem.title}
@@ -118,7 +118,8 @@ export function PublicCatalogItemDetail({
                     <Button
                       className={cn(
                         "rounded-none bg-emerald-500 text-white hover:bg-emerald-400 hover:text-white lg:rounded-l-lg",
-                        !catalog.isCartEnabled && "flex-1 lg:rounded-r-lg",
+                        !(catalog.isCartEnabled && company.phoneNumber) &&
+                          "flex-1 lg:flex-none lg:rounded-r-lg",
                       )}
                       size="lg"
                       variant="ghost"
@@ -199,7 +200,7 @@ export function PublicCatalogItemDetail({
       </div>
 
       {relatedCatalogItems.length >= 1 && (
-        <div className="w-full max-w-screen space-y-4">
+        <div className="container w-full max-w-screen space-y-4">
           <div className="font-semibold">Relacionados</div>
 
           <ScrollArea className="whitespace-nowrap">
