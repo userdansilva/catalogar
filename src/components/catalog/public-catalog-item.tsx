@@ -34,12 +34,12 @@ export function PublicCatalogItem({
     >
       <div className="relative">
         <Image
-          src={catalogItem.images[0]?.url || ""}
+          src={catalogItem.images[0]?.url}
           alt="Mockup"
           width={600}
           height={600}
           unoptimized={unoptimized}
-          className="bg-background rounded-md"
+          className="aspect-square rounded-md object-contain"
         />
 
         {catalogItem.images.length >= 2 && (

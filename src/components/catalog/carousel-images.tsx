@@ -52,6 +52,7 @@ export function CarouselImages({ images, unoptimized }: CarouselImagesProps) {
               alt="Mockup"
               width={600}
               height={600}
+              className="aspect-square rounded-md object-contain"
               unoptimized={unoptimized}
             />
           </CarouselItem>

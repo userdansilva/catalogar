@@ -83,7 +83,7 @@ export function CartItemsSummary({
                 alt={catalogItem.title || "Imagem no Carrinho"}
                 width={180}
                 height={180}
-                className="size-40"
+                className="aspect-square size-40 rounded-md object-contain"
               />
             </Link>
 
