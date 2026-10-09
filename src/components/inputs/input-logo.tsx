@@ -10,20 +10,29 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ImageUp, Trash } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { type ChangeEvent, useRef } from "react";
-import { createLogoAction } from "@/actions/create-logo-action";
+import { type ChangeEvent, useRef, useState } from "react";
 import { toast } from "../ui/toast";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
+import { createSasTokenAction } from "@/actions/create-sas-token-action";
+import { BlockBlobClient } from "@azure/storage-blob";
 
 type Logo = {
   name: string;
   url: string;
-  size: bigint;
+  size: number;
   width: number;
   height: number;
   altText: string;
 };
+
+export function getFileType(fileExt: string) {
+  if (fileExt === "png") return "PNG";
+  if (fileExt === "jpg" || fileExt === "jpeg") return "JPG";
+  if (fileExt === "svg") return "SVG";
+
+  return "WEBP";
+}
 
 export function InputLogo({
   value,
@@ -35,48 +44,85 @@ export function InputLogo({
   disabled?: boolean;
 }) {
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const { executeAsync, isExecuting } = useAction(createLogoAction);
+  const { executeAsync } = useAction(createSasTokenAction);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    const file = files?.[0];
+    setIsSubmitting(true);
 
-    if (!file) return;
+    try {
+      const file = e.target.files?.[0];
+      if (!file) throw new Error();
 
-    if (file.size > 1.1 * 1024 * 1024) {
-      toast.add({
-        type: "warning",
-        title: "Imagem muito pesada",
-        description: "Tamanho máximo é de 1MB",
-      });
+      // Validate file size
+      if (file.size > 1.1 * 1024 * 1024) {
+        toast.add({
+          type: "warning",
+          title: "Imagem muito pesada",
+          description: "Tamanho máximo é de 1MB",
+        });
 
-      // Reset input
-      if (inputFileRef.current) {
-        inputFileRef.current.value = "";
+        return;
       }
 
-      return;
-    }
+      // Validate file type
+      const fileExtesion = file.name.split(".").pop() || "";
 
-    const formData = new FormData();
-    formData.append("image", file);
+      if (!["png", "jpg", "jpeg", "webp", "svg"].includes(fileExtesion)) {
+        toast.add({
+          type: "warning",
+          title: "Tipo de arquivo inválido",
+          description: "Somente arquivos PNG, JPG, WEBP e SVG são aceitos",
+        });
 
-    const res = await executeAsync(formData);
+        return;
+      }
 
-    if (res?.data) {
+      const { data, serverError } = await executeAsync({
+        fileType: getFileType(fileExtesion),
+      });
+
+      if (serverError) {
+        toast.add({
+          type: "error",
+          description: serverError.message,
+        });
+
+        return;
+      }
+
+      if (!data) throw new Error();
+
+      const blockBlobClient = new BlockBlobClient(data.uploadUrl);
+      await blockBlobClient.uploadData(file, {
+        blobHTTPHeaders: {
+          blobContentType: file.type,
+        },
+      });
+
       onChange({
-        name: res.data.name,
-        url: res.data.url,
-        size: BigInt(res.data.size),
-        width: res.data.width,
-        height: res.data.height,
+        name: data.fileName,
+        url: data.accessUrl,
+        size: file.size,
+        width: 300,
+        height: 300,
         altText: "",
       });
+    } catch (error) {
+      console.error(error);
 
-      // Reset input
+      toast.add({
+        type: "error",
+        description:
+          "Falha inesperada ao carregar imagem, por favor tente novamente",
+      });
+    } finally {
+      // reset input
       if (inputFileRef.current) {
         inputFileRef.current.value = "";
       }
+
+      setIsSubmitting(false);
     }
   };
 
@@ -116,12 +162,12 @@ export function InputLogo({
         <Button
           variant="outline"
           type="button"
-          disabled={isExecuting || disabled}
+          disabled={isSubmitting || disabled}
           onClick={() => {
             inputFileRef.current?.click();
           }}
         >
-          {isExecuting ? (
+          {isSubmitting ? (
             <>
               <Spinner data-icon="inline-start" />
               Carregando...
