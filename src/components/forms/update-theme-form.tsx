@@ -40,7 +40,12 @@ export function UpdateThemeForm({
       formProps: {
         mode: "onChange",
         values: {
-          logo: theme.logo ?? null,
+          logo: theme.logo
+            ? {
+                ...theme.logo,
+                size: Number(theme.logo.size),
+              }
+            : null,
           primaryColor: theme.primaryColor,
           secondaryColor: theme.secondaryColor,
           shouldDeleteLogo: !!theme.logo,
