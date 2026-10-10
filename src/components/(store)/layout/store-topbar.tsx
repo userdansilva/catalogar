@@ -73,9 +73,9 @@ export function StoreTopbar({ catalog, basePath }: StoreTopbarProps) {
               <Image
                 src={theme.logo.url}
                 alt="logo"
-                width={theme.logo.width}
-                height={theme.logo.height}
-                className="object-contain"
+                width={300}
+                height={300}
+                className="max-h-14 object-contain"
               />
             </Link>
           )}

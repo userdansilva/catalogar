@@ -12,11 +12,12 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Plus, X } from "lucide-react";
 import NextImage from "next/image";
 import { useAction } from "next-safe-action/hooks";
-import { type ChangeEvent, useRef } from "react";
-import { createImageAction } from "@/actions/create-image-action";
+import { type ChangeEvent, useRef, useState } from "react";
 import { toast } from "../ui/toast";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
+import { createSasTokenAction } from "@/actions/create-sas-token-action";
+import { BlockBlobClient } from "@azure/storage-blob";
 
 type Image = {
   fileName: string;
@@ -27,6 +28,13 @@ type Image = {
   altText: string;
   position: number;
 };
+
+export function getFileType(fileExt: string) {
+  if (fileExt === "png") return "PNG";
+  if (fileExt === "jpg" || fileExt === "jpeg") return "JPG";
+
+  return "WEBP";
+}
 
 export function InputImages({
   onChange,
@@ -39,14 +47,17 @@ export function InputImages({
 }) {
   const buttonContainerRef = useRef<HTMLDivElement>(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const { executeAsync, isExecuting } = useAction(createImageAction);
+  const { executeAsync } = useAction(createSasTokenAction);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    setIsSubmitting(true);
+
     try {
       const file = e.target.files?.[0];
-
       if (!file) throw new Error();
 
+      // Validate file size
       if ((file.size || 0) > 5.1 * 1024 * 1024) {
         toast.add({
           type: "warning",
@@ -57,10 +68,22 @@ export function InputImages({
         return;
       }
 
-      const formData = new FormData();
-      formData.append("image", file);
+      // Validate file type
+      const fileExtesion = file.name.split(".").pop() || "";
 
-      const { data, serverError } = await executeAsync(formData);
+      if (!["png", "jpg", "jpeg", "webp"].includes(fileExtesion)) {
+        toast.add({
+          type: "warning",
+          title: "Tipo de arquivo inválido",
+          description: "Somente arquivos PNG, JPG e WEBP são aceitos",
+        });
+
+        return;
+      }
+
+      const { data, serverError } = await executeAsync({
+        fileType: getFileType(fileExtesion),
+      });
 
       if (serverError) {
         toast.add({
@@ -73,28 +96,25 @@ export function InputImages({
 
       if (!data) throw new Error();
 
+      const blockBlobClient = new BlockBlobClient(data.uploadUrl);
+      await blockBlobClient.uploadData(file, {
+        blobHTTPHeaders: {
+          blobContentType: file.type,
+        },
+      });
+
       onChange([
         ...(value ?? []),
         {
           fileName: data.fileName,
-          url: data.url,
-          size: data.size,
-          width: data.width,
-          height: data.height,
+          url: data.accessUrl,
+          size: file.size,
+          width: 600,
+          height: 600,
           altText: "",
           position: (value ?? []).length + 1,
         },
       ]);
-
-      // scroll right
-      if (buttonContainerRef.current) {
-        setTimeout(() => {
-          buttonContainerRef.current?.scrollIntoView({
-            block: "center",
-            behavior: "smooth",
-          });
-        }, 1_500);
-      }
     } catch (error) {
       console.error(error);
 
@@ -108,6 +128,8 @@ export function InputImages({
       if (inputFileRef.current) {
         inputFileRef.current.value = "";
       }
+
+      setIsSubmitting(false);
     }
   };
 
@@ -157,7 +179,7 @@ export function InputImages({
                 alt=""
                 width={208}
                 height={208}
-                className="rounded-sm"
+                className="aspect-square rounded-md object-contain"
                 unoptimized
               />
             </div>
@@ -165,7 +187,7 @@ export function InputImages({
 
           <div ref={buttonContainerRef}>
             <Button
-              disabled={isExecuting || disabled}
+              disabled={isSubmitting || disabled}
               type="button"
               variant="outline"
               className="mr-3 flex size-52 flex-col"
@@ -173,7 +195,7 @@ export function InputImages({
                 inputFileRef.current?.click();
               }}
             >
-              {isExecuting ? (
+              {isSubmitting ? (
                 <>
                   <Spinner data-icon="inline-start" />
                   Adicionando...

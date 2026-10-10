@@ -57,7 +57,7 @@ export function StoreProductTypeLinks({
                     width={300}
                     height={300}
                     alt=""
-                    className="rounded-lg"
+                    className="aspect-square rounded-md object-contain"
                   />
                   <span className="text-sm">{productType.name}</span>
                 </Link>

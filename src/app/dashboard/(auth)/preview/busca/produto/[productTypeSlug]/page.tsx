@@ -1,3 +1,4 @@
+import { ProductCard } from "@/components/(store)/cards/product-card";
 import { CatalogNoResults } from "@/components/catalog/catalog-no-results";
 import { CatalogPagination } from "@/components/catalog/catalog-pagination";
 import { PublicCatalogItem } from "@/components/catalog/public-catalog-item";
@@ -9,7 +10,6 @@ import { getPreviewCatalog } from "@/services/get-preview-catalog";
 import { filterCatalogItems } from "@/utils/filter-catalog-items";
 import { getSession } from "@/utils/get-session";
 import { paginate } from "@/utils/paginate";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 
 const ITEMS_PER_PAGE = 16;
@@ -97,18 +97,10 @@ export default async function Page({ params, searchParams }: PageProps) {
           />
         </div>
 
-        <div className="border-input flex w-full flex-row items-center gap-3 rounded-lg border p-2">
-          <div className="size-16">
-            <Image
-              src={productTypeImage.url}
-              width={productTypeImage.width}
-              height={productTypeImage.height}
-              alt={productTypeImage.altText}
-              className="rounded-full"
-            />
-          </div>
-          <h1 className="text-xl font-semibold">{currentProductType.name}</h1>
-        </div>
+        <ProductCard
+          imageUrl={productTypeImage.url}
+          name={currentProductType.name}
+        />
 
         {filteredCategories.length >= 1 && (
           <StoreCategoriesFilter

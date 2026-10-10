@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { getPublicCatalog } from "@/services/get-public-catalog";
 import { Metadata } from "next";
 import { StoreQueryFilter } from "@/components/filters/store-query-filter";
-import Image from "next/image";
 import { StoreCategoriesFilter } from "@/components/filters/store-categories-filter";
 import { Category } from "@/generated/prisma/client";
 import { routes } from "@/routes";
@@ -11,6 +10,7 @@ import { paginate } from "@/utils/paginate";
 import { CatalogNoResults } from "@/components/catalog/catalog-no-results";
 import { PublicCatalogItem } from "@/components/catalog/public-catalog-item";
 import { CatalogPagination } from "@/components/catalog/catalog-pagination";
+import { ProductCard } from "@/components/(store)/cards/product-card";
 
 const ASCIIforAt = "%40"; // @
 const ITEMS_PER_PAGE = 16;
@@ -130,18 +130,10 @@ export default async function Page({ params, searchParams }: PageProps) {
           />
         </div>
 
-        <div className="border-input flex w-full flex-row items-center gap-3 rounded-lg border p-2">
-          <div className="size-16">
-            <Image
-              src={currentProductType.catalogItems[0].images[0].url}
-              width={600}
-              height={600}
-              alt=""
-              className="rounded-full"
-            />
-          </div>
-          <h1 className="text-xl font-semibold">{currentProductType.name}</h1>
-        </div>
+        <ProductCard
+          imageUrl={currentProductType.catalogItems[0].images[0].url}
+          name={currentProductType.name}
+        />
 
         {filteredCategories.length >= 1 && (
           <StoreCategoriesFilter

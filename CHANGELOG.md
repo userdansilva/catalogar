@@ -1,3 +1,10 @@
+## 3.2.1
+
+### Patch Changes
+
+- cee70d4: chore: melhoria no envio de imagens, agora direto para blob
+- 6aa97d0: chore: melhoria no envio de logo, agora direto para blob
+
 ## 3.2.0
 
 ### Minor Changes
