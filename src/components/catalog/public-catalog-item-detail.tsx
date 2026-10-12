@@ -30,6 +30,7 @@ import { CategoriesDisplay } from "./categories-display";
 import { PriceDisplay } from "./price-display";
 import { TitleDisplay } from "./title-display";
 import { toast } from "../ui/toast";
+import { RichTextView } from "../rich-text-view";
 
 type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
   include: {
@@ -72,7 +73,7 @@ export function PublicCatalogItemDetail({
             <TitleDisplay
               title={catalogItem.title}
               isDisabled={!!catalogItem.disabledAt}
-              className="text-lg"
+              className="text-3xl font-semibold"
             />
 
             {catalogItem.categories.length > 0 && (
@@ -82,9 +83,7 @@ export function PublicCatalogItemDetail({
 
           {catalogItem.price && <PriceDisplay price={catalogItem.price} />}
 
-          {catalogItem.caption && (
-            <p className="leading-7">{catalogItem.caption}</p>
-          )}
+          {catalogItem.caption && <RichTextView html={catalogItem.caption} />}
 
           <div>
             <ShareButton className="bg-black text-white hover:bg-neutral-800">

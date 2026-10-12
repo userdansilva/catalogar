@@ -11,7 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { useRouter } from "next/navigation";
@@ -34,6 +33,7 @@ import {
 } from "../ui/field";
 import { Spinner } from "../ui/spinner";
 import { Button } from "../ui/button";
+import { RichTextEditor } from "../inputs/rich-text-editor";
 
 type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
   include: {
@@ -182,12 +182,10 @@ export function UpdateCatalogItemForm({
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
             <FieldLabel>Legenda (Recomendado)</FieldLabel>
-            <Textarea
+            <RichTextEditor
               {...field}
               id={field.name}
               aria-invalid={fieldState.invalid}
-              placeholder="Descreva o item..."
-              className="resize-none"
               disabled={form.formState.isSubmitting}
             />
             <FieldDescription>
