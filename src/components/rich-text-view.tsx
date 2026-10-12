@@ -7,7 +7,7 @@ type RichTextViewProps = {
 
 export function RichTextView({ html }: RichTextViewProps) {
   const clean = DOMPurify.sanitize(html, {
-    ADD_TAGS: [
+    ALLOWED_TAGS: [
       "p",
       "br",
       "ul",
