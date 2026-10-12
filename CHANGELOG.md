@@ -1,3 +1,9 @@
+## 3.3.0
+
+### Minor Changes
+
+- 1b19f1f: feat: adiciona rich text a legenda
+
 ## 3.2.1
 
 ### Patch Changes
