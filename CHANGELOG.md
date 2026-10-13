@@ -1,3 +1,9 @@
+## 3.3.1
+
+### Patch Changes
+
+- cd6fc44: fix: substitui o dompurify por isomorphic-dompurify devido a uso no client
+
 ## 3.3.0
 
 ### Minor Changes
