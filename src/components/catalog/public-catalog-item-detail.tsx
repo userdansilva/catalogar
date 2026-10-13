@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Drawer,
@@ -12,12 +10,7 @@ import {
 } from "@/components/ui/drawer";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import {
-  ExternalLink,
-  MessageCircleMore,
-  Share2,
-  ShoppingCart,
-} from "lucide-react";
+import { ExternalLink, MessageCircleMore, Share2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import whatsapp from "@/assets/images/whatsapp.svg";
@@ -25,12 +18,11 @@ import { CarouselImages } from "@/components/catalog/carousel-images";
 import type { Catalog, Company, Prisma } from "@/generated/prisma/client";
 import { CopyButton } from "../inputs/copy-button";
 import { ShareButton } from "../inputs/share-button";
-import { useCartStore } from "../providers/cart-store-provider";
 import { CategoriesDisplay } from "./categories-display";
 import { PriceDisplay } from "./price-display";
 import { TitleDisplay } from "./title-display";
-import { toast } from "../ui/toast";
 import { RichTextView } from "../rich-text-view";
+import { AddToCartButton } from "../(store)/inputs/add-to-cart-button";
 
 type CatalogItemRaw = Prisma.CatalogItemGetPayload<{
   include: {
@@ -61,8 +53,6 @@ export function PublicCatalogItemDetail({
   relatedCatalogItems,
   catalog,
 }: PublicCatalogItemDetailProps) {
-  const { addItem } = useCartStore((state) => state);
-
   return (
     <div className="mb-10 flex flex-col space-y-10">
       <div className="flex flex-col gap-4 lg:flex-row">
@@ -179,20 +169,7 @@ export function PublicCatalogItemDetail({
             )}
 
             {catalog.isCartEnabled && company?.phoneNumber && (
-              <Button
-                className="flex-1 rounded-none bg-black text-white hover:bg-neutral-800 lg:max-w-48 lg:rounded-r-lg"
-                size="lg"
-                onClick={() => {
-                  addItem(Number(catalogItem.reference));
-                  toast.add({
-                    type: "success",
-                    description: "Adicionado ao carrinho",
-                  });
-                }}
-              >
-                Adicionar
-                <ShoppingCart />
-              </Button>
+              <AddToCartButton reference={Number(catalogItem.reference)} />
             )}
           </div>
         </div>

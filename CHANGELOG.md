@@ -1,3 +1,9 @@
+## 3.3.2
+
+### Patch Changes
+
+- 5a19a42: fix: Failed to load external module jsdom
+
 ## 3.3.1
 
 ### Patch Changes
