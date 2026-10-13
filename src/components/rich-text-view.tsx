@@ -1,4 +1,4 @@
-import DOMPurify from "isomorphic-dompurify";
+import DOMPurify from "dompurify";
 import { richTextClasses } from "./inputs/rich-text-editor";
 
 type RichTextViewProps = {
