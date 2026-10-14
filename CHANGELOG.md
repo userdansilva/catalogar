@@ -1,3 +1,9 @@
+## 3.3.3
+
+### Patch Changes
+
+- 2df9437: chore: adiciona not found para páginas que não são catálogo, ou estáticas
+
 ## 3.3.2
 
 ### Patch Changes
