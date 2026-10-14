@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { getPublicCatalog } from "@/services/get-public-catalog";
+import { notFound } from "next/navigation";
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -21,6 +22,11 @@ export default async function Image({
   params: Promise<{ slug: string }>;
 }) {
   const { slug: slugWithAt } = await params;
+
+  if (!slugWithAt.startsWith("@")) {
+    return notFound();
+  }
+
   const slug = slugWithAt.replace("@", "");
 
   try {
