@@ -62,7 +62,5 @@ export const updateCategoryAction = authActionClient
       }
 
       await trackServerEvent(actionName, user.email);
-
-      return { category };
     },
   );

@@ -37,9 +37,5 @@ export const toggleCategoryStatusAction = authActionClient
       }
 
       await trackServerEvent(actionName, user.email);
-
-      return {
-        category,
-      };
     },
   );

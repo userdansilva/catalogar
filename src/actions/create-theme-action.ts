@@ -18,7 +18,7 @@ export const createThemeAction = authActionClient
       },
       metadata: { actionName },
     }) => {
-      const theme = await prisma.theme.create({
+      await prisma.theme.create({
         data: {
           primaryColor,
           secondaryColor,
@@ -40,7 +40,5 @@ export const createThemeAction = authActionClient
       });
 
       await trackServerEvent(actionName, user.email);
-
-      return { theme };
     },
   );

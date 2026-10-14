@@ -61,7 +61,5 @@ export const updateThemeAction = authActionClient
       }
 
       await trackServerEvent(actionName, user.email);
-
-      return { theme };
     },
   );

@@ -59,9 +59,5 @@ export const updateProductTypeAction = authActionClient
       }
 
       await trackServerEvent(actionName, user.email);
-
-      return {
-        productType,
-      };
     },
   );

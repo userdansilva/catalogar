@@ -37,9 +37,5 @@ export const toggleProductTypeStatusAction = authActionClient
       }
 
       await trackServerEvent(actionName, user.email);
-
-      return {
-        productType,
-      };
     },
   );

@@ -57,9 +57,5 @@ export const createCategoryAction = authActionClient
       await trackServerEvent(actionName, user.email, {
         name,
       });
-
-      return {
-        category,
-      };
     },
   );

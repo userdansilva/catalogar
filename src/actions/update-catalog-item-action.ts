@@ -59,8 +59,6 @@ export const updateCatalogItemAction = authActionClient
           },
         },
         include: {
-          categories: true,
-          images: true,
           catalog: true,
         },
       });
@@ -70,12 +68,5 @@ export const updateCatalogItemAction = authActionClient
       }
 
       await trackServerEvent(actionName, user.email);
-
-      return {
-        catalogItem: {
-          ...catalogItem,
-          price: catalogItem.price?.toString() ?? null,
-        },
-      };
     },
   );
