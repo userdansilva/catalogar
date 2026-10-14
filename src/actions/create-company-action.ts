@@ -25,7 +25,7 @@ export const createCompanyAction = authActionClient
       },
       metadata: { actionName },
     }) => {
-      const company = await prisma.company.create({
+      await prisma.company.create({
         data: {
           name,
           slogan,
@@ -40,9 +40,5 @@ export const createCompanyAction = authActionClient
       await trackServerEvent(actionName, user.email, {
         name,
       });
-
-      return {
-        company,
-      };
     },
   );

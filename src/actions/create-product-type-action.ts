@@ -54,9 +54,5 @@ export const createProductTypeAction = authActionClient
       await trackServerEvent(actionName, user.email, {
         name,
       });
-
-      return {
-        productType,
-      };
     },
   );

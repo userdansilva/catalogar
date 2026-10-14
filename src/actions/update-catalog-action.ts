@@ -88,7 +88,7 @@ export const updateCatalogAction = authActionClient
       }
 
       return {
-        catalog,
+        redirectTo: undefined,
       };
     },
   );

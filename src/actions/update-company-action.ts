@@ -34,9 +34,5 @@ export const updateCompanyAction = authActionClient
       }
 
       await trackServerEvent(actionName, user.email);
-
-      return {
-        company,
-      };
     },
   );

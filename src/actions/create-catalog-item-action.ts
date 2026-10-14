@@ -68,13 +68,6 @@ export const createCatalogItemAction = authActionClient
       await trackServerEvent(actionName, user.email, {
         title,
       });
-
-      return {
-        catalogItem: {
-          ...catalogItem,
-          price: catalogItem.price?.toString() ?? null,
-        },
-      };
     },
   );
 

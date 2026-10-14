@@ -48,9 +48,5 @@ export const createCatalogAction = authActionClientWithUser
       await trackServerEvent(actionName, user.email, {
         name,
       });
-
-      return {
-        catalog,
-      };
     },
   );

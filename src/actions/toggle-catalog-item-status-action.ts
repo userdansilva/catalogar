@@ -37,9 +37,5 @@ export const toggleCatalogItemStatusAction = authActionClient
       }
 
       await trackServerEvent(actionName, user.email);
-
-      return {
-        catalogItem,
-      };
     },
   );
