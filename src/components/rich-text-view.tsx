@@ -1,3 +1,5 @@
+"use client";
+
 import DOMPurify from "isomorphic-dompurify";
 import { richTextClasses } from "./inputs/rich-text-editor";
 
