@@ -1,3 +1,9 @@
+## 3.3.4
+
+### Patch Changes
+
+- c11f92a: chore: remoção de return desncessários
+
 ## 3.3.3
 
 ### Patch Changes
