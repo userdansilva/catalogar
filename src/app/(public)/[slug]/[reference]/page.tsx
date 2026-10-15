@@ -21,6 +21,11 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug: slugWithAt, reference } = await params;
+
+  if (!slugWithAt.startsWith("@")) {
+    return notFound();
+  }
+
   const slug = slugWithAt.replace("@", "");
 
   try {
