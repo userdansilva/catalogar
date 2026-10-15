@@ -2,6 +2,7 @@ import { createSafeActionClient } from "next-safe-action";
 import { z } from "zod";
 import { getSession } from "@/utils/get-session";
 import prisma from "./prisma";
+import * as Sentry from "@sentry/nextjs";
 
 export const authActionClient = createSafeActionClient({
   defineMetadataSchema: () =>
@@ -9,7 +10,7 @@ export const authActionClient = createSafeActionClient({
       actionName: z.string(),
     }),
   handleServerError(e) {
-    console.error(e);
+    Sentry.captureException(e);
 
     return {
       message: "Ops! Algo deu errado. Por favor, tente novamente",

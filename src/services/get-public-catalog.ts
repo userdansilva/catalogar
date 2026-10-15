@@ -1,6 +1,7 @@
 import { cacheTag } from "next/cache";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import * as Sentry from "@sentry/nextjs";
 
 export async function getPublicCatalog(slug: string) {
   "use cache";
@@ -72,8 +73,8 @@ export async function getPublicCatalog(slug: string) {
     };
 
     return { catalog: normalizedCatalog };
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    Sentry.captureException(error);
 
     notFound();
   }

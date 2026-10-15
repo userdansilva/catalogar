@@ -1,12 +1,11 @@
+import { withSentryConfig } from "@sentry/nextjs/config";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
   cacheComponents: true,
   experimental: {
     turbopackFileSystemCacheForDev: true,
-    serverActions: {
-      bodySizeLimit: "6mb",
-    },
   },
   // Next 15
   images: {
@@ -34,4 +33,9 @@ const nextConfig = {
   ],
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  org: "catalogar",
+  project: "catalogar",
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  widenClientFileUpload: true,
+});

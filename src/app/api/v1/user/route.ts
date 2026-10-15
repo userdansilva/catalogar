@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import prisma from "@/lib/prisma";
+import * as Sentry from "@sentry/nextjs";
 
 async function getUserOrCreate({
   name,
@@ -134,7 +135,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ...user, currentCatalog: user.currentCatalog });
   } catch (error) {
-    console.error(error);
+    Sentry.captureException(error);
 
     const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json({ error: message }, { status: 500 });
