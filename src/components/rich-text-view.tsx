@@ -1,14 +1,16 @@
-"use client";
-
-import DOMPurify from "isomorphic-dompurify";
+import DOMPurify from "dompurify";
 import { richTextClasses } from "./inputs/rich-text-editor";
+import { JSDOM } from "jsdom";
 
 type RichTextViewProps = {
   html: string;
 };
 
+const window = new JSDOM("").window;
+const purify = DOMPurify(window);
+
 export function RichTextView({ html }: RichTextViewProps) {
-  const clean = DOMPurify.sanitize(html, {
+  const clean = purify.sanitize(html, {
     ALLOWED_TAGS: [
       "p",
       "br",
