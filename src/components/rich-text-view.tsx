@@ -1,17 +1,13 @@
-import DOMPurify from "dompurify";
 import { richTextClasses } from "./inputs/rich-text-editor";
-import { JSDOM } from "jsdom";
+import sanitizeHtml from "sanitize-html";
 
 type RichTextViewProps = {
   html: string;
 };
 
-const window = new JSDOM("<!DOCTYPE html>").window;
-const purify = DOMPurify(window);
-
 export function RichTextView({ html }: RichTextViewProps) {
-  const clean = purify.sanitize(html, {
-    ALLOWED_TAGS: [
+  const clean = sanitizeHtml(html, {
+    allowedTags: [
       "p",
       "br",
       "ul",
@@ -24,6 +20,7 @@ export function RichTextView({ html }: RichTextViewProps) {
       "pre",
       "blockquote",
     ],
+    allowedAttributes: {},
   });
 
   return (
