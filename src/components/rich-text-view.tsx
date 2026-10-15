@@ -1,15 +1,13 @@
-"use client";
-
-import DOMPurify from "isomorphic-dompurify";
 import { richTextClasses } from "./inputs/rich-text-editor";
+import sanitizeHtml from "sanitize-html";
 
 type RichTextViewProps = {
   html: string;
 };
 
 export function RichTextView({ html }: RichTextViewProps) {
-  const clean = DOMPurify.sanitize(html, {
-    ALLOWED_TAGS: [
+  const clean = sanitizeHtml(html, {
+    allowedTags: [
       "p",
       "br",
       "ul",
@@ -22,6 +20,7 @@ export function RichTextView({ html }: RichTextViewProps) {
       "pre",
       "blockquote",
     ],
+    allowedAttributes: {},
   });
 
   return (
