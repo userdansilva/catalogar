@@ -6,7 +6,7 @@ type RichTextViewProps = {
   html: string;
 };
 
-const window = new JSDOM("").window;
+const window = new JSDOM("<!DOCTYPE html>").window;
 const purify = DOMPurify(window);
 
 export function RichTextView({ html }: RichTextViewProps) {
