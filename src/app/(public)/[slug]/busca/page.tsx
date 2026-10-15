@@ -66,7 +66,6 @@ export default async function Page({ params, searchParams }: PageProps) {
           <StoreQueryFilter
             currentQuery={query}
             sendTo={routes.public.url(slug)}
-            autoFocus
           />
         </div>
 
