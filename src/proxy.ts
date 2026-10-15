@@ -28,9 +28,7 @@ export async function proxy(request: NextRequest) {
        * https://github.com/auth0/nextjs-auth0/blob/main/EXAMPLES.md#middleware-2
        */
       await auth0.getAccessToken(request, authRes);
-    } catch (e) {
-      console.error("Refresh Access Token Error", e);
-
+    } catch {
       return NextResponse.redirect(
         new URL("/auth/login", request.nextUrl.origin),
       );

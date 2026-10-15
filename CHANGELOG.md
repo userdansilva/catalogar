@@ -1,3 +1,9 @@
+## 3.3.5
+
+### Patch Changes
+
+- a0d4f7d: chore: configura Sentry
+
 ## 3.3.4
 
 ### Patch Changes

@@ -12,6 +12,7 @@ import {
 import { AlertCircle, LogOut, RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
 import Loader from "@/components/loader";
+import * as Sentry from "@sentry/nextjs";
 
 export default function AuthError({
   error,
@@ -23,7 +24,7 @@ export default function AuthError({
   const [retrying, setRetrying] = useState(false);
 
   useEffect(() => {
-    console.error(error);
+    Sentry.captureException(error);
   }, [error]);
 
   if (retrying) {
@@ -70,15 +71,15 @@ export default function AuthError({
               Tentar novamente
             </Button>
 
-              <a
-                href={`/auth/logout?returnTo=${process.env.NEXT_PUBLIC_BASE_URL}`}
-                className={buttonVariants({
-                  variant: "outline"
-                })}
-              >
-                <LogOut />
-                Sair
-              </a>
+            <a
+              href={`/auth/logout?returnTo=${process.env.NEXT_PUBLIC_BASE_URL}`}
+              className={buttonVariants({
+                variant: "outline",
+              })}
+            >
+              <LogOut />
+              Sair
+            </a>
           </div>
         </CardContent>
       </Card>

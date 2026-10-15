@@ -18,6 +18,7 @@ import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
 import { createSasTokenAction } from "@/actions/create-sas-token-action";
 import { BlockBlobClient } from "@azure/storage-blob";
+import * as Sentry from "@sentry/nextjs";
 
 type Image = {
   fileName: string;
@@ -116,7 +117,7 @@ export function InputImages({
         },
       ]);
     } catch (error) {
-      console.error(error);
+      Sentry.captureException(error);
 
       toast.add({
         type: "error",

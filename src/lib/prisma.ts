@@ -6,16 +6,8 @@ const globalForPrisma = global as unknown as {
   prisma: PrismaClient;
 };
 
-const url = new URL(process.env.DATABASE_URL as string);
-url.searchParams.set("sslmode", "verify-full");
-
-export const connectionString = url.toString();
-
 const adapter = new PrismaPg({
-  connectionString:
-    process.env.NODE_ENV === "production"
-      ? connectionString
-      : process.env.DATABASE_URL,
+  connectionString: process.env.DATABASE_URL,
 });
 
 const prisma =

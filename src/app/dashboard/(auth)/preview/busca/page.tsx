@@ -28,11 +28,7 @@ export default async function Page({ searchParams }: PageProps) {
     <div className="space-y-6 md:container">
       <div className="flex flex-col space-y-6">
         <div className="w-full self-center sm:w-2/3">
-          <StoreQueryFilter
-            currentQuery={query}
-            sendTo={routes.preview.url}
-            autoFocus
-          />
+          <StoreQueryFilter currentQuery={query} sendTo={routes.preview.url} />
         </div>
 
         <StoreCategoryLinks categories={catalog.categories} />

@@ -16,13 +16,11 @@ type FormValues = z.infer<typeof queryFilterSchema>;
 type StoreQueryFilterProps = {
   currentQuery: string;
   sendTo: string;
-  autoFocus?: boolean;
 };
 
 export function StoreQueryFilter({
   currentQuery,
   sendTo,
-  autoFocus,
 }: StoreQueryFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -77,17 +75,7 @@ export function StoreQueryFilter({
     reset({
       query: currentQuery,
     });
-    /**
-     * Avoid calling setFocus right after reset as all input references will be removed by reset API.
-     *
-     * https://react-hook-form.com/docs/useform/setfocus
-     */
-    if (autoFocus) {
-      setTimeout(() => {
-        setFocus("query");
-      }, 500);
-    }
-  }, [autoFocus, currentQuery, reset, setFocus]);
+  }, [currentQuery, reset, setFocus]);
 
   return (
     <div>
@@ -108,7 +96,6 @@ export function StoreQueryFilter({
                 autoCorrect="off"
                 autoComplete="off"
                 spellCheck="false"
-                autoFocus={autoFocus}
                 disabled={form.formState.isSubmitting}
               />
             </Field>

@@ -1,6 +1,6 @@
 {
   "name": "catalogar",
-  "version": "3.3.4",
+  "version": "3.3.5",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -19,6 +19,7 @@
     "@prisma/adapter-neon": "7.10.0",
     "@prisma/adapter-pg": "7.10.0",
     "@prisma/client": "7.10.0",
+    "@sentry/nextjs": "11.8.0",
     "@tanstack/react-table": "8.21.3",
     "@tiptap/core": "3.31.4",
     "@tiptap/extension-bold": "3.31.4",
